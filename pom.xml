@@ -14,16 +14,16 @@
         </repository>
     </repositories>
     <dependencies>
-    <dependency>
-        <groupId>douban-scala</groupId>
-        <artifactId>scala-api</artifactId>
-        <version>2.0</version>
-    </dependency>
-    <dependency>
+        <dependency>
+            <groupId>douban-scala</groupId>
+            <artifactId>scala-api</artifactId>
+            <version>2.0</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>android-integration</artifactId>
             <version>RELEASE</version>
-    </dependency>
+        </dependency>
 
     </dependencies>
 
