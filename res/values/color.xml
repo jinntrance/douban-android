@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="red">#f00</color>
+    <color name="green">#0f0</color>
+    <color name="blue">#00f</color>
+    <color name="white">#fff</color>
+    <color name="background">#eee</color>
+    <drawable name="background">#eee</drawable>
+    <drawable name="banner">#f8f8f8</drawable>
+    <drawable name="header">#e9f4e9</drawable>
+    <drawable name="border">#eee</drawable>
+    <drawable name="button">#deede0</drawable>
+</resources>

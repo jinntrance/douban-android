@@ -18,3 +18,21 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-dontobfuscate
+-dontshrink
+
+-dontoptimize
+-dontpreverify
+
+#do not warn
+-dontwarn scala.**
+-dontwarn org.apache.**
+-dontwarn com.thoughtworks.**
+-dontwarn net.liftweb.**
+-dontwarn com.douban.models.**
+-dontwarn com.douban.common.**
+#
+-keep class com.douban.ui.**
+
+-injar libs/scala-library.jar
+
