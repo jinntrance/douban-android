@@ -3,3 +3,8 @@
 *~
 .svn
 .git
+target
+gen
+bin
+out
+

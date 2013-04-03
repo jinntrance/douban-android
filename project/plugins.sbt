@@ -1,3 +1,10 @@
-resolvers += "scalasbt snapshots" at "https://raw.github.com/jinntrance/android-plugin/master/repo/releases"
 
-addSbtPlugin("org.scala-sbt" % "sbt-android-plugin" % "0.6.4") 
+addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.8.7")
+
+addSbtPlugin("com.github.mpeltonen" % "sbt-idea" % "1.2.0")
+
+resolvers += Resolver.url("sbt-plugin-releases-scalasbt", url("http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/"))(Resolver.ivyStylePatterns)
+
+addSbtPlugin("org.scala-sbt" % "xsbt-proguard-plugin" % "0.1.3")
+
+addSbtPlugin("org.scala-sbt" % "sbt-android-plugin" % "0.6.2") 
