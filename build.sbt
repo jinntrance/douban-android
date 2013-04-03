@@ -6,3 +6,5 @@ scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xcheckinit")
 
 libraryDependencies ++= Seq("com.douban" %% "scala-api" % "2.0")
 
+seq(androidBuildSettings: _*)
+
