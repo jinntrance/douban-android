@@ -6,7 +6,7 @@ name := "douban-android"
 
 scalaVersion := "2.10.1"
 
-autoScalaLibrary := false
+//autoScalaLibrary := false
 
 resolvers += "scala-sdk" at "https://raw.github.com/jinntrance/douban-scala/master/repo/releases/"
 
