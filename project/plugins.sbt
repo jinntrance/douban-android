@@ -1,4 +1,6 @@
-scalaVersion := "2.9.2"
+//scalaVersion := "2.9.2"
+
+name := "douban-android"
 
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.8.7")
 

@@ -12,10 +12,13 @@ resolvers += "scala-sdk" at "https://raw.github.com/jinntrance/douban-scala/mast
 
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xcheckinit")
 
-//libraryDependencies ++= Seq("com.douban" %% "scala-api" % "2.0")
+libraryDependencies ++= Seq("com.google.zxing" % "core" % "latest.release",
+			"com.google.zxing" % "android-integration" % "latest.release",
+			"org.scaloid" % "scaloid" % "latest.release",
+			"com.douban" %% "scala-api" % "2.0")
 
 seq(androidBuildSettings: _*)
 
 useProguard in Android := true
 
-proguardOptions in Android += Seq("-dontobfuscate", "-dontoptimize")
+//proguardOptions in Android += Seq("-dontobfuscate", "-dontoptimize")
