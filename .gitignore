@@ -1,4 +1,3 @@
-.idea
 .class
 *~
 .svn
@@ -7,4 +6,6 @@ target
 gen
 bin
 out
+.idea
+.idea_modules
 
