@@ -5,12 +5,13 @@ import android.os.Bundle
 import android.webkit.{WebViewClient, WebView}
 import android.graphics.Bitmap
 import com.douban.R
-import com.douban.common._
-import com.douban.common.Auth._
 import org.scaloid.common.{SContext, SActivity}
 import android.widget.Toast
+import com.douban.base.{Context, Constant}
+import com.douban.common._
+import Auth._
 
-class LoginActivity extends SActivity with SContext{
+class LoginActivity extends SActivity with SContext with TypedActivity{
 
   override def onCreate(b:Bundle) {
     super.onCreate(b)

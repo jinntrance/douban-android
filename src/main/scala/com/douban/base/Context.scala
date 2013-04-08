@@ -1,4 +1,4 @@
-package com.douban.common
+package com.douban.base
 
 import android.os.Bundle
 import android.preference.PreferenceManager

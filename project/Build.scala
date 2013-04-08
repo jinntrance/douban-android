@@ -9,7 +9,6 @@ object General {
     version := "0.1",
     versionCode := 0,
     scalaVersion := "2.10.1",
-    autoScalaLibrary :=false,
     platformName in Android := "android-14"
   )
 
@@ -25,7 +24,7 @@ object General {
     AndroidManifestGenerator.settings ++
     AndroidMarketPublish.settings ++ Seq (
       keyalias in Android := "change-me",
-      libraryDependencies += "org.scalatest" %% "scalatest" % "latest.release" % "test"
+      libraryDependencies += "org.scalatest" %% "scalatest" % "1.9" % "test"
     )
 }
 
