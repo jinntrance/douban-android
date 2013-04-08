@@ -7,8 +7,6 @@
     <content url="file://$MODULE_DIR$/../project">
       <sourceFolder url="file://$MODULE_DIR$/../project" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../project/project" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/../project/boot" />
-      <excludeFolder url="file://$MODULE_DIR$/../project/project/project/target" />
       <excludeFolder url="file://$MODULE_DIR$/../project/project/target" />
       <excludeFolder url="file://$MODULE_DIR$/../project/target" />
     </content>

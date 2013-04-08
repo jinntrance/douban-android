@@ -1,3 +1,4 @@
+import android.os.Build
 import sbt._
 
 import Keys._
@@ -14,7 +15,7 @@ object General {
 
   val proguardSettings = Seq (
     useProguard in Android := true,
-    proguardOptimizations in Android := Seq("-dontobfuscate","#-dontshrink","-dontoptimize","#-dontpreverify",
+    proguardOptimizations in Android ++= Seq("-dontobfuscate","-dontshrink","-dontoptimize","#-dontpreverify",
     "-keep class com.douban.ui.**","-keep class net.liftweb.json.*","-keep class scala.collection.immutable.StringLike",
      "-dontwarn scala.**","-dontwarn com.thoughtworks.**","-dontwarn ch.epfl.**",
     "-dontnote scala.**","-dontnote com.thoughtworks.**","-dontnote javax.xml.**","-dontnote org.w3c.dom.**","-dontnote org.xml.sax.**","-dontnote  org.scaloid.**"

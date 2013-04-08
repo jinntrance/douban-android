@@ -5,12 +5,10 @@ import android.os.Bundle
 import android.webkit.{WebViewClient, WebView}
 import android.graphics.Bitmap
 import com.douban.R
-import org.scaloid.common.{SContext, SActivity}
-import android.widget.Toast
+import org.scaloid.common._
 import com.douban.base.{Context, Constant}
 import com.douban.common._
 import Auth._
-import android.R
 
 class LoginActivity extends SActivity with SContext{
 
@@ -41,6 +39,8 @@ class LoginActivity extends SActivity with SContext{
     }
 
   }
-  def notify(id:Int){Toast.makeText(this.getApplicationContext,id,1000)}
+  def notify(id:Int){
+    toast(id)
+    }
 }
 
