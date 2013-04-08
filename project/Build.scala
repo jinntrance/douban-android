@@ -7,13 +7,18 @@ object General {
   val settings = Defaults.defaultSettings ++ Seq (
     name := "douban-android",
     version := "0.1",
-    versionCode := 0,
+    versionCode := 1,
     scalaVersion := "2.10.1",
     platformName in Android := "android-14"
   )
 
   val proguardSettings = Seq (
-    useProguard in Android := true
+    useProguard in Android := true,
+    proguardOptimizations in Android := Seq("-dontobfuscate","#-dontshrink","-dontoptimize","#-dontpreverify",
+    "-keep class com.douban.ui.**","-keep class net.liftweb.json.*","-keep class scala.collection.immutable.StringLike",
+     "-dontwarn scala.**","-dontwarn com.thoughtworks.**","-dontwarn ch.epfl.**",
+    "-dontnote scala.**","-dontnote com.thoughtworks.**","-dontnote javax.xml.**","-dontnote org.w3c.dom.**","-dontnote org.xml.sax.**","-dontnote  org.scaloid.**"
+    )
   )
 
   lazy val fullAndroidSettings =
@@ -23,8 +28,8 @@ object General {
     proguardSettings ++
     AndroidManifestGenerator.settings ++
     AndroidMarketPublish.settings ++ Seq (
-      keyalias in Android := "change-me",
-      libraryDependencies += "org.scalatest" %% "scalatest" % "1.9" % "test"
+      keyalias in Android := "alias_name",
+      libraryDependencies += "org.scalatest" %% "scalatest" % "latest.release" % "test"
     )
 }
 

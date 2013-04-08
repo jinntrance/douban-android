@@ -10,8 +10,9 @@ import android.widget.Toast
 import com.douban.base.{Context, Constant}
 import com.douban.common._
 import Auth._
+import android.R
 
-class LoginActivity extends SActivity with SContext with TypedActivity{
+class LoginActivity extends SActivity with SContext{
 
   override def onCreate(b:Bundle) {
     super.onCreate(b)
