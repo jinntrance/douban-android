@@ -1,5 +1,5 @@
-resolvers += Resolver.url("scalasbt releases", new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases"))(Resolver.ivyStylePatterns)
+resolvers += "scalasbt snapshots" at "https://raw.github.com/jinntrance/android-plugin/master/repo/releases"
 
-addSbtPlugin("org.scala-sbt" % "sbt-android-plugin" % "0.6.2")
+addSbtPlugin("org.scala-sbt" % "sbt-android-plugin" % "0.6.4") 
 
-addSbtPlugin("com.github.mpeltonen" % "sbt-idea" % "1.2.0")
+addSbtPlugin("com.github.mpeltonen" % "sbt-idea" % "latest.release")
