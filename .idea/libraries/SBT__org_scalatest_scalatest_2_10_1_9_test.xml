@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SBT: org.scalatest:scalatest_2.10:1.9:test">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.scalatest/scalatest_2.10/jars/scalatest_2.10-1.9.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

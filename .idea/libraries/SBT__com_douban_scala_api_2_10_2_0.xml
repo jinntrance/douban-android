@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SBT: com.douban:scala-api_2.10:2.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/local/com.douban/scala-api_2.10/2.0/jars/scala-api_2.10.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
