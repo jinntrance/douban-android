@@ -7,7 +7,6 @@ import android.widget.{EditText, TextView}
 import com.douban.models.Book
 
 import org.scaloid.common._
-import android.view.View.OnKeyListener
 
 
 /**
@@ -22,12 +21,9 @@ class Search extends SActivity{
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.search)
-    find[EditText](R.id.searchBookText) setOnKeyListener(new OnKeyListener {
-      def onKey(v:View , keyCode: Int, event: KeyEvent) = {if(KeyEvent.KEYCODE_ENTER==keyCode) search(null);true}
-    })
-
-
-
+    find[EditText](R.id.searchBookText) onKey (
+      (v:View,k:Int,e:KeyEvent)=> {if(k==KeyEvent.KEYCODE_ENTER) search(v); true}
+    )
   }
   def search(v:View){
     val results=Book.search(find[EditText](R.id.searchBookText).getText.toString,"",count=10)

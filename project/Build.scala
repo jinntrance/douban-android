@@ -1,4 +1,3 @@
-import android.os.Build
 import sbt._
 
 import Keys._

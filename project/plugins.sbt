@@ -2,4 +2,4 @@ resolvers += "scalasbt snapshots" at "https://raw.github.com/jinntrance/android-
 
 addSbtPlugin("org.scala-sbt" % "sbt-android-plugin" % "0.6.4") 
 
-addSbtPlugin("com.github.mpeltonen" % "sbt-idea" % "latest.release")
+
