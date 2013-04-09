@@ -1,4 +1,5 @@
-package com.douban.ui
+package com.douban
+package ui
 
 import android.os.Bundle
 import com.douban.R
@@ -17,7 +18,8 @@ import org.scaloid.common._
  * @version 1.0
  */
 class Search extends SActivity{
-  private val page=10
+  private val count=10
+  private var searchText=""
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.search)
@@ -26,7 +28,10 @@ class Search extends SActivity{
     )
   }
   def search(v:View){
-    val results=Book.search(find[EditText](R.id.searchBookText).getText.toString,"",count=10)
+    val results=Book.search(searchText=find[EditText](R.id.searchBookText).getText.toString,"",count=this.count)
     startActivity(SIntent[SearchResult])
+  }
+  def search(page:Int){
+    val results=Book.search(searchText,"",page,count)
   }
 }
