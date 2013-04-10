@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea_modules/douban-android.iml" filepath="$PROJECT_DIR$/.idea_modules/douban-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea_modules/douban-android-build.iml" filepath="$PROJECT_DIR$/.idea_modules/douban-android-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea_modules/tests.iml" filepath="$PROJECT_DIR$/.idea_modules/tests.iml" />
     </modules>
   </component>
 </project>
