@@ -18,6 +18,7 @@ class LoginActivity extends SActivity with SContext{
     val wv=find[WebView](R.id.authView)
     wv.setWebViewClient(new DoubanWebViewClient)
     wv.loadUrl(new AuthorizationCode authUrl)
+    debug(new AuthorizationCode authUrl)
   }
   class DoubanWebViewClient extends WebViewClient {
     override def onPageStarted(view: WebView, redirectedUrl: String, favicon: Bitmap) {
