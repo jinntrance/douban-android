@@ -4,10 +4,12 @@ package ui
 import android.os.Bundle
 import com.douban.R
 import android.view.{KeyEvent, View}
-import android.widget.{EditText, TextView}
+import android.widget.{ImageView, EditText, TextView}
 import com.douban.models.Book
 
 import org.scaloid.common._
+import com.google.zxing.integration.android.IntentIntegrator
+import android.content.Intent
 
 
 /**
@@ -26,12 +28,24 @@ class Search extends SActivity{
     find[EditText](R.id.searchBookText) onKey (
       (v:View,k:Int,e:KeyEvent)=> {if(k==KeyEvent.KEYCODE_ENTER) search(v); true}
     )
+    find[ImageView](R.id.scanISBN) onClick(
+       startActivity(SIntent("com.google.zxing.client.android.SCAN").putExtra("SCAN_MODE", "ONE_D_MODE,QR_CODE_MODE"))
+      )
   }
   def search(v:View){
-    val results=Book.search(searchText=find[EditText](R.id.searchBookText).getText.toString,"",count=this.count)
-    startActivity(SIntent[SearchResult])
+    searchText=find[EditText](R.id.searchBookText).getText.toString
+    search(1)
   }
   def search(page:Int){
-    val results=Book.search(searchText,"",page,count)
+    val results=Book.search(searchText,"",page,this.count)
+    startActivity(SIntent[SearchResult])
+  }
+
+  override def onActivityResult(requestCode:Int, resultCode:Int, intent:Intent) {
+    val scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent)
+    if (scanResult != null) {
+      // handle scan result
+    }
+    // else continue with any other code you need in the method
   }
 }
