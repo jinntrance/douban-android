@@ -1,5 +1,7 @@
 package com.douban.base
 
+import com.douban.common.Auth
+
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
  * Email: <a href="mailto:jinntrance@gmail.com">jinntrance@gmail.com</a>
@@ -8,6 +10,9 @@ package com.douban.base
  * @version 1.0
  */
 object Constant {
+   val apiKey=Auth.api_key
+   val apiSecret="95125490b60b01ee"
+   val scope=Seq("douban_basic_common","book_basic_r","book_basic_w").mkString(",")
    val accessTokenString="accessToken"
    val refreshTokenString="refreshToken"
    val userIdString="userId"

@@ -8,7 +8,7 @@ resolvers += "scala-sdk" at "https://raw.github.com/jinntrance/douban-scala/mast
 
 javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
 
-scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xcheckinit","-target:jvm-1.6","-optimise")
+scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xcheckinit","-optimise")
 
 //autoScalaLibrary := false
 
@@ -16,7 +16,7 @@ scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xcheckinit","-target:jvm-1
 
 libraryDependencies ++= Seq(
 			"org.scaloid" % "scaloid" % "latest.release",
-			"com.douban" %% "scala-api" % "2.0" excludeAll(
+			"com.douban" %% "scala-api" % "2.1" excludeAll(
 				ExclusionRule(organization = "org.scala-lang"),
 				ExclusionRule(organization = "org.scalatest")),
 			"com.google.zxing" % "core" % "latest.release",
@@ -24,54 +24,22 @@ libraryDependencies ++= Seq(
 			ExclusionRule("com.google.android","android")))
 
 proguardOptimizations in Android ++= Seq(
-"-verbose","-dontobfuscate","-dontoptimize","-printseeds keep.log", "-printmapping obf.log",
+"-verbose","-dontobfuscate","-dontoptimize","-printseeds target/keep.log", "-printmapping target/obf.log",
 "-keepparameternames","-dontskipnonpubliclibraryclasses","-dontskipnonpubliclibraryclassmembers",
 "-keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod",
 "-keepclassmembers class * { ** MODULE$; }", "-keepdirectories",
-"-keep public class scala.ScalaObject",
-"-keep public class scala.Function*",
-"-keep public class scala.Tuple2",
-"-keep public class scala.Tuple4",
-"#-keep class net.liftweb.json.**{*;}",
-"-keep class scala.Symbol",
 "-keep class scala.runtime.ObjectRef",
 "-keep class scala.runtime.VolatileObjectRef",
 "-keep class scala.reflect.Manifest",
 "-keep class scala.reflect.ClassTag",
 "-keep class scala.reflect.ClassManifestDeprecatedApis*",
 "-keep class scala.collection.mutable.ArrayBuffer",
-"-keep class scala.collection.mutable.StringBuilder",
-"-keep class scala.collection.mutable.Builder",
-"-keep class scala.collection.Traversable",
-"-keep class scala.collection.generic.CanBuildFrom",
-"-keep class scala.collection.GenMapLike*",
-"-keep class scala.collection.GenSeqViewLike*",
-"-keep class scala.collection.DefaultMap*",
-"-keep class scala.collection.TraversableLike*",
-"-keep class scala.collection.GenTraversableOnce",
-"-keep class scala.collection.parallel.IterableSplitter*",
-"-keep class scala.collection.parallel.SeqSplitter*",
 "-keep class scala.math.Ordering",
-"-keep class scala.math.BigInt",
-"-keep class scala.math.Numeric",
-"-keep class scala.math.BigDecimal",
-"-keep class scala.text.Document",
-"-keep class scala.text.DocText",
-"-keep class scala.util.matching.Regex",
-"-keep class net.liftweb.json.JsonAST**",
-"-keep class net.liftweb.json.Formats**",
-"-keep class net.liftweb.json.DateFormat",
-"-keep class net.liftweb.json.TypeHints",
-"-keep class net.liftweb.json.Serializer",
-"-keep class net.liftweb.json.Extraction**",
-"-keep class net.liftweb.json.JsonParser**",
-"-keep class net.liftweb.json.FieldSerializer**",
-"-keep class net.liftweb.json.ParameterNameReader",
 "-keep class org.scaloid.common.SActivity",
 "-keep class org.scaloid.common.SContext",
 "-keep class org.scaloid.common.Registerable",
 "-keep class org.scaloid.common.LoggerTag",
-"-keep class org.scaloid.common..WidgetFamily*",
+"-keep class android.support.v4.app.Fragment",
 "-keep public class scala.Option",
 "-keep public class scala.PartialFunction",
 "-keep public class scala.Function0",
@@ -83,9 +51,6 @@ proguardOptimizations in Android ++= Seq(
 "-keep public class scala.collection.GenSeq",
 "-keep public class scala.collection.immutable.List",
 "-keep public class scala.collection.immutable.Map",
-"-keep public class scala.collection.immutable.Seq",
-"-keep public class scala.collection.immutable.Set",
-"-keep public class scala.collection.immutable.Vector",
 "-keep public class scala.collection.SeqLike {public protected *;}",
 "-keep public class * extends org.scaloid.common.SActivity",
 "-keep public class * extends android.app.Activity",

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">豆瓣客户端</string>
+    <string name="loin">登录</string>
+    <string name="about">关于</string>
 </resources>

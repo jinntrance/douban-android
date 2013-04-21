@@ -1,4 +1,4 @@
-package com.douban.ui
+package com.douban.book.ui
 
 import android.app.ListActivity
 import org.scaloid.common.SActivity

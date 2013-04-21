@@ -1,15 +1,18 @@
-package com.douban
+package com.douban.book
 package ui
 
 import android.os.Bundle
-import com.douban.R
-import android.view.{KeyEvent, View}
+import android.view.{Menu, KeyEvent, View}
 import android.widget.{ImageView, EditText, TextView}
 import com.douban.models.Book
 
 import org.scaloid.common._
 import com.google.zxing.integration.android.IntentIntegrator
 import android.content.Intent
+import com.douban.base.DoubanActivity
+import scala.concurrent._
+import scala.util.{Failure, Success}
+import ExecutionContext.Implicits.global
 
 
 /**
@@ -19,7 +22,7 @@ import android.content.Intent
  * @since 4/5/13 8:50 PM
  * @version 1.0
  */
-class Search extends SActivity{
+class Search extends DoubanActivity{
   private val count=10
   private var searchText=""
   protected override def onCreate(b: Bundle) {
@@ -32,13 +35,22 @@ class Search extends SActivity{
        startActivity(SIntent("com.google.zxing.client.android.SCAN").putExtra("SCAN_MODE", "ONE_D_MODE,QR_CODE_MODE"))
       )
   }
+
   def search(v:View){
     searchText=find[EditText](R.id.searchBookText).getText.toString
     search(1)
   }
   def search(page:Int){
-    val results=Book.search(searchText,"",page,this.count)
-    startActivity(SIntent[SearchResult])
+    future {
+      Book.search(searchText, "", page, this.count)
+    } onComplete {
+      case Success(books) => startActivity(SIntent[SearchResult])
+      case Failure(error) => println(error.getMessage)
+    }
+  }
+
+  def login(v:View){
+    startActivity(SIntent[LoginActivity])
   }
 
   override def onActivityResult(requestCode:Int, resultCode:Int, intent:Intent) {

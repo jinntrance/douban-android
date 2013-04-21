@@ -1,9 +1,7 @@
 package com.douban
 
 import org.scalatest.FunSuite
-import net.liftweb.json.Extraction._
-import net.liftweb.json.JsonAST._
-import net.liftweb.json.Printer._
+import com.google.gson.GsonBuilder
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -13,10 +11,9 @@ import net.liftweb.json.Printer._
  * @version 1.0
  */
 trait BaseTest extends FunSuite {
-  implicit val formats = net.liftweb.json.DefaultFormats
-
+  val gp=new GsonBuilder().setPrettyPrinting().create()
   def prettyJSON(p: Any) {
     if (p==None) println(p)
-    else println(pretty(render(decompose(p))))
+    else println(gp.toJson(p))
   }
 }

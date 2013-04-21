@@ -1,6 +1,7 @@
 package com.douban
 
-import com.douban.common.AuthorizationCode
+import com.douban.common.{Auth, AuthorizationCode}
+import com.douban.base.Constant
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -14,7 +15,7 @@ import com.douban.common.AuthorizationCode
 class SdkTest extends BaseTest{
 
  test("authorication code"){
-    println(new AuthorizationCode authUrl)
+    println(Auth.getAuthUrl(Constant.apiKey))
   }
 
 }
