@@ -13,7 +13,7 @@ import scala.util.Success
  * @since 4/21/13 5:14 PM
  * @version 1.0
  */
-class DoubanActivity extends FragmentActivity with SActivity with SContext{
+trait DoubanActivity extends FragmentActivity with SActivity with SContext{
   def getToken={
     if(Context.get(Constant.accessTokenString).isEmpty) startActivity(SIntent[LoginActivity])
     Context.get(Constant.accessTokenString)

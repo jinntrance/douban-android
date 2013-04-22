@@ -4,9 +4,17 @@ import Keys._
 
 import AndroidKeys._
 
+organization := "com.douban"
+
+name := "douban-book"
+
+version := "1.0"
+
+scalaVersion := "2.10.1"
+
 resolvers += "scala-sdk" at "https://raw.github.com/jinntrance/douban-scala/master/repo/releases/"
 
-javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
+javacOptions ++= Seq("-source", "1.7", "-target", "1.6")
 
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xcheckinit","-optimise")
 
