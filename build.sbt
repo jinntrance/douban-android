@@ -14,7 +14,7 @@ scalaVersion := "2.10.1"
 
 resolvers += "oss repo" at "https://oss.sonatype.org/content/repositories/releases/"
 
-javacOptions ++= Seq("-source", "1.7", "-target", "1.6")
+javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
 
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xcheckinit","-optimise")
 

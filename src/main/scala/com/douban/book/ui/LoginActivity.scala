@@ -5,13 +5,9 @@ import android.os.Bundle
 import android.webkit.{WebView, WebViewClient}
 import android.graphics.Bitmap
 import org.scaloid.common._
-import com.douban.base.{DoubanActivity, Context, Constant}
+import com.douban.base.{DoubanActivity, Constant}
 import com.douban.common._
 import Auth._
-import scala.concurrent._
-import scala.util.Success
-import ExecutionContext.Implicits.global
-import android.preference.PreferenceManager
 
 class LoginActivity extends DoubanActivity {
 

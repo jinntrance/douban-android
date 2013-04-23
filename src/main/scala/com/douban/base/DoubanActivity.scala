@@ -7,6 +7,7 @@ import scala.concurrent._
 import ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 import android.preference.PreferenceManager
+import android.content.Context
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -17,8 +18,8 @@ import android.preference.PreferenceManager
  */
 trait DoubanActivity extends FragmentActivity with SActivity with SContext{
   def getToken={
-    if(Context.get(Constant.accessTokenString).isEmpty) startActivity(SIntent[LoginActivity])
-    Context.get(Constant.accessTokenString)
+    if(get(Constant.accessTokenString).isEmpty) startActivity(SIntent[LoginActivity])
+    get(Constant.accessTokenString)
   }
   def handle[R](result: => R,handler:(R) =>Unit ){
     future {

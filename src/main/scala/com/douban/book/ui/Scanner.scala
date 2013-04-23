@@ -1,9 +1,6 @@
 package com.douban.book.ui
 
-import org.scaloid.common._
 import android.os.Bundle
-import com.google.zxing.integration.android.IntentIntegrator
-import android.content.Intent
 import com.douban.base.DoubanActivity
 
 /**
@@ -18,7 +15,5 @@ import com.douban.base.DoubanActivity
 class Scanner extends DoubanActivity{
   override def onCreate(b: Bundle) {
     super.onCreate(b)
-
   }
-
 }

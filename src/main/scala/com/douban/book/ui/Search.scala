@@ -2,8 +2,8 @@ package com.douban.book
 package ui
 
 import android.os.Bundle
-import android.view.{Menu, KeyEvent, View}
-import android.widget.{ImageView, EditText, TextView}
+import android.view.{KeyEvent, View}
+import android.widget.{ImageView, EditText}
 import com.douban.models.Book
 
 import org.scaloid.common._
@@ -12,7 +12,6 @@ import com.douban.base.DoubanActivity
 import scala.concurrent._
 import scala.util.{Failure, Success}
 import ExecutionContext.Implicits.global
-import android.R
 import com.douban.book.R
 
 
@@ -55,10 +54,10 @@ class Search extends DoubanActivity{
   }
 
   override def onActivityResult(requestCode:Int, resultCode:Int, intent:Intent) {
-    val scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent)
-    if (scanResult != null) {
+//    val scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent)
+//    if (scanResult != null) {
       // handle scan result
-    }
+//    }
     // else continue with any other code you need in the method
   }
 }
