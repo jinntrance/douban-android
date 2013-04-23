@@ -1,13 +1,12 @@
 package com.douban.base
 
-import org.scaloid.common.{SIntent, SContext, SActivity}
+import org.scaloid.common.{LoggerTag, SIntent, SContext, SActivity}
 import android.support.v4.app.FragmentActivity
 import com.douban.book.ui.LoginActivity
 import scala.concurrent._
 import ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 import android.preference.PreferenceManager
-import android.content.Context
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -17,6 +16,7 @@ import android.content.Context
  * @version 1.0
  */
 trait DoubanActivity extends FragmentActivity with SActivity with SContext{
+  override implicit val tag = LoggerTag("com.douban.book")
   def getToken={
     if(get(Constant.accessTokenString).isEmpty) startActivity(SIntent[LoginActivity])
     get(Constant.accessTokenString)
