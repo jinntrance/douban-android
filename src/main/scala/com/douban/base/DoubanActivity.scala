@@ -1,10 +1,12 @@
 package com.douban.base
 
 import org.scaloid.common.{SIntent, SContext, SActivity}
-import android.support.v4.app.{FragmentActivity, ActivityCompat}
+import android.support.v4.app.FragmentActivity
 import com.douban.book.ui.LoginActivity
 import scala.concurrent._
-import scala.util.Success
+import ExecutionContext.Implicits.global
+import scala.util.{Failure, Success}
+import android.preference.PreferenceManager
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -17,5 +19,27 @@ trait DoubanActivity extends FragmentActivity with SActivity with SContext{
   def getToken={
     if(Context.get(Constant.accessTokenString).isEmpty) startActivity(SIntent[LoginActivity])
     Context.get(Constant.accessTokenString)
+  }
+  def handle[R](result: => R,handler:(R) =>Unit ){
+    future {
+      result
+    } onComplete{
+      case Success(t)=>handler(t)
+      case Failure(m)=>println(m.getMessage)
+    }
+  }
+  def sharedPref=PreferenceManager.getDefaultSharedPreferences(this)
+
+  def put(key:String,value:Any){
+    sharedPref.edit().putString(key,value.toString)
+  }
+  def get(key:String)=sharedPref.getString(key,"")
+
+  def contains(key:String):Boolean=sharedPref.contains(key)
+
+  def getAccessToken= {
+    if (get(Constant.accessTokenString).isEmpty)
+      startActivity(SIntent[LoginActivity])
+    get(Constant.accessTokenString)
   }
 }

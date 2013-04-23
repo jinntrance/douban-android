@@ -24,7 +24,7 @@ object General {
     AndroidManifestGenerator.settings ++
     AndroidMarketPublish.settings ++ Seq (
       keyalias in Android := "alias_name",
-      libraryDependencies += "org.scalatest" %% "scalatest" % "latest.release" % "test"
+      libraryDependencies += "org.scalatest" %% "scalatest" % "1.9" % "test"
     )
 }
 

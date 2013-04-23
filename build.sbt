@@ -12,7 +12,7 @@ version := "1.0"
 
 scalaVersion := "2.10.1"
 
-resolvers += "scala-sdk" at "https://raw.github.com/jinntrance/douban-scala/master/repo/releases/"
+resolvers += "oss repo" at "https://oss.sonatype.org/content/repositories/releases/"
 
 javacOptions ++= Seq("-source", "1.7", "-target", "1.6")
 
@@ -23,13 +23,10 @@ scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xcheckinit","-optimise")
 //unmanagedBase <<= baseDirectory { base => base / "libs" }
 
 libraryDependencies ++= Seq(
-			"org.scaloid" % "scaloid" % "latest.release",
-			"com.douban" %% "scala-api" % "2.1" excludeAll(
-				ExclusionRule(organization = "org.scala-lang"),
-				ExclusionRule(organization = "org.scalatest")),
-			"com.google.zxing" % "core" % "latest.release",
-			"com.google.zxing" % "android-integration" % "latest.release" excludeAll(
-			ExclusionRule("com.google.android","android")))
+			"org.scaloid" % "scaloid" % "1.1_8_2.10",
+			"com.douban" %% "scala-api" % "2.1" ,
+			"com.google.zxing" % "core" % "2.1",
+			"com.google.android" % "support-v4" % "r7")
 
 proguardOption in Android :="""
 -verbose

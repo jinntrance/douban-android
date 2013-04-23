@@ -2,7 +2,7 @@ package com.douban.book
 package ui
 
 import android.os.Bundle
-import android.webkit.{WebViewClient, WebView}
+import android.webkit.{WebView, WebViewClient}
 import android.graphics.Bitmap
 import org.scaloid.common._
 import com.douban.base.{DoubanActivity, Context, Constant}
@@ -11,6 +11,7 @@ import Auth._
 import scala.concurrent._
 import scala.util.Success
 import ExecutionContext.Implicits.global
+import android.preference.PreferenceManager
 
 class LoginActivity extends DoubanActivity {
 
@@ -25,29 +26,24 @@ class LoginActivity extends DoubanActivity {
   class DoubanWebViewClient extends WebViewClient {
     override def onPageStarted(view: WebView, redirectedUrl: String, favicon: Bitmap) {
       if (redirectedUrl.startsWith(redirect_url)) {
-        if (redirectedUrl.contains("error=")) LoginActivity.this.notify(R.string.loginFailed)
+        if (redirectedUrl.contains("error=")) toast(R.string.loginFailed)
         else {
-          future {
+          handle( {
             Auth.getTokenByCode(extractCode(redirectedUrl), Constant.apiKey, Constant.apiSecret)
-          } onComplete {
-            case Success(t) =>
-              if (None == t) LoginActivity.this.notify(R.string.loginFailed)
+          } , (t:Option[AccessTokenResult])=>{
+              if (None == t) toast(R.string.loginFailed)
               else {
-                Context.put(Constant.accessTokenString, t.get.access_token)
-                Context.put(Constant.refreshTokenString, t.get.refresh_token)
-                Context.put(Constant.userIdString, t.get.douban_user_id)
+                put(Constant.accessTokenString, t.get.access_token)
+                put(Constant.refreshTokenString, t.get.refresh_token)
+                put(Constant.userIdString, t.get.douban_user_id)
                 view.stopLoading()
               }
-          }
+          })
         }
       }
       else super.onPageStarted(view, redirectedUrl, favicon)
     }
 
-  }
-
-  def notify(id: Int) {
-    toast(id)
   }
 }
 

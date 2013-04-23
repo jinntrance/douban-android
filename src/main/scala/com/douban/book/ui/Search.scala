@@ -7,12 +7,13 @@ import android.widget.{ImageView, EditText, TextView}
 import com.douban.models.Book
 
 import org.scaloid.common._
-import com.google.zxing.integration.android.IntentIntegrator
 import android.content.Intent
 import com.douban.base.DoubanActivity
 import scala.concurrent._
 import scala.util.{Failure, Success}
 import ExecutionContext.Implicits.global
+import android.R
+import com.douban.book.R
 
 
 /**

@@ -7,7 +7,6 @@
 	<version>1.0</version>
 	<packaging>apk</packaging>
 	<name>Douban Books</name>
-
 	<properties>
 		<scala.version>2.10</scala.version>
 		<scala.release>2.10.1</scala.release>
@@ -20,15 +19,15 @@
             <url>http://www.scala-tools.org/repo-releases</url>
         </repository>
         <repository>
-            <id>scala-sdk</id>
-            <url>https://github.com/jinntrance/douban-scala/raw/master/repo/releases/</url>
+            <id>OSS Repo</id>
+            <url>https://oss.sonatype.org/content/repositories/releases/</url>
         </repository>
     </repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.scaloid</groupId>
 			<artifactId>scaloid</artifactId>
-			<version>RELEASE</version>
+			<version>1.1_8_2.10</version>
 		</dependency>
         <dependency>
             <groupId>com.douban</groupId>
@@ -38,7 +37,12 @@
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>core</artifactId>
-            <version>RELEASE</version>
+            <version>2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.android</groupId>
+            <artifactId>support-v4</artifactId>
+            <version>r7</version>
         </dependency>
     </dependencies>
 
@@ -117,7 +121,7 @@
 					<resourceDirectory>${project.basedir}/res</resourceDirectory>
 					<nativeLibrariesDirectory>${project.basedir}/src/main/native</nativeLibrariesDirectory>
 					<sdk>
-						<platform>16</platform>
+						<platform>14</platform>
 					</sdk>
 					<deleteConflictingFiles>true</deleteConflictingFiles>
 					<undeployBeforeDeploy>true</undeployBeforeDeploy>
@@ -142,8 +146,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.6</source>
+					<target>1.6</target>
 				</configuration>
 			</plugin>
 
