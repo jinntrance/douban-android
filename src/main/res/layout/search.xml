@@ -8,13 +8,13 @@
     <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="书名、作者、ISBN"
+                android:hint="@string/book_search_hint"
                 android:id="@+id/searchBookText" android:layout_alignParentTop="true"
                 android:gravity="center" android:layout_marginTop="30dp"/>
     <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/scanISBN" android:src="@drawable/barcode" android:contentDescription="扫描图书"
+                android:id="@+id/scanISBN" android:src="@drawable/barcode" android:contentDescription="@string/scan_book"
                 android:layout_margin="5dp" android:layout_alignParentBottom="true" android:layout_below="@id/searchBookText" />
 
 </RelativeLayout>

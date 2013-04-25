@@ -11,15 +11,14 @@ import Auth._
 import android.view.{MenuItem, Menu}
 
 class LoginActivity extends DoubanActivity {
-  val wv = find[WebView](R.id.authView)
   override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.login)
-    wv.setWebViewClient(new DoubanWebViewClient)
+    find[WebView](R.id.authView).setWebViewClient(new DoubanWebViewClient)
   }
 
   def refresh(i:MenuItem){
-    wv.loadUrl(getAuthUrl(Constant.apiKey, scope = Constant.scope))
+    find[WebView](R.id.authView).loadUrl(getAuthUrl(Constant.apiKey, scope = Constant.scope))
   }
 
   override def onCreateOptionsMenu(menu: Menu) = {getMenuInflater.inflate(R.menu.login,menu); true}
