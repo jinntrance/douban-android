@@ -2,7 +2,7 @@ package com.douban.book
 package ui
 
 import android.os.Bundle
-import android.view.{KeyEvent, View}
+import android.view.{MenuItem, Menu, KeyEvent, View}
 import android.widget.{ImageView, EditText}
 import com.douban.models.Book
 
@@ -25,6 +25,7 @@ import com.douban.book.R
 class Search extends DoubanActivity{
   private val count=10
   private var searchText=""
+  private var canLogout=false
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.search)
@@ -49,8 +50,22 @@ class Search extends DoubanActivity{
     }
   }
 
-  def login(v:View){
+  def login(i:MenuItem) {
     startActivity(SIntent[LoginActivity])
+  }
+
+
+  override def onCreateOptionsMenu(menu: Menu) ={
+    getMenuInflater.inflate(R.menu.main,menu)
+    true
+  }
+
+  override def onBackPressed() {
+    if(canLogout) finish()
+    else {
+      canLogout=true
+      toast(R.string.press_again_to_logout)
+    }
   }
 
   override def onActivityResult(requestCode:Int, resultCode:Int, intent:Intent) {

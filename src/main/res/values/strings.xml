@@ -2,4 +2,9 @@
     <string name="app_name">豆瓣客户端</string>
     <string name="loin">登录</string>
     <string name="about">关于</string>
+    <string name="refresh">刷新</string>
+    <string name="login_failed">登录失败</string>
+    <string name="login_successfully">登录成功</string>
+    <string name="waiting_for_auth">等待授权ing，亲操作操作其他先</string>
+    <string name="press_again_to_logout">再按一次退出</string>
 </resources>

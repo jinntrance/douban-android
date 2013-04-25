@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="refresh" format="reference"/>
+    <attr name="login" format="reference"/>
+    <attr name="about" format="reference"/>
+
+</resources>
