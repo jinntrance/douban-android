@@ -4,7 +4,7 @@ import AndroidKeys._
 
 object General {
   val settings = Defaults.defaultSettings ++ Seq (
-    name := "douban-android",
+    name := "douban-book",
     version := "0.1",
     versionCode := 1,
     scalaVersion := "2.10.1",
@@ -22,14 +22,14 @@ object General {
     proguardSettings ++
     AndroidManifestGenerator.settings ++
     AndroidMarketPublish.settings ++ Seq (
-      keyalias in Android := "alias_name",
+      keyalias in Android := "jinntrance@gmail.com",
       libraryDependencies += "org.scalatest" %% "scalatest" % "1.9" % "test"
     )
 }
 
 object AndroidBuild extends Build {
   lazy val main = Project (
-    "douban-android",
+    "douban-book",
     file("."),
     settings = General.fullAndroidSettings
   )
@@ -40,7 +40,7 @@ object AndroidBuild extends Build {
     settings = General.settings ++
                AndroidTest.androidSettings ++
                General.proguardSettings ++ Seq (
-      name := "douban-androidTests"
+      name := "douban-bookTests"
     )
   ) dependsOn main
 }

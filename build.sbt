@@ -32,30 +32,25 @@ proguardOption in Android :="""
 -verbose
 -printseeds target/keep.log
 -printmapping target/obf.log
--optimizationpasses 3
+-optimizationpasses 5
 -overloadaggressively
--optimizations !code/simplification/arithmetic
+-optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
 -repackageclasses
 -allowaccessmodification
 -mergeinterfacesaggressively
 -assumenosideeffects class scala.Console
--assumenosideeffects class org.scaloid.common.WidgetFamily
+-assumenosideeffects class org.scaloid.common.WidgetFamily**
 -assumenosideeffects class android.util.Log {public static boolean isLoggable(java.lang.String, int);public static int v(...); public static int i(...); public static int w(...); public static int d(...); public static int e(...);}
 -dontpreverify
 -dontskipnonpubliclibraryclasses
 -dontskipnonpubliclibraryclassmembers
 -keepclassmembers class * { ** MODULE$; }
 -keepattributes *Annotation*
--keep class org.scaloid.common.SActivity
 -keep class org.scaloid.common.SContext
--keep class org.scaloid.common.Registerable
 -keep class org.scaloid.common.LoggerTag
 -keep class android.support.v4.app.Fragment
--keep class scala.runtime.ObjectRef
--keep class scala.runtime.VolatileObjectRef
 -keep class scala.reflect.Manifest
 -keep class scala.reflect.ClassTag
--keep class scala.reflect.ClassManifestDeprecatedApis*
 -keep class scala.collection.mutable.ArrayBuffer
 -keep class scala.math.Ordering
 -keep public class scala.Option
@@ -65,26 +60,16 @@ proguardOption in Android :="""
 -keep public class scala.Function2
 -keep public class scala.Product
 -keep public class scala.Tuple2
--keep public class scala.collection.Seq
 -keep public class scala.collection.GenSeq
--keep public class scala.collection.immutable.List
--keep public class scala.collection.immutable.Map
+-keep public class scala.collection.generic.CanBuildFrom
 -keep public class scala.collection.SeqLike {public protected *;}
--keep public class * extends android.app.Activity
--keep public class * extends android.app.Application
--keep public class * extends android.app.Service
--keep public class * extends android.app.backup.BackupAgentHelper
--keep public class * extends android.appwidget.AppWidgetProvider
--keep public class * extends android.content.BroadcastReceiver
--keep public class * extends android.content.ContentProvider
--keep public class * extends android.preference.Preference
--keep public class * extends android.view.View
 -keepclasseswithmembernames class * {native <methods>;}
 -keepclasseswithmembers class * {public <init>(android.content.Context, android.util.AttributeSet);}
 -keepclasseswithmembers class * {public <init>(android.content.Context, android.util.AttributeSet, int);}
 -keepclassmembers class * extends android.app.Activity {   public void *(android.view.View);}
 -keepclassmembers enum * {public static **[] values();public static ** valueOf(java.lang.String);}
 -keep class * implements android.os.Parcelable {  public static final android.os.Parcelable$Creator *;}
+-keepclassmembers class **.R$* {public static <fields>;}
 """
 
 proguardOptimizations in Android ++= Seq(
@@ -92,5 +77,6 @@ proguardOptimizations in Android ++= Seq(
 "-dontobfuscate",
 "-keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod",
 "-keepparameternames",
-"-keepdirectories"
+"-keepdirectories",
+"#-dontusemixedcaseclassnames"
 )
