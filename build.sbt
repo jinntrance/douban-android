@@ -30,16 +30,27 @@ libraryDependencies ++= Seq(
 
 proguardOption in Android :="""
 -verbose
--dontobfuscate
--dontoptimize
 -printseeds target/keep.log
 -printmapping target/obf.log
--keepparameternames
+-optimizationpasses 3
+-overloadaggressively
+-optimizations !code/simplification/arithmetic
+-repackageclasses
+-allowaccessmodification
+-mergeinterfacesaggressively
+-assumenosideeffects class scala.Console
+-assumenosideeffects class org.scaloid.common.WidgetFamily
+-assumenosideeffects class android.util.Log {public static boolean isLoggable(java.lang.String, int);public static int v(...); public static int i(...); public static int w(...); public static int d(...); public static int e(...);}
+-dontpreverify
 -dontskipnonpubliclibraryclasses
 -dontskipnonpubliclibraryclassmembers
--keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
 -keepclassmembers class * { ** MODULE$; }
--keepdirectories
+-keepattributes *Annotation*
+-keep class org.scaloid.common.SActivity
+-keep class org.scaloid.common.SContext
+-keep class org.scaloid.common.Registerable
+-keep class org.scaloid.common.LoggerTag
+-keep class android.support.v4.app.Fragment
 -keep class scala.runtime.ObjectRef
 -keep class scala.runtime.VolatileObjectRef
 -keep class scala.reflect.Manifest
@@ -47,11 +58,6 @@ proguardOption in Android :="""
 -keep class scala.reflect.ClassManifestDeprecatedApis*
 -keep class scala.collection.mutable.ArrayBuffer
 -keep class scala.math.Ordering
--keep class org.scaloid.common.SActivity
--keep class org.scaloid.common.SContext
--keep class org.scaloid.common.Registerable
--keep class org.scaloid.common.LoggerTag
--keep class android.support.v4.app.Fragment
 -keep public class scala.Option
 -keep public class scala.PartialFunction
 -keep public class scala.Function0
@@ -81,4 +87,10 @@ proguardOption in Android :="""
 -keep class * implements android.os.Parcelable {  public static final android.os.Parcelable$Creator *;}
 """
 
-proguardOptimizations in Android ++= Seq()
+proguardOptimizations in Android ++= Seq(
+"-dontoptimize",
+"-dontobfuscate",
+"-keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod",
+"-keepparameternames",
+"-keepdirectories"
+)
