@@ -61,12 +61,13 @@ class Search extends DoubanActivity{
   }
 
   override def onBackPressed() {
-    if(canLogout) finish()
+    if(canLogout) super.onBackPressed()
     else {
       canLogout=true
       toast(R.string.press_again_to_logout)
     }
   }
+
 
   override def onActivityResult(requestCode:Int, resultCode:Int, intent:Intent) {
 //    val scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent)

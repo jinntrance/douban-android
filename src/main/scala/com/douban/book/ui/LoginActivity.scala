@@ -9,12 +9,14 @@ import com.douban.base.{DoubanActivity, Constant}
 import com.douban.common._
 import Auth._
 import android.view.{MenuItem, Menu}
+import android.R.menu
 
 class LoginActivity extends DoubanActivity {
   override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.login)
     find[WebView](R.id.authView).setWebViewClient(new DoubanWebViewClient)
+    refresh(null)
   }
 
   def refresh(i:MenuItem){
@@ -34,9 +36,7 @@ class LoginActivity extends DoubanActivity {
           } , (t:Option[AccessTokenResult])=>{
               if (None == t) toast(R.string.login_failed)
               else {
-                put(Constant.accessTokenString, t.get.access_token)
-                put(Constant.refreshTokenString, t.get.refresh_token)
-                put(Constant.userIdString, t.get.douban_user_id)
+                updateToken(t.get)
                 Req.init(t.get.access_token)
                 toast(R.string.login_successfully)
               }
