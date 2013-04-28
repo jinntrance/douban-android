@@ -16,7 +16,7 @@ resolvers += "oss repo" at "https://oss.sonatype.org/content/repositories/releas
 
 javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
 
-scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xcheckinit","-optimise")
+scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xcheckinit","#-optimise")
 
 //autoScalaLibrary := false
 
