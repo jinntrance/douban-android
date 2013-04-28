@@ -13,6 +13,7 @@ import scala.concurrent._
 import scala.util.{Failure, Success}
 import ExecutionContext.Implicits.global
 import com.douban.book.R
+import android.app.Activity
 
 
 /**
@@ -26,6 +27,7 @@ class Search extends DoubanActivity{
   private val count=10
   private var searchText=""
   private var canLogout=false
+  private val scannerCode=0
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.search)
@@ -33,7 +35,7 @@ class Search extends DoubanActivity{
       (v:View,k:Int,e:KeyEvent)=> {if(k==KeyEvent.KEYCODE_ENTER) search(v); true}
     )
     find[ImageView](R.id.scanISBN) onClick(
-       startActivity(SIntent("com.google.zxing.client.android.SCAN").putExtra("SCAN_MODE", "ONE_D_MODE,QR_CODE_MODE"))
+      startActivityForResult(SIntent("com.google.zxing.client.android.SCAN").putExtra("SCAN_MODE", "ONE_D_MODE,QR_CODE_MODE"),scannerCode)
       )
   }
 
@@ -70,10 +72,10 @@ class Search extends DoubanActivity{
 
 
   override def onActivityResult(requestCode:Int, resultCode:Int, intent:Intent) {
-//    val scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent)
-//    if (scanResult != null) {
-      // handle scan result
-//    }
-    // else continue with any other code you need in the method
+    if(scannerCode==requestCode&&resultCode==Activity.RESULT_OK){
+      val contents = intent.getStringExtra("SCAN_RESULT")
+      val format = intent.getStringExtra("SCAN_RESULT_FORMAT")
+    }
+
   }
 }

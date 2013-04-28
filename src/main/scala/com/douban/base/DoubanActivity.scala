@@ -10,7 +10,7 @@ import android.preference.PreferenceManager
 import scala.util.Success
 import scala.util.Failure
 import org.scaloid.common.LoggerTag
-import android.view.MenuItem
+import android.view.{View, MenuItem}
 import android.net.{ConnectivityManager, NetworkInfo}
 import android.content.Context
 import java.lang.Thread.UncaughtExceptionHandler
@@ -24,8 +24,7 @@ import com.douban.book.R
  * @since 4/21/13 5:14 PM
  * @version 1.0
  */
-trait DoubanActivity extends FragmentActivity  with SContext with TraitActivity[DoubanActivity]  {
-  def basis=this
+trait DoubanActivity extends FragmentActivity  with SActivity  {
   override implicit val tag = LoggerTag("com.douban.book")
   Thread.setDefaultUncaughtExceptionHandler(new  UncaughtExceptionHandler(){
     def uncaughtException(thread: Thread, ex: Throwable) {
@@ -67,6 +66,9 @@ trait DoubanActivity extends FragmentActivity  with SContext with TraitActivity[
     get(Constant.accessTokenString)
   }
   def back(i:MenuItem) {
+    onBackPressed()
+  }
+  def back(v:View){
     onBackPressed()
   }
   def isOnline={
