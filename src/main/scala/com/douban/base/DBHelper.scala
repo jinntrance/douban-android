@@ -4,10 +4,6 @@ import android.database.sqlite.{SQLiteDatabase, SQLiteOpenHelper}
 import android.content.ContentValues
 import scala.reflect.ClassTag
 import scala.reflect.classTag
-import com.google.gson.{JsonElement, GsonBuilder}
-import collection.JavaConverters._
-import android.provider.BaseColumns
-import scala.collection.mutable.ListBuffer
 import scala.collection.mutable
 import com.douban.common.Req
 

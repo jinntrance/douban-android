@@ -5,13 +5,12 @@ import android.os.Bundle
 import android.webkit.{WebView, WebViewClient}
 import android.graphics.Bitmap
 import org.scaloid.common._
-import com.douban.base.{DoubanActivity, Constant}
+import com.douban.base.{DoubanFragmentActivity, Constant}
 import com.douban.common._
 import Auth._
 import android.view.{MenuItem, Menu}
-import android.R.menu
 
-class LoginActivity extends DoubanActivity {
+class LoginFragmentActivity extends DoubanFragmentActivity {
   override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.login)

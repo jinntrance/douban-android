@@ -1,21 +1,22 @@
 package com.douban.base
 
 import org.scaloid.common._
-import android.support.v4.app.FragmentActivity
-import com.douban.book.ui.LoginActivity
+import android.support.v4.app.{Fragment, FragmentActivity}
+import com.douban.book.ui.LoginFragmentActivity
 import scala.concurrent._
 import ExecutionContext.Implicits.global
-import scala.util.{Failure, Success}
 import android.preference.PreferenceManager
 import scala.util.Success
 import scala.util.Failure
 import org.scaloid.common.LoggerTag
 import android.view.{View, MenuItem}
-import android.net.{ConnectivityManager, NetworkInfo}
-import android.content.Context
+import android.net.ConnectivityManager
+import android.content
+import android.content.Intent
 import java.lang.Thread.UncaughtExceptionHandler
 import com.douban.common.{AccessTokenResult, Auth, DoubanException}
-import com.douban.book.R
+import com.douban.book.{TypedViewHolder, R}
+import android.os.Bundle
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -24,7 +25,7 @@ import com.douban.book.R
  * @since 4/21/13 5:14 PM
  * @version 1.0
  */
-trait DoubanActivity extends FragmentActivity  with SActivity  {
+trait DoubanFragmentActivity extends FragmentActivity  with SActivity  {
   override implicit val tag = LoggerTag("com.douban.book")
   Thread.setDefaultUncaughtExceptionHandler(new  UncaughtExceptionHandler(){
     def uncaughtException(thread: Thread, ex: Throwable) {
@@ -43,7 +44,17 @@ trait DoubanActivity extends FragmentActivity  with SActivity  {
     }
   })
 
-  def handle[R](result: => R,handler:(R) =>Unit ){
+
+  protected override def onCreate(b: Bundle) {
+    super.onCreate(b)
+    getActionBar.setDisplayHomeAsUpEnabled(true)
+  }
+
+  override def startActivity(intent: Intent) {
+    super.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK))
+  }
+
+  @inline def handle[R](result: => R,handler:(R) =>Unit ){
     future {
       result
     } onComplete{
@@ -51,18 +62,19 @@ trait DoubanActivity extends FragmentActivity  with SActivity  {
       case Failure(m)=>debug(m.getMessage)
     }
   }
-  def sharedPref=PreferenceManager.getDefaultSharedPreferences(this)
+  @inline def sharedPref=PreferenceManager.getDefaultSharedPreferences(this)
 
-  def put(key:String,value:Any){
+
+  @inline def put(key:String,value:Any){
     sharedPref.edit().putString(key,value.toString)
   }
-  def get(key:String)=sharedPref.getString(key,"")
+  @inline def get(key:String)=sharedPref.getString(key,"")
 
-  def contains(key:String):Boolean=sharedPref.contains(key)
+  @inline def contains(key:String):Boolean=sharedPref.contains(key)
 
   def getAccessToken= {
     if (get(Constant.accessTokenString).isEmpty)
-      startActivity(SIntent[LoginActivity])
+      startActivity(SIntent[LoginFragmentActivity])
     get(Constant.accessTokenString)
   }
   def back(i:MenuItem) {
@@ -71,12 +83,12 @@ trait DoubanActivity extends FragmentActivity  with SActivity  {
   def back(v:View){
     onBackPressed()
   }
-  def isOnline={
-    val activeNetwork =getApplicationContext.getSystemService(Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo
+  @inline def isOnline={
+    val activeNetwork =getApplicationContext.getSystemService(content.Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo
     activeNetwork.isConnectedOrConnecting
   }
-  def usingWIfi={
-    val activeNetwork =getApplicationContext.getSystemService(Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo
+  @inline def usingWIfi={
+    val activeNetwork =getApplicationContext.getSystemService(content.Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo
     activeNetwork.getType==ConnectivityManager.TYPE_WIFI
   }
   protected def updateToken(t: AccessTokenResult) {
@@ -84,4 +96,7 @@ trait DoubanActivity extends FragmentActivity  with SActivity  {
     put(Constant.refreshTokenString, t.refresh_token)
     put(Constant.userIdString, t.douban_user_id)
   }
+}
+trait DoubanFragment extends Fragment with TypedViewHolder  {
+  def findViewById(id: Int) = super.findViewById(id)
 }
