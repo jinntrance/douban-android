@@ -1,6 +1,5 @@
 package com.douban.base
 
-import android.os.Bundle
 import com.douban.common.Req
 import android.preference.PreferenceManager
 

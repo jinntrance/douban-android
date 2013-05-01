@@ -8,7 +8,7 @@ import com.douban.models.Book
 
 import org.scaloid.common._
 import android.content.Intent
-import com.douban.base.DoubanActivity
+import com.douban.base.DoubanFragmentActivity
 import scala.concurrent._
 import scala.util.{Failure, Success}
 import ExecutionContext.Implicits.global
@@ -23,7 +23,7 @@ import android.app.Activity
  * @since 4/5/13 8:50 PM
  * @version 1.0
  */
-class Search extends DoubanActivity{
+class SearchFragmentActivity extends DoubanFragmentActivity{
   private val count=10
   private var searchText=""
   private var canLogout=false
@@ -53,7 +53,7 @@ class Search extends DoubanActivity{
   }
 
   def login(i:MenuItem) {
-    startActivity(SIntent[LoginActivity])
+    startActivity(SIntent[LoginFragmentActivity])
   }
 
 
