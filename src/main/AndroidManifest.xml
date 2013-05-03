@@ -20,7 +20,7 @@
 <!--        <activity android:label="@string/app_name" android:name=".ui.UploadFragment">
             <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
         </activity>-->
-        <activity android:label="@string/app_name" android:name=".ui.ScannerFragment"/>
+        <activity android:label="@string/app_name" android:name=".ui.ScannerFragmentActivity"/>
         <activity android:label="@string/app_name" android:name=".ui.BookView"/>
     </application>
 </manifest>

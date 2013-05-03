@@ -15,8 +15,8 @@ import android.content
 import android.content.Intent
 import java.lang.Thread.UncaughtExceptionHandler
 import com.douban.common.{AccessTokenResult, Auth, DoubanException}
-import com.douban.book.{TypedViewHolder, R}
 import android.os.Bundle
+import com.douban.book.R
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -97,6 +97,6 @@ trait DoubanFragmentActivity extends FragmentActivity  with SActivity  {
     put(Constant.userIdString, t.douban_user_id)
   }
 }
-trait DoubanFragment extends Fragment with TypedViewHolder  {
-  def findViewById(id: Int) = super.findViewById(id)
+trait DoubanFragment extends Fragment {
+
 }

@@ -13,10 +13,14 @@ import com.douban.base.DoubanFragment
  * @since 4/9/13 12:25 AM
  * @version 1.0
  */
-class SearchResult extends ListFragment with DoubanFragment{
+class SearchResultFragment extends ListFragment{
 
 
-  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle) = super.onCreateView(inflater, container, savedInstanceState)
+  override def onActivityCreated(savedInstanceState: Bundle) {
+    super.onActivityCreated(savedInstanceState)
+    getListView.setTextFilterEnabled(true)
+    setListAdapter()
+  }
 
   override def onListItemClick(l: ListView, v: View, position: Int, id: Long) {
     super.onListItemClick(l, v, position, id)
