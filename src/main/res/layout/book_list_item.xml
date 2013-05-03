@@ -9,7 +9,7 @@
         android:layout_width="60dp"   android:layout_gravity="left"
         android:layout_height="80dp"
         android:id="@+id/bookImage" android:layout_column="1"
-        android:contentDescription="图书封面" />
+        android:contentDescription="@string/book_cover" />
 
     <LinearLayout  android:layout_gravity="center"
         android:orientation="vertical"  android:layout_column="1"
@@ -55,7 +55,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="想读"
+            android:text="@string/toread"
             android:id="@+id/wish" />
 
     </RelativeLayout>

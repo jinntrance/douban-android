@@ -30,7 +30,6 @@ class SearchFragmentActivity extends DoubanFragmentActivity{
   private val scannerCode=0
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
-    setContentView(R.layout.search)
     find[EditText](R.id.searchBookText) onKey (
       (v:View,k:Int,e:KeyEvent)=> {if(k==KeyEvent.KEYCODE_ENTER) search(v); true}
     )
@@ -47,7 +46,7 @@ class SearchFragmentActivity extends DoubanFragmentActivity{
     future {
       Book.search(searchText, "", page, this.count)
     } onComplete {
-      case Success(books) => startActivity(SIntent[SearchResult])
+      case Success(books) => startActivity(SIntent[SearchResultFragment].putExtra("books",books))
       case Failure(error) => println(error.getMessage)
     }
   }
