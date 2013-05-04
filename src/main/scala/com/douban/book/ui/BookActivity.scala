@@ -15,7 +15,7 @@ import android.content.Intent
  * @see http://developers.douban.com/wiki/?title=api_v2
  */
 
-class BookView extends SActivity{
+class BookActivity extends SActivity{
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     find[Button](R.id.shareButton) onClick (

@@ -2,29 +2,40 @@ package com.douban.book
 package ui
 
 import android.os.Bundle
-import android.webkit.{WebView, WebViewClient}
+import android.webkit.{WebChromeClient, WebView, WebViewClient}
 import android.graphics.Bitmap
 import org.scaloid.common._
-import com.douban.base.{DoubanFragmentActivity, Constant}
+import com.douban.base.{DoubanActivity, Constant}
 import com.douban.common._
 import Auth._
-import android.view.{MenuItem, Menu}
+import android.view.{LayoutInflater, MenuItem, Menu}
+import android.content.Context
+import android.widget.ImageView
+import android.view.animation.AnimationUtils
 
-class LoginFragmentActivity extends DoubanFragmentActivity {
+class LoginActivity extends DoubanActivity {
+  private[this] var refreshItem:MenuItem=null
   override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.login)
     find[WebView](R.id.authView).setWebViewClient(new DoubanWebViewClient)
-    refresh(null)
+    refresh(refreshItem)
   }
 
   def refresh(i:MenuItem){
+    val iv=getSystemService(Context.LAYOUT_INFLATER_SERVICE).asInstanceOf[LayoutInflater].inflate(R.layout.refresh,null).asInstanceOf[ImageView]
+    iv.startAnimation(AnimationUtils.loadAnimation(this,R.anim.refresh))
+    refreshItem.setActionView(iv)
     find[WebView](R.id.authView).loadUrl(getAuthUrl(Constant.apiKey, scope = Constant.scope))
   }
 
-  override def onCreateOptionsMenu(menu: Menu) = {getMenuInflater.inflate(R.menu.login,menu); true}
+  override def onCreateOptionsMenu(menu: Menu) = {
+    getMenuInflater.inflate(R.menu.login,menu)
+    refreshItem=menu.findItem(R.id.menu_refresh)
+    super.onCreateOptionsMenu(menu)
+  }
 
-  class DoubanWebViewClient extends WebViewClient {
+ private class DoubanWebViewClient extends WebViewClient {
     override def onPageStarted(view: WebView, redirectedUrl: String, favicon: Bitmap) {
       if (redirectedUrl.startsWith(redirect_url)) {
         if (redirectedUrl.contains("error=")) toast(R.string.login_failed)
@@ -47,6 +58,10 @@ class LoginFragmentActivity extends DoubanFragmentActivity {
       else super.onPageStarted(view, redirectedUrl, favicon)
     }
 
+    override def onPageFinished(view: WebView, url: String) {
+      super.onPageFinished(view, url)
+      refreshItem.getActionView.clearAnimation()
+    }
   }
 }
 
