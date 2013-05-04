@@ -3,5 +3,5 @@
     <attr name="refresh" format="reference"/>
     <attr name="login" format="reference"/>
     <attr name="about" format="reference"/>
-
+    <attr name="actionButtonStyle" format="reference" />
 </resources>

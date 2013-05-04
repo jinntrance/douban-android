@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">豆瓣客户端</string>
     <string name="login">登录</string>
-    <string name="about">关于</string>
+
     <string name="refresh">刷新</string>
     <string name="login_failed">登录失败</string>
     <string name="login_successfully">登录成功</string>
@@ -12,4 +12,9 @@
     <string name="scan_book">扫描图书</string>
     <string name="book_cover">图书封面</string>
     <string name="toread">想读</string>
+    <string name="about">关于</string>
+    <string name="about_info">主页: https://github.com/jinntrance/douban-android <br/>
+        反馈：<a href="mailto:jinntrance@gmail.com">軒轅鍾書</a>
+    </string>
+    <string name="search">搜书</string>
 </resources>

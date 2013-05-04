@@ -1,6 +1,6 @@
 package com.douban
 
-import com.douban.common.{Auth, AuthorizationCode}
+import com.douban.common.Auth
 import com.douban.base.Constant
 
 /**

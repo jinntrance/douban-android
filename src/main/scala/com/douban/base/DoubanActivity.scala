@@ -1,8 +1,8 @@
 package com.douban.base
 
 import org.scaloid.common._
-import android.support.v4.app.{Fragment, FragmentActivity}
-import com.douban.book.ui.LoginFragmentActivity
+import android.support.v4.app.FragmentActivity
+import com.douban.book.ui.LoginActivity
 import scala.concurrent._
 import ExecutionContext.Implicits.global
 import android.preference.PreferenceManager
@@ -25,7 +25,7 @@ import com.douban.book.R
  * @since 4/21/13 5:14 PM
  * @version 1.0
  */
-trait DoubanFragmentActivity extends FragmentActivity  with SActivity  {
+trait DoubanActivity extends FragmentActivity with SActivity  {
   override implicit val tag = LoggerTag("com.douban.book")
   Thread.setDefaultUncaughtExceptionHandler(new  UncaughtExceptionHandler(){
     def uncaughtException(thread: Thread, ex: Throwable) {
@@ -43,12 +43,6 @@ trait DoubanFragmentActivity extends FragmentActivity  with SActivity  {
       ex.printStackTrace()
     }
   })
-
-
-  protected override def onCreate(b: Bundle) {
-    super.onCreate(b)
-    getActionBar.setDisplayHomeAsUpEnabled(true)
-  }
 
   override def startActivity(intent: Intent) {
     super.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK))
@@ -74,7 +68,7 @@ trait DoubanFragmentActivity extends FragmentActivity  with SActivity  {
 
   def getAccessToken= {
     if (get(Constant.accessTokenString).isEmpty)
-      startActivity(SIntent[LoginFragmentActivity])
+      startActivity(SIntent[LoginActivity])
     get(Constant.accessTokenString)
   }
   def back(i:MenuItem) {
@@ -91,12 +85,10 @@ trait DoubanFragmentActivity extends FragmentActivity  with SActivity  {
     val activeNetwork =getApplicationContext.getSystemService(content.Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo
     activeNetwork.getType==ConnectivityManager.TYPE_WIFI
   }
+  def othened= {!get(Constant.accessTokenString).isEmpty}
   protected def updateToken(t: AccessTokenResult) {
     put(Constant.accessTokenString, t.access_token)
     put(Constant.refreshTokenString, t.refresh_token)
     put(Constant.userIdString, t.douban_user_id)
   }
-}
-trait DoubanFragment extends Fragment {
-
 }
