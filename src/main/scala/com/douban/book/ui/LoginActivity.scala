@@ -15,6 +15,7 @@ import android.view.animation.AnimationUtils
 
 class LoginActivity extends DoubanActivity {
   private[this] var refreshItem:MenuItem=null
+  private[this] var iv:ImageView=null
   override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.login)
@@ -22,15 +23,18 @@ class LoginActivity extends DoubanActivity {
   }
 
   def refresh(i:MenuItem){
-    val iv=getSystemService(Context.LAYOUT_INFLATER_SERVICE).asInstanceOf[LayoutInflater].inflate(R.layout.refresh,null).asInstanceOf[ImageView]
+    refreshMenuItem()
+    find[WebView](R.id.authView).loadUrl(getAuthUrl(Constant.apiKey, scope = Constant.scope))
+  }
+  private def refreshMenuItem(){
     iv.startAnimation(AnimationUtils.loadAnimation(this,R.anim.refresh))
     refreshItem.setActionView(iv)
-    find[WebView](R.id.authView).loadUrl(getAuthUrl(Constant.apiKey, scope = Constant.scope))
   }
 
   override def onCreateOptionsMenu(menu: Menu) = {
     getMenuInflater.inflate(R.menu.login,menu)
     refreshItem=menu.findItem(R.id.menu_refresh)
+    iv=getSystemService(Context.LAYOUT_INFLATER_SERVICE).asInstanceOf[LayoutInflater].inflate(R.layout.refresh,null).asInstanceOf[ImageView]
     refresh(refreshItem)
     super.onCreateOptionsMenu(menu)
   }
@@ -56,6 +60,7 @@ class LoginActivity extends DoubanActivity {
         }
       }
       else super.onPageStarted(view, redirectedUrl, favicon)
+      refreshMenuItem()
     }
 
     override def onPageFinished(view: WebView, url: String) {

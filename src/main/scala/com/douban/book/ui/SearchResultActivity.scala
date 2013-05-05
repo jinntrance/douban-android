@@ -3,7 +3,7 @@ package com.douban.book.ui
 import com.douban.base.DoubanActivity
 import android.os.Bundle
 import com.douban.book.R
-import android.support.v4.app.ListFragment
+import android.support.v4.app.{FragmentActivity, ListFragment}
 import android.widget.ListView
 import android.view.View
 
