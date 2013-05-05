@@ -19,7 +19,6 @@ class LoginActivity extends DoubanActivity {
     super.onCreate(b)
     setContentView(R.layout.login)
     find[WebView](R.id.authView).setWebViewClient(new DoubanWebViewClient)
-    refresh(refreshItem)
   }
 
   def refresh(i:MenuItem){
@@ -32,6 +31,7 @@ class LoginActivity extends DoubanActivity {
   override def onCreateOptionsMenu(menu: Menu) = {
     getMenuInflater.inflate(R.menu.login,menu)
     refreshItem=menu.findItem(R.id.menu_refresh)
+    refresh(refreshItem)
     super.onCreateOptionsMenu(menu)
   }
 
@@ -61,6 +61,7 @@ class LoginActivity extends DoubanActivity {
     override def onPageFinished(view: WebView, url: String) {
       super.onPageFinished(view, url)
       refreshItem.getActionView.clearAnimation()
+      refreshItem.setActionView(null)
     }
   }
 }
