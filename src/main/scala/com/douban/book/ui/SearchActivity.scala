@@ -35,10 +35,7 @@ class SearchActivity extends DoubanActivity {
     setContentView(R.layout.search)
     find[EditText](R.id.searchBookText) onKey (
       (v: View, k: Int, e: KeyEvent) => {
-        k match {
-          case KeyEvent.KEYCODE_ENTER=> search(v)
-          case KeyEvent.KEYCODE_BACK=>onBackPressed()
-        }
+        if(k==KeyEvent.KEYCODE_ENTER) search(v)
         true
       }
       )
@@ -68,22 +65,15 @@ class SearchActivity extends DoubanActivity {
   def about(i: MenuItem) {
     startActivity(SIntent[AboutActivity])
   }
+  def exit(i: MenuItem) {
+    finish()
+  }
 
   override def onCreateOptionsMenu(menu: Menu) = {
     getMenuInflater.inflate(R.menu.main, menu)
     if(isAuthenticated) menu.findItem(R.id.login).setVisible(false)
     true
   }
-
-  override def onBackPressed() {
-    val currentTime=System.currentTimeMillis
-    if (currentTime-lastTouchTime<waitTime) finish()
-    else {
-      toast(R.string.press_again_to_logout)
-      lastTouchTime=currentTime
-    }
-  }
-
 
   override def onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
     if (scannerCode == requestCode && resultCode == Activity.RESULT_OK) {
