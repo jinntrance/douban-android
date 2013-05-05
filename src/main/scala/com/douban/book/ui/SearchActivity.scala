@@ -26,8 +26,6 @@ import android.app.Activity
 class SearchActivity extends DoubanActivity {
   private val count = 10
   private var searchText = ""
-  private val waitTime=2000
-  private var lastTouchTime=0l
   private val scannerCode = 0
 
   protected override def onCreate(b: Bundle) {
