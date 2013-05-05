@@ -1,11 +1,11 @@
 package com.douban.base
 
-import android.database.sqlite.{SQLiteDatabase, SQLiteOpenHelper}
 import android.content.ContentValues
+import android.database.sqlite.{SQLiteDatabase, SQLiteOpenHelper}
+import com.douban.common.Req
+import scala.collection.mutable
 import scala.reflect.ClassTag
 import scala.reflect.classTag
-import scala.collection.mutable
-import com.douban.common.Req
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -17,8 +17,9 @@ import com.douban.common.Req
  */
 
 class DBHelper[T:ClassTag](c:android.content.Context,tableName:String,fields:Map[String,String]=Map()) extends SQLiteOpenHelper(c, "douban_book.db", null, 5){
-  private val  dataColumn = "_data"
-  def fieldsDeclarations:Map[String,String]=Map("_id" -> "int primary key", dataColumn -> "text")++fields
+  @inline private val  dataColumn = "_data"
+  @inline private val  idColumn = "_id"
+  def fieldsDeclarations=Map(idColumn-> "int primary key", dataColumn -> "text")++fields
   def onCreate(db: SQLiteDatabase) {
     if(0<fieldsDeclarations.size){
      val fields=fieldsDeclarations.map(e=>s"${e._1} ${e._2}").mkString(",")
@@ -36,11 +37,11 @@ class DBHelper[T:ClassTag](c:android.content.Context,tableName:String,fields:Map
     getWritableDatabase.insert(tableName,null,c)
   }
   def find(id:Int)={
-    val c=getReadableDatabase.rawQuery(s"select _data from $tableName where _id=$id",null)
+    val c=getReadableDatabase.rawQuery(s"select $dataColumn from $tableName where $idColumn=$id",null)
     Req.g.fromJson[T](c.getString(1),classTag[T].runtimeClass)
   }
   def findData(size:Int=10,page:Int=1)={
-    val c=getReadableDatabase.query(tableName,Array(dataColumn),null,null,null,null,s" _id desc",s" ${size*(page-1)},$size")
+    val c=getReadableDatabase.query(tableName,Array(dataColumn),null,null,null,null,s" $idColumn desc",s" ${size*(page-1)},$size")
     val list=mutable.Buffer.newBuilder[T]
     do {
       list += (Req.g.fromJson[T](c.getString(1),classTag[T].runtimeClass))
@@ -48,7 +49,7 @@ class DBHelper[T:ClassTag](c:android.content.Context,tableName:String,fields:Map
     list.result().toList
   }
   def remain(left:Int=20){
-    getWritableDatabase.execSQL(s"delete from $tableName where _id < any (select _id from $tableName order by _id desc limit $left);")
+    getWritableDatabase.execSQL(s"delete from $tableName where $idColumn< any (select $idColumn from $tableName order by $idColumn desc limit $left);")
   }
   def delete(id:Int)={
     0<getWritableDatabase.delete(tableName,s"_id=$id ",null)

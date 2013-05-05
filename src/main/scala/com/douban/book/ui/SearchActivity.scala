@@ -26,7 +26,8 @@ import android.app.Activity
 class SearchActivity extends DoubanActivity {
   private val count = 10
   private var searchText = ""
-  private var canLogout = false
+  private var waitTime=2000
+  private var lastTouchTime=0l
   private val scannerCode = 0
 
   protected override def onCreate(b: Bundle) {
@@ -70,10 +71,11 @@ class SearchActivity extends DoubanActivity {
   }
 
   override def onBackPressed() {
-    if (canLogout) super.onBackPressed()
+    val currentTime=System.currentTimeMillis
+    if (currentTime-lastTouchTime<waitTime) finish()
     else {
-      canLogout = true
       toast(R.string.press_again_to_logout)
+      lastTouchTime=currentTime
     }
   }
 
