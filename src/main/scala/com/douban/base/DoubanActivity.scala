@@ -85,7 +85,7 @@ trait DoubanActivity extends FragmentActivity with SActivity  {
     val activeNetwork =getApplicationContext.getSystemService(content.Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo
     activeNetwork.getType==ConnectivityManager.TYPE_WIFI
   }
-  def othened= {!get(Constant.accessTokenString).isEmpty}
+  def isAuthenticated= {!get(Constant.accessTokenString).isEmpty}
   protected def updateToken(t: AccessTokenResult) {
     put(Constant.accessTokenString, t.access_token)
     put(Constant.refreshTokenString, t.refresh_token)

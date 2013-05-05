@@ -26,7 +26,7 @@ import android.app.Activity
 class SearchActivity extends DoubanActivity {
   private val count = 10
   private var searchText = ""
-  private var waitTime=2000
+  private val waitTime=2000
   private var lastTouchTime=0l
   private val scannerCode = 0
 
@@ -35,7 +35,11 @@ class SearchActivity extends DoubanActivity {
     setContentView(R.layout.search)
     find[EditText](R.id.searchBookText) onKey (
       (v: View, k: Int, e: KeyEvent) => {
-        if (k == KeyEvent.KEYCODE_ENTER) search(v); true
+        k match {
+          case KeyEvent.KEYCODE_ENTER=> search(v)
+          case KeyEvent.KEYCODE_BACK=>onBackPressed()
+        }
+        true
       }
       )
     find[ImageView](R.id.scanISBN) onClick (
@@ -67,6 +71,7 @@ class SearchActivity extends DoubanActivity {
 
   override def onCreateOptionsMenu(menu: Menu) = {
     getMenuInflater.inflate(R.menu.main, menu)
+    if(isAuthenticated) menu.findItem(R.id.login).setVisible(false)
     true
   }
 
