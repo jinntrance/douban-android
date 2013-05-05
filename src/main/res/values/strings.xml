@@ -13,6 +13,7 @@
     <string name="book_cover">图书封面</string>
     <string name="toread">想读</string>
     <string name="about">关于</string>
+    <string name="exit">退出</string>
     <string name="about_info">主页: https://github.com/jinntrance/douban-android <br/>
         反馈：<a href="mailto:jinntrance@gmail.com">軒轅鍾書</a>
     </string>
