@@ -1,22 +1,25 @@
 package com.douban.base
 
-import org.scaloid.common._
-import android.support.v4.app.FragmentActivity
-import com.douban.book.ui.LoginActivity
-import scala.concurrent._
-import ExecutionContext.Implicits.global
-import android.preference.PreferenceManager
-import scala.util.Success
-import scala.util.Failure
-import org.scaloid.common.LoggerTag
-import android.view.{View, MenuItem}
-import android.net.ConnectivityManager
 import android.content
 import android.content.Intent
-import java.lang.Thread.UncaughtExceptionHandler
-import com.douban.common.{AccessTokenResult, Auth, DoubanException}
-import android.os.Bundle
+import android.net.ConnectivityManager
+import android.preference.PreferenceManager
+import android.support.v4.app.FragmentActivity
+import android.view.{View, MenuItem}
 import com.douban.book.R
+import com.douban.book.ui.LoginActivity
+import com.douban.common._
+import java.lang.Thread.UncaughtExceptionHandler
+import org.scaloid.common._
+import scala.concurrent._
+import scala.util.Failure
+import scala.util.Success
+import ExecutionContext.Implicits.global
+import collection.JavaConverters._
+import android.widget.SimpleAdapter
+import android.app.Activity
+import java.util
+import scala.collection.mutable
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -48,7 +51,7 @@ trait DoubanActivity extends FragmentActivity with SActivity  {
     super.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK))
   }
 
-  @inline def handle[R](result: => R,handler:(R) =>Unit ){
+  def handle[R](result: => R,handler:(R) =>Unit ){
     future {
       result
     } onComplete{
@@ -90,5 +93,22 @@ trait DoubanActivity extends FragmentActivity with SActivity  {
     put(Constant.accessTokenString, t.access_token)
     put(Constant.refreshTokenString, t.refresh_token)
     put(Constant.userIdString, t.douban_user_id)
+  }
+}
+trait DoubanList{
+  def simpleAdapter(a:Activity,list:util.List[_<:Any],itemLayout:Int,m:Map[String,Int])={
+    new SimpleAdapter(a,listToMap(list),itemLayout,m.keySet.toArray,m.values.toArray)
+  }
+  def beanToMap(b:Any):util.Map[String,Any]={
+    Req.g.toJsonTree(b).getAsJsonObject.entrySet().asScala.foldLeft(mutable.Map[String,Any]()){
+      case (a,e)=>
+      if (e.getValue.isJsonPrimitive) a + (e.getKey -> e.getValue.getAsString)
+      else  if (e.getValue.isJsonArray)  a+(e.getKey -> e.getValue.getAsJsonArray.iterator().asScala.mkString(","))
+      else if (e.getValue.isJsonObject)  a++ beanToMap(e.getValue).asScala
+      else a
+    }.asJava
+  }
+  def listToMap[T](b:util.List[_<:Any]):util.List[util.Map[String,Any]]={
+    Req.g.toJsonTree(b).getAsJsonArray.asScala.map(beanToMap).toList.asJava
   }
 }
