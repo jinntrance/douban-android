@@ -51,7 +51,7 @@ class SearchActivity extends DoubanActivity {
     future {
       Book.search(searchText, "", page, this.count)
     } onComplete {
-      case Success(books) => startActivity(SIntent[SearchResultFragment].putExtra("books", books))
+      case Success(books) => startActivity(SIntent[SearchResultActivity].putExtra("books", books))
       case Failure(error) => println(error.getMessage)
     }
   }
@@ -80,4 +80,7 @@ class SearchActivity extends DoubanActivity {
     }
 
   }
+}
+object SearchActivity{
+  @inline val booksKey="books"
 }
