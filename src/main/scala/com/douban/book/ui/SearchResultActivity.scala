@@ -3,12 +3,12 @@ package com.douban.book.ui
 import com.douban.base.{DoubanList, DoubanActivity}
 import android.os.Bundle
 import com.douban.book.R
-import android.support.v4.app._
 import android.widget.{SimpleAdapter, ListView}
 import android.view._
 import com.douban.models.{BookSearchResult, Book}
 import collection.JavaConverters._
 import com.douban.common.Req
+import android.app.{Fragment, ListFragment}
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -23,6 +23,14 @@ class SearchResultActivity extends DoubanActivity{
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.book_list)
+  }
+
+  override def onStart() {
+    super.onStart()
+    val t=getFragmentManager.beginTransaction()
+    val l=new SearchResultList()
+    t.add(R.id.list_container,l)
+    t.commit()
   }
 }
 class SearchResultList extends ListFragment with DoubanList{
