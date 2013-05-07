@@ -8,6 +8,7 @@ import android.widget.{SimpleAdapter, ListView}
 import android.view._
 import com.douban.models.{BookSearchResult, Book}
 import collection.JavaConverters._
+import com.douban.common.Req
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -24,15 +25,14 @@ class SearchResultActivity extends DoubanActivity{
     setContentView(R.layout.book_list)
   }
 }
-object SearchResultList extends ListFragment with DoubanList{
+class SearchResultList extends ListFragment with DoubanList{
 
 
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle) =inflater.inflate(R.id.book_list,container)
 
   override def onActivityCreated(b: Bundle) {
     super.onActivityCreated(b)
-    val result=b.getSerializable(SearchActivity.booksKey).asInstanceOf[BookSearchResult]
-
+    val result=Req.g.fromJson(b.getSerializable(SearchActivity.booksKey).asInstanceOf[String],classOf[BookSearchResult])
     setListAdapter(simpleAdapter(getActivity,result.books,R.layout.book_list_item,Map(
     "title"->R.id.bookTitle,"author"->R.id.bookAuthor, "publisher"->R.id.bookPublisher,
       "numRaters"->R.id.ratingNum,"average"->R.id.ratedStars
@@ -44,7 +44,7 @@ object SearchResultList extends ListFragment with DoubanList{
     super.onListItemClick(l, v, position, id)
   }
 }
-object SearchResultDetail extends Fragment{
+class SearchResultDetail extends Fragment{
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle) = {
 
     super.onCreateView(inflater, container, savedInstanceState)

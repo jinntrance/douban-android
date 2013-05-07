@@ -14,6 +14,7 @@ import scala.util.{Failure, Success}
 import ExecutionContext.Implicits.global
 import com.douban.book.R
 import android.app.Activity
+import com.douban.common.Req
 
 
 /**
@@ -49,9 +50,10 @@ class SearchActivity extends DoubanActivity {
 
   def search(page: Int) {
     future {
+      toast(R.string.searching)
       Book.search(searchText, "", page, this.count)
     } onComplete {
-      case Success(books) => startActivity(SIntent[SearchResultActivity].putExtra("books", books))
+      case Success(books) => startActivity(SIntent[SearchResultActivity].putExtra("books", Req.g.toJson(books)))
       case Failure(error) => println(error.getMessage)
     }
   }
