@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application android:label="@string/app_name"  android:theme="@android:style/Theme.Holo.Light"
         android:name="com.douban.base.Context" >
 
@@ -24,6 +25,11 @@
 <!--        <activity android:label="@string/app_name" android:name=".ui.UploadFragment">
             <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
         </activity>-->
+        <activity android:label="@string/search" android:name=".ui.SearchResultActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
         <activity android:label="@string/scan_book" android:name=".ui.ScannerActivity"/>
         <activity android:name=".ui.BookActivity"/>
         <activity android:name=".ui.AboutActivity"/>

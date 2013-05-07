@@ -47,9 +47,9 @@ trait DoubanActivity extends FragmentActivity with SActivity  {
     }
   })
 
-  override def startActivity(intent: Intent) {
+/*  override def startActivity(intent: Intent) {
     super.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK))
-  }
+  }*/
 
   def handle[R](result: => R,handler:(R) =>Unit ){
     future {
