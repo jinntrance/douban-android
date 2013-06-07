@@ -19,4 +19,7 @@
     </string>
     <string name="search">搜书</string>
     <string name="searching">搜索中…</string>
+    <string name="msg_default_status">Place a barcode inside the viewfinder rectangle to scan it.</string>
+    <string name="msg_camera_framework_bug">Sorry, the Android camera encountered a problem. You may need to restart the device.</string>
+    <string name="button_ok">OK</string>
 </resources>
