@@ -10,7 +10,7 @@ name := "douban-book"
 
 version := "1.0"
 
-scalaVersion := "2.10.1"
+scalaVersion := "2.10.2"
 
 resolvers += "oss repo" at "https://oss.sonatype.org/content/repositories/releases/"
 
@@ -23,9 +23,10 @@ scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xcheckinit","#-optimise")
 //unmanagedBase <<= baseDirectory { base => base / "libs" }
 
 libraryDependencies ++= Seq(
-			"org.scaloid" % "scaloid" % "1.1_8_2.10",
-			"com.douban" %% "scala-api" % "2.3" ,
-			"com.google.zxing" % "core" % "2.1",
+			"org.scaloid" % "scaloid_2.10" % "2.3-8",
+			"com.douban" % "scala-api_2.10" % "2.3" ,
+			"com.google.zxing" % "core" % "2.2",
+			"com.google.zxing" % "android-integration" % "2.2",
 			"com.google.android" % "support-v4" % "r7")
 
 proguardOption in Android :="""
