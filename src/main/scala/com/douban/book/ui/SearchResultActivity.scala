@@ -36,7 +36,7 @@ class SearchResultActivity extends DoubanActivity{
 class SearchResultList extends ListFragment with DoubanList{
 
 
-  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle) =inflater.inflate(R.id.book_list,container)
+  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle) =inflater.inflate(R.id.list_container,container)
 
   override def onActivityCreated(b: Bundle) {
     super.onActivityCreated(b)

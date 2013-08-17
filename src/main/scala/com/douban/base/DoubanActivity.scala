@@ -29,18 +29,20 @@ import scala.collection.mutable
  * @version 1.0
  */
 trait DoubanActivity extends FragmentActivity with SActivity  {
-  override implicit val tag = LoggerTag("com.douban.book")
+  override implicit val loggerTag = LoggerTag("com.douban.book")
   Thread.setDefaultUncaughtExceptionHandler(new  UncaughtExceptionHandler(){
     def uncaughtException(thread: Thread, ex: Throwable) {
-      if(ex.isInstanceOf[DoubanException]&&ex.asInstanceOf[DoubanException].tokenExpired){
-        handle(Auth.getTokenByFresh(get(Constant.refreshTokenString),Constant.apiKey,Constant.apiSecret)
-        ,(t:Option[AccessTokenResult])=>{
-            if(None!=t) updateToken(t.get)
-            else {
-              put(Constant.accessTokenString,"")
-              toast(R.string.relogin_needed)
-            }
-          })
+      ex match {
+        case exception: DoubanException if exception.tokenExpired =>
+          handle(Auth.getTokenByFresh(get(Constant.refreshTokenString), Constant.apiKey, Constant.apiSecret)
+            , (t: Option[AccessTokenResult]) => {
+              if (None != t) updateToken(t.get)
+              else {
+                put(Constant.accessTokenString, "")
+                toast(R.string.relogin_needed)
+              }
+            })
+        case _ =>
       }
       toast(ex.getMessage)
       ex.printStackTrace()

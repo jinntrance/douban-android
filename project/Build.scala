@@ -7,8 +7,8 @@ object General {
     name := "douban-book",
     version := "0.1",
     versionCode := 1,
-    scalaVersion := "2.10.1",
-    platformName in Android := "android-14"
+    scalaVersion := "2.10.2",
+    platformName in Android := "android-18"
   )
 
   val proguardSettings = Seq (
