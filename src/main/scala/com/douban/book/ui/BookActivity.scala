@@ -5,6 +5,8 @@ import org.scaloid.common._
 import android.os.Bundle
 import android.widget.Button
 import android.content.Intent
+import com.douban.base.Constant
+import com.douban.models.Book
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -18,6 +20,11 @@ import android.content.Intent
 class BookActivity extends SActivity{
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
+   val book:Book= b match {
+      case x if !b.getString(Constant.ISBN).isEmpty=>Book.byISBN(b.getString(Constant.ISBN))
+      case x if !b.getString(Constant.BOOK_ID).isEmpty=>Book.byId(b.getString(Constant.BOOK_ID).toLong)
+      case _=>null
+    }
     find[Button](R.id.shareButton) onClick (
       startActivity(SIntent(Intent.ACTION_SEND_MULTIPLE).setType("*/*").putExtra(Intent.EXTRA_TEXT,"").putExtra(Intent.EXTRA_STREAM,""))
       )

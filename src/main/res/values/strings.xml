@@ -11,6 +11,7 @@
     <string name="book_search_hint">书名、作者、ISBN</string>
     <string name="scan_book">扫描图书</string>
     <string name="book_cover">图书封面</string>
+    <string name="scan_failed">扫描不成功</string>
     <string name="toread">想读</string>
     <string name="about">关于</string>
     <string name="exit">退出</string>

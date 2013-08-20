@@ -16,4 +16,6 @@ object Constant {
    val accessTokenString="accessToken"
    val refreshTokenString="refreshToken"
    val userIdString="userId"
+   val ISBN="ISBN"
+   val BOOK_ID="BOOK_ID"
 }
