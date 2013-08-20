@@ -2,7 +2,7 @@ package com.douban.book
 package ui
 
 import android.os.Bundle
-import android.webkit.{WebChromeClient, WebView, WebViewClient}
+import android.webkit.{WebView, WebViewClient}
 import android.graphics.Bitmap
 import org.scaloid.common._
 import com.douban.base.{DoubanActivity, Constant}

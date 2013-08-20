@@ -8,13 +8,14 @@ import com.douban.models.Book
 
 import org.scaloid.common._
 import android.content.Intent
-import com.douban.base.DoubanActivity
+import com.douban.base.{Constant, DoubanActivity}
 import scala.concurrent._
 import scala.util.{Failure, Success}
 import ExecutionContext.Implicits.global
 import com.douban.book.R
 import android.app.Activity
 import com.douban.common.Req
+import com.google.zxing.integration.android.{IntentResult, IntentIntegrator}
 
 
 /**
@@ -39,7 +40,8 @@ class SearchActivity extends DoubanActivity {
       }
       )
     find[ImageView](R.id.scanISBN) onClick (
-      startActivityForResult(SIntent("com.google.zxing.client.android.SCAN").putExtra("SCAN_MODE", "ONE_D_MODE,QR_CODE_MODE"), scannerCode)
+      e=>new IntentIntegrator(this).initiateScan()
+//      startActivityForResult(SIntent("com.google.zxing.client.android.SCAN").putExtra("SCAN_MODE", "ONE_D_MODE,QR_CODE_MODE"), scannerCode)
       )
   }
 
@@ -76,10 +78,13 @@ class SearchActivity extends DoubanActivity {
   }
 
   override def onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
-    if (scannerCode == requestCode && resultCode == Activity.RESULT_OK) {
+    val scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent)
+/*    if (scannerCode == requestCode && resultCode == Activity.RESULT_OK) {
       val contents = intent.getStringExtra("SCAN_RESULT")
       val format = intent.getStringExtra("SCAN_RESULT_FORMAT")
-    }
+    }*/
+    if(null!=scanResult) startActivity(SIntent[BookActivity].putExtra(Constant.ISBN,scanResult.getContents))
+    else toast(R.string.scan_failed)
 
   }
 }
