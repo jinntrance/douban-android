@@ -1,21 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" android:gravity="center" android:clickable="false">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:clickable="false"
+    android:weightSum="1">
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:clickable="false"
+        android:layout_weight="0.5">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:clickable="false"
+            android:weightSum="1" >
+        <EditText android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/book_search_hint"
+            android:id="@+id/searchBookText"
+            android:gravity="center" android:layout_weight="0.8"/>
+        </LinearLayout>
 
-
-    <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/book_search_hint"
-                android:id="@+id/searchBookText" android:layout_alignParentTop="true"
-                android:gravity="center" android:layout_marginTop="30dp"/>
-    <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/scanISBN" android:src="@drawable/barcode" android:contentDescription="@string/scan_book"
-                android:layout_margin="5dp" android:layout_alignParentBottom="true" android:layout_below="@id/searchBookText" />
-
-</RelativeLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search"
+            android:layout_margin="@dimen/standard_margin"
+            android:paddingLeft="@dimen/standard_side_padding"
+            android:paddingRight="@dimen/standard_side_padding"
+            android:id="@+id/searchButton"/>
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:clickable="false"
+        android:layout_weight="0.5">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/scan_book"
+            android:id="@+id/scanButton"
+            android:layout_margin="@dimen/standard_margin"
+            android:paddingLeft="@dimen/standard_side_padding"
+            android:paddingRight="@dimen/standard_side_padding"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/scanISBN"
+            android:src="@drawable/barcode"
+            android:contentDescription="@string/scan_book" />
+    </LinearLayout>
+</LinearLayout>
