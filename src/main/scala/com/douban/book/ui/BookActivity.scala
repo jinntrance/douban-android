@@ -25,8 +25,8 @@ class BookActivity extends SActivity{
       case x if !b.getString(Constant.BOOK_ID).isEmpty=>Book.byId(b.getString(Constant.BOOK_ID).toLong)
       case _=>null
     }
-    find[Button](R.id.shareButton) onClick (
-      startActivity(SIntent(Intent.ACTION_SEND_MULTIPLE).setType("*/*").putExtra(Intent.EXTRA_TEXT,"").putExtra(Intent.EXTRA_STREAM,""))
-      )
+//    find[Button](R.id.shareButton) onClick (
+//      startActivity(SIntent(Intent.ACTION_SEND_MULTIPLE).setType("*/*").putExtra(Intent.EXTRA_TEXT,"").putExtra(Intent.EXTRA_STREAM,""))
+//      )
   }
 }
