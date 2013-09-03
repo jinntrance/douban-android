@@ -12,7 +12,7 @@ version := "1.0"
 
 scalaVersion := "2.10.2"
 
-resolvers += "oss repo" at "https://oss.sonatype.org/content/repositories/releases/"
+//resolvers += "oss repo" at "https://oss.sonatype.org/content/repositories/releases/"
 
 javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
 
@@ -23,8 +23,8 @@ autoScalaLibrary := false
 //unmanagedBase <<= baseDirectory { base => base / "libs" }
 
 libraryDependencies ++= Seq(
-			"org.scaloid" % "scaloid_2.10" % "2.4-8",
-			"com.douban" % "scala-api_2.10" % "2.4" ,
+			"org.scaloid" % "scaloid_2.10" % "2.4-8" withSources() withJavadoc(),
+			"com.douban" % "scala-api_2.10" % "2.4" withSources() withJavadoc(),
 			"com.google.zxing" % "core" % "2.2",
 			"com.google.zxing" % "android-integration" % "2.2",
 			"com.google.android" % "support-v4" % "r7")
