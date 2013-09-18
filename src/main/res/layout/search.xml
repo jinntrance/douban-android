@@ -23,20 +23,22 @@
             android:weightSum="1" >
         <EditText android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/book_search_hint"
-            android:id="@+id/searchBookText"
-            android:gravity="center" android:layout_weight="0.8"/>
+            android:hint="@string/book_search_hint" android:padding="@dimen/standard_padding" android:paddingLeft="@dimen/standard_side_padding" android:paddingRight="@dimen/standard_side_padding" android:paddingTop="@dimen/standard_padding" android:paddingBottom="@dimen/standard_padding"
+            android:id="@+id/searchBookText"  android:background="@drawable/edit_text"  android:singleLine="true"
+            android:gravity="left" android:layout_weight="0.8"/>
         </LinearLayout>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="@string/search"
+            android:text="@string/search"  android:onClick="search"
             android:layout_margin="@dimen/standard_margin"
-            android:paddingLeft="@dimen/standard_side_padding"
-            android:paddingRight="@dimen/standard_side_padding"
-            android:id="@+id/searchButton"/>
+            android:id="@+id/searchButton"
+            android:background="@drawable/green_button"/>
     </LinearLayout>
+
+    <include layout="@layout/divider" />
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
@@ -45,19 +47,20 @@
         android:clickable="false"
         android:layout_weight="0.5">
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:text="@string/scan_book"
             android:id="@+id/scanButton"
             android:layout_margin="@dimen/standard_margin"
-            android:paddingLeft="@dimen/standard_side_padding"
-            android:paddingRight="@dimen/standard_side_padding"
+            android:background="@drawable/green_button"
+            android:textColor="@color/text_white"
+            android:onClick="scan"
             />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/scanISBN"
-            android:src="@drawable/barcode"
-            android:contentDescription="@string/scan_book" />
+            android:src="@drawable/book_search_isbn"
+            android:contentDescription="@string/scan_book" android:onClick="scan"/>
     </LinearLayout>
 </LinearLayout>

@@ -16,10 +16,11 @@ import scala.util.Failure
 import scala.util.Success
 import ExecutionContext.Implicits.global
 import collection.JavaConverters._
-import android.widget.SimpleAdapter
-import android.app.Activity
+import android.widget.{TextView, SimpleAdapter}
+import android.app.{ActionBar, Activity}
 import java.util
 import scala.collection.mutable
+import android.os.Bundle
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -28,8 +29,9 @@ import scala.collection.mutable
  * @since 4/21/13 5:14 PM
  * @version 1.0
  */
-trait DoubanActivity extends FragmentActivity with SActivity  {
-  override implicit val loggerTag = LoggerTag("com.douban.book")
+trait DoubanActivity extends FragmentActivity with SActivity{
+  protected val count = 10
+  override implicit val loggerTag = LoggerTag("DoubanBook")
   Thread.setDefaultUncaughtExceptionHandler(new  UncaughtExceptionHandler(){
     def uncaughtException(thread: Thread, ex: Throwable) {
       ex match {
@@ -61,6 +63,21 @@ trait DoubanActivity extends FragmentActivity with SActivity  {
       case Failure(m)=>debug(m.getMessage)
     }
   }
+
+
+  protected override def onCreate(b: Bundle) {
+    super.onCreate(b)
+    getActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM)
+    getActionBar.setCustomView(R.layout.title_banner)
+  }
+
+  def setWindowTitle(title:CharSequence)= find[TextView](R.id.title).setText(title)
+  def setWindowTitle(title:Int)= find[TextView](R.id.title).setText(title)
+
+  def menu(v:View){
+
+  }
+
   @inline def sharedPref=PreferenceManager.getDefaultSharedPreferences(this)
 
 

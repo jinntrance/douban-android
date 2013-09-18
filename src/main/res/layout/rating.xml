@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="horizontal"
-    android:layout_width="wrap_content" android:layout_height="wrap_content" >
+    android:layout_width="fill_parent" android:layout_height="wrap_content" >
     <ImageView  android:contentDescription="Ratings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/star_icon"
 
-        android:src="@drawable/ic_action_star" />
+        android:src="@drawable/icon_star" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ratedStars"
-        android:text="9"
-        android:contentDescription="评分" />
+        android:text="9"  style="@style/DoubanTextGray"
+        android:contentDescription="评分"
+        android:textColor="@color/text_orange" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="9008"
+        android:text="(9008)"   style="@style/DoubanTextGray"
         android:id="@+id/ratingNum" />
 </LinearLayout>

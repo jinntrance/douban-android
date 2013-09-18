@@ -2,9 +2,9 @@ package com.douban.book
 package ui
 
 import android.os.Bundle
-import android.view.{MenuItem, Menu, KeyEvent, View}
-import android.widget.{ImageView, EditText}
-import com.douban.models.Book
+import android.view.{MenuItem, KeyEvent, View}
+import android.widget.EditText
+import com.douban.models.{BookSearchResult, Book}
 
 import org.scaloid.common._
 import android.content.Intent
@@ -13,9 +13,7 @@ import scala.concurrent._
 import scala.util.{Failure, Success}
 import ExecutionContext.Implicits.global
 import com.douban.book.R
-import android.app.Activity
-import com.douban.common.Req
-import com.google.zxing.integration.android.{IntentResult, IntentIntegrator}
+import com.google.zxing.integration.android.IntentIntegrator
 
 
 /**
@@ -26,37 +24,59 @@ import com.google.zxing.integration.android.{IntentResult, IntentIntegrator}
  * @version 1.0
  */
 class SearchActivity extends DoubanActivity {
-  private val count = 10
   private var searchText = ""
   private val scannerCode = 0
+  private var doubleBackToExitPressedOnce=false
 
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
+    setWindowTitle(R.id.search)
     setContentView(R.layout.search)
     find[EditText](R.id.searchBookText) onKey (
       (v: View, k: Int, e: KeyEvent) => {
-        if(k==KeyEvent.KEYCODE_ENTER) search(v)
-        true
-      }
-      )
-    find[ImageView](R.id.scanISBN) onClick (
-      e=>new IntentIntegrator(this).initiateScan()
-//      startActivityForResult(SIntent("com.google.zxing.client.android.SCAN").putExtra("SCAN_MODE", "ONE_D_MODE,QR_CODE_MODE"), scannerCode)
-      )
+        if(k==KeyEvent.KEYCODE_ENTER) {
+          search(v)
+          true
+        }else false
+      })
   }
 
+
+  override def onResume() {
+    super.onResume()
+    doubleBackToExitPressedOnce=false
+  }
+
+
+  override def onBackPressed() {
+    if(doubleBackToExitPressedOnce) super.onBackPressed()
+    else {
+      doubleBackToExitPressedOnce=true
+      longToast(R.string.double_back_to_exit)
+    }
+  }
+
+  def scan(v: View) {
+    new IntentIntegrator(this).initiateScan()
+  }
   def search(v: View) {
-    searchText = find[EditText](R.id.searchBookText).getText.toString
-    search(1)
-  }
-
-  def search(page: Int) {
-    future {
-      toast(R.string.searching)
-      Book.search(searchText, "", page, this.count)
-    } onComplete {
-      case Success(books) => startActivity(SIntent[SearchResultActivity].putExtra("books", Req.g.toJson(books)))
-      case Failure(error) => println(error.getMessage)
+    searchText = find[EditText](R.id.searchBookText).getText.toString.trim()
+    if(!searchText.isEmpty) {
+      import SearchActivity._
+      future {
+        toast(R.string.searching)
+        Book.search(searchText, "", count=this.count)
+      } onComplete {
+        case Success(books) => {
+          if(books.total==0) longToast(R.string.search_no_result)
+          else {
+            debug("search result total:"+books.total)
+            toast("found "+books.total)
+            startActivity(setSearchText(setBooks(SIntent[SearchResultActivity],books),searchText))
+          }
+        }
+        case Failure(err) => error(err.getMessage)
+      }
     }
   }
 
@@ -71,23 +91,33 @@ class SearchActivity extends DoubanActivity {
     finish()
   }
 
-  override def onCreateOptionsMenu(menu: Menu) = {
-    getMenuInflater.inflate(R.menu.main, menu)
-    if(isAuthenticated) menu.findItem(R.id.login).setVisible(false)
-    true
-  }
-
   override def onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
     val scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent)
 /*    if (scannerCode == requestCode && resultCode == Activity.RESULT_OK) {
       val contents = intent.getStringExtra("SCAN_RESULT")
       val format = intent.getStringExtra("SCAN_RESULT_FORMAT")
     }*/
-    if(null!=scanResult) startActivity(SIntent[BookActivity].putExtra(Constant.ISBN,scanResult.getContents))
+    if(null!=scanResult) {
+      info(s"scanning result ${scanResult.getContents}")
+      startActivity(SIntent[BookActivity].putExtra(Constant.ISBN,scanResult.getContents))
+    }
     else toast(R.string.scan_failed)
 
   }
 }
 object SearchActivity{
   @inline val booksKey="books"
+  @inline val searchTextKey="searchText"
+  def setBooks(i:Intent,b:BookSearchResult)={
+     i.putExtra(booksKey,b)
+  }
+  def getBooks(b: Bundle)={
+    b.getSerializable(SearchActivity.booksKey).asInstanceOf[BookSearchResult]
+  }
+  def setSearchText(i:Intent,t:String)={
+    i.putExtra(searchTextKey,t)
+  }
+  def getSearchText(b:Bundle)={
+    b.getString(searchTextKey)
+  }
 }

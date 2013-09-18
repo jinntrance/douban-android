@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#ffffff</color>
+    <color name="transparent">#00000000</color>
+    <color name="gray">#797979</color>
+    <color name="gray_light">#bbbbbb</color>
+    <color name="gray_light_pressed">#cb7b7b</color>
+    <color name="text_white">#ffffff</color>
+    <color name="edit_text_margin">#e6e6e6</color>
+    <color name="text_background">#669999</color>
+    <color name="text_background_pressed">#4b8282</color>
+    <color name="text_background_margin">#5c8a8a</color>
+    <color name="text_green">#339966</color>
+    <color name="text_orange">#da7317</color>
+    <color name="text_black">#434343</color>
+    <color name="background_white">#f2f2f2</color>
+    <color name="background_pink">#ff9999</color>
+    <color name="background_pink_pressed">#ff7b7b</color>
+    <color name="background_pink_margin">#e68a8a</color>
+    <color name="background_green">#99cc99</color>
+    <color name="background_green_pressed">#65be65</color>
+    <color name="background_green_margin">#8ab88a</color>
+    <color name="background_brown">#cc9999</color>
+    <color name="background_brown_pressed">#cb7b7b</color>
+    <color name="background_brown_margin">#b88a8a</color>
+    <color name="background_black">#434343</color>
+    <color name="background_black_light">#515151</color>
+    <color name="background_black_darker">#363636</color>
+    <style name="DoubanButtonWhiteText" parent="@android:style/Widget.Holo.Light.Button">
+        <item name="android:background">@color/text_background</item>
+        <item name="android:textColor">@color/text_white</item>
+    </style>
+    <style name="DoubanTextTitleBlack" parent="@android:style/Widget.Holo.Light.TextView">
+        <item name="android:textColor">@color/text_black</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:layout_margin">@dimen/quarter_margin</item>
+    </style>
+    <style name="DoubanTextGray" parent="@android:style/Widget.Holo.Light.TextView">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:layout_margin">@dimen/quarter_margin</item>
+    </style>
+    <style name="DoubanEditText" parent="@android:style/Widget.Holo.Light.EditText">
+        <item name="android:background">@drawable/edit_text</item>
+        <item name="android:textColor">@color/text_black</item>
+        <item name="android:textColorHint">@color/gray_light</item>
+        <item name="android:layout_margin">@dimen/quarter_margin</item>
+        <item name="android:padding">@dimen/half_padding</item>
+    </style>
+    <style name="DoubanTheme" parent="android:Theme.Holo.Light">
+        <item name="android:background">@color/transparent</item>
+        <item name="android:itemBackground">@color/transparent</item>
+        <item name="android:actionBarStyle">@style/DoubanActionBar</item>
+        <item name="android:buttonStyle">@style/DoubanButtonWhiteText</item>
+        <item name="android:windowBackground">@color/background_white</item>
+        <item name="android:colorBackground">@color/transparent</item>
+        <item name="android:editTextStyle">@style/DoubanEditText</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="DoubanActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/text_background</item>
+        <item name="android:icon">@drawable/header_menu</item>
+        <item name="android:actionBarItemBackground">@color/transparent</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:windowTitleBackgroundStyle">@color/text_background</item>
+        <item name="android:titleTextStyle">@style/DoubanButtonWhiteText</item>
+    </style>
+</resources>

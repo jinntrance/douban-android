@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">豆瓣客户端</string>
+    <string name="app_name">豆瓣读书</string>
     <string name="login">登录</string>
 
     <string name="refresh">刷新</string>
@@ -20,6 +20,10 @@
     </string>
     <string name="search">搜书</string>
     <string name="searching">搜索中…</string>
+    <string name="search_no_result">此书未找到</string>
+    <string name="search_result">搜索"%1$s"的结果</string>
+    <string name="loading">加载中…</string>
+    <string name="double_back_to_exit">再次按返回退出</string>
     <string name="button_ok">OK</string>
     <string name="menu_share">Share</string>
     <string name="menu_history">History</string>
