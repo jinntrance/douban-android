@@ -15,7 +15,7 @@
     <uses-feature android:name="android.hardware.camera.front" android:required="false"/>
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/>
 
-    <application android:label="@string/app_name"  android:theme="@android:style/Theme.Holo.Light"
+    <application android:label="@string/app_name"  android:theme="@style/DoubanTheme"
         android:name="com.douban.base.Context" >
 
         <activity android:label="@string/search" android:name=".ui.SearchActivity" >

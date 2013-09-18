@@ -3,12 +3,15 @@ package com.douban.book.ui
 import com.douban.base.{DoubanList, DoubanActivity}
 import android.os.Bundle
 import com.douban.book.R
-import android.widget.{SimpleAdapter, ListView}
+import android.widget.ListView
 import android.view._
-import com.douban.models.{BookSearchResult, Book}
-import collection.JavaConverters._
-import com.douban.common.Req
+import com.douban.models.Book
 import android.app.{Fragment, ListFragment}
+import scala.concurrent._
+import org.scaloid.common._
+import scala.util.Success
+import scala.util.Failure
+import ExecutionContext.Implicits.global
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -20,9 +23,14 @@ import android.app.{Fragment, ListFragment}
  */
 
 class SearchResultActivity extends DoubanActivity{
+  private var currentPage = 1
+  private var searchText = ""
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
+    import SearchActivity._
+    searchText=getSearchText(b)
     setContentView(R.layout.book_list)
+    setWindowTitle(getString(R.string.search_result,searchText))
   }
 
   override def onStart() {
@@ -32,6 +40,19 @@ class SearchResultActivity extends DoubanActivity{
     t.add(R.id.list_container,l)
     t.commit()
   }
+
+  def load(v:View){
+    future {
+      toast(R.string.loading)
+      Book.search(searchText, "", currentPage, this.count)
+    } onComplete {
+      case Success(books) => {
+
+      }
+      case Failure(err) => sys.error(err.getMessage)
+    }
+  }
+
 }
 class SearchResultList extends ListFragment with DoubanList{
 
@@ -40,7 +61,7 @@ class SearchResultList extends ListFragment with DoubanList{
 
   override def onActivityCreated(b: Bundle) {
     super.onActivityCreated(b)
-    val result=Req.g.fromJson(b.getSerializable(SearchActivity.booksKey).asInstanceOf[String],classOf[BookSearchResult])
+    val result=SearchActivity.getBooks(b)
     setListAdapter(simpleAdapter(getActivity,result.books,R.layout.book_list_item,Map(
     "title"->R.id.bookTitle,"author"->R.id.bookAuthor, "publisher"->R.id.bookPublisher,
       "numRaters"->R.id.ratingNum,"average"->R.id.ratedStars
@@ -58,4 +79,5 @@ class SearchResultDetail extends Fragment{
     super.onCreateView(inflater, container, savedInstanceState)
   }
 }
+
 

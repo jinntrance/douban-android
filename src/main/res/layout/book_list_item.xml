@@ -2,50 +2,66 @@
 
 <LinearLayout
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"  android:gravity="center"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:weightSum="1">
+    android:layout_height="wrap_content" android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:id="@+id/bookImage" android:layout_margin="@dimen/standard_margin"
-        android:contentDescription="@string/book_cover" android:layout_weight="0.3" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"  android:gravity="center"  android:layout_gravity="center"
+        android:layout_height="130dp"     android:weightSum="1">
 
-    <LinearLayout  android:layout_gravity="center"
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/bookImage" android:layout_margin="@dimen/standard_margin"
+            android:contentDescription="@string/book_cover" android:layout_weight="0.3"
+            android:src="@drawable/book" />
+
+        <LinearLayout  android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_width="0dp"  android:gravity="left"
+            android:layout_height="match_parent" android:layout_weight="0.5" >
+
+            <include layout="@layout/book_basic_info" />
+
+
+            <include layout="@layout/rating" android:layout_gravity="left"/>
+            </LinearLayout>
+
+        <RelativeLayout android:layout_height="match_parent"
+            android:layout_width="0dp"  android:layout_weight="0.2"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/toread"
+                android:id="@+id/wish"
+                android:src="@drawable/search_result_favorite"
+                android:contentDescription="" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/currentState" />
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:orientation="vertical"
-        android:layout_width="0dp"  android:gravity="left"
-        android:layout_height="match_parent" android:layout_weight="0.5" >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Title"
-            android:id="@+id/bookTitle"
-             />
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" android:weightSum="1">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Author"
-            android:id="@+id/bookAuthor" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Publisher"
-            android:id="@+id/bookPublisher" />
-        <include layout="@layout/rating"/>
-        </LinearLayout>
-
-    <RelativeLayout android:layout_height="match_parent"
-        android:layout_width="0dp"  android:layout_weight="0.2">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/toread"
-            android:id="@+id/wish" />
-
-    </RelativeLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"  android:gravity="center"
+            android:layout_height="wrap_content" android:layout_weight="0.95">
+        <include layout="@layout/divider" />
+    </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
