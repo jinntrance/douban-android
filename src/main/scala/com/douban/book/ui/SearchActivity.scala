@@ -1,7 +1,7 @@
 package com.douban.book
 package ui
 
-import android.os.Bundle
+import android.os.{Handler, Bundle}
 import android.view.{MenuItem, KeyEvent, View}
 import android.widget.EditText
 import com.douban.models.{BookSearchResult, Book}
@@ -30,7 +30,6 @@ class SearchActivity extends DoubanActivity {
 
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
-    setWindowTitle(R.id.search)
     setContentView(R.layout.search)
     find[EditText](R.id.searchBookText) onKey (
       (v: View, k: Int, e: KeyEvent) => {
@@ -53,6 +52,11 @@ class SearchActivity extends DoubanActivity {
     else {
       doubleBackToExitPressedOnce=true
       longToast(R.string.double_back_to_exit)
+      new Handler().postDelayed(new Runnable(){
+        def run()= {
+          doubleBackToExitPressedOnce=false
+        }
+      }, 2000)
     }
   }
 
@@ -72,7 +76,8 @@ class SearchActivity extends DoubanActivity {
           else {
             debug("search result total:"+books.total)
             toast("found "+books.total)
-            startActivity(setSearchText(setBooks(SIntent[SearchResultActivity],books),searchText))
+            import SearchActivity._
+            startActivity(SIntent[SearchResultActivity].putExtra(booksKey,books).putExtra(searchTextKey,searchText))
           }
         }
         case Failure(err) => error(err.getMessage)

@@ -1,10 +1,8 @@
 package com.douban.base
 
 import android.content
-import android.content.Intent
 import android.net.ConnectivityManager
 import android.preference.PreferenceManager
-import android.support.v4.app.FragmentActivity
 import android.view.{View, MenuItem}
 import com.douban.book.R
 import com.douban.book.ui.LoginActivity
@@ -16,11 +14,11 @@ import scala.util.Failure
 import scala.util.Success
 import ExecutionContext.Implicits.global
 import collection.JavaConverters._
-import android.widget.{TextView, SimpleAdapter}
-import android.app.{ActionBar, Activity}
 import java.util
 import scala.collection.mutable
 import android.os.Bundle
+import android.app.{FragmentManager, Activity, ActionBar}
+import android.widget.{TextView, SimpleAdapter}
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -29,9 +27,10 @@ import android.os.Bundle
  * @since 4/21/13 5:14 PM
  * @version 1.0
  */
-trait DoubanActivity extends FragmentActivity with SActivity{
+trait DoubanActivity extends SActivity {
   protected val count = 10
   override implicit val loggerTag = LoggerTag("DoubanBook")
+
   Thread.setDefaultUncaughtExceptionHandler(new  UncaughtExceptionHandler(){
     def uncaughtException(thread: Thread, ex: Throwable) {
       ex match {
@@ -55,6 +54,8 @@ trait DoubanActivity extends FragmentActivity with SActivity{
     super.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK))
   }*/
 
+  override def getFragmentManager: FragmentManager = super.getFragmentManager
+
   def handle[R](result: => R,handler:(R) =>Unit ){
     future {
       result
@@ -65,10 +66,11 @@ trait DoubanActivity extends FragmentActivity with SActivity{
   }
 
 
-  protected override def onCreate(b: Bundle) {
+  protected def replaceActionBar(b: Bundle) {
     super.onCreate(b)
     getActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM)
     getActionBar.setCustomView(R.layout.title_banner)
+    setWindowTitle(R.string.app_name)
   }
 
   def setWindowTitle(title:CharSequence)= find[TextView](R.id.title).setText(title)
