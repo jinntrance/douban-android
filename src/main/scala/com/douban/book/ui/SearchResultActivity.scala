@@ -23,25 +23,23 @@ import android.app.{FragmentTransaction, ListFragment, Fragment, Activity}
  * @see http://developers.douban.com/wiki/?title=api_v2
  */
 
-class SearchResultActivity extends DoubanActivity {
+class SearchResultActivity extends DoubanActivity with OnBookSelectedListener{
   private var currentPage = 1
   private var searchText = ""
 
   protected override def onCreate(b: Bundle) = {
     super.onCreate(b)
     setContentView(R.layout.book_list)
-    if (findViewById(R.id.list_container) != null && null == b) {
+    if (null== b) {
       import SearchActivity._
-      searchText = getSearchText(b)
+      searchText = getSearchText(getIntent.getExtras)
       setTitle(getString(R.string.search_result, searchText))
+      if(findViewById(R.id.list_container)!=null){
       val f: Fragment = new SearchResultList()
       f.setArguments(getIntent.getExtras)
       getFragmentManager.beginTransaction().add(R.id.list_container, f).commit()
+      }
     }
-  }
-
-  override def onStart() {
-    super.onStart()
   }
 
   def load(v: View) {
@@ -56,7 +54,7 @@ class SearchResultActivity extends DoubanActivity {
     }
   }
 
-  def onArticleSelected(position: Int) {
+  def onBookSelected(position: Int) {
     val articleFrag: SearchResultDetail = getFragmentManager.findFragmentById(R.id.book_fragment).asInstanceOf[SearchResultDetail]
     if (articleFrag != null) {
       articleFrag.updateArticleView(position)
@@ -74,24 +72,22 @@ class SearchResultActivity extends DoubanActivity {
   }
 }
 
+trait OnBookSelectedListener {
+  def onBookSelected(position: Int)
+}
+
 class SearchResultList extends ListFragment with DoubanList {
 
-
-  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle) = inflater.inflate(R.id.list_container, container)
+//  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle) = inflater.inflate(R.id.list_container, container)
 
   private[ui] var mCallback: OnBookSelectedListener = null
 
-  trait OnBookSelectedListener {
-    def onArticleSelected(position: Int)
-  }
-
   override def onCreate(b: Bundle) {
     super.onCreate(b)
-    val result = SearchActivity.getBooks(b)
+    val result = SearchActivity.getBooks(getActivity.getIntent.getExtras)
     setListAdapter(simpleAdapter(getActivity, result.books, R.layout.book_list_item, Map(
       "title" -> R.id.bookTitle, "author" -> R.id.bookAuthor, "publisher" -> R.id.bookPublisher,
       "numRaters" -> R.id.ratingNum, "average" -> R.id.ratedStars
-
     )))
   }
 
@@ -115,7 +111,7 @@ class SearchResultList extends ListFragment with DoubanList {
   }
 
   override def onListItemClick(l: ListView, v: View, position: Int, id: Long) {
-    mCallback.onArticleSelected(position)
+    mCallback.onBookSelected(position)
     getListView.setItemChecked(position, true)
   }
 
