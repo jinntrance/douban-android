@@ -1,8 +1,10 @@
 import sbt._
 
-import Keys._
+import android.Keys._
 
-import AndroidKeys._
+//import AndroidKeys._
+
+android.Plugin.androidBuild
 
 organization := "com.douban"
 
@@ -10,7 +12,9 @@ name := "douban-book"
 
 version := "1.0"
 
-scalaVersion := "2.10.2"
+scalaVersion := "2.11.0-M5"
+
+platformTarget in Android := "android-18"
 
 //resolvers += "oss repo" at "https://oss.sonatype.org/content/repositories/releases/"
 
@@ -22,14 +26,24 @@ autoScalaLibrary := false
 
 //unmanagedBase <<= baseDirectory { base => base / "libs" }
 
+// call install and run without having to prefix with android:
+run <<= run in Android
+ 
+install <<= install in Android
+
 libraryDependencies ++= Seq(
 			"org.scaloid" % "scaloid_2.10" % "2.4-8" withSources() withJavadoc(),
 			"com.douban" % "scala-api_2.10" % "2.4.1" withSources() withJavadoc(),
 			"com.google.zxing" % "core" % "2.2",
 			"com.google.zxing" % "android-integration" % "2.2",
-			"com.google.android" % "support-v4" % "r7")
+			"com.google.android" % "support-v4" % "r7",
+			"com.github.chrisbanes.pulltorefresh" % "library" % "2.1.1",
+			"com.github.chrisbanes.pulltorefresh" % "extra-listfragment" % "2.1.1",
+			"com.github.chrisbanes.pulltorefresh" % "parent" % "2.1.1")
 
-proguardOption in Android :="""
+useProguard in Android := true
+
+proguardOptions in Android :="""
 -verbose
 -printseeds target/keep.log
 -printmapping target/obf.log
@@ -71,13 +85,7 @@ proguardOption in Android :="""
 -keepclassmembers enum * {public static **[] values();public static ** valueOf(java.lang.String);}
 -keep class * implements android.os.Parcelable {  public static final android.os.Parcelable$Creator *;}
 -keepclassmembers class **.R$* {public static <fields>;}
-"""
+""".split('\n').toSeq
 
-proguardOptimizations in Android ++= Seq(
-"-dontoptimize",
-"-dontobfuscate",
-"-keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod",
-"-keepparameternames",
-"-keepdirectories",
-"#-dontusemixedcaseclassnames"
-)
+
+

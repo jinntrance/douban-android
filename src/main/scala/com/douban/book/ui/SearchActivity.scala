@@ -66,8 +66,7 @@ class SearchActivity extends DoubanActivity {
   def search(v: View) {
     searchText = find[EditText](R.id.searchBookText).getText.toString.trim()
     if(!searchText.isEmpty) {
-      import SearchActivity._
-      future {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      future {
         toast(R.string.searching)
         Book.search(searchText, "", count=this.count)
       } onComplete {
@@ -75,7 +74,7 @@ class SearchActivity extends DoubanActivity {
           if(books.total==0) longToast(R.string.search_no_result)
           else {
             debug("search result total:"+books.total)
-            toast("found "+books.total)
+            toast("找到"+books.total+"本书")
             import SearchActivity._
             startActivity(SIntent[SearchResultActivity].putExtra(booksKey,books).putExtra(searchTextKey,searchText))
           }
