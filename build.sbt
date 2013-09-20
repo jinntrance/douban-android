@@ -12,7 +12,7 @@ name := "douban-book"
 
 version := "1.0"
 
-scalaVersion := "2.11.0-M5"
+scalaVersion := "2.10.2"
 
 platformTarget in Android := "android-18"
 
