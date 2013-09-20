@@ -71,24 +71,24 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="想读"  android:layout_weight="0.25"
+                android:text="想读"  android:layout_weight="0.25"  android:background="@color/background_pink"
                 android:id="@+id/toRead" />
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="在读"  android:layout_weight="0.25"
+                android:text="在读"  android:layout_weight="0.25"  android:background="@color/background_green"
                 android:id="@+id/reading" />
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="读过"  android:layout_weight="0.25"
+                android:text="读过"  android:layout_weight="0.25"  android:background="@color/background_brown"
                 android:id="@+id/done" />
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="删除收藏" android:layout_weight="0.25"
+                android:text="删除收藏" android:layout_weight="0.25" android:background="@color/background_black"
                 android:id="@+id/delete" />
         </LinearLayout>
 

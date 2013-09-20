@@ -4,7 +4,7 @@ import android.content
 import android.net.ConnectivityManager
 import android.preference.PreferenceManager
 import android.view.{View, MenuItem}
-import com.douban.book.R
+import com.douban.book.{TR, R}
 import com.douban.book.ui.LoginActivity
 import com.douban.common._
 import java.lang.Thread.UncaughtExceptionHandler
@@ -17,8 +17,12 @@ import collection.JavaConverters._
 import java.util
 import scala.collection.mutable
 import android.os.Bundle
-import android.app.{FragmentManager, Activity, ActionBar}
+import android.app._
 import android.widget.{TextView, SimpleAdapter}
+import com.douban.common.AccessTokenResult
+import scala.util.Failure
+import org.scaloid.common.LoggerTag
+import scala.util.Success
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -27,8 +31,12 @@ import android.widget.{TextView, SimpleAdapter}
  * @since 4/21/13 5:14 PM
  * @version 1.0
  */
-trait DoubanActivity extends SActivity {
+
+trait Douban{
   protected val count = 10
+}
+
+trait DoubanActivity extends SActivity with Douban {
   override implicit val loggerTag = LoggerTag("DoubanBook")
 
   Thread.setDefaultUncaughtExceptionHandler(new  UncaughtExceptionHandler(){
@@ -116,9 +124,9 @@ trait DoubanActivity extends SActivity {
     put(Constant.userIdString, t.douban_user_id)
   }
 }
-trait DoubanList{
-  def simpleAdapter(a:Activity,list:util.List[_<:Any],itemLayout:Int,m:Map[String,Int])={
-    new SimpleAdapter(a,listToMap(list),itemLayout,m.keySet.toArray,m.values.toArray)
+trait DoubanList extends Fragment with Douban{
+  def simpleAdapter(a:Activity,list:util.List[_<:Any],itemLayout:Int,m:Map[Int,String])={
+    new SimpleAdapter(a,listToMap(list),itemLayout,m.values.toArray,m.keys.toArray)
   }
   def beanToMap(b:Any):util.Map[String,Any]={
     Req.g.toJsonTree(b).getAsJsonObject.entrySet().asScala.foldLeft(mutable.Map[String,Any]()){
@@ -131,5 +139,12 @@ trait DoubanList{
   }
   def listToMap[T](b:util.List[_<:Any]):util.List[util.Map[String,Any]]={
     Req.g.toJsonTree(b).getAsJsonArray.asScala.map(beanToMap).toList.asJava
+  }
+  def batchSetTextView(m:Map[Int,String],bean:Any)={
+    val values=beanToMap(bean)
+    m.foreach{case (id,key)=>{
+      val view=getActivity.findViewById(id)
+      if(null!=view) view.asInstanceOf[TextView].setText(values.get(key).toString)
+    }}
   }
 }
