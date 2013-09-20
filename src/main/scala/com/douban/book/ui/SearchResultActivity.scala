@@ -2,10 +2,10 @@ package com.douban.book.ui
 
 import com.douban.base.{DoubanList, DoubanActivity}
 import android.os.Bundle
-import com.douban.book.R
+import com.douban.book.{TR, R}
 import android.widget.{TextView, AbsListView, ListView}
 import android.view._
-import com.douban.models.Book
+import com.douban.models.{BookSearchResult, Book}
 import scala.concurrent._
 import org.scaloid.common._
 import scala.util.Success
@@ -13,6 +13,9 @@ import scala.util.Failure
 import ExecutionContext.Implicits.global
 import java.lang.String
 import android.app.{FragmentTransaction, ListFragment, Fragment, Activity}
+import android.graphics.drawable.Drawable
+import java.net.URL
+import java.io.InputStream
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -79,16 +82,14 @@ trait OnBookSelectedListener {
 class SearchResultList extends ListFragment with DoubanList {
 
 //  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle) = inflater.inflate(R.id.list_container, container)
+  var result:BookSearchResult=null
 
   private[ui] var mCallback: OnBookSelectedListener = null
 
   override def onCreate(b: Bundle) {
     super.onCreate(b)
-    val result = SearchActivity.getBooks(getActivity.getIntent.getExtras)
-    setListAdapter(simpleAdapter(getActivity, result.books, R.layout.book_list_item, Map(
-      "title" -> R.id.bookTitle, "author" -> R.id.bookAuthor, "publisher" -> R.id.bookPublisher,
-      "numRaters" -> R.id.ratingNum, "average" -> R.id.ratedStars
-    )))
+    result = SearchActivity.getBooks(getActivity.getIntent.getExtras)
+    setListAdapter(simpleAdapter(getActivity, result.books, R.layout.book_list_item, SearchResult.mapping))
   }
 
   override def onStart() {
@@ -113,6 +114,7 @@ class SearchResultList extends ListFragment with DoubanList {
   override def onListItemClick(l: ListView, v: View, position: Int, id: Long) {
     mCallback.onBookSelected(position)
     getListView.setItemChecked(position, true)
+    getActivity.getIntent.putExtra(SearchResult.BOOK_KEY,result.books.get(position % count))
   }
 
 }
@@ -120,9 +122,17 @@ class SearchResultList extends ListFragment with DoubanList {
 
 object SearchResult {
   val ARG_POSITION: String = "position"
+  val BOOK_KEY="book"
+  val mapping: Map[Int, String] = Map(
+    R.id.bookTitle -> "title", R.id.bookAuthor -> "author", R.id.bookPublisher -> "publisher",
+    R.id.ratingNum -> "numRaters", R.id.ratedStars -> "average", R.id.currentState -> "current_user_collection.status"
+  )
+  def drawableFromUrl(url:String,name:String) = {
+    Drawable.createFromStream(new URL(url).getContent.asInstanceOf[InputStream], name)
+  }
 }
 
-class SearchResultDetail extends Fragment {
+class SearchResultDetail extends Fragment with DoubanList{
 
   import SearchResult.ARG_POSITION
 
@@ -147,8 +157,10 @@ class SearchResultDetail extends Fragment {
   }
 
   def updateArticleView(position: Int) {
-    val article: TextView = getActivity.findViewById(R.id.bookTitle).asInstanceOf[TextView]
-    article.setText("the TITLE")  //TODO
+    val bookView: TextView = getActivity.findViewById(R.id.bookTitle).asInstanceOf[TextView]
+    val book=getActivity.getIntent.getExtras.getSerializable(SearchResult.BOOK_KEY).asInstanceOf[Book]
+    batchSetTextView(SearchResult.mapping++Map(R.id.book_author_abstract->"author_intro",R.id.book_content_abstract->"summary"),book)
+    getActivity.findViewById(R.id.book_img).setBackgroundDrawable(SearchResult.drawableFromUrl(book.image,book.title))
     mCurrentPosition = position
   }
 
