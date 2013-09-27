@@ -66,5 +66,6 @@
         <item name="android:gravity">center</item>
         <item name="android:windowTitleBackgroundStyle">@color/text_background</item>
         <item name="android:textColor">@color/text_white</item>
+        <item name="android:color">@color/text_white</item>
     </style>
 </resources>
