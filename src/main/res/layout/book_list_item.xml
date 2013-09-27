@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/toread"
                 android:id="@+id/wish"
-                android:src="@drawable/search_result_favorite"
+                android:src="@drawable/favorite_button"
                 android:contentDescription="" />
 
             <TextView

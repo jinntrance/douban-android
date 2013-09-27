@@ -3,7 +3,7 @@ package com.douban.book.ui
 import com.douban.base.{DoubanList, DoubanActivity}
 import android.os.Bundle
 import com.douban.book.{TR, R}
-import android.widget.{TextView, AbsListView, ListView}
+import android.widget._
 import android.view._
 import com.douban.models.{BookSearchResult, Book}
 import scala.concurrent._
@@ -16,6 +16,10 @@ import android.app.{FragmentTransaction, ListFragment, Fragment, Activity}
 import android.graphics.drawable.Drawable
 import java.net.URL
 import java.io.InputStream
+import SearchActivity._
+import com.douban.models.BookSearchResult
+import scala.util.Failure
+import scala.util.Success
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -27,33 +31,22 @@ import java.io.InputStream
  */
 
 class SearchResultActivity extends DoubanActivity with OnBookSelectedListener{
-  private var currentPage = 1
   private var searchText = ""
 
   protected override def onCreate(b: Bundle) = {
     super.onCreate(b)
     setContentView(R.layout.book_list)
     if (null== b) {
-      import SearchActivity._
+
       searchText = getSearchText(getIntent.getExtras)
       setTitle(getString(R.string.search_result, searchText))
       if(findViewById(R.id.list_container)!=null){
       val f: Fragment = new SearchResultList()
       f.setArguments(getIntent.getExtras)
       getFragmentManager.beginTransaction().add(R.id.list_container, f).commit()
-      }
-    }
-  }
 
-  def load(v: View) {
-    future {
-      toast(R.string.loading)
-      Book.search(searchText, "", currentPage, this.count)
-    } onComplete {
-      case Success(books) => {
-
+      find[FrameLayout](R.id.list_container)
       }
-      case Failure(err) => sys.error(err.getMessage)
     }
   }
 
@@ -81,15 +74,36 @@ trait OnBookSelectedListener {
 
 class SearchResultList extends ListFragment with DoubanList {
 
-//  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle) = inflater.inflate(R.id.list_container, container)
-  var result:BookSearchResult=null
+  var books:java.util.List[Book]=null
+  var adapter:SimpleAdapter=null
+  var footer:View=null
+  private var currentPage = 1
+
+
+  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, bundle: Bundle) = {
+    val r=super.onCreateView(inflater,container,bundle)
+    footer=inflater.inflate(R.layout.book_list_loader,container)
+    r
+  }
+  private var result:BookSearchResult=null
 
   private[ui] var mCallback: OnBookSelectedListener = null
 
   override def onCreate(b: Bundle) {
     super.onCreate(b)
     result = SearchActivity.getBooks(getActivity.getIntent.getExtras)
-    setListAdapter(simpleAdapter(getActivity, result.books, R.layout.book_list_item, SearchResult.mapping))
+    books=result.books
+    if(null!=footer) {
+      getListView.addFooterView(footer)
+      updateFooter()
+    }
+    val adapter=simpleAdapter(getActivity, books, R.layout.book_list_item, SearchResult.mapping)
+    setListAdapter(adapter)
+  }
+
+
+  def updateFooter() {
+    getActivity.findViewById(R.id.to_load).asInstanceOf[TextView].setText(getString(R.string.swipe_up_to_load, books.size(), result.total))
   }
 
   override def onStart() {
@@ -108,6 +122,21 @@ class SearchResultList extends ListFragment with DoubanList {
       case e: ClassCastException => {
         throw new ClassCastException(activity.toString + " must implement OnBookSelectedListener")
       }
+    }
+  }
+
+  def load(v: View) {
+    if(currentPage*this.count<result.total) future {
+      toast(R.string.loading)
+      currentPage+=1
+      Book.search(getSearchText(getActivity.getIntent.getExtras), "", currentPage , this.count)
+    } onComplete {
+      case Success(b) => {
+          books.addAll(b.books)
+          adapter.notifyDataSetChanged()
+          updateFooter()
+      }
+      case Failure(err) => sys.error(err.getMessage)
     }
   }
 
@@ -160,7 +189,7 @@ class SearchResultDetail extends Fragment with DoubanList{
     val bookView: TextView = getActivity.findViewById(R.id.bookTitle).asInstanceOf[TextView]
     val book=getActivity.getIntent.getExtras.getSerializable(SearchResult.BOOK_KEY).asInstanceOf[Book]
     batchSetTextView(SearchResult.mapping++Map(R.id.book_author_abstract->"author_intro",R.id.book_content_abstract->"summary"),book)
-    getActivity.findViewById(R.id.book_img).setBackgroundDrawable(SearchResult.drawableFromUrl(book.image,book.title))
+    getActivity.findViewById(R.id.book_img).setBackground(SearchResult.drawableFromUrl(book.image,book.title))
     mCurrentPosition = position
   }
 
