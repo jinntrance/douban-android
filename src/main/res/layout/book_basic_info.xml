@@ -9,8 +9,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Title"
-        style="@style/DoubanTextTitleBlack"
+        android:text="Title"  android:maxLength="10" android:ellipsize="end"
+        style="@style/DoubanTextTitle.Black"
         android:id="@+id/bookTitle" />
 
     <TextView

@@ -5,7 +5,7 @@ import org.scaloid.common._
 import android.os.Bundle
 import android.widget.Button
 import android.content.Intent
-import com.douban.base.Constant
+import com.douban.base.{DoubanActivity, Constant}
 import com.douban.models.Book
 
 /**
@@ -17,9 +17,10 @@ import com.douban.models.Book
  * @see http://developers.douban.com/wiki/?title=api_v2
  */
 
-class BookActivity extends SActivity{
+class BookActivity extends DoubanActivity{
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
+    getIntent()
    val book:Book= b match {
       case x if !b.getString(Constant.ISBN).isEmpty=>Book.byISBN(b.getString(Constant.ISBN))
       case x if !b.getString(Constant.BOOK_ID).isEmpty=>Book.byId(b.getString(Constant.BOOK_ID).toLong)

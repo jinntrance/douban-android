@@ -8,14 +8,14 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"  android:gravity="center"  android:layout_gravity="center"
-        android:layout_height="150dp"     android:weightSum="1">
+        android:layout_height="150dp"     android:weightSum="1" android:id="@+id/book_item">
 
         <ImageView
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:id="@+id/bookImage" android:layout_margin="@dimen/standard_margin"
+            android:id="@+id/book_img" android:layout_margin="@dimen/standard_margin"
             android:contentDescription="@string/book_cover" android:layout_weight="0.3"
-            android:src="@drawable/book" />
+            android:src="@drawable/default_book_img" />
 
         <LinearLayout  android:layout_gravity="center"
             android:orientation="vertical"
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/toread"
                 android:id="@+id/wish"
-                android:src="@drawable/favorite_button"
+                android:src="@drawable/button_favorite"
                 android:contentDescription="" />
 
             <TextView
@@ -49,14 +49,6 @@
 
         </RelativeLayout>
 
-    </LinearLayout>
-
-
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"  android:gravity="center"
-            android:layout_height="wrap_content">
-        <include layout="@layout/divider" />
     </LinearLayout>
 
 </LinearLayout>

@@ -4,25 +4,26 @@ import android.content
 import android.net.ConnectivityManager
 import android.preference.PreferenceManager
 import android.view.{View, MenuItem}
-import com.douban.book.{TR, R}
+import com.douban.book.R
 import com.douban.book.ui.LoginActivity
 import com.douban.common._
 import java.lang.Thread.UncaughtExceptionHandler
 import org.scaloid.common._
 import scala.concurrent._
-import scala.util.Failure
-import scala.util.Success
 import ExecutionContext.Implicits.global
 import collection.JavaConverters._
 import java.util
 import scala.collection.mutable
 import android.os.Bundle
 import android.app._
-import android.widget.{TextView, SimpleAdapter}
+import android.widget.{ImageView, TextView, SimpleAdapter}
 import com.douban.common.AccessTokenResult
 import scala.util.Failure
 import org.scaloid.common.LoggerTag
 import scala.util.Success
+import android.graphics.drawable.Drawable
+import java.net.URL
+import java.io.InputStream
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -98,6 +99,10 @@ trait DoubanActivity extends SActivity with Douban {
 
   @inline def contains(key:String):Boolean=sharedPref.contains(key)
 
+  def notifyNetworkState(){
+    if(!isOnline) toast(R.string.notify_offline)
+  }
+
   def getAccessToken= {
     if (get(Constant.accessTokenString).isEmpty)
       startActivity(SIntent[LoginActivity])
@@ -123,22 +128,36 @@ trait DoubanActivity extends SActivity with Douban {
     put(Constant.refreshTokenString, t.refresh_token)
     put(Constant.userIdString, t.douban_user_id)
   }
+
+  def drawableFromUrl(url:String,name:String) = {
+    Drawable.createFromStream(new URL(url).getContent.asInstanceOf[InputStream], name)
+  }
+  def loadImage[T<:{def findViewById(id:Int):View }](url:String,imgId:Int,name:String="",holder:T=this){
+    future{
+      drawableFromUrl(url,name)
+    }onComplete{
+      case Success(b) => holder.findViewById(imgId).asInstanceOf[ImageView].setImageDrawable(b)
+      case Failure(b) => toast(getString(R.string.load_img_fail,name))
+    }
+  }
 }
 trait DoubanList extends Fragment with Douban{
+  implicit  val ctx=this.getActivity
   def simpleAdapter(a:Activity,list:util.List[_<:Any],itemLayout:Int,m:Map[Int,String])={
     new SimpleAdapter(a,listToMap(list),itemLayout,m.values.toArray,m.keys.toArray)
   }
-  def beanToMap(b:Any):util.Map[String,Any]={
-    Req.g.toJsonTree(b).getAsJsonObject.entrySet().asScala.foldLeft(mutable.Map[String,Any]()){
-      case (a,e)=>
-      if (e.getValue.isJsonPrimitive) a + (e.getKey -> e.getValue.getAsString)
-      else  if (e.getValue.isJsonArray)  a+(e.getKey -> e.getValue.getAsJsonArray.iterator().asScala.mkString(","))
-      else if (e.getValue.isJsonObject)  a++ beanToMap(e.getValue).asScala
+  def beanToMap(b:Any,keyPre:String=""):util.Map[String,String]=
+    Req.g.toJsonTree(b).getAsJsonObject.entrySet().asScala.foldLeft(mutable.Map[String,String]()){
+      case (a,e)=>{
+      val key = keyPre + e.getKey
+      if (e.getValue.isJsonPrimitive) a + (key->e.getValue.getAsString)
+      else  if (e.getValue.isJsonArray)  a+(key->e.getValue.getAsJsonArray.iterator().asScala.filter(_.isJsonPrimitive).map(_.getAsString).mkString(", "))
+      else if (e.getValue.isJsonObject)  a++ beanToMap(e.getValue,key+".").asScala
       else a
-    }.asJava
-  }
-  def listToMap[T](b:util.List[_<:Any]):util.List[util.Map[String,Any]]={
-    Req.g.toJsonTree(b).getAsJsonArray.asScala.map(beanToMap).toList.asJava
+    }}.asJava
+
+  def listToMap[T](b:util.List[_<:Any]):util.List[util.Map[String,String]]={
+    Req.g.toJsonTree(b).getAsJsonArray.asScala.map(beanToMap(_)).toList.asJava
   }
   def batchSetTextView(m:Map[Int,String],bean:Any)={
     val values=beanToMap(bean)
@@ -147,4 +166,8 @@ trait DoubanList extends Fragment with Douban{
       if(null!=view) view.asInstanceOf[TextView].setText(values.get(key).toString)
     }}
   }
+
+  def getThisActivity=getActivity.asInstanceOf[DoubanActivity]
+
+  def find[T<:View](id:Int)=getThisActivity.find[T](id)
 }
