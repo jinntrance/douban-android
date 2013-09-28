@@ -27,8 +27,8 @@
                     android:id="@+id/book_basic_info"  android:layout_weight="0.3">
                     <ImageView
                         android:layout_width="fill_parent"
-                        android:layout_height="130dp"
-                        android:id="@+id/book_img" android:src="@drawable/book"/>
+                        android:layout_height="160dp"
+                        android:id="@+id/book_img" android:src="@drawable/default_book_img"/>
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="wrap_content" android:layout_gravity="center"
@@ -42,91 +42,117 @@
                     android:layout_height="fill_parent"
                     android:id="@+id/book_basic_info"  android:layout_weight="0.7">
                     <include layout="@layout/book_basic_info" />
-                    <TextView
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="出版年:"
+                            style="@style/DoubanTextGray.Prefix"/>
+                       <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="2011"
-                        style="@style/DoubanTextGray"
+                        style="@style/DoubanTextGray.Suffix"
                         android:id="@+id/bookPublishYear" />
 
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="页数:" style="@style/DoubanTextGray.Prefix"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="500"
-                        style="@style/DoubanTextGray"
+                        style="@style/DoubanTextGray.Suffix"
                         android:id="@+id/bookPages" />
+                        </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="价格:" style="@style/DoubanTextGray.Prefix"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="$192"
-                        style="@style/DoubanTextGray"
-                        android:id="@+id/bookPrice" />
+                        style="@style/DoubanTextGray.Suffix"
+                        android:id="@+id/bookPrice" />  </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" android:id="@+id/status_layout">
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="想读"  android:layout_weight="0.25"  android:background="@color/background_pink"
-                android:id="@+id/toRead" />
+                android:layout_height="wrap_content" android:layout_margin="@dimen/standard_margin"
+                android:text="想读"  android:layout_weight="0.25"  android:background="@drawable/button_pink"
+                android:id="@+id/toRead"  />
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="在读"  android:layout_weight="0.25"  android:background="@color/background_green"
+                android:layout_height="wrap_content"    android:layout_margin="@dimen/standard_margin"
+                android:text="在读"  android:layout_weight="0.25"  android:background="@drawable/button_green"
                 android:id="@+id/reading" />
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="读过"  android:layout_weight="0.25"  android:background="@color/background_brown"
+                android:layout_height="wrap_content"   android:layout_margin="@dimen/standard_margin"
+                android:text="读过"  android:layout_weight="0.25"  android:background="@drawable/button_brown"
                 android:id="@+id/done" />
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="wrap_content"   android:layout_margin="@dimen/standard_margin"
                 android:text="删除收藏" android:layout_weight="0.25" android:background="@color/background_black"
                 android:id="@+id/delete" />
         </LinearLayout>
+            <include layout="@layout/divider" />
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="wrap_content" android:layout_margin="@dimen/half_margin"
                 android:id="@+id/book_content">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/content_intro" android:textColor="@color/text_green"
+                    android:layout_height="wrap_content"  style="@style/DoubanTextTitle.Green"
+                    android:text="@string/content_intro"
                     android:id="@+id/book_content_title" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="The Android design language relies on traditional typographic tools such as scale, space, rhythm, and alignment with an underlying grid. Successful deployment of these tools is essential to help users quickly understand a screen of information. To support such use of typography, Ice Cream Sandwich introduced a new type family named Roboto, created specifically for the requirements of UI and high-resolution screens."
-                    android:id="@+id/book_content_abstract"
+                    android:id="@+id/book_content_abstract"  android:ellipsize="marquee" android:maxLines="4" android:lines="4"
                     android:layout_gravity="left|center_vertical" />
             </LinearLayout>
+            <include layout="@layout/divider" />
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="fill_parent"
+                android:layout_width="fill_parent"  android:layout_margin="@dimen/half_margin"
                 android:layout_height="wrap_content"
                 android:id="@+id/book_author">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/author_intro" android:textColor="@color/text_green"
+                    android:layout_height="wrap_content" style="@style/DoubanTextTitle.Green"
+                    android:text="@string/author_intro"
                     android:id="@+id/book_author_title" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="wrap_content" android:ellipsize="marquee" android:maxLines="4" android:lines="4"
                     android:text="The Android design language relies on traditional typographic tools such as scale, space, rhythm, and alignment with an underlying grid. Successful deployment of these tools is essential to help users quickly understand a screen of information. To support such use of typography, Ice Cream Sandwich introduced a new type family named Roboto, created specifically for the requirements of UI and high-resolution screens."
                     android:id="@+id/book_author_abstract" />
             </LinearLayout>
@@ -136,23 +162,24 @@
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="22dp"
-        android:id="@+id/book_annotation"
+        android:layout_height="wrap_content"
+        android:id="@+id/book_annotation"  android:background="@color/white"
         android:layout_alignParentBottom="true">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/annotation_icon"
-            android:src="@android:drawable/btn_star_big_on"
+            android:src="@drawable/book_content_notes"
             android:layout_gravity="left"
             android:layout_alignParentLeft="true" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/annotation"
             android:id="@+id/annotation_num"
-            android:layout_gravity="center"
+            android:layout_gravity="center"  style="DoubanTextTitleBlack"
             android:layout_alignParentBottom="false"
             android:layout_alignWithParentIfMissing="false"
             android:layout_centerInParent="true" />
@@ -161,8 +188,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/guide_icon"
-            android:src="@android:drawable/ic_input_add"
-            android:layout_gravity="right"
+            android:src="@drawable/book_content_right_arrow"
+            android:layout_gravity="right|center"
             android:layout_alignParentRight="true" />
     </RelativeLayout>
 </RelativeLayout>

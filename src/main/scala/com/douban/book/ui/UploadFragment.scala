@@ -1,6 +1,7 @@
 package com.douban.book.ui
 
-import android.support.v4.app.Fragment
+import android.app.Fragment
+
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>

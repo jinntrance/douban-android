@@ -15,10 +15,10 @@
     <uses-feature android:name="android.hardware.camera.front" android:required="false"/>
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/>
 
-    <application android:label="@string/app_name"  android:theme="@style/DoubanTheme"
+    <application android:label="@string/app_name" android:icon="@drawable/logo" android:theme="@style/DoubanTheme"
         android:name="com.douban.base.Context" >
 
-        <activity android:label="@string/search" android:name=".ui.SearchActivity" >
+        <activity android:label="@string/app_name" android:name=".ui.SearchActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
