@@ -38,7 +38,7 @@ class SearchResultActivity extends DoubanActivity with OnBookSelectedListener{
       if(findViewById(R.id.list_container)!=null){
       val f: Fragment = new SearchResultList()
       f.setArguments(getIntent.getExtras)
-      getFragmentManager.beginTransaction().add(R.id.list_container, f).commit()
+      getFragmentManager.beginTransaction().replace(R.id.list_container, f).commit()
       }
     }
   }
@@ -145,12 +145,17 @@ class SearchResultList extends ListFragment with DoubanList {
       if(null!=convertView){
       val b=books.get(position)
       if(null!=b.current_user_collection) {
-        convertView.find[LinearLayout](R.id.status_layout).removeView(convertView.find[ImageView](R.id.wish))
+        convertView.find[LinearLayout](R.id.status_layout).removeView(convertView.find[ImageView](R.id.favorite))
         convertView.find[TextView](R.id.currentState).setText(b.current_user_collection.status match{
           case "wish"=>"想读"
           case "reading"=>"在读"
           case "read"=>"读过"
           case _=>""
+        })
+      } else{
+        convertView.find[ImageView](R.id.favorite).onClick({
+          val bookId=books.get(position).id
+          startActivity(SIntent[CollectionActivity].putExtra("bookId",bookId))
         })
       }
 
@@ -202,13 +207,16 @@ class SearchResultDetail extends Fragment with DoubanList{
   def updateArticleView(position: Int) {
     val book=getActivity.getIntent.getExtras.getSerializable(SearchResult.BOOK_KEY).asInstanceOf[Book]
     getActivity.setTitle(book.title)
-    find[LinearLayout](R.id.status_layout).removeView(find[Button](if(null==book.current_user_collection) R.id.delete
+    val toDel=if(null==book.current_user_collection) List(R.id.delete)
       else book.current_user_collection.status match {
-      case "read"=>R.id.done
-      case "reading"=> R.id.reading
-      case "wish"=>R.id.toRead
-      case _=>R.id.delete
-    }))
+      case "read"=> List(R.id.reading,R.id.toRead)
+      case "reading"=> List(R.id.done,R.id.toRead)
+      case "wish"=> List(R.id.reading,R.id.done)
+      case _=> List(R.id.delete)
+    }
+    val l=getView.find[LinearLayout](R.id.status_layout)
+    toDel.foreach(id=>l.removeView(getView.findViewById(id)))
+
     batchSetTextView(SearchResult.mapping++Map(R.id.bookPublishYear->"pubdate",R.id.bookPages->"pages",R.id.bookPrice->"price",
       R.id.book_author_abstract->"author_intro",R.id.book_content_abstract->"summary"),book)
     getThisActivity.loadImage(if(getThisActivity.usingWIfi) book.images.large else book.image,R.id.book_img,book.title)

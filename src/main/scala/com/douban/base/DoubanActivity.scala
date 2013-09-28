@@ -136,7 +136,7 @@ trait DoubanActivity extends SActivity with Douban {
     future{
       drawableFromUrl(url,name)
     }onComplete{
-      case Success(b) => holder.findViewById(imgId).asInstanceOf[ImageView].setImageDrawable(b)
+      case Success(b) => runOnUiThread(holder.findViewById(imgId).asInstanceOf[ImageView].setImageDrawable(b))
       case Failure(b) => toast(getString(R.string.load_img_fail,name))
     }
   }
@@ -162,12 +162,11 @@ trait DoubanList extends Fragment with Douban{
   def batchSetTextView(m:Map[Int,String],bean:Any)={
     val values=beanToMap(bean)
     m.foreach{case (id,key)=>{
-      val view=getActivity.findViewById(id)
-      if(null!=view) view.asInstanceOf[TextView].setText(values.get(key).toString)
+      val view=getView.find[TextView](id)
+      if(null!=view) view.setText(values.get(key).toString)
     }}
   }
 
   def getThisActivity=getActivity.asInstanceOf[DoubanActivity]
 
-  def find[T<:View](id:Int)=getThisActivity.find[T](id)
 }
