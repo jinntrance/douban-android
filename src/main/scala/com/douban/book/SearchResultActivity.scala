@@ -1,8 +1,7 @@
-package com.douban.book.ui
+package com.douban.book
 
 import com.douban.base._
 import android.os.Bundle
-import com.douban.book.R
 import android.widget._
 import android.view._
 import com.douban.models.Book
@@ -25,19 +24,18 @@ import Constant._
  * @version 1.0
  * @see http://developers.douban.com/wiki/?title=api_v2
  */
-
-class SearchResultActivity extends DoubanActivity with OnBookSelectedListener{
+class SearchResultActivity extends DoubanActivity with OnBookSelectedListener {
   private var searchText = ""
 
   protected override def onCreate(b: Bundle) = {
     super.onCreate(b)
     setContentView(R.layout.book_list)
     searchText = SearchActivity.getSearchText(getIntent.getExtras)
-    if (null== b) {
-      if(findViewById(R.id.list_container)!=null){
-      val listFragment = new SearchResultList()
-      listFragment.setArguments(getIntent.getExtras)
-      getFragmentManager.beginTransaction().replace(R.id.list_container, listFragment).commit()
+    if (null == b) {
+      if (findViewById(R.id.list_container) != null) {
+        val listFragment = new SearchResultList()
+        listFragment.setArguments(getIntent.getExtras)
+        getFragmentManager.beginTransaction().replace(R.id.list_container, listFragment).commit()
       }
     }
   }
@@ -59,32 +57,31 @@ trait OnBookSelectedListener {
 }
 
 class SearchResultList extends ListFragment with DoubanList {
-  var books:java.util.List[Book]=null
-  var adapter:SimpleAdapter=null
-  var footer:View=null
+  var books: java.util.List[Book] = null
+  var adapter: SimpleAdapter = null
+  var footer: View = null
   private var currentPage = 1
-  private var result:BookSearchResult=null
-
+  private var result: BookSearchResult = null
   private[ui] var mCallback: OnBookSelectedListener = null
 
   override def onCreate(b: Bundle) {
     super.onCreate(b)
     result = SearchActivity.getBooks(getActivity.getIntent.getExtras)
-    books=result.books
-    adapter=new BookItemAdapter(getActivity,listToMap(books),R.layout.book_list_item,SearchResult.mapping.values.toArray,SearchResult.mapping.keys.toArray)
+    books = result.books
+    adapter = new BookItemAdapter(getActivity, listToMap(books), R.layout.book_list_item, SearchResult.mapping.values.toArray, SearchResult.mapping.keys.toArray)
     setListAdapter(adapter)
   }
 
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, bundle: Bundle) = {
-    val r=super.onCreateView(inflater,container,bundle)
-    footer=inflater.inflate(R.layout.book_list_loader,container,true)
+    val r = super.onCreateView(inflater, container, bundle)
+    footer = inflater.inflate(R.layout.book_list_loader, container, true)
     r
   }
 
   override def onActivityCreated(bundle: Bundle) {
     super.onActivityCreated(bundle)
     getActivity.asInstanceOf[SearchResultActivity].updateTitle()
-    if(null!=footer){
+    if (null != footer) {
       getListView.addFooterView(footer)
       updateFooter()
     }
@@ -109,15 +106,15 @@ class SearchResultList extends ListFragment with DoubanList {
   }
 
   def load(v: View) {
-    if(currentPage*this.count<result.total) future {
+    if (currentPage * this.count < result.total) future {
       toast(R.string.loading)
-      currentPage+=1
-      Book.search(SearchActivity.getSearchText(getActivity.getIntent.getExtras), "", currentPage , this.count)
+      currentPage += 1
+      Book.search(SearchActivity.getSearchText(getActivity.getIntent.getExtras), "", currentPage, this.count)
     } onComplete {
       case Success(b) => {
-          books.addAll(b.books)
-          adapter.notifyDataSetChanged()
-          updateFooter()
+        books.addAll(b.books)
+        adapter.notifyDataSetChanged()
+        updateFooter()
       }
       case Failure(err) => sys.error(err.getMessage)
     }
@@ -126,38 +123,38 @@ class SearchResultList extends ListFragment with DoubanList {
   override def onListItemClick(l: ListView, v: View, position: Int, id: Long) {
     mCallback.onBookSelected(position)
     getListView.setItemChecked(position, true)
-    getActivity.getIntent.putExtra(BOOK_KEY,result.books.get(position))
+    getActivity.getIntent.putExtra(BOOK_KEY, result.books.get(position))
   }
 
-  class BookItemAdapter(context: Context,data: java.util.List[_ <: java.util.Map[String, _]],resource: Int,from: Array[String],to: Array[Int]) extends SimpleAdapter(context,data,resource,from,to){
+  class BookItemAdapter(context: Context, data: java.util.List[_ <: java.util.Map[String, _]], resource: Int, from: Array[String], to: Array[Int]) extends SimpleAdapter(context, data, resource, from, to) {
     override def getView(position: Int, view: View, parent: ViewGroup): View = {
-      val convertView=super.getView(position,view,parent)
-      if(null!=convertView&&null==view){
-      val b=books.get(position)
-      convertView.find[TextView](R.id.ratingNum).setText("("+b.rating.numRaters+")")
-      if(null!=b.current_user_collection) {
-        convertView.find[ImageView](R.id.favorite).setVisibility(View.GONE)
-        convertView.find[TextView](R.id.currentState).setText(b.current_user_collection.status match{
-          case "wish"=>"想读"
-          case "reading"=>"在读"
-          case "read"=>"读过"
-          case _=>""
-        })
-      } else{
-        convertView.find[ImageView](R.id.favorite).onClick({
-          startActivity(SIntent[CollectionActivity].putExtra(BOOK_KEY, books.get(position)))
-        })
-        convertView.find[TextView](R.id.currentState).onClick(v=>{
-          startActivity(SIntent[CollectionActivity].putExtra(BOOK_KEY, books.get(position)).putExtra(STATE_ID,v.getId))
-        })
-        convertView.find[ImageView](R.id.book_img).onClick({
-          startActivity(SIntent[BookActivity].putExtra(BOOK_KEY, books.get(position)))
-        })
-        convertView.find[TextView](R.id.bookTitle).onClick({
-          startActivity(SIntent[BookActivity].putExtra(BOOK_KEY, books.get(position)))
-        })
-      }
-      getThisActivity.loadImage(b.image,R.id.book_img,b.title,convertView)
+      val convertView = super.getView(position, view, parent)
+      if (null != convertView && null == view) {
+        val b = books.get(position)
+        convertView.find[TextView](R.id.ratingNum).setText("(" + b.rating.numRaters + ")")
+        if (null != b.current_user_collection) {
+          convertView.find[ImageView](R.id.favorite).setVisibility(View.GONE)
+          convertView.find[TextView](R.id.currentState).setText(b.current_user_collection.status match {
+            case "wish" => "想读"
+            case "reading" => "在读"
+            case "read" => "读过"
+            case _ => ""
+          })
+        } else {
+          convertView.find[ImageView](R.id.favorite).onClick({
+            startActivity(SIntent[CollectionActivity].putExtra(BOOK_KEY, books.get(position)))
+          })
+          convertView.find[TextView](R.id.currentState).onClick(v => {
+            startActivity(SIntent[CollectionActivity].putExtra(BOOK_KEY, books.get(position)).putExtra(STATE_ID, v.getId))
+          })
+          convertView.find[ImageView](R.id.book_img).onClick({
+            startActivity(SIntent[BookActivity].putExtra(BOOK_KEY, books.get(position)))
+          })
+          convertView.find[TextView](R.id.bookTitle).onClick({
+            startActivity(SIntent[BookActivity].putExtra(BOOK_KEY, books.get(position)))
+          })
+        }
+        getThisActivity.loadImage(b.image, R.id.book_img, b.title, convertView)
       }
       convertView
     }
@@ -172,6 +169,3 @@ object SearchResult {
     R.id.currentState -> "current_user_collection.status"
   )
 }
-
-
-

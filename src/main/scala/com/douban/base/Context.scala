@@ -12,7 +12,7 @@ import android.preference.PreferenceManager
  */
 class Context extends android.app.Application {
   override def onCreate() {
-   val token=PreferenceManager.getDefaultSharedPreferences(this).getString(Constant.accessTokenString,"")
-   if(!token.isEmpty) Req.init(token)
+    val token = PreferenceManager.getDefaultSharedPreferences(this).getString(Constant.accessTokenString, "")
+    if (!token.isEmpty) Req.init(token)
   }
 }
