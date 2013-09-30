@@ -65,7 +65,7 @@ class SearchActivity extends DoubanActivity {
     var canceled = false
     searchText = find[EditText](R.id.searchBookText).getText.toString.trim()
     if (!searchText.isEmpty) {
-      runOnUiThread(pd = ProgressDialog.show(this, getString(R.string.search), getString(R.string.searching), false, true, new DialogInterface.OnCancelListener() {
+      runOnUiThread(pd =ProgressDialog.show(this, getString(R.string.search), getString(R.string.searching), false, true, new DialogInterface.OnCancelListener() {
         def onCancel(p1: DialogInterface) {
           canceled = true
         }

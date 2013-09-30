@@ -24,6 +24,8 @@ import scala.util.Failure
 import org.scaloid.common.LoggerTag
 import scala.util.Success
 import android.graphics.{Bitmap, BitmapFactory}
+import android.content.Context
+import android.telephony.TelephonyManager
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -35,12 +37,17 @@ import android.graphics.{Bitmap, BitmapFactory}
 trait Douban {
   protected val count = 10
 
+  implicit val ctx:Context
+
+  def getThisActivity:DoubanActivity
+
   def batchSetTextView[T <: View](m: Map[Int, String], bean: Any, holder: T) {
     val values = beanToMap(bean)
     m.foreach {
       case (id, key) => {
-        val view = holder.findViewById(id).asInstanceOf[TextView]
-        if (null != view) view.setText(values.get(key).toString)
+        val view = holder.findViewById(id)
+        val value=values.get(key)
+        if (null != view && null!=value && !value.isEmpty) view.asInstanceOf[TextView].setText(value)
       }
     }
   }
@@ -58,6 +65,12 @@ trait Douban {
 
   def listToMap[T](b: util.List[_ <: Any]): util.List[util.Map[String, String]] = {
     Req.g.toJsonTree(b).getAsJsonArray.asScala.map(beanToMap(_)).toList.asJava
+  }
+
+  implicit def String2TextView(s:String)(implicit ctx:Context):TextView={
+    val t=new TextView(ctx)
+    t.setText(s)
+    t
   }
 }
 
@@ -87,6 +100,8 @@ trait DoubanActivity extends SActivity with Douban {
     }*/
   override def getFragmentManager: FragmentManager = super.getFragmentManager
 
+  def getThisActivity:DoubanActivity=this
+
   def handle[R](result: => R, handler: (R) => Unit) {
     future {
       result
@@ -96,11 +111,10 @@ trait DoubanActivity extends SActivity with Douban {
     }
   }
 
-  protected def replaceActionBar(b: Bundle) {
-    super.onCreate(b)
+  protected def replaceActionBar(layoutId:Int=R.layout.header,title:String=getString(R.string.app_name)) {
     getActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM)
-    getActionBar.setCustomView(R.layout.title_banner)
-    setWindowTitle(R.string.app_name)
+    getActionBar.setCustomView(layoutId)
+    setWindowTitle(title)
   }
 
   def setWindowTitle(title: CharSequence) = find[TextView](R.id.title).setText(title)
@@ -148,6 +162,15 @@ trait DoubanActivity extends SActivity with Douban {
     activeNetwork.getType == ConnectivityManager.TYPE_WIFI
   }
 
+  def using2G:Boolean ={
+    import TelephonyManager._
+    val t=getSystemService(Context.TELEPHONY_SERVICE).asInstanceOf[TelephonyManager].getNetworkType match{
+      case NETWORK_TYPE_GPRS|NETWORK_TYPE_EDGE|NETWORK_TYPE_CDMA|NETWORK_TYPE_1xRTT|NETWORK_TYPE_IDEN=>"2G"
+      case _=>"3G"
+    }
+    t=="2G"
+  }
+
   def isAuthenticated = {
     !get(Constant.accessTokenString).isEmpty
   }
@@ -163,7 +186,7 @@ trait DoubanActivity extends SActivity with Douban {
   }
 
   def loadImage[T <: {def findViewById(id : Int) : View}](url: String, imgId: Int, name: String = "", holder: T = this, updateCache: Boolean = false) {
-    val cacheFile = new File(getCacheDir, url.dropWhile(_ != '/'))
+    val cacheFile = new File(getExternalCacheDir, url.dropWhile(_ != '/'))
     if (!updateCache && cacheFile.exists()) {
       val b = Drawable.createFromPath(cacheFile.getAbsolutePath)
       runOnUiThread(holder.findViewById(imgId).asInstanceOf[ImageView].setImageDrawable(b))
@@ -172,20 +195,20 @@ trait DoubanActivity extends SActivity with Douban {
     } onComplete {
       case Success(b) => {
         runOnUiThread(holder.findViewById(imgId).asInstanceOf[ImageView].setImageBitmap(b))
+        if(cacheFile.canWrite){
         if (!cacheFile.exists()) cacheFile.createNewFile()
         val out = new FileOutputStream(cacheFile, false)
         b.compress(Bitmap.CompressFormat.JPEG, 100, out)
-        out.flush()
         out.close()
+        }
       }
       case Failure(b) => toast(getString(R.string.load_img_fail, name))
     }
   }
 }
 
-trait DoubanList extends Fragment with Douban {
-  implicit val ctx = this.getActivity
-
+trait DoubanListFragment extends ListFragment with Douban {
+  override implicit val ctx = this.getActivity
   def simpleAdapter(a: Activity, list: util.List[_ <: Any], itemLayout: Int, m: Map[Int, String]) = {
     new SimpleAdapter(a, listToMap(list), itemLayout, m.values.toArray, m.keys.toArray)
   }
@@ -195,4 +218,15 @@ trait DoubanList extends Fragment with Douban {
   }
 
   def getThisActivity = getActivity.asInstanceOf[DoubanActivity]
+}
+
+trait DoubanFragment extends Fragment with Douban{
+
+  def batchSetTextView(m: Map[Int, String], bean: Any) {
+    super.batchSetTextView(m, bean, getView)
+  }
+  def getThisActivity = getActivity.asInstanceOf[DoubanActivity]
+
+  override implicit val ctx = this.getActivity
+
 }

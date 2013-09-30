@@ -28,9 +28,14 @@
     <color name="background_black">#434343</color>
     <color name="background_black_light">#515151</color>
     <color name="background_black_darker">#363636</color>
-    <style name="DoubanButtonWhiteText" parent="@android:style/Widget.Holo.Light.Button">
+    <style name="DoubanButton.WhiteText" parent="@android:style/Widget.Holo.Light.Button">
         <item name="android:background">@color/text_background</item>
         <item name="android:textColor">@color/text_white</item>
+    </style>
+    <style name="DoubanButton.Small" parent="DoubanButton.WhiteText">
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_margin">@dimen/eighth_margin</item>
+        <item name="android:padding">0dp</item>
     </style>
     <style name="DoubanTextTitle" parent="@android:style/Widget.Holo.Light.TextView">
         <item name="android:textSize">22sp</item>
@@ -70,6 +75,7 @@
     </style>
     <style name="DoubanActionBar.Title" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/text_white</item>
+        <item name="android:textSize">22sp</item>
     </style>
     <style name="DoubanActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:titleTextStyle">@style/DoubanActionBar.Title</item>
@@ -84,7 +90,7 @@
         <item name="android:background">@color/transparent</item>
         <item name="android:itemBackground">@color/transparent</item>
         <item name="android:actionBarStyle">@style/DoubanActionBar</item>
-        <item name="android:buttonStyle">@style/DoubanButtonWhiteText</item>
+        <item name="android:buttonStyle">@style/DoubanButton.WhiteText</item>
         <item name="android:windowBackground">@color/background_white</item>
         <item name="android:colorBackground">@color/transparent</item>
         <item name="android:editTextStyle">@style/DoubanEditText</item>

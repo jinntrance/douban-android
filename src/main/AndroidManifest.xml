@@ -16,7 +16,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/>
 
     <application android:label="@string/app_name" android:icon="@drawable/logo" android:theme="@style/DoubanTheme"
-        android:name="com.douban.base.Context" >
+        android:name="com.douban.base.DoubanContext" >
 
         <activity android:label="@string/app_name" android:name=".SearchActivity" >
             <intent-filter>

@@ -3,7 +3,10 @@
     <dimen name="standard_margin">16dip</dimen>
     <dimen name="half_margin">8dip</dimen>
     <dimen name="quarter_margin">4dip</dimen>
+    <dimen name="eighth_margin">2dip</dimen>
+    <dimen name="one_dp_margin">1dip</dimen>
     <dimen name="standard_padding">8dip</dimen>
     <dimen name="standard_side_padding">16dip</dimen>
     <dimen name="half_padding">4dip</dimen>
+    <dimen name="quarter_padding">2dip</dimen>
 </resources>

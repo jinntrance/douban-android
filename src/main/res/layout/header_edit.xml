@@ -6,7 +6,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/cancel"
+        android:id="@+id/cancel" android:onClick="back"
         android:src="@drawable/header_cancel"
         android:layout_gravity="center|left"
         android:layout_alignParentLeft="true" />
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/submit"
-        android:longClickable="false"
+        android:longClickable="false" android:onClick="submit"
         android:src="@drawable/header_submit"
         android:layout_gravity="center|right"
         android:layout_alignParentRight="true" />
