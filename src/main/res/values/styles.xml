@@ -4,6 +4,7 @@
     <color name="white">#ffffff</color>
     <color name="transparent">#00000000</color>
     <color name="gray">#797979</color>
+    <color name="gray_divider">#c9c9c9</color>
     <color name="gray_light">#bbbbbb</color>
     <color name="gray_light_pressed">#cb7b7b</color>
     <color name="text_white">#ffffff</color>

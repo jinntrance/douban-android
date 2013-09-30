@@ -13,7 +13,8 @@
         android:layout_height="0dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:clickable="false"
+        android:clickable="false"  android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true"
         android:layout_weight="0.5">
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"

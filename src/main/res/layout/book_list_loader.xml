@@ -4,7 +4,8 @@
     android:layout_height="wrap_content" android:orientation="vertical"
     android:layout_gravity="center" android:gravity="left"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <TextView  android:layout_width="wrap_content"  android:layout_height="wrap_content" android:id="@+id/to_load" android:text="@string/swipe_up_to_load"/>
-    <TextView  android:layout_width="wrap_content"  android:layout_height="wrap_content" android:id="@+id/total_num" />
+    <TextView  android:layout_width="fill_parent"  android:layout_height="wrap_content" android:id="@+id/to_load" android:text="@string/swipe_up_to_load"
+        android:layout_gravity="bottom"
+        android:gravity="center|bottom" />
 
     </LinearLayout>

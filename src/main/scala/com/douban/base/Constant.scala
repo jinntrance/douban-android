@@ -10,7 +10,8 @@ import com.douban.common.Auth
  * @version 1.0
  */
 object Constant {
-   val apiKey=Auth.api_key
+
+  val apiKey=Auth.api_key
    val apiSecret="95125490b60b01ee"
    val scope=Seq("douban_basic_common","book_basic_r","book_basic_w").mkString(",")
    val accessTokenString="accessToken"
@@ -18,4 +19,9 @@ object Constant {
    val userIdString="userId"
    val ISBN="ISBN"
    val BOOK_ID="BOOK_ID"
+   val STATE_ID="stateId"
+  val BOOK_KEY="book"
+  val ARG_POSITION = "position"
+  val BOOKS_KEY="books"
+  val SEARCH_TEXT_KEY="searchText"
 }

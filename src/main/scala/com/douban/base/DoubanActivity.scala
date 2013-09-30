@@ -17,13 +17,14 @@ import scala.collection.mutable
 import android.os.Bundle
 import android.app._
 import android.widget.{ImageView, TextView, SimpleAdapter}
+import android.graphics.drawable.Drawable
+import java.net.URL
+import java.io.{FileOutputStream, File, InputStream}
 import com.douban.common.AccessTokenResult
 import scala.util.Failure
 import org.scaloid.common.LoggerTag
 import scala.util.Success
-import android.graphics.drawable.Drawable
-import java.net.URL
-import java.io.InputStream
+import android.graphics.{Bitmap, BitmapFactory}
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -35,6 +36,26 @@ import java.io.InputStream
 
 trait Douban{
   protected val count = 10
+  def batchSetTextView[T<:View](m:Map[Int,String],bean:Any,holder:T){
+    val values=beanToMap(bean)
+    m.foreach{case (id,key)=>{
+      val view=holder.findViewById(id).asInstanceOf[TextView]
+      if(null!=view) view.setText(values.get(key).toString)
+    }}
+  }
+  def beanToMap(b:Any,keyPre:String=""):util.Map[String,String]=
+    Req.g.toJsonTree(b).getAsJsonObject.entrySet().asScala.foldLeft(mutable.Map[String,String]()){
+      case (a,e)=>{
+        val key = keyPre + e.getKey
+        if (e.getValue.isJsonPrimitive) a + (key->e.getValue.getAsString)
+        else  if (e.getValue.isJsonArray)  a+(key->e.getValue.getAsJsonArray.iterator().asScala.filter(_.isJsonPrimitive).map(_.getAsString).mkString(", "))
+        else if (e.getValue.isJsonObject)  a++ beanToMap(e.getValue,key+".").asScala
+        else a
+      }}.asJava
+
+  def listToMap[T](b:util.List[_<:Any]):util.List[util.Map[String,String]]={
+    Req.g.toJsonTree(b).getAsJsonArray.asScala.map(beanToMap(_)).toList.asJava
+  }
 }
 
 trait DoubanActivity extends SActivity with Douban {
@@ -118,7 +139,7 @@ trait DoubanActivity extends SActivity with Douban {
     val activeNetwork =getApplicationContext.getSystemService(content.Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo
     activeNetwork.isConnectedOrConnecting
   }
-  @inline def usingWIfi={
+  def usingWIfi={
     val activeNetwork =getApplicationContext.getSystemService(content.Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo
     activeNetwork.getType==ConnectivityManager.TYPE_WIFI
   }
@@ -129,14 +150,25 @@ trait DoubanActivity extends SActivity with Douban {
     put(Constant.userIdString, t.douban_user_id)
   }
 
-  def drawableFromUrl(url:String,name:String) = {
-    Drawable.createFromStream(new URL(url).getContent.asInstanceOf[InputStream], name)
+  def BitmapFromUrl(url:String) = {
+    BitmapFactory.decodeStream(new URL(url).getContent.asInstanceOf[InputStream])
   }
-  def loadImage[T<:{def findViewById(id:Int):View }](url:String,imgId:Int,name:String="",holder:T=this){
-    future{
-      drawableFromUrl(url,name)
+  def loadImage[T<:{def findViewById(id:Int):View }](url:String,imgId:Int,name:String="",holder:T=this,updateCache:Boolean=false){
+    val cacheFile=new File(getCacheDir,url.dropWhile(_!='/'))
+    if(!updateCache && cacheFile.exists()) {
+      val b=Drawable.createFromPath(cacheFile.getAbsolutePath)
+      runOnUiThread(holder.findViewById(imgId).asInstanceOf[ImageView].setImageDrawable(b))
+    } else future{
+      BitmapFromUrl(url)
     }onComplete{
-      case Success(b) => runOnUiThread(holder.findViewById(imgId).asInstanceOf[ImageView].setImageDrawable(b))
+      case Success(b) => {
+        runOnUiThread(holder.findViewById(imgId).asInstanceOf[ImageView].setImageBitmap(b))
+        if(!cacheFile.exists())cacheFile.createNewFile()
+        val out=new FileOutputStream(cacheFile,false)
+        b.compress(Bitmap.CompressFormat.JPEG, 100, out)
+        out.flush()
+        out.close()
+      }
       case Failure(b) => toast(getString(R.string.load_img_fail,name))
     }
   }
@@ -146,26 +178,7 @@ trait DoubanList extends Fragment with Douban{
   def simpleAdapter(a:Activity,list:util.List[_<:Any],itemLayout:Int,m:Map[Int,String])={
     new SimpleAdapter(a,listToMap(list),itemLayout,m.values.toArray,m.keys.toArray)
   }
-  def beanToMap(b:Any,keyPre:String=""):util.Map[String,String]=
-    Req.g.toJsonTree(b).getAsJsonObject.entrySet().asScala.foldLeft(mutable.Map[String,String]()){
-      case (a,e)=>{
-      val key = keyPre + e.getKey
-      if (e.getValue.isJsonPrimitive) a + (key->e.getValue.getAsString)
-      else  if (e.getValue.isJsonArray)  a+(key->e.getValue.getAsJsonArray.iterator().asScala.filter(_.isJsonPrimitive).map(_.getAsString).mkString(", "))
-      else if (e.getValue.isJsonObject)  a++ beanToMap(e.getValue,key+".").asScala
-      else a
-    }}.asJava
-
-  def listToMap[T](b:util.List[_<:Any]):util.List[util.Map[String,String]]={
-    Req.g.toJsonTree(b).getAsJsonArray.asScala.map(beanToMap(_)).toList.asJava
-  }
-  def batchSetTextView(m:Map[Int,String],bean:Any)={
-    val values=beanToMap(bean)
-    m.foreach{case (id,key)=>{
-      val view=getView.find[TextView](id)
-      if(null!=view) view.setText(values.get(key).toString)
-    }}
-  }
+  def batchSetTextView(m:Map[Int,String],bean:Any){super.batchSetTextView(m,bean,getView)}
 
   def getThisActivity=getActivity.asInstanceOf[DoubanActivity]
 

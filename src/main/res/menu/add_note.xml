@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <item android:title="@string/add_note" android:icon="@drawable/header_add_note"
+      android:showAsAction="always" android:onClick="addNote" android:id="@+id/menu_add_note"/>
+</menu>

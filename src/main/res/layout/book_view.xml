@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
-    android:layout_width="fill_parent" android:layout_height="fill_parent">
+    android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/book_view">
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -39,8 +39,9 @@
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:id="@+id/book_basic_info"  android:layout_weight="0.7">
+                    android:layout_height="wrap_content"
+                    android:id="@+id/book_basic_info"  android:layout_weight="0.7"
+                    android:layout_gravity="center_horizontal|top">
                     <include layout="@layout/book_basic_info" />
                     <LinearLayout
                         android:layout_width="fill_parent"
@@ -93,28 +94,56 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" android:id="@+id/status_layout">
             <Button
-                android:layout_width="0dp"
+                android:layout_width="0dp"  android:onClick="collect"
                 android:layout_height="wrap_content" android:layout_margin="@dimen/standard_margin"
                 android:text="想读"  android:layout_weight="0.25"  android:background="@drawable/button_pink"
-                android:id="@+id/toRead"  />
+                android:id="@+id/wish"  />
 
             <Button
-                android:layout_width="0dp"
+                android:layout_width="0dp" android:onClick="collect"
                 android:layout_height="wrap_content"    android:layout_margin="@dimen/standard_margin"
                 android:text="在读"  android:layout_weight="0.25"  android:background="@drawable/button_green"
                 android:id="@+id/reading" />
 
             <Button
-                android:layout_width="0dp"
+                android:layout_width="0dp" android:onClick="collect"
                 android:layout_height="wrap_content"   android:layout_margin="@dimen/standard_margin"
                 android:text="读过"  android:layout_weight="0.25"  android:background="@drawable/button_brown"
-                android:id="@+id/done" />
+                android:id="@+id/read" />
             <Button
-                android:layout_width="0dp"
+                android:layout_width="0dp" android:onClick="deCollect"
                 android:layout_height="wrap_content"   android:layout_margin="@dimen/standard_margin"
                 android:text="删除收藏" android:layout_weight="0.1" android:background="@color/background_black"
                 android:id="@+id/delete" />
+
         </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical" android:id="@+id/book_layout_tags" android:visibility="visible"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+               <include layout="@layout/tags"/>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10分力荐" style="@style/DoubanTextGray" android:textColor="@color/text_orange"
+                        android:id="@+id/recommend" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="New Text"
+                        android:id="@+id/comment"
+                        android:layout_gravity="center" />
+                </LinearLayout>
+
+            </LinearLayout>
+
             <include layout="@layout/divider" />
 
             <LinearLayout
@@ -129,12 +158,30 @@
                     android:text="@string/content_intro"
                     android:id="@+id/book_content_title" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="The Android design language relies on traditional typographic tools such as scale, space, rhythm, and alignment with an underlying grid. Successful deployment of these tools is essential to help users quickly understand a screen of information. To support such use of typography, Ice Cream Sandwich introduced a new type family named Roboto, created specifically for the requirements of UI and high-resolution screens."
-                    android:id="@+id/book_content_abstract"  android:ellipsize="marquee" android:maxLines="4" android:lines="4"
-                    android:layout_gravity="left|center_vertical" />
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="The Android design language relies on traditional typographic tools such as scale, space, rhythm, and alignment with an underlying grid. Successful deployment of these tools is essential to help users quickly understand a screen of information. To support such use of typography, Ice Cream Sandwich introduced a new type family named Roboto, created specifically for the requirements of UI and high-resolution screens."
+                        android:id="@+id/book_content_abstract"  android:ellipsize="marquee" android:maxLines="4"
+                        android:layout_gravity="left|center_vertical" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:visibility="gone"
+                        android:text="The Android design language relies on traditional typographic tools such as scale, space, rhythm, and alignment with an underlying grid. Successful deployment of these tools is essential to help users quickly understand a screen of information. To support such use of typography, Ice Cream Sandwich introduced a new type family named Roboto, created specifically for the requirements of UI and high-resolution screens."
+                        android:id="@+id/book_content_abstract_longtext"
+                        android:layout_gravity="left|center_vertical" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/content_arrow"    android:onClick="toggleContent"
+                        android:layout_gravity="bottom|right"
+                        android:src="@android:drawable/arrow_down_float" />
+                </FrameLayout>
             </LinearLayout>
             <include layout="@layout/divider" />
 
@@ -149,12 +196,27 @@
                     android:layout_height="wrap_content" style="@style/DoubanTextTitle.Green"
                     android:text="@string/author_intro"
                     android:id="@+id/book_author_title" />
-
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:ellipsize="marquee" android:maxLines="4" android:lines="4"
+                    android:layout_height="wrap_content" android:ellipsize="marquee" android:maxLines="4"
                     android:text="The Android design language relies on traditional typographic tools such as scale, space, rhythm, and alignment with an underlying grid. Successful deployment of these tools is essential to help users quickly understand a screen of information. To support such use of typography, Ice Cream Sandwich introduced a new type family named Roboto, created specifically for the requirements of UI and high-resolution screens."
                     android:id="@+id/book_author_abstract" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"   android:visibility="gone"
+                        android:text="The Android design language relies on traditional typographic tools such as scale, space, rhythm, and alignment with an underlying grid. Successful deployment of these tools is essential to help users quickly understand a screen of information. To support such use of typography, Ice Cream Sandwich introduced a new type family named Roboto, created specifically for the requirements of UI and high-resolution screens."
+                        android:id="@+id/book_author_abstract_longtext" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/author_arrow"
+                        android:layout_gravity="bottom|right"
+                        android:src="@android:drawable/arrow_down_float" android:onClick="toggleAuthor"/>
+                </FrameLayout>
             </LinearLayout>
 
         </LinearLayout>
@@ -189,7 +251,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/guide_icon"
             android:src="@drawable/book_content_right_arrow"
-            android:layout_gravity="right|center"
-            android:layout_alignParentRight="true" />
+            android:layout_gravity="right|center_vertical|fill_vertical"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="false"
+            android:layout_centerInParent="true" />
     </RelativeLayout>
 </RelativeLayout>

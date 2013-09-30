@@ -2,18 +2,20 @@ package com.douban.book
 package ui
 
 import android.os.{Handler, Bundle}
-import android.view.{MenuItem, KeyEvent, View}
+import android.view.{KeyEvent, View}
 import android.widget.EditText
 import com.douban.models.{BookSearchResult, Book}
 
 import org.scaloid.common._
-import android.content.Intent
+import android.content.{DialogInterface, Intent}
 import com.douban.base.{Constant, DoubanActivity}
 import scala.concurrent._
 import scala.util.{Failure, Success}
 import ExecutionContext.Implicits.global
 import com.douban.book.R
 import com.google.zxing.integration.android.IntentIntegrator
+import Constant._
+import android.app.ProgressDialog
 
 
 /**
@@ -64,35 +66,30 @@ class SearchActivity extends DoubanActivity {
     new IntentIntegrator(this).initiateScan()
   }
   def search(v: View) {
+    var pd:ProgressDialog=null
+    var canceled=false
     searchText = find[EditText](R.id.searchBookText).getText.toString.trim()
     if(!searchText.isEmpty) {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      future {
-        toast(R.string.searching)
+    runOnUiThread(pd=ProgressDialog.show(this,getString(R.string.search),getString(R.string.searching),false,true,new DialogInterface.OnCancelListener(){
+      def onCancel(p1: DialogInterface) {
+         canceled=true
+      }}))
+      future {
         Book.search(searchText, "", count=this.count)
       } onComplete {
         case Success(books) => {
-          if(books.total==0) longToast(R.string.search_no_result)
+          if(books.total==0) toast(R.string.search_no_result)
           else {
             debug("search result total:"+books.total)
-            toast("找到"+books.total+"本书")
-            import SearchActivity._
-            startActivity(SIntent[SearchResultActivity].putExtra(booksKey,books).putExtra(searchTextKey,searchText))
+            if(!canceled) startActivity(SIntent[SearchResultActivity].putExtra(BOOKS_KEY,books).putExtra(SEARCH_TEXT_KEY,searchText))
           }
+          pd.cancel()
         }
-        case Failure(err) => error(err.getMessage)
+        case Failure(err) => {
+          error(err.getMessage)
+        }
       }
     }
-  }
-
-  def login(i: MenuItem) {
-    startActivity(SIntent[LoginActivity])
-  }
-
-  def about(i: MenuItem) {
-    startActivity(SIntent[AboutActivity])
-  }
-  def exit(i: MenuItem) {
-    finish()
   }
 
   override def onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
@@ -110,18 +107,16 @@ class SearchActivity extends DoubanActivity {
   }
 }
 object SearchActivity{
-  @inline val booksKey="books"
-  @inline val searchTextKey="searchText"
   def setBooks(i:Intent,b:BookSearchResult)={
-     i.putExtra(booksKey,b)
+     i.putExtra(BOOKS_KEY,b)
   }
   def getBooks(b: Bundle)={
-    b.getSerializable(SearchActivity.booksKey).asInstanceOf[BookSearchResult]
+    b.getSerializable(BOOKS_KEY).asInstanceOf[BookSearchResult]
   }
   def setSearchText(i:Intent,t:String)={
-    i.putExtra(searchTextKey,t)
+    i.putExtra(SEARCH_TEXT_KEY,t)
   }
   def getSearchText(b:Bundle)={
-    b.getString(searchTextKey)
+    b.getString(SEARCH_TEXT_KEY)
   }
 }
