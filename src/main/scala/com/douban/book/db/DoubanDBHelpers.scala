@@ -11,15 +11,14 @@ import com.douban.models.AnnotationPosted
  * @version 1.0
  * @see http://developers.douban.com/wiki/?title=api_v2
  */
+class ScannerHistoryHelper(c: android.content.Context) extends DBHelper[ScannerHistory](c, "scanner_history")
 
-class ScannerHistoryHelper(c:android.content.Context) extends DBHelper[ScannerHistory](c,"scanner_history")
+case class ScannerHistory(isbn: String)
 
-case class ScannerHistory(isbn:String)
+class SearchHistoryHelper(c: android.content.Context) extends DBHelper[SearchHistory](c, "search_history")
 
-class SearchHistoryHelper(c:android.content.Context) extends DBHelper[SearchHistory](c,"search_history")
+case class SearchHistory(search: String)
 
-case class SearchHistory(search:String)
+class AnnotationUploaderHelper(c: android.content.Context) extends DBHelper[AnnotationUploader](c, "annotations_to_post")
 
-class AnnotationUploaderHelper(c:android.content.Context) extends DBHelper[AnnotationUploader](c,"annotations_to_post")
-
-case class AnnotationUploader(bookId:String,annotation:AnnotationPosted)
+case class AnnotationUploader(bookId: String, annotation: AnnotationPosted)

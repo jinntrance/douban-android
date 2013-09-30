@@ -5,13 +5,13 @@
     android:layout_height="match_parent"
     android:baselineAligned="false">
 
-    <fragment android:name="com.douban.book.ui.SearchResultList"
+    <fragment android:name="SearchResultList"
               android:id="@+id/list_fragment"
               android:layout_weight="1"
               android:layout_width="0dp"
               android:layout_height="match_parent" />
 
-    <fragment android:name="com.douban.book.ui.SearchResultDetail"
+    <fragment android:name="com.douban.book.SearchResultDetail"
               android:id="@+id/book_fragment"
               android:layout_weight="1"
               android:layout_width="0dp"
