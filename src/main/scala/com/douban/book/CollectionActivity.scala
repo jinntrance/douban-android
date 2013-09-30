@@ -6,6 +6,9 @@ import com.douban.models.{CollectionPosted, Book, Collection}
 import android.widget._
 import android.view.View
 import collection.JavaConverters._
+import scala.concurrent._
+import ExecutionContext.Implicits.global
+import org.scaloid.common._
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -26,7 +29,12 @@ class CollectionActivity extends DoubanActivity {
     setContentView(R.layout.collection)
     replaceActionBar(R.layout.header_edit,getString(R.string.add_collection))
     book = getIntent.getSerializableExtra(Constant.BOOK_KEY).asInstanceOf[Book]
-    val collection: Collection = book.current_user_collection
+    var collection: Collection =  book.current_user_collection
+    if(null==collection) {
+      spinnerDialog("Waiting","loading collections")
+      getAccessToken
+      collection=Book.collectionOf(book.id)
+    }
     if (null != collection) {
       val currentStatus = find[Button](mapping(collection.status))
       check(currentStatus)
@@ -58,10 +66,8 @@ class CollectionActivity extends DoubanActivity {
     val layout=find[LinearLayout](R.id.tags_container)
     val tags =(0 to layout.getChildCount).map(i=>layout.getChildAt(i).asInstanceOf[TextView].getText).mkString(" ")
     val p=CollectionPosted(status,tags,find[EditText](R.id.comment).getText.toString.trim,find[RatingBar](R.id.rating).getNumStars,privacy)
-    Book.postCollection(book.id,p,false)
+    future(Book.postCollection(book.id,p,false)) onComplete(op=>toast(R.string.collect_successfully))
   }
-
-
 }
 
 class TagFragment extends DoubanFragment

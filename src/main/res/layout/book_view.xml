@@ -278,7 +278,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/book_annotation"  android:background="@color/white"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_alignBaseline="@+id/scrollView">
 
         <ImageView
             android:layout_width="wrap_content"
