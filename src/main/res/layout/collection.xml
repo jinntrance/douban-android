@@ -4,40 +4,42 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:id="@+id/status_layout">
+        android:layout_height="wrap_content" android:id="@+id/status_layout" >
         <Button
             android:layout_width="0dp"
-            android:layout_height="wrap_content" android:layout_margin="@dimen/quarter_margin"
+            android:layout_height="wrap_content" style="@style/DoubanButton.Small"
             android:text="想读"  android:layout_weight="0.25"  android:background="@drawable/button_pink"
             android:id="@+id/wish"  />
         <Button
             android:layout_width="0dp"
-            android:layout_height="wrap_content"    android:layout_margin="@dimen/quarter_margin"
+            android:layout_height="wrap_content"   style="@style/DoubanButton.Small"
             android:text="在读"  android:layout_weight="0.25"  android:background="@drawable/button_green"
             android:id="@+id/reading" />
 
         <Button
             android:layout_width="0dp"
-            android:layout_height="wrap_content"   android:layout_margin="@dimen/quarter_margin"
+            android:layout_height="wrap_content"   style="@style/DoubanButton.Small"
             android:text="读过"  android:layout_weight="0.25"  android:background="@drawable/button_brown"
             android:id="@+id/read" />
 
         <RatingBar
-            android:layout_width="0dp" android:layout_weight="0.75"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style = "?android:attr/ratingBarStyleIndicator"
             android:id="@+id/rating"
             android:stepSize="1"
-            android:rating="0"
-            android:numStars="5" />
+            android:rating="3"
+            android:numStars="5"
+            android:layout_gravity="center" />
     </LinearLayout>
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
         <include layout="@layout/tags"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="点击此处添加标签"
+            android:text="点此添加标签"  android:paddingLeft="@dimen/half_padding"
             android:id="@+id/add_tag"
             android:layout_gravity="center" />
 
@@ -49,9 +51,10 @@
         android:id="@+id/comment" android:hint="写简短附注,350字内"
         android:lines="7"
         android:longClickable="true"
-        android:linksClickable="true" />
+        android:linksClickable="true"
+        android:gravity="top" />
 
-    <ImageView
+    <ImageView android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/keyboard"

@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/list_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:id="@+id/list_container">
+            <include layout="@layout/book_list_item"/>
+        </LinearLayout>
+
+        <include layout="@layout/book_list_loader" android:id="@+id/load_more"
+            android:layout_alignParentTop="false"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="false"
+            android:layout_alignBaseline="@+id/list_container" />
+
+    </RelativeLayout>
 </FrameLayout>

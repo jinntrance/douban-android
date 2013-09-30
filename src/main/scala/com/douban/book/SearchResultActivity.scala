@@ -48,6 +48,8 @@ class SearchResultActivity extends DoubanActivity with OnBookSelectedListener {
     val articleFrag: SearchResultDetail = getFragmentManager.findFragmentById(R.id.book_fragment).asInstanceOf[SearchResultDetail]
     if (articleFrag != null) {
       articleFrag.updateBookView()
+    } else {
+      startActivity(SIntent[BookActivity].putExtras(getIntent.getExtras))
     }
   }
 }
@@ -56,13 +58,13 @@ trait OnBookSelectedListener {
   def onBookSelected(position: Int)
 }
 
-class SearchResultList extends ListFragment with DoubanList {
+class SearchResultList extends DoubanListFragment {
   var books: java.util.List[Book] = null
   var adapter: SimpleAdapter = null
   var footer: View = null
   private var currentPage = 1
   private var result: BookSearchResult = null
-  private[ui] var mCallback: OnBookSelectedListener = null
+  private var mCallback: OnBookSelectedListener = null
 
   override def onCreate(b: Bundle) {
     super.onCreate(b)
@@ -72,25 +74,22 @@ class SearchResultList extends ListFragment with DoubanList {
     setListAdapter(adapter)
   }
 
-  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, bundle: Bundle) = {
+/*  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, bundle: Bundle) = {
     val r = super.onCreateView(inflater, container, bundle)
     footer = inflater.inflate(R.layout.book_list_loader, container, true)
     r
-  }
+  }*/
 
   override def onActivityCreated(bundle: Bundle) {
     super.onActivityCreated(bundle)
-    getActivity.asInstanceOf[SearchResultActivity].updateTitle()
-    if (null != footer) {
-      getListView.addFooterView(footer)
-      updateFooter()
-    }
+    getListView.setDivider(null)
     getListView.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS)
-    getListView.setDivider(R.drawable.divider)
+    getActivity.asInstanceOf[SearchResultActivity].updateTitle()
+    updateFooter()
   }
 
   def updateFooter() {
-    getActivity.findViewById(R.id.to_load).asInstanceOf[TextView].setText(getString(R.string.swipe_up_to_load, new Integer(books.size()), new Integer(result.total)))
+    getView.find[TextView](R.id.to_load).setText(getString(R.string.swipe_up_to_load, new Integer(books.size()), new Integer(result.total)))
   }
 
   override def onStart() {
@@ -121,15 +120,15 @@ class SearchResultList extends ListFragment with DoubanList {
   }
 
   override def onListItemClick(l: ListView, v: View, position: Int, id: Long) {
-    mCallback.onBookSelected(position)
     getListView.setItemChecked(position, true)
     getActivity.getIntent.putExtra(BOOK_KEY, result.books.get(position))
+    mCallback.onBookSelected(position)
   }
 
   class BookItemAdapter(context: Context, data: java.util.List[_ <: java.util.Map[String, _]], resource: Int, from: Array[String], to: Array[Int]) extends SimpleAdapter(context, data, resource, from, to) {
     override def getView(position: Int, view: View, parent: ViewGroup): View = {
       val convertView = super.getView(position, view, parent)
-      if (null != convertView && null == view) {
+      if (null != convertView) {
         val b = books.get(position)
         convertView.find[TextView](R.id.ratingNum).setText("(" + b.rating.numRaters + ")")
         if (null != b.current_user_collection) {
@@ -141,17 +140,11 @@ class SearchResultList extends ListFragment with DoubanList {
             case _ => ""
           })
         } else {
-          convertView.find[ImageView](R.id.favorite).onClick({
+          convertView.find[ImageView](R.id.favorite).onClick(v=>{
             startActivity(SIntent[CollectionActivity].putExtra(BOOK_KEY, books.get(position)))
           })
           convertView.find[TextView](R.id.currentState).onClick(v => {
             startActivity(SIntent[CollectionActivity].putExtra(BOOK_KEY, books.get(position)).putExtra(STATE_ID, v.getId))
-          })
-          convertView.find[ImageView](R.id.book_img).onClick({
-            startActivity(SIntent[BookActivity].putExtra(BOOK_KEY, books.get(position)))
-          })
-          convertView.find[TextView](R.id.bookTitle).onClick({
-            startActivity(SIntent[BookActivity].putExtra(BOOK_KEY, books.get(position)))
           })
         }
         getThisActivity.loadImage(b.image, R.id.book_img, b.title, convertView)

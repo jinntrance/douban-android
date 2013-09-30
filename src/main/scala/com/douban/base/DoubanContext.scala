@@ -10,7 +10,7 @@ import android.preference.PreferenceManager
  * @since 4/25/13 10:52 PM
  * @version 1.0
  */
-class Context extends android.app.Application {
+class DoubanContext extends android.app.Application {
   override def onCreate() {
     val token = PreferenceManager.getDefaultSharedPreferences(this).getString(Constant.accessTokenString, "")
     if (!token.isEmpty) Req.init(token)
