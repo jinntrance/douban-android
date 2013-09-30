@@ -10,6 +10,7 @@ import com.douban.common.Auth
  * @version 1.0
  */
 object Constant {
+  var UPDATED="updated"
   val apiKey = Auth.api_key
   val apiSecret = "95125490b60b01ee"
   val scope = Seq("douban_basic_common", "book_basic_r", "book_basic_w").mkString(",")

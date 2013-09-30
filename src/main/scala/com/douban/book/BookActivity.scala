@@ -5,10 +5,15 @@ import android.os.Bundle
 import android.widget.{ImageView, TextView, LinearLayout}
 import com.douban.base.{DoubanFragment, DoubanActivity, Constant}
 import com.douban.models.Book
-import android.app.Fragment
+import android.app.{Activity, AlertDialog, Fragment}
 import android.view._
 import Constant._
 import collection.JavaConverters._
+import scala.concurrent._
+import ExecutionContext.Implicits.global
+import scala.util.Success
+import android.content.{Intent, DialogInterface, Context}
+import scala.util.Success
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -51,7 +56,28 @@ class BookActivity extends DoubanActivity {
   }
 
   def collect(view: View) {
-    startActivity(SIntent[CollectionActivity].putExtras(getIntent))
+    startActivity(SIntent[CollectionActivity].putExtras(getIntent).putExtra(STATE_ID,view.getId))
+  }
+
+  def deCollect(v:View){
+    alert("删除收藏", "之前的短评将会消失，确定要删除收藏么？",{
+
+    })
+    new AlertDialog.Builder(this)
+      .setTitle("删除收藏")
+      .setMessage("之前的短评将会消失，确定要删除收藏么？")
+      .setPositiveButton("删除", new DialogInterface.OnClickListener {
+      def onClick(dialog: DialogInterface, which: Int) {
+        future{
+          Book.deleteCollection(book.id)
+        }onComplete{case Success(r)=> if(r) toast(R.string.decollect_successfully)}
+      }
+    })
+      .setNegativeButton("取消", new DialogInterface.OnClickListener {
+      def onClick(dialog: DialogInterface, which: Int) {
+        dialog.cancel()
+      }
+    }).show()
   }
 
   def addNote(m: MenuItem) = {
@@ -87,6 +113,14 @@ class BookActivity extends DoubanActivity {
         contentCollapsed = true
       }
   }
+
+  override def onActivityResult(requestCode:Int,  resultCode:Int, data:Intent) {
+    super.onActivityResult(requestCode, resultCode, data)
+    if(resultCode==Activity.RESULT_OK &&data.getExtras.getBoolean(Constant.UPDATED))
+     future{
+       getIntent.putExtra(BOOK_KEY,Book.byId(book.id))
+     }
+  }
 }
 
 class SearchResultDetail extends DoubanFragment {
@@ -106,16 +140,18 @@ class SearchResultDetail extends DoubanFragment {
     if (null != bk) {
       book = bk.asInstanceOf[Book]
       getActivity.setTitle(book.title)
+      if(book.subtitle.isEmpty) getView.find[LinearLayout](R.id.subtitle_layout).setVisibility(View.GONE)
       val toDel = if (null == book.current_user_collection) {
         getView.find[LinearLayout](R.id.book_layout_tags).setVisibility(View.GONE)
         List(R.id.delete)
       }
       else {
         val container=getView.find[LinearLayout](R.id.tags_container)
-        book.current_user_collection.tags.asScala.foreach(e=>container.addView(e))
+        val tags=book.current_user_collection.tags
+        if(null!=tags)  tags.asScala.foreach(e=>container.addView(e))
         val r=Array("很差","较差","还行","推荐","力荐")
         val rating=book.current_user_collection.rating.value.toInt
-        if(rating>0) getView.find[TextView](R.id.recommend).setText(rating+"分"+r(rating-1))
+        if(rating>0) getView.find[TextView](R.id.recommend).setText(rating+"星"+r(rating-1))
         book.current_user_collection.status match {
         case "read" => List(R.id.reading, R.id.wish)
         case "reading" => List(R.id.read, R.id.wish)
@@ -131,9 +167,11 @@ class SearchResultDetail extends DoubanFragment {
         R.id.comment->"current_user_collection.comment"), book)
       getView.find[TextView](R.id.ratingNum).setText(s"(${book.rating.numRaters})")
       getThisActivity.loadImage(if (getThisActivity.usingWIfi|| !getThisActivity.using2G) book.images.large else book.image, R.id.book_img, book.title)
-      if(getView.find[TextView](R.id.book_content_abstract).getLineCount >= getView.find[TextView](R.id.book_content_abstract_longtext).getLineCount)
+      val a=getView.find[TextView](R.id.book_content_abstract)
+      val al=getView.find[TextView](R.id.book_content_abstract_longtext)
+      if(a.getLineHeight > al.getLineHeight)
         getView.find[ImageView](R.id.content_arrow).setVisibility(View.GONE)
-      if(getView.find[TextView](R.id.book_author_abstract).getLineCount >= getView.find[TextView](R.id.book_author_abstract_longtext).getLineCount)
+      if(getView.find[TextView](R.id.book_author_abstract).getLineHeight > getView.find[TextView](R.id.book_author_abstract_longtext).getLineHeight)
         getView.find[ImageView](R.id.author_arrow).setVisibility(View.GONE)
     }
   }

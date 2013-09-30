@@ -6,18 +6,18 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" android:id="@+id/status_layout" >
         <Button
-            android:layout_width="0dp"
+            android:layout_width="0dp"  android:onClick="check"
             android:layout_height="wrap_content" style="@style/DoubanButton.Small"
             android:text="想读"  android:layout_weight="0.25"  android:background="@drawable/button_pink"
             android:id="@+id/wish"  />
         <Button
-            android:layout_width="0dp"
+            android:layout_width="0dp" android:onClick="check"
             android:layout_height="wrap_content"   style="@style/DoubanButton.Small"
             android:text="在读"  android:layout_weight="0.25"  android:background="@drawable/button_green"
             android:id="@+id/reading" />
 
         <Button
-            android:layout_width="0dp"
+            android:layout_width="0dp" android:onClick="check"
             android:layout_height="wrap_content"   style="@style/DoubanButton.Small"
             android:text="读过"  android:layout_weight="0.25"  android:background="@drawable/button_brown"
             android:id="@+id/read" />
@@ -25,7 +25,7 @@
         <RatingBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style = "?android:attr/ratingBarStyleIndicator"
+            style = "@android:style/Widget.Holo.Light.RatingBar"
             android:id="@+id/rating"
             android:stepSize="1"
             android:rating="3"
