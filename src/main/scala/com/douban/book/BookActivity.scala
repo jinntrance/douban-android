@@ -59,8 +59,8 @@ class BookActivity extends DoubanActivity {
   }
 
   def toggleAuthor(v: View) = {
-    v match {
-      case img: ImageView|TextView => if (authorCollapsed) {
+    val img=find[ImageView](R.id.author_arrow)
+    if (authorCollapsed) {
         find[TextView](R.id.book_author_abstract).setVisibility(View.GONE)
         find[TextView](R.id.book_author_abstract_longtext).setVisibility(View.VISIBLE)
         img.setImageResource(android.R.drawable.arrow_up_float)
@@ -71,12 +71,11 @@ class BookActivity extends DoubanActivity {
         find[TextView](R.id.book_author_abstract_longtext).setVisibility(View.GONE)
         authorCollapsed = true
       }
-    }
   }
 
   def toggleContent(v: View) = {
-    v match {
-      case img: ImageView|TextView => if (contentCollapsed) {
+    val img=find[ImageView](R.id.content_arrow)
+    if (contentCollapsed) {
         find[TextView](R.id.book_content_abstract).setVisibility(View.GONE)
         find[TextView](R.id.book_content_abstract_longtext).setVisibility(View.VISIBLE)
         img.setImageResource(android.R.drawable.arrow_up_float)
@@ -87,7 +86,6 @@ class BookActivity extends DoubanActivity {
         find[TextView](R.id.book_content_abstract_longtext).setVisibility(View.GONE)
         contentCollapsed = true
       }
-    }
   }
 }
 

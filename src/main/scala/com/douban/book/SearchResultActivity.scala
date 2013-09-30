@@ -61,7 +61,6 @@ trait OnBookSelectedListener {
 class SearchResultList extends DoubanListFragment {
   var books: java.util.List[Book] = null
   var adapter: SimpleAdapter = null
-  var footer: View = null
   private var currentPage = 1
   private var result: BookSearchResult = null
   private var mCallback: OnBookSelectedListener = null
@@ -89,7 +88,8 @@ class SearchResultList extends DoubanListFragment {
   }
 
   def updateFooter() {
-    getView.find[TextView](R.id.to_load).setText(getString(R.string.swipe_up_to_load, new Integer(books.size()), new Integer(result.total)))
+    val footer=getView.find[TextView](R.id.to_load)
+    if(null!=footer) footer.setText(getString(R.string.swipe_up_to_load, new Integer(books.size()), new Integer(result.total)))
   }
 
   override def onStart() {
