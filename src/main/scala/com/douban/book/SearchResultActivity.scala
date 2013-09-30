@@ -88,7 +88,7 @@ class SearchResultList extends DoubanListFragment {
   }
 
   def updateFooter() {
-    val footer=getView.find[TextView](R.id.to_load)
+    val footer=getThisActivity.find[TextView](R.id.to_load)
     if(null!=footer) footer.setText(getString(R.string.swipe_up_to_load, new Integer(books.size()), new Integer(result.total)))
   }
 

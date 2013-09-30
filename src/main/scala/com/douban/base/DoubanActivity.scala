@@ -3,7 +3,7 @@ package com.douban.base
 import android.content
 import android.net.ConnectivityManager
 import android.preference.PreferenceManager
-import android.view.{View, MenuItem}
+import android.view.{ViewGroup, View, MenuItem}
 import com.douban.book.{LoginActivity, R}
 import com.douban.common._
 import java.lang.Thread.UncaughtExceptionHandler
@@ -15,7 +15,7 @@ import java.util
 import scala.collection.mutable
 import android.os.Bundle
 import android.app._
-import android.widget.{ImageView, TextView, SimpleAdapter}
+import android.widget.{Button, ImageView, TextView, SimpleAdapter}
 import android.graphics.drawable.Drawable
 import java.net.URL
 import java.io.{FileOutputStream, File, InputStream}
@@ -26,6 +26,7 @@ import scala.util.Success
 import android.graphics.{Bitmap, BitmapFactory}
 import android.content.Context
 import android.telephony.TelephonyManager
+import android.widget.LinearLayout.LayoutParams
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -67,8 +68,8 @@ trait Douban {
     Req.g.toJsonTree(b).getAsJsonArray.asScala.map(beanToMap(_)).toList.asJava
   }
 
-  implicit def String2TextView(s:String)(implicit ctx:Context):TextView={
-    val t=new TextView(ctx)
+  implicit def String2TextView(s:String)(implicit ctx:Context):View={
+    val t=new Button(getThisActivity)
     t.setText(s)
     t
   }
@@ -124,22 +125,20 @@ trait DoubanActivity extends SActivity with Douban {
   def menu(v: View) {
   }
 
-  @inline def sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
-
-  @inline def put(key: String, value: Any) {
-    sharedPref.edit().putString(key, value.toString)
+  def put(key: String, value: Any) {
+    defaultSharedPreferences.edit().putString(key, value.toString).commit()
   }
 
-  @inline def get(key: String) = sharedPref.getString(key, "")
+  def get(key: String) = defaultSharedPreferences.getString(key, "")
 
-  @inline def contains(key: String): Boolean = sharedPref.contains(key)
+  def contains(key: String): Boolean = defaultSharedPreferences.contains(key)
 
   def notifyNetworkState() {
     if (!isOnline) toast(R.string.notify_offline)
   }
 
   def getAccessToken = {
-    if (get(Constant.accessTokenString).isEmpty)
+    if (!contains(Constant.accessTokenString))
       startActivity(SIntent[LoginActivity])
     get(Constant.accessTokenString)
   }
@@ -152,7 +151,7 @@ trait DoubanActivity extends SActivity with Douban {
     onBackPressed()
   }
 
-  @inline def isOnline = {
+  def isOnline = {
     val activeNetwork = getApplicationContext.getSystemService(content.Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo
     activeNetwork.isConnectedOrConnecting
   }
@@ -208,7 +207,7 @@ trait DoubanActivity extends SActivity with Douban {
 }
 
 trait DoubanListFragment extends ListFragment with Douban {
-  override implicit val ctx = this.getActivity
+
   def simpleAdapter(a: Activity, list: util.List[_ <: Any], itemLayout: Int, m: Map[Int, String]) = {
     new SimpleAdapter(a, listToMap(list), itemLayout, m.values.toArray, m.keys.toArray)
   }
@@ -216,8 +215,8 @@ trait DoubanListFragment extends ListFragment with Douban {
   def batchSetTextView(m: Map[Int, String], bean: Any) {
     super.batchSetTextView(m, bean, getView)
   }
-
-  def getThisActivity = getActivity.asInstanceOf[DoubanActivity]
+  def getThisActivity:DoubanActivity=getActivity.asInstanceOf[DoubanActivity]
+  implicit val ctx:Context=getThisActivity
 }
 
 trait DoubanFragment extends Fragment with Douban{
@@ -225,8 +224,6 @@ trait DoubanFragment extends Fragment with Douban{
   def batchSetTextView(m: Map[Int, String], bean: Any) {
     super.batchSetTextView(m, bean, getView)
   }
-  def getThisActivity = getActivity.asInstanceOf[DoubanActivity]
-
-  override implicit val ctx = this.getActivity
-
+  def getThisActivity:DoubanActivity=getActivity.asInstanceOf[DoubanActivity]
+  implicit val ctx:Context=getThisActivity
 }

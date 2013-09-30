@@ -20,7 +20,21 @@
         android:gravity="center" style="@style/DoubanActionBar.Title"
         android:layout_alignParentBottom="false"
         android:layout_alignWithParentIfMissing="false"
-        android:layout_centerInParent="true" />
+        android:layout_alignParentLeft="false"
+        android:layout_alignBaseline="@+id/cancel"
+        android:layout_alignParentRight="false"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/cancel" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="公开"  style="@style/DoubanActionBar.Title"
+        android:id="@+id/privacy"
+        android:layout_alignParentRight="false"
+        android:layout_centerInParent="true"
+        android:layout_alignBaseline="@+id/submit"
+        android:layout_toLeftOf="@+id/submit" />
 
     <ImageView
         android:layout_width="wrap_content"

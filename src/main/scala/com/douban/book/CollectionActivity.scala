@@ -9,6 +9,9 @@ import collection.JavaConverters._
 import scala.concurrent._
 import ExecutionContext.Implicits.global
 import org.scaloid.common._
+import scala.util.{Failure, Success}
+import android.app.Activity
+import android.content.Intent
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -30,22 +33,28 @@ class CollectionActivity extends DoubanActivity {
     replaceActionBar(R.layout.header_edit,getString(R.string.add_collection))
     book = getIntent.getSerializableExtra(Constant.BOOK_KEY).asInstanceOf[Book]
     var collection: Collection =  book.current_user_collection
-    if(null==collection) {
-      spinnerDialog("Waiting","loading collections")
-      getAccessToken
-      collection=Book.collectionOf(book.id)
-    }
     if (null != collection) {
-      val currentStatus = find[Button](mapping(collection.status))
-      check(currentStatus)
-      find[EditText](R.id.comment).setText(collection.comment)
-      find[RatingBar](R.id.rating).setRating(collection.rating.value.toFloat)
-      val tagsContainer: LinearLayout = find[LinearLayout](R.id.tags_container)
-      collection.tags.asScala.foreach(tag=>tagsContainer.addView(tag))
+      updateCollection(collection)
     } else {
       val id = getIntent.getExtras.getInt(Constant.STATE_ID)
       check(find[Button](if (0 == id) R.id.wish else id))
+      future {
+        getAccessToken
+        Book.collectionOf(book.id)
+      }onSuccess{case c=>{
+        collection=c
+        updateCollection(c)
+      }}
     }
+  }
+
+  def updateCollection(collection: Collection) {
+    val currentStatus = find[Button](mapping(collection.status))
+    check(currentStatus)
+    find[EditText](R.id.comment).setText(collection.comment)
+    find[RatingBar](R.id.rating).setRating(collection.rating.value.toFloat)
+    val tagsContainer: LinearLayout = find[LinearLayout](R.id.tags_container)
+    collection.tags.asScala.foreach(tag => tagsContainer.addView(tag))
   }
 
   def check(v: View) {
@@ -64,9 +73,15 @@ class CollectionActivity extends DoubanActivity {
 
   def submit(v:View){
     val layout=find[LinearLayout](R.id.tags_container)
-    val tags =(0 to layout.getChildCount).map(i=>layout.getChildAt(i).asInstanceOf[TextView].getText).mkString(" ")
+    val tags =(0 until layout.getChildCount).map(i=>layout.getChildAt(i).asInstanceOf[TextView].getText).toSet.mkString(" ")
     val p=CollectionPosted(status,tags,find[EditText](R.id.comment).getText.toString.trim,find[RatingBar](R.id.rating).getNumStars,privacy)
-    future(Book.postCollection(book.id,p,false)) onComplete(op=>toast(R.string.collect_successfully))
+    future(Book.postCollection(book.id,p)) onComplete{
+      case Success(Some(c:Collection))=>{
+      toast(R.string.collect_successfully)
+      setResult(Activity.RESULT_OK, new Intent().putExtra(Constant.UPDATED,true))
+      this.finish()
+    } case Failure(c)=>toast(R.string.collect_failed)
+    }
   }
 }
 
