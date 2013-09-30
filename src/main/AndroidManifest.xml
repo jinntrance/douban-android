@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.douban.book"  >
 
-    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="18"/>
+    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="14"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
@@ -39,6 +39,8 @@
         </activity>
         <activity android:label="@string/scan_book" android:name=".ui.ScannerActivity"/>
         <activity android:name=".ui.BookActivity"/>
+        <activity android:name=".ui.CollectionActivity"/>
+        <activity android:name=".ui.AddNoteActivity"/>
         <activity android:name=".ui.AboutActivity"/>
         <activity android:name="com.google.zxing.client.android.CaptureActivity" android:screenOrientation="landscape"
             android:clearTaskOnLaunch="true"

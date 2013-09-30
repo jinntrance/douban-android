@@ -5,10 +5,10 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="#c9c9c9" />
+        android:background="@color/gray_divider" />
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="#ffffff" />
+        android:background="@color/white" />
 </merge>

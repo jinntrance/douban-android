@@ -1,5 +1,4 @@
-package com.douban.book
-package ui
+package com.douban.book.ui
 
 import android.os.Bundle
 import android.webkit.{WebView, WebViewClient}
