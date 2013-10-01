@@ -12,6 +12,7 @@
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" android:id="@+id/list_container">
+            <include layout="@layout/book_list_item"/>
         </LinearLayout>
         <include layout="@layout/book_list_loader" android:id="@+id/load_more"
             android:layout_alignParentTop="false"

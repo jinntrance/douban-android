@@ -206,7 +206,7 @@ trait DoubanActivity extends SActivity with Douban {
   }
 }
 
-trait DoubanListFragment extends ListFragment with Douban {
+trait DoubanListFragment[T<:DoubanActivity] extends ListFragment with Douban {
 
   def simpleAdapter(a: Activity, list: util.List[_ <: Any], itemLayout: Int, m: Map[Int, String]) = {
     new SimpleAdapter(a, listToMap(list), itemLayout, m.values.toArray, m.keys.toArray)
@@ -215,15 +215,16 @@ trait DoubanListFragment extends ListFragment with Douban {
   def batchSetTextView(m: Map[Int, String], bean: Any) {
     super.batchSetTextView(m, bean, getView)
   }
-  def getThisActivity:DoubanActivity=getActivity.asInstanceOf[DoubanActivity]
+  def getThisActivity:T=getActivity.asInstanceOf[T]
   implicit val ctx:Context=getThisActivity
 }
 
-trait DoubanFragment extends Fragment with Douban{
+trait DoubanFragment[T<:DoubanActivity] extends Fragment with Douban{
 
   def batchSetTextView(m: Map[Int, String], bean: Any) {
     super.batchSetTextView(m, bean, getView)
   }
-  def getThisActivity:DoubanActivity=getActivity.asInstanceOf[DoubanActivity]
+  def getThisActivity:T=getActivity.asInstanceOf[T]
+
   implicit val ctx:Context=getThisActivity
 }

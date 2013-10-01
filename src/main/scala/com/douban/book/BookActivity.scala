@@ -5,14 +5,13 @@ import android.os.Bundle
 import android.widget.{ImageView, TextView, LinearLayout}
 import com.douban.base.{DoubanFragment, DoubanActivity, Constant}
 import com.douban.models.Book
-import android.app.{Activity, AlertDialog, Fragment}
+import android.app.{ AlertDialog}
 import android.view._
 import Constant._
 import collection.JavaConverters._
 import scala.concurrent._
 import ExecutionContext.Implicits.global
-import scala.util.Success
-import android.content.{Intent, DialogInterface, Context}
+import android.content.{ DialogInterface}
 import scala.util.Success
 
 /**
@@ -27,7 +26,7 @@ class BookActivity extends DoubanActivity {
   var book: Book = null
   var contentCollapsed = true
   var authorCollapsed = true
-  var collectionFrag:CollectionFragment=null
+  var catalogCollapsed = true
 
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
@@ -58,16 +57,7 @@ class BookActivity extends DoubanActivity {
 
   def collect(view: View) {
     getIntent.putExtra(STATE_ID,view.getId)
-    if(null==collectionFrag) collectionFrag=new CollectionFragment()
-    getFragmentManager.beginTransaction().add(R.id.book_view_id,collectionFrag).commit()
-  }
-
-  def check(v: View) {
-    if(null!=collectionFrag) collectionFrag.check(v)
-  }
-
-  def submit(v: View) {
-    if(null!=collectionFrag) collectionFrag.submit(v)
+    startActivity(SIntent[CollectionActivity].putExtras(getIntent))
   }
 
   def deCollect(v:View){
@@ -124,14 +114,21 @@ class BookActivity extends DoubanActivity {
         contentCollapsed = true
       }
   }
-
-  override def onActivityResult(requestCode:Int,  resultCode:Int, data:Intent) {
-    super.onActivityResult(requestCode, resultCode, data)
-    if(resultCode==Activity.RESULT_OK &&data.getExtras.getBoolean(Constant.UPDATED))
-     future{
-       getIntent.putExtra(BOOK_KEY,Book.byId(book.id))
-     }
+  def toggleCatalog(v: View) = {
+    val img=find[ImageView](R.id.catalog_arrow)
+    if (catalogCollapsed) {
+        find[TextView](R.id.book_catalog_abstract).setVisibility(View.GONE)
+        find[TextView](R.id.book_catalog_abstract_longtext).setVisibility(View.VISIBLE)
+        img.setImageResource(android.R.drawable.arrow_up_float)
+        catalogCollapsed = false
+      } else {
+        img.setImageResource(android.R.drawable.arrow_down_float)
+        find[TextView](R.id.book_catalog_abstract).setVisibility(View.VISIBLE)
+        find[TextView](R.id.book_catalog_abstract_longtext).setVisibility(View.GONE)
+        catalogCollapsed = true
+      }
   }
+
 }
 
 class SearchResultDetail extends DoubanFragment {
