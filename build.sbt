@@ -10,11 +10,11 @@ organization := "com.douban"
 
 name := "douban-book"
 
-version := "1.0"
+version := "2.1"
 
 scalaVersion := "2.10.2"
 
-platformTarget in Android := "android-18"
+platformTarget in Android := "android-14"
 
 //resolvers += "oss repo" at "https://oss.sonatype.org/content/repositories/releases/"
 

@@ -9,12 +9,15 @@ import scala.concurrent._
 import org.scaloid.common._
 import ExecutionContext.Implicits.global
 import java.lang.String
-import android.app.{ListFragment, Activity}
+import android.app.{ProgressDialog, ListFragment, Activity}
 import com.douban.models.BookSearchResult
 import scala.util.Failure
 import scala.util.Success
-import android.content.Context
+import android.content.{DialogInterface, Context}
 import Constant._
+import com.douban.models.BookSearchResult
+import scala.util.Failure
+import scala.util.Success
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -25,19 +28,39 @@ import Constant._
  * @see http://developers.douban.com/wiki/?title=api_v2
  */
 class SearchResultActivity extends DoubanActivity with OnBookSelectedListener {
-  private var searchText = ""
-
+  var searchText = ""
   protected override def onCreate(b: Bundle) = {
     super.onCreate(b)
     setContentView(R.layout.book_list)
-    searchText = SearchActivity.getSearchText(getIntent.getExtras)
-    if (null == b) {
-      if (findViewById(R.id.list_container) != null) {
-        val listFragment = new SearchResultList()
-        listFragment.setArguments(getIntent.getExtras)
-        getFragmentManager.beginTransaction().replace(R.id.list_container, listFragment).commit()
+    searchText=getIntent.getStringExtra(SEARCH_TEXT_KEY)
+    if(null == b){
+    var pd: ProgressDialog = null
+    runOnUiThread(pd =ProgressDialog.show(this, getString(R.string.search), getString(R.string.searching), false, true, new DialogInterface.OnCancelListener() {
+      def onCancel(p1: DialogInterface) {
+        finish()
+      }
+    }))
+    future {
+      Book.search(searchText, "", count = this.count)
+    } onComplete {
+      case Success(books) => {
+        if (books.total == 0) pd.setMessage(R.string.search_no_result)
+        else {
+          debug("search result total:" + books.total)
+          if (findViewById(R.id.list_container) != null) {
+            val listFragment = new SearchResultList()
+            listFragment.setArguments(getIntent.putExtra(BOOKS_KEY,books).getExtras)
+            getFragmentManager.beginTransaction().replace(R.id.list_container, listFragment).commit()
+          }
+        }
+        pd.cancel()
+      }
+      case Failure(err) => {
+        error(err.getMessage)
+        finish()
       }
     }
+  }
   }
 
   def updateTitle() {
@@ -67,7 +90,7 @@ class SearchResultList extends DoubanListFragment {
 
   override def onCreate(b: Bundle) {
     super.onCreate(b)
-    result = SearchActivity.getBooks(getActivity.getIntent.getExtras)
+    result = getArguments.getSerializable(BOOKS_KEY).asInstanceOf[BookSearchResult]
     books = result.books
     adapter = new BookItemAdapter(getActivity, listToMap(books), R.layout.book_list_item, SearchResult.mapping.values.toArray, SearchResult.mapping.keys.toArray)
     setListAdapter(adapter)
@@ -108,7 +131,7 @@ class SearchResultList extends DoubanListFragment {
     if (currentPage * this.count < result.total) future {
       toast(R.string.loading)
       currentPage += 1
-      Book.search(SearchActivity.getSearchText(getActivity.getIntent.getExtras), "", currentPage, this.count)
+      Book.search(getActivity.asInstanceOf[SearchResultActivity].searchText, "", currentPage, this.count)
     } onComplete {
       case Success(b) => {
         books.addAll(b.books)
@@ -118,6 +141,7 @@ class SearchResultList extends DoubanListFragment {
       case Failure(err) => sys.error(err.getMessage)
     }
   }
+
 
   override def onListItemClick(l: ListView, v: View, position: Int, id: Long) {
     getListView.setItemChecked(position, true)
@@ -143,11 +167,11 @@ class SearchResultList extends DoubanListFragment {
           getActivity.getIntent.putExtra(BOOK_KEY, books.get(position))
           convertView.find[ImageView](R.id.favorite).onClick(v=>{
             getActivity.getIntent.putExtra(BOOK_KEY, books.get(position))
-            getFragmentManager.beginTransaction().add(R.id.list_container_root,new CollectionFragment()).commit()
+            startActivity(SIntent[CollectionActivity].putExtras(getActivity.getIntent))
           })
           convertView.find[TextView](R.id.currentState).onClick(v => {
             getActivity.getIntent.putExtra(BOOK_KEY, books.get(position)).putExtra(STATE_ID, v.getId)
-            getFragmentManager.beginTransaction().add(R.id.list_container_root,new CollectionFragment()).commit()
+            startActivity(SIntent[CollectionActivity].putExtras(getActivity.getIntent))
           })
         }
         getThisActivity.loadImage(b.image, R.id.book_img, b.title, convertView)

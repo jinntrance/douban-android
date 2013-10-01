@@ -38,7 +38,7 @@
         <include layout="@layout/tags"/>
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content" android:onClick="addTag"
             android:text="点此添加标签"  android:paddingLeft="@dimen/half_padding"
             android:id="@+id/add_tag"
             android:layout_gravity="center" />

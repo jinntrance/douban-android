@@ -24,10 +24,10 @@
                     android:orientation="vertical"
                     android:layout_width="0dp"  android:gravity="center"
                     android:layout_height="fill_parent"  android:layout_gravity="center"
-                    android:id="@+id/book_basic_info"  android:layout_weight="0.2">
+                    android:id="@+id/book_basic_info"  android:layout_weight="0.22">
                     <ImageView
                         android:layout_width="fill_parent"
-                        android:layout_height="130dp"
+                        android:layout_height="95dp"
                         android:id="@+id/book_img" android:src="@drawable/default_book_img"/>
                     <LinearLayout
                         android:orientation="horizontal"
@@ -45,7 +45,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="不要和鲨鱼接吻,但要和勇敢一起睡觉"  android:maxLength="12" android:ellipsize="end"
+                        android:text="不要和鲨鱼接吻,但要和勇敢一起睡觉"  android:singleLine="true" android:ellipsize="end"
                         style="@style/DoubanTextTitle.Black"
                         android:id="@+id/bookTitle" />
                     <LinearLayout
@@ -59,7 +59,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="不要和鲨鱼接吻,但要和勇敢一起睡觉"  android:maxLength="13" android:ellipsize="end" style="@style/DoubanTextGray"
+                            android:text="不要和鲨鱼接吻,但要和勇敢一起睡觉"  android:singleLine="true" android:ellipsize="end" style="@style/DoubanTextGray"
                             android:id="@+id/bookSubtitle" />
                     </LinearLayout>
                     <LinearLayout
@@ -67,7 +67,7 @@
                         android:layout_height="wrap_content">
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="wrap_content" android:singleLine="true"
                             android:text="Author"  android:ellipsize="end"
                             style="@style/DoubanTextGray.Prefix"
                             android:id="@+id/bookAuthor" />
@@ -78,7 +78,7 @@
                             style="@style/DoubanTextGray.Root"/>
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="wrap_content"  android:singleLine="true" android:ellipsize="end"
                             android:text=""   android:id="@+id/bookTranslators"
                             style="@style/DoubanTextGray.Suffix"/>
 
@@ -148,9 +148,9 @@
             </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content" android:id="@+id/status_layout"
-            android:layout_gravity="right|center_vertical">
+            android:layout_gravity="center_vertical">
             <Button
                 android:layout_width="0dp"  android:onClick="collect"
                 android:layout_height="wrap_content" style="@style/DoubanButton.Small"
@@ -171,7 +171,7 @@
             <Button
                 android:layout_width="0dp" android:onClick="deCollect"
                 android:layout_height="wrap_content"  style="@style/DoubanButton.Small"
-                android:text="删除收藏" android:layout_weight="0.13" android:background="@drawable/button_black"
+                android:text="删除收藏" android:layout_weight="0.15" android:background="@drawable/button_black"
                 android:id="@+id/delete" />
 
         </LinearLayout>
@@ -306,7 +306,7 @@
                 <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/author_arrow"
+                        android:id="@+id/catalog_arrow"
                         android:layout_gravity="bottom|right"
                         android:src="@android:drawable/arrow_down_float" android:onClick="toggleCatalog"/>
                 </FrameLayout>

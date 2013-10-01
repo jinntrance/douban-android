@@ -15,18 +15,21 @@
         android:orientation="vertical"
         android:clickable="false"  android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true"
-        android:layout_weight="0.5">
+        android:layout_weight="0.45">
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:clickable="false"
-            android:weightSum="1" >
-        <EditText android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/book_search_hint" android:padding="@dimen/standard_padding" android:paddingLeft="@dimen/standard_side_padding" android:paddingRight="@dimen/standard_side_padding" android:paddingTop="@dimen/standard_padding" android:paddingBottom="@dimen/standard_padding"
-            android:id="@+id/searchBookText"  android:background="@drawable/edit_text"  android:singleLine="true"
-            android:gravity="left" android:layout_weight="0.8"/>
+            android:weightSum="1"
+            android:baselineAligned="false">
+            <SearchView  android:layout_weight="0.8"
+                android:layout_width="0dp" android:singleLine="true" android:background="@color/white"
+                android:layout_height="wrap_content" android:queryHint="@string/book_search_hint"
+                android:id="@+id/searchBookText"
+                android:gravity="left"
+                android:inputType="textAutoComplete" />
+
         </LinearLayout>
 
         <Button
@@ -46,7 +49,7 @@
         android:gravity="center"
         android:orientation="vertical"
         android:clickable="false"
-        android:layout_weight="0.5">
+        android:layout_weight="0.55">
         <Button
             android:layout_width="140dp"
             android:layout_height="wrap_content"
