@@ -131,7 +131,7 @@ class BookActivity extends DoubanActivity {
 
 }
 
-class SearchResultDetail extends DoubanFragment {
+class SearchResultDetail extends DoubanFragment[BookActivity] {
   var book: Book = null
 
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, b: Bundle) = inflater.inflate(R.layout.book_view, container, false)

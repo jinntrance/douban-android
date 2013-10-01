@@ -81,7 +81,7 @@ trait OnBookSelectedListener {
   def onBookSelected(position: Int)
 }
 
-class SearchResultList extends DoubanListFragment {
+class SearchResultList extends DoubanListFragment[SearchResultActivity] {
   var books: java.util.List[Book] = null
   var adapter: SimpleAdapter = null
   private var currentPage = 1
