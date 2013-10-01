@@ -4,7 +4,7 @@ import com.douban.base.{DoubanFragment, Constant, DoubanActivity}
 import android.os.Bundle
 import com.douban.models.{CollectionPosted, Book, Collection}
 import android.widget._
-import android.view.View
+import android.view.{ViewGroup, LayoutInflater, View}
 import collection.JavaConverters._
 import scala.concurrent._
 import ExecutionContext.Implicits.global
@@ -20,40 +20,43 @@ import android.content.Intent
  * @since 9/29/13 2:47 AM
  * @version 1.0
  */
-class CollectionActivity extends DoubanActivity {
+class CollectionFragment extends DoubanFragment{
   var status="wish"
   var privacy="public" //private
-  var book:Book=null
-  var collection:Collection=null
   val mapping=Map("read"-> R.id.read, "reading"-> R.id.reading,  "wish" -> R.id.wish)
   val reverseMapping=mapping.map(_.swap)
-  protected override def onCreate(b: Bundle) {
-    super.onCreate(b)
-    setContentView(R.layout.collection)
-    replaceActionBar(R.layout.header_edit,getString(R.string.add_collection))
-    book = getIntent.getSerializableExtra(Constant.BOOK_KEY).asInstanceOf[Book]
-    var collection: Collection =  book.current_user_collection
+  var book:Book=null
+  var collection:Collection=null
+
+  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, b: Bundle): View =inflater.inflate(R.layout.collection,container,false)
+
+  override def onActivityCreated(b: Bundle) {
+
+    super.onActivityCreated(b)
+    getThisActivity.replaceActionBar(R.layout.header_edit,getString(R.string.add_collection))
+    book = getActivity.getIntent.getSerializableExtra(Constant.BOOK_KEY).asInstanceOf[Book]
+    collection =  book.current_user_collection
     if (null != collection) {
       updateCollection(collection)
     } else {
-      val id = getIntent.getExtras.getInt(Constant.STATE_ID)
-      check(find[Button](if (0 == id) R.id.wish else id))
+      val id = getActivity.getIntent.getExtras.getInt(Constant.STATE_ID)
+      check(getView.find[Button](if (0 == id) R.id.wish else id))
       future {
-        getAccessToken
+        getThisActivity.getAccessToken
         Book.collectionOf(book.id)
       }onSuccess{case c=>{
-        collection=c
+        collection=c//TODO
         updateCollection(c)
       }}
     }
   }
 
   def updateCollection(collection: Collection) {
-    val currentStatus = find[Button](mapping(collection.status))
+    val currentStatus = getView.find[Button](mapping(collection.status))
     check(currentStatus)
-    find[EditText](R.id.comment).setText(collection.comment)
-    find[RatingBar](R.id.rating).setRating(collection.rating.value.toFloat)
-    val tagsContainer: LinearLayout = find[LinearLayout](R.id.tags_container)
+    getView.find[EditText](R.id.comment).setText(collection.comment)
+    getView.find[RatingBar](R.id.rating).setRating(collection.rating.value.toFloat)
+    val tagsContainer: LinearLayout = getView.find[LinearLayout](R.id.tags_container)
     collection.tags.asScala.foreach(tag => tagsContainer.addView(tag))
   }
 
@@ -64,7 +67,7 @@ class CollectionActivity extends DoubanActivity {
         status=reverseMapping(b.getId)
         b.setText(b.getText + mark.toString)
         List(R.id.read, R.id.reading, R.id.wish).filter(_ != b.getId).foreach(id => {
-          val button = find[Button](id)
+          val button = getView.find[Button](id)
           button.setText(button.getText.toString.takeWhile(_ != mark))
         })
       }
@@ -72,17 +75,20 @@ class CollectionActivity extends DoubanActivity {
   }
 
   def submit(v:View){
-    val layout=find[LinearLayout](R.id.tags_container)
+    val layout=getView.find[LinearLayout](R.id.tags_container)
     val tags =(0 until layout.getChildCount).map(i=>layout.getChildAt(i).asInstanceOf[TextView].getText).toSet.mkString(" ")
-    val p=CollectionPosted(status,tags,find[EditText](R.id.comment).getText.toString.trim,find[RatingBar](R.id.rating).getNumStars,privacy)
+    val p=CollectionPosted(status,tags,getView.find[EditText](R.id.comment).getText.toString.trim,getView.find[RatingBar](R.id.rating).getNumStars,privacy)
     future(Book.postCollection(book.id,p)) onComplete{
       case Success(Some(c:Collection))=>{
-      toast(R.string.collect_successfully)
-      setResult(Activity.RESULT_OK, new Intent().putExtra(Constant.UPDATED,true))
-      this.finish()
-    } case Failure(c)=>toast(R.string.collect_failed)
+        toast(R.string.collect_successfully)
+        getActivity.getIntent.putExtra(Constant.UPDATED,true)
+        getThisActivity.getFragmentManager.beginTransaction().remove(this).commit()
+      } case Failure(c)=>toast(R.string.collect_failed)
     }
   }
+
 }
 
-class TagFragment extends DoubanFragment
+class TagFragment extends DoubanFragment{
+
+}

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
-    android:layout_width="fill_parent" android:layout_height="fill_parent" >
+    android:layout_width="fill_parent" android:layout_height="fill_parent" android:padding="@dimen/half_padding">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView"  android:layout_marginTop="@dimen/standard_margin"
+        android:id="@+id/scrollView"
         android:layout_alignParentTop="true">
 
         <LinearLayout
@@ -24,10 +24,10 @@
                     android:orientation="vertical"
                     android:layout_width="0dp"  android:gravity="center"
                     android:layout_height="fill_parent"  android:layout_gravity="center"
-                    android:id="@+id/book_basic_info"  android:layout_weight="0.35">
+                    android:id="@+id/book_basic_info"  android:layout_weight="0.2">
                     <ImageView
                         android:layout_width="fill_parent"
-                        android:layout_height="160dp"
+                        android:layout_height="130dp"
                         android:id="@+id/book_img" android:src="@drawable/default_book_img"/>
                     <LinearLayout
                         android:orientation="horizontal"
@@ -40,12 +40,12 @@
                     android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/book_basic_info"  android:layout_weight="0.7"
+                    android:id="@+id/book_basic_info"  android:layout_weight="0.8"
                     android:layout_gravity="center_horizontal|top">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Title"  android:maxLength="16" android:ellipsize="end"
+                        android:text="不要和鲨鱼接吻,但要和勇敢一起睡觉"  android:maxLength="12" android:ellipsize="end"
                         style="@style/DoubanTextTitle.Black"
                         android:id="@+id/bookTitle" />
                     <LinearLayout
@@ -59,7 +59,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="无"  android:maxLength="20" android:ellipsize="end" style="@style/DoubanTextGray"
+                            android:text="不要和鲨鱼接吻,但要和勇敢一起睡觉"  android:maxLength="13" android:ellipsize="end" style="@style/DoubanTextGray"
                             android:id="@+id/bookSubtitle" />
                     </LinearLayout>
                     <LinearLayout
@@ -68,14 +68,19 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="作者:"
-                            style="@style/DoubanTextGray.Prefix"/>
+                            android:text="Author"  android:ellipsize="end"
+                            style="@style/DoubanTextGray.Prefix"
+                            android:id="@+id/bookAuthor" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Author" android:maxLength="20" android:ellipsize="end"
-                            style="@style/DoubanTextGray"
-                            android:id="@+id/bookAuthor" />
+                            android:text="/"
+                            style="@style/DoubanTextGray.Root"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""   android:id="@+id/bookTranslators"
+                            style="@style/DoubanTextGray.Suffix"/>
 
 
                     </LinearLayout>
@@ -143,29 +148,30 @@
             </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:id="@+id/status_layout">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/status_layout"
+            android:layout_gravity="right|center_vertical">
             <Button
                 android:layout_width="0dp"  android:onClick="collect"
-                android:layout_height="wrap_content" android:layout_margin="@dimen/standard_margin"
+                android:layout_height="wrap_content" style="@style/DoubanButton.Small"
                 android:text="想读"  android:layout_weight="0.25"  android:background="@drawable/button_pink"
                 android:id="@+id/wish"  />
 
             <Button
                 android:layout_width="0dp" android:onClick="collect"
-                android:layout_height="wrap_content"    android:layout_margin="@dimen/standard_margin"
+                android:layout_height="wrap_content"   style="@style/DoubanButton.Small"
                 android:text="在读"  android:layout_weight="0.25"  android:background="@drawable/button_green"
                 android:id="@+id/reading" />
 
             <Button
                 android:layout_width="0dp" android:onClick="collect"
-                android:layout_height="wrap_content"   android:layout_margin="@dimen/standard_margin"
+                android:layout_height="wrap_content"  style="@style/DoubanButton.Small"
                 android:text="读过"  android:layout_weight="0.25"  android:background="@drawable/button_brown"
                 android:id="@+id/read" />
             <Button
                 android:layout_width="0dp" android:onClick="deCollect"
-                android:layout_height="wrap_content"   android:layout_margin="@dimen/standard_margin"
-                android:text="删除" android:layout_weight="0.1" android:background="@color/background_black"
+                android:layout_height="wrap_content"  style="@style/DoubanButton.Small"
+                android:text="删除收藏" android:layout_weight="0.13" android:background="@drawable/button_black"
                 android:id="@+id/delete" />
 
         </LinearLayout>
@@ -270,9 +276,44 @@
                         android:src="@android:drawable/arrow_down_float" android:onClick="toggleAuthor"/>
                 </FrameLayout>
             </LinearLayout>
+            <include layout="@layout/divider" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"  android:layout_margin="@dimen/half_margin"
+                android:layout_height="wrap_content"
+                android:id="@+id/book_catalog">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" style="@style/DoubanTextTitle.Green"
+                    android:text="@string/author_intro"
+                    android:id="@+id/book_catalog_title" />
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"   android:onClick="toggleCatalog"
+                    android:layout_height="wrap_content" android:ellipsize="marquee" android:maxLines="4"
+                    android:text="无"
+                    android:id="@+id/book_catalog_abstract" />
+
+                <TextView
+                        android:layout_width="wrap_content"   android:onClick="toggleCatalog"
+                        android:layout_height="wrap_content"   android:visibility="gone"
+                        android:text="The Android design language relies on traditional typographic tools such as scale, space, rhythm, and alignment with an underlying grid. Successful deployment of these tools is essential to help users quickly understand a screen of information. To support such use of typography, Ice Cream Sandwich introduced a new type family named Roboto, created specifically for the requirements of UI and high-resolution screens."
+                        android:id="@+id/book_catalog_abstract_longtext" />
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/author_arrow"
+                        android:layout_gravity="bottom|right"
+                        android:src="@android:drawable/arrow_down_float" android:onClick="toggleCatalog"/>
+                </FrameLayout>
+            </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"

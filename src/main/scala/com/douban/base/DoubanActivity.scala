@@ -112,7 +112,7 @@ trait DoubanActivity extends SActivity with Douban {
     }
   }
 
-  protected def replaceActionBar(layoutId:Int=R.layout.header,title:String=getString(R.string.app_name)) {
+  def replaceActionBar(layoutId:Int=R.layout.header,title:String=getString(R.string.app_name)) {
     getActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM)
     getActionBar.setCustomView(layoutId)
     setWindowTitle(title)

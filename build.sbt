@@ -33,7 +33,7 @@ install <<= install in Android
 
 libraryDependencies ++= Seq(
 			"org.scaloid" % "scaloid_2.10" % "2.4-8" withSources() withJavadoc(),
-			"com.douban" % "scala-api_2.10" % "2.4.1" withSources() withJavadoc(),
+			"com.douban" % "scala-api_2.10" % "2.4.2" withSources() withJavadoc(),
 			"com.google.zxing" % "core" % "2.2",
 			"com.google.zxing" % "android-integration" % "2.2",
 			"com.google.android" % "support-v4" % "r7"

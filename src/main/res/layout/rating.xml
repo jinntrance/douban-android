@@ -4,20 +4,23 @@
     android:layout_width="fill_parent" android:layout_height="wrap_content" >
     <ImageView  android:contentDescription="Ratings"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="16dp"
         android:id="@+id/star_icon"
-        android:src="@drawable/icon_star" />
+        android:src="@drawable/icon_star"
+        android:layout_gravity="center" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ratedStars"
-        android:text="9"  style="@style/DoubanTextGray"
+        android:text="9"  style="@style/DoubanTextGray.Root"
         android:contentDescription="评分"
-        android:textColor="@color/text_orange" />
+        android:textColor="@color/text_orange"
+        android:layout_gravity="center" />
          <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="(9008)"   style="@style/DoubanTextGray.Root"
-        android:id="@+id/ratingNum" />
+        android:id="@+id/ratingNum"
+             android:layout_gravity="center" />
 </LinearLayout>

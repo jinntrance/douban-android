@@ -140,11 +140,14 @@ class SearchResultList extends DoubanListFragment {
             case _ => ""
           })
         } else {
+          getActivity.getIntent.putExtra(BOOK_KEY, books.get(position))
           convertView.find[ImageView](R.id.favorite).onClick(v=>{
-            startActivity(SIntent[CollectionActivity].putExtra(BOOK_KEY, books.get(position)))
+            getActivity.getIntent.putExtra(BOOK_KEY, books.get(position))
+            getFragmentManager.beginTransaction().add(R.id.list_container_root,new CollectionFragment()).commit()
           })
           convertView.find[TextView](R.id.currentState).onClick(v => {
-            startActivity(SIntent[CollectionActivity].putExtra(BOOK_KEY, books.get(position)).putExtra(STATE_ID, v.getId))
+            getActivity.getIntent.putExtra(BOOK_KEY, books.get(position)).putExtra(STATE_ID, v.getId)
+            getFragmentManager.beginTransaction().add(R.id.list_container_root,new CollectionFragment()).commit()
           })
         }
         getThisActivity.loadImage(b.image, R.id.book_img, b.title, convertView)

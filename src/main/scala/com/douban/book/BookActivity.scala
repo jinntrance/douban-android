@@ -27,6 +27,7 @@ class BookActivity extends DoubanActivity {
   var book: Book = null
   var contentCollapsed = true
   var authorCollapsed = true
+  var collectionFrag:CollectionFragment=null
 
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
@@ -56,7 +57,17 @@ class BookActivity extends DoubanActivity {
   }
 
   def collect(view: View) {
-    startActivity(SIntent[CollectionActivity].putExtras(getIntent).putExtra(STATE_ID,view.getId))
+    getIntent.putExtra(STATE_ID,view.getId)
+    if(null==collectionFrag) collectionFrag=new CollectionFragment()
+    getFragmentManager.beginTransaction().add(R.id.book_view_id,collectionFrag).commit()
+  }
+
+  def check(v: View) {
+    if(null!=collectionFrag) collectionFrag.check(v)
+  }
+
+  def submit(v: View) {
+    if(null!=collectionFrag) collectionFrag.submit(v)
   }
 
   def deCollect(v:View){
@@ -126,14 +137,12 @@ class BookActivity extends DoubanActivity {
 class SearchResultDetail extends DoubanFragment {
   var book: Book = null
 
-  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = {
-    inflater.inflate(R.layout.book_view, container, false)
-  }
+  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, b: Bundle) = inflater.inflate(R.layout.book_view, container, false)
 
-  override def onStart() {
-    super.onStart()
-    updateBookView()
-  }
+  override def onActivityCreated(b:Bundle){
+   super.onActivityCreated(b)
+   if(null==b) updateBookView()
+ }
 
   def updateBookView() {
     val bk = getActivity.getIntent.getExtras.getSerializable(BOOK_KEY)
@@ -150,8 +159,11 @@ class SearchResultDetail extends DoubanFragment {
         val tags=book.current_user_collection.tags
         if(null!=tags)  tags.asScala.foreach(e=>container.addView(e))
         val r=Array("很差","较差","还行","推荐","力荐")
-        val rating=book.current_user_collection.rating.value.toInt
-        if(rating>0) getView.find[TextView](R.id.recommend).setText(rating+"星"+r(rating-1))
+        val rat=book.current_user_collection.rating
+        if(null!=rat) {
+          val rating=rat.value.toInt
+          getView.find[TextView](R.id.recommend).setText(rating+"星"+r(rating-1))
+        }
         book.current_user_collection.status match {
         case "read" => List(R.id.reading, R.id.wish)
         case "reading" => List(R.id.read, R.id.wish)
@@ -161,9 +173,11 @@ class SearchResultDetail extends DoubanFragment {
       val l = getView.find[LinearLayout](R.id.status_layout)
       toDel.foreach(id => l.removeView(getView.findViewById(id)))
 
-      batchSetTextView(SearchResult.mapping ++ Map(R.id.bookSubtitle->"subtitle",R.id.bookPublishYear -> "pubdate", R.id.bookPages -> "pages", R.id.bookPrice -> "price",
+      batchSetTextView(SearchResult.mapping ++ Map(
+        R.id.bookTranslators->"translator",R.id.bookSubtitle->"subtitle",R.id.bookPublishYear -> "pubdate", R.id.bookPages -> "pages", R.id.bookPrice -> "price",
         R.id.book_author_abstract -> "author_intro", R.id.book_author_abstract_longtext -> "author_intro",
         R.id.book_content_abstract -> "summary", R.id.book_content_abstract_longtext -> "summary",
+        R.id.book_catalog_abstract -> "catalog",R.id.book_catalog_abstract_longtext -> "catalog",
         R.id.comment->"current_user_collection.comment"), book)
       getView.find[TextView](R.id.ratingNum).setText(s"(${book.rating.numRaters})")
       getThisActivity.loadImage(if (getThisActivity.usingWIfi|| !getThisActivity.using2G) book.images.large else book.image, R.id.book_img, book.title)
