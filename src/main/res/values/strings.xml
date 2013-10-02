@@ -64,6 +64,7 @@
     <string name="msg_share_text">Or type some text and press Enter</string>
     <string name="content_intro">内容简介</string>
     <string name="author_intro">作者简介</string>
+    <string name="catalog_intro">目录</string>
     <string name="annotation">读书笔记</string>
     <string name="add_note">写笔记</string>
     <string name="add_collection">收藏</string>

@@ -39,7 +39,7 @@
         <item name="android:padding">@dimen/one_dp</item>
     </style>
     <style name="DoubanTextTitle" parent="@android:style/Widget.Holo.Light.TextView">
-        <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:textSize">@dimen/text_medium</item>
         <item name="android:ellipsize">end</item>
     </style>
     <style name="DoubanTextTitle.Black" parent="DoubanTextTitle">
@@ -63,7 +63,7 @@
         <item name="android:paddingLeft">0dp</item>
     </style>
     <style name="DoubanTextGray.Root.Small" parent="DoubanTextGray.Root">
-        <item name="android:textSize">@dimen/text_micro</item>
+        <item name="android:textSize">@dimen/text_small</item>
     </style>
     <style name="DoubanTextGray.Prefix" parent="DoubanTextGray">
         <item name="android:layout_marginRight">0dp</item>

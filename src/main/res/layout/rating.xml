@@ -6,7 +6,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:layout_margin="0dp"
         android:id="@+id/star_icon"  android:padding="0dp"
-        android:src="@drawable/icon_star"
+        android:src="@drawable/search_result_rate"
         android:layout_gravity="center" />
 
     <TextView
@@ -16,11 +16,11 @@
         android:text="9"  style="@style/DoubanTextGray.Root.Small"
         android:contentDescription="评分"
         android:textColor="@color/text_orange"
-        android:layout_gravity="left" />
+        android:layout_gravity="center|left" />
          <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"    android:singleLine="true"  android:ellipsize="marquee"
         android:text="(90080)"   style="@style/DoubanTextGray.Root.Small"
         android:id="@+id/ratingNum"
-             android:layout_gravity="left" />
+             android:layout_gravity="center|left" />
 </LinearLayout>

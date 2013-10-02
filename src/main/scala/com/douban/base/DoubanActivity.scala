@@ -36,13 +36,22 @@ import android.widget.LinearLayout.LayoutParams
  * @version 1.0
  */
 trait Douban {
+
+  type V={
+    def findViewById(id:Int):View
+  }
+
   protected val count = 10
 
   implicit val ctx:Context
 
+  def getCurrentView:V
+
+  protected lazy val rootView:V=getCurrentView
+
   def getThisActivity:DoubanActivity
 
-  def batchSetTextView[T <: View](m: Map[Int, String], bean: Any, holder: T) {
+  def batchSetTextView[T <: V](m: Map[Int, String], bean: Any, holder: T=rootView) {
     val values = beanToMap(bean)
     m.foreach {
       case (id, key) => {
@@ -73,6 +82,24 @@ trait Douban {
     t.setText(s)
     t
   }
+
+  def hideWhenEmpty(m:(Int,String)){
+    hideWhenEmpty(m._1,m._2)
+  }
+
+  def hideWhenEmpty(resId:Int,value:String){
+     if(null==value||value.isEmpty) {
+       val v=rootView.findViewById(resId)
+       if(null!=v)  v.setVisibility(View.GONE)
+     }
+  }
+
+  def hideWhen(resId:Int,condition:Boolean){
+     if(condition) {
+       val v=rootView.findViewById(resId)
+       if(null!=v)  v.setVisibility(View.GONE)
+     }
+  }
 }
 
 trait DoubanActivity extends SActivity with Douban {
@@ -101,7 +128,9 @@ trait DoubanActivity extends SActivity with Douban {
     }*/
   override def getFragmentManager: FragmentManager = super.getFragmentManager
 
-  def getThisActivity:DoubanActivity=this
+  def getThisActivity=this
+
+  def getCurrentView:V=this
 
   def handle[R](result: => R, handler: (R) => Unit) {
     future {
@@ -212,19 +241,23 @@ trait DoubanListFragment[T<:DoubanActivity] extends ListFragment with Douban {
     new SimpleAdapter(a, listToMap(list), itemLayout, m.values.toArray, m.keys.toArray)
   }
 
-  def batchSetTextView(m: Map[Int, String], bean: Any) {
-    super.batchSetTextView(m, bean, getView)
-  }
   def getThisActivity:T=getActivity.asInstanceOf[T]
+
   implicit val ctx:Context=getThisActivity
+
+  override lazy val rootView=getView
+
+  def getCurrentView:V=getView
 }
 
 trait DoubanFragment[T<:DoubanActivity] extends Fragment with Douban{
 
-  def batchSetTextView(m: Map[Int, String], bean: Any) {
-    super.batchSetTextView(m, bean, getView)
-  }
   def getThisActivity:T=getActivity.asInstanceOf[T]
 
   implicit val ctx:Context=getThisActivity
+
+  def getCurrentView:V=getView
+
+  override lazy val rootView=getView
+
 }
