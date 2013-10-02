@@ -167,10 +167,8 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
       } onComplete {
         case Success(b) => {
           books.addAll(b.books)
-          b.books.map(b=>{
-            data.add(beanToMap(b))
-          })
-          this.notifyDataSetChanged()
+          data.addAll(b.books.map(beanToMap(_)))
+          notifyDataSetChanged()
           updateFooter()
           loading=false
         }
