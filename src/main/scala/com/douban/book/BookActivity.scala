@@ -86,47 +86,17 @@ class BookActivity extends DoubanActivity {
   }
 
   def toggleAuthor(v: View) = {
-    val img=find[ImageView](R.id.author_arrow)
-    if (authorCollapsed) {
-        find[TextView](R.id.book_author_abstract).setVisibility(View.GONE)
-        find[TextView](R.id.book_author_abstract_longtext).setVisibility(View.VISIBLE)
-        img.setImageResource(android.R.drawable.arrow_up_float)
-        authorCollapsed = false
-      } else {
-        img.setImageResource(android.R.drawable.arrow_down_float)
-        find[TextView](R.id.book_author_abstract).setVisibility(View.VISIBLE)
-        find[TextView](R.id.book_author_abstract_longtext).setVisibility(View.GONE)
-        authorCollapsed = true
-      }
+    toggle(R.id.book_author_abstract,R.id.book_author_abstract_longtext)
+    authorCollapsed=toggleBackGround(authorCollapsed,R.id.content_arrow,(android.R.drawable.arrow_up_float,android.R.drawable.arrow_down_float))
   }
 
   def toggleContent(v: View) = {
-    val img=find[ImageView](R.id.content_arrow)
-    if (contentCollapsed) {
-        find[TextView](R.id.book_content_abstract).setVisibility(View.GONE)
-        find[TextView](R.id.book_content_abstract_longtext).setVisibility(View.VISIBLE)
-        img.setImageResource(android.R.drawable.arrow_up_float)
-        contentCollapsed = false
-      } else {
-        img.setImageResource(android.R.drawable.arrow_down_float)
-        find[TextView](R.id.book_content_abstract).setVisibility(View.VISIBLE)
-        find[TextView](R.id.book_content_abstract_longtext).setVisibility(View.GONE)
-        contentCollapsed = true
-      }
+    toggle((R.id.book_content_abstract,R.id.book_content_abstract_longtext))
+    contentCollapsed=toggleBackGround(contentCollapsed,R.id.author_arrow,(android.R.drawable.arrow_up_float,android.R.drawable.arrow_down_float))
   }
   def toggleCatalog(v: View) = {
-    val img=find[ImageView](R.id.catalog_arrow)
-    if (catalogCollapsed) {
-        find[TextView](R.id.book_catalog_abstract).setVisibility(View.GONE)
-        find[TextView](R.id.book_catalog_abstract_longtext).setVisibility(View.VISIBLE)
-        img.setImageResource(android.R.drawable.arrow_up_float)
-        catalogCollapsed = false
-      } else {
-        img.setImageResource(android.R.drawable.arrow_down_float)
-        find[TextView](R.id.book_catalog_abstract).setVisibility(View.VISIBLE)
-        find[TextView](R.id.book_catalog_abstract_longtext).setVisibility(View.GONE)
-        catalogCollapsed = true
-      }
+    toggle((R.id.book_catalog_abstract,R.id.book_catalog_abstract_longtext))
+    catalogCollapsed=toggleBackGround(catalogCollapsed,R.id.catalog_arrow,(android.R.drawable.arrow_up_float,android.R.drawable.arrow_down_float))
   }
 
 }
