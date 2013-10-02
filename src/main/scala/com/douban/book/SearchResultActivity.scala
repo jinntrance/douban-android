@@ -35,15 +35,17 @@ class SearchResultActivity extends DoubanActivity with OnBookSelectedListener {
     searchText=getIntent.getStringExtra(SEARCH_TEXT_KEY)
     if(null == b){
     var pd: ProgressDialog = null
-    runOnUiThread(pd =ProgressDialog.show(this, getString(R.string.search), getString(R.string.searching), false, true, new DialogInterface.OnCancelListener() {
+    var noResult=true
+    runOnUiThread{pd= ProgressDialog.show(this, getString(R.string.search), getString(R.string.searching), false, true, new DialogInterface.OnCancelListener() {
       def onCancel(p1: DialogInterface) {
-        finish()
+          if(noResult)  finish()
       }
-    }))
+    })}
     future {
       Book.search(searchText, "", count = this.count)
     } onComplete {
       case Success(books) => {
+        noResult=false
         if (books.total == 0) pd.setMessage(R.string.search_no_result)
         else runOnUiThread{
           debug("search result total:" + books.total)

@@ -8,11 +8,11 @@
     <dimen name="padding_large">8dip</dimen>
     <dimen name="padding_medium">4dp</dimen>
     <dimen name="padding_small">2dp</dimen>
-    <dimen name="text_micro">10sp</dimen>
-    <dimen name="text_small">12sp</dimen>
-    <dimen name="text_medium">14sp</dimen>
-    <dimen name="text_large">16sp</dimen>
-    <dimen name="text_huge">18sp</dimen>
-    <dimen name="text_titanic">20sp</dimen>
-    <dimen name="text_gigantic">22sp</dimen>
+    <dimen name="text_micro">12sp</dimen>
+    <dimen name="text_small">14sp</dimen>
+    <dimen name="text_medium">16sp</dimen>
+    <dimen name="text_large">18sp</dimen>
+    <dimen name="text_huge">20sp</dimen>
+    <dimen name="text_titanic">23sp</dimen>
+    <dimen name="text_gigantic">24sp</dimen>
 </resources>

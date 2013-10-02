@@ -146,20 +146,21 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
     if (null != bk) {
       book = bk.asInstanceOf[Book]
       getActivity.setTitle(book.title)
-      if(book.subtitle.isEmpty) getView.find[LinearLayout](R.id.subtitle_layout).setVisibility(View.GONE)
+      Map(R.id.subtitle_layout->book.subtitle,R.id.book_author->book.author_intro,R.id.book_content->book.summary,R.id.book_catalog->book.catalog).foreach(hideWhenEmpty)
+
       val toDel = if (null == book.current_user_collection) {
-        getView.find[LinearLayout](R.id.book_layout_tags).setVisibility(View.GONE)
+        rootView.find[LinearLayout](R.id.book_layout_tags).setVisibility(View.GONE)
         List(R.id.delete)
       }
       else {
-        val container=getView.find[LinearLayout](R.id.tags_container)
+        val container=rootView.find[LinearLayout](R.id.tags_container)
         val tags=book.current_user_collection.tags
         if(null!=tags)  tags.asScala.foreach(e=>container.addView(e))
         val r=Array("很差","较差","还行","推荐","力荐")
         val rat=book.current_user_collection.rating
         if(null!=rat) {
           val rating=rat.value.toInt
-          getView.find[TextView](R.id.recommend).setText(rating+"星"+r(rating-1))
+          rootView.find[TextView](R.id.recommend).setText(rating+"星"+r(rating-1))
         }
         book.current_user_collection.status match {
         case "read" => List(R.id.reading, R.id.wish)
@@ -167,8 +168,8 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
         case "wish" => List(R.id.reading, R.id.read)
         case _ => List(R.id.delete)
       }}
-      val l = getView.find[LinearLayout](R.id.status_layout)
-      toDel.foreach(id => l.removeView(getView.findViewById(id)))
+      val l = rootView.find[LinearLayout](R.id.status_layout)
+      toDel.foreach(id => l.removeView(rootView.findViewById(id)))
 
       batchSetTextView(SearchResult.mapping ++ Map(
         R.id.bookTranslators->"translator",R.id.bookSubtitle->"subtitle",R.id.bookPublishYear -> "pubdate", R.id.bookPages -> "pages", R.id.bookPrice -> "price",
@@ -176,14 +177,14 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
         R.id.book_content_abstract -> "summary", R.id.book_content_abstract_longtext -> "summary",
         R.id.book_catalog_abstract -> "catalog",R.id.book_catalog_abstract_longtext -> "catalog",
         R.id.comment->"current_user_collection.comment"), book)
-      getView.find[TextView](R.id.ratingNum).setText(s"(${book.rating.numRaters})")
+      rootView.find[TextView](R.id.ratingNum).setText(s"(${book.rating.numRaters})")
       getThisActivity.loadImage(if (getThisActivity.usingWIfi|| !getThisActivity.using2G) book.images.large else book.image, R.id.book_img, book.title)
-      val a=getView.find[TextView](R.id.book_content_abstract)
-      val al=getView.find[TextView](R.id.book_content_abstract_longtext)
+      val a=rootView.find[TextView](R.id.book_content_abstract)
+      val al=rootView.find[TextView](R.id.book_content_abstract_longtext)
       if(a.getLineHeight > al.getLineHeight)
-        getView.find[ImageView](R.id.content_arrow).setVisibility(View.GONE)
-      if(getView.find[TextView](R.id.book_author_abstract).getLineHeight > getView.find[TextView](R.id.book_author_abstract_longtext).getLineHeight)
-        getView.find[ImageView](R.id.author_arrow).setVisibility(View.GONE)
+        rootView.find[ImageView](R.id.content_arrow).setVisibility(View.GONE)
+      if(rootView.find[TextView](R.id.book_author_abstract).getLineHeight > rootView.find[TextView](R.id.book_author_abstract_longtext).getLineHeight)
+        rootView.find[ImageView](R.id.author_arrow).setVisibility(View.GONE)
     }
   }
 }
