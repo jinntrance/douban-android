@@ -76,7 +76,7 @@ trait Douban {
     }.asJava
 
   def listToMap[T](b: util.List[_ <: Any]): util.List[util.Map[String, String]] = {
-    Req.g.toJsonTree(b).getAsJsonArray.asScala.map(beanToMap(_)).toList.asJava
+    new util.ArrayList[util.Map[String, String]](Req.g.toJsonTree(b).getAsJsonArray.asScala.map(beanToMap(_)).asJavaCollection)
   }
 
   implicit def String2TextView(s:String)(implicit ctx:Context):View={
