@@ -9,10 +9,7 @@ import scala.concurrent._
 import org.scaloid.common._
 import ExecutionContext.Implicits.global
 import java.lang.String
-import android.app.{ProgressDialog, ListFragment, Activity}
-import com.douban.models.BookSearchResult
-import scala.util.Failure
-import scala.util.Success
+import android.app.{ProgressDialog, Activity}
 import android.content.{DialogInterface, Context}
 import Constant._
 import com.douban.models.BookSearchResult

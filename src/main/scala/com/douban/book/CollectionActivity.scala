@@ -14,6 +14,7 @@ import scala.Some
 import scala.util.Success
 import com.douban.book.db.MyTagsHelper
 import java.util
+import android.content.Context
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -134,39 +135,45 @@ class TagFragment extends DoubanFragment[CollectionActivity]{
     super.onViewCreated(view, savedInstanceState)
     getThisActivity.replaceActionBar(R.layout.header_tag,getString(R.string.add_tags))
     val helper = MyTagsHelper()
-    val myTags: util.List[String] = helper.findData(15).map(_.title)
-    val myTagsAdapter=new TagAdapter(myTags)
-    rootView.find[ListView](R.id.my_tags_list).setAdapter(myTagsAdapter)
+//    val myTags: util.List[String] = helper.findData(15).map(_.title)
+//    val myTagsAdapter=new TagAdapter(myTags)
+
     if(getThisActivity.usingWIfi|| !getThisActivity.using2G) {
       future{
         val r=Book.tagsOf(defaultSharedPreferences.getLong(Constant.userIdString,0))
-        if(myTags.size()==0) myTags.addAll(r.tags.map(_.title))
-        myTagsAdapter.notifyDataSetChanged()
-        r.tags.foreach(helper.insert)
+        runOnUiThread(rootView.find[ListView](R.id.my_tags_list).setAdapter(new TagAdapter(r.tags.map(_.title))))
+//        if(myTags.size()==0) myTags.addAll(r.tags.map(_.title))
+//        myTagsAdapter.notifyDataSetChanged()
+//        r.tags.foreach(helper.insert)
       }
     }
-    rootView.find[ListView](R.id.pop_tags_list).setAdapter(new TagAdapter(getThisActivity.book.tags.asScala.map(_.title).asJava))
+    rootView.find[ListView](R.id.pop_tags_list).setAdapter(new TagAdapter(getThisActivity.book.tags.map(_.title)))
 
   }
 
-  class TagAdapter(tags:java.util.List[String]) extends ArrayAdapter[String](getThisActivity,R.layout.add_tags_item,tags) {
+  class TagAdapter(tags:java.util.List[String]) extends BaseAdapter {
+    lazy val inflater=getThisActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE).asInstanceOf[LayoutInflater]
     override def getView(position: Int, view: View, parent: ViewGroup): View = {
-      val convertView = super.getView(position, view, parent)
+      val convertView = if(null==view) inflater.inflate(R.layout.add_tags_item,parent,false) else view
       if(null!=convertView){
          convertView.find[TextView](R.id.tag).onClick(v=>{
            val txt:String=tags_input.getText.toString
            val tag=getItem(position)
-           tags_input.setText(
-           if(txt.contains(tag))  {
+           tags_input.setText(if(txt.contains(tag)) {
              v.setVisibility(View.GONE)
-             txt.replace(tag,"")
+             txt.replaceAll(tags.get(position),"")
            }  else{
              v.setVisibility(View.VISIBLE)
              txt+tag
-           })}).setText(getItem(position))
+           })}).setText(tags.get(position))
       }
       convertView
     }
 
+    def getItem(p1: Int): AnyRef = tags.get(p1)
+
+    def getItemId(p1: Int): Long = p1
+
+    def getCount: Int = tags.size()
   }
 }
