@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
-    android:layout_width="fill_parent" android:layout_height="fill_parent" android:padding="@dimen/half_padding">
+    android:layout_width="fill_parent" android:layout_height="fill_parent" >
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -207,7 +207,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" android:layout_margin="@dimen/half_margin"
+                android:layout_height="wrap_content" android:layout_margin="@dimen/margin_medium"
                 android:id="@+id/book_content">
 
                 <TextView
@@ -245,7 +245,7 @@
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="fill_parent"  android:layout_margin="@dimen/half_margin"
+                android:layout_width="fill_parent"  android:layout_margin="@dimen/margin_medium"
                 android:layout_height="wrap_content"
                 android:id="@+id/book_author">
 
@@ -280,7 +280,7 @@
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="fill_parent"  android:layout_margin="@dimen/half_margin"
+                android:layout_width="fill_parent"  android:layout_margin="@dimen/margin_medium"
                 android:layout_height="wrap_content"
                 android:id="@+id/book_catalog">
 
@@ -328,7 +328,8 @@
             android:id="@+id/annotation_icon"
             android:src="@drawable/book_content_notes"
             android:layout_gravity="left"
-            android:layout_alignParentLeft="true" />
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -343,7 +344,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/guide_icon"
+            android:id="@+id/guide_icon" android:layout_margin="@dimen/margin_medium"
             android:src="@drawable/book_content_right_arrow"
             android:layout_gravity="right|center_vertical|fill_vertical"
             android:layout_alignParentRight="true"

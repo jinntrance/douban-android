@@ -45,7 +45,7 @@ class SearchResultActivity extends DoubanActivity with OnBookSelectedListener {
     } onComplete {
       case Success(books) => {
         if (books.total == 0) pd.setMessage(R.string.search_no_result)
-        else {
+        else runOnUiThread{
           debug("search result total:" + books.total)
           if (findViewById(R.id.list_container) != null) {
             val listFragment = new SearchResultList()
@@ -106,7 +106,7 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
     super.onActivityCreated(bundle)
     getListView.setDivider(null)
     getListView.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS)
-    getActivity.asInstanceOf[SearchResultActivity].updateTitle()
+    getThisActivity.updateTitle()
     updateFooter()
   }
 

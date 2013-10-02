@@ -13,7 +13,7 @@
         android:layout_height="0dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:clickable="false"  android:descendantFocusability="beforeDescendants"
+        android:clickable="false"
         android:focusableInTouchMode="true"
         android:layout_weight="0.45">
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -24,7 +24,7 @@
             android:weightSum="1"
             android:baselineAligned="false">
             <SearchView  android:layout_weight="0.8"
-                android:layout_width="0dp" android:singleLine="true" android:background="@color/white"
+                android:layout_width="0dp" android:singleLine="true"
                 android:layout_height="wrap_content" android:queryHint="@string/book_search_hint"
                 android:id="@+id/searchBookText"
                 android:gravity="left"
@@ -36,8 +36,7 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="@string/search"  android:onClick="search"
-            android:layout_margin="@dimen/standard_margin"
-            android:id="@+id/searchButton"
+            android:id="@+id/searchButton" android:layout_margin="@dimen/margin_large"
             android:background="@drawable/button_green_darker"/>
     </LinearLayout>
 
@@ -54,8 +53,7 @@
             android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:text="@string/scan_book"
-            android:id="@+id/scanButton"
-            android:layout_margin="@dimen/standard_margin"
+            android:id="@+id/scanButton" android:layout_margin="@dimen/margin_large"
             android:background="@drawable/button_green_darker"
             android:textColor="@color/text_white"
             android:onClick="scan"

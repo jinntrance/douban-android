@@ -31,16 +31,15 @@
     <style name="DoubanButton.WhiteText" parent="@android:style/Widget.Holo.Light.Button">
         <item name="android:background">@color/text_background</item>
         <item name="android:textColor">@color/text_white</item>
-        <item name="android:padding">@dimen/quarter_padding</item>
+        <item name="android:padding">@dimen/one_dp</item>
     </style>
     <style name="DoubanButton.Small" parent="DoubanButton.WhiteText">
-        <item name="android:textSize">14sp</item>
-        <item name="android:layout_margin">@dimen/eighth_margin</item>
-        <item name="android:padding">0dp</item>
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:layout_margin">@dimen/margin_micro</item>
+        <item name="android:padding">@dimen/one_dp</item>
     </style>
     <style name="DoubanTextTitle" parent="@android:style/Widget.Holo.Light.TextView">
-        <item name="android:textSize">16sp</item>
-        <item name="android:layout_margin">@dimen/quarter_margin</item>
+        <item name="android:textSize">@dimen/text_large</item>
         <item name="android:ellipsize">end</item>
     </style>
     <style name="DoubanTextTitle.Black" parent="DoubanTextTitle">
@@ -54,7 +53,7 @@
     </style>
     <style name="DoubanTextGray" parent="@android:style/Widget.Holo.Light.TextView">
         <item name="android:textColor">@color/gray</item>
-        <item name="android:layout_margin">1dp</item>
+        <item name="android:layout_margin">@dimen/one_dp</item>
         <item name="android:padding">0dp</item>
     </style>
     <style name="DoubanTextGray.Root" parent="DoubanTextGray">
@@ -62,6 +61,9 @@
         <item name="android:paddingRight">0dp</item>
         <item name="android:layout_marginLeft">0dp</item>
         <item name="android:paddingLeft">0dp</item>
+    </style>
+    <style name="DoubanTextGray.Root.Small" parent="DoubanTextGray.Root">
+        <item name="android:textSize">@dimen/text_micro</item>
     </style>
     <style name="DoubanTextGray.Prefix" parent="DoubanTextGray">
         <item name="android:layout_marginRight">0dp</item>
@@ -73,12 +75,11 @@
         <item name="android:background">@drawable/edit_text</item>
         <item name="android:textColor">@color/text_black</item>
         <item name="android:textColorHint">@color/gray_light</item>
-        <item name="android:layout_margin">@dimen/quarter_margin</item>
-        <item name="android:padding">@dimen/half_padding</item>
+        <item name="android:layout_margin">@dimen/margin_small</item>
+        <item name="android:padding">@dimen/padding_small</item>
     </style>
     <style name="DoubanActionBar.Title" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/text_white</item>
-        <item name="android:textSize">20sp</item>
     </style>
     <style name="DoubanActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:titleTextStyle">@style/DoubanActionBar.Title</item>

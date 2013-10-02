@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    <dimen name="standard_margin">16dip</dimen>
-    <dimen name="half_margin">8dip</dimen>
-    <dimen name="quarter_margin">4dip</dimen>
-    <dimen name="eighth_margin">2dip</dimen>
+    <dimen name="margin_large">16dip</dimen>
+    <dimen name="margin_medium">8dip</dimen>
+    <dimen name="margin_small">4dip</dimen>
+    <dimen name="margin_micro">2dip</dimen>
     <dimen name="one_dp">1dip</dimen>
-    <dimen name="standard_padding">8dip</dimen>
-    <dimen name="standard_side_padding">16dip</dimen>
-    <dimen name="half_padding">4dip</dimen>
-    <dimen name="quarter_padding">2dip</dimen>
+    <dimen name="padding_large">8dip</dimen>
+    <dimen name="padding_medium">4dp</dimen>
+    <dimen name="padding_small">2dp</dimen>
+    <dimen name="text_micro">10sp</dimen>
+    <dimen name="text_small">12sp</dimen>
+    <dimen name="text_medium">14sp</dimen>
+    <dimen name="text_large">16sp</dimen>
+    <dimen name="text_huge">18sp</dimen>
+    <dimen name="text_titanic">20sp</dimen>
+    <dimen name="text_gigantic">22sp</dimen>
 </resources>
