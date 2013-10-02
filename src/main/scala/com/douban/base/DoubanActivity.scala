@@ -100,6 +100,32 @@ trait Douban {
        if(null!=v)  v.setVisibility(View.GONE)
      }
   }
+
+  /**
+   *
+   * @return the visible one
+   */
+  def toggle(t:(Int,Int)):View={
+    val v1=rootView.findViewById(t._1)
+    val v2=rootView.findViewById(t._2)
+    if(v1.getVisibility==View.GONE){
+      v2.setVisibility(View.GONE)
+      v1.setVisibility(View.VISIBLE)
+      v1
+    } else {
+      v1.setVisibility(View.GONE)
+      v2.setVisibility(View.VISIBLE)
+      v2
+    }
+  }
+
+  def toggleBackGround(firstOneAsBackground:Boolean,viewId:Int,res:(Int,Int)):Boolean={
+    val chosen=if(firstOneAsBackground) res._1 else res._2
+    rootView.findViewById(viewId) match {
+      case img:ImageView=>img.setImageResource(chosen)
+    }
+    !firstOneAsBackground
+  }
 }
 
 trait DoubanActivity extends SActivity with Douban {

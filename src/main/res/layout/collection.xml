@@ -25,7 +25,7 @@
         <RatingBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style = "@android:style/Widget.Holo.Light.RatingBar"
+            style = "@style/DoubanRatingBar"
             android:id="@+id/rating"
             android:stepSize="1"
             android:rating="3"

@@ -37,6 +37,9 @@ class CollectionActivity extends DoubanActivity {
   def submit(v: View) {
     if(null!=collectionFrag) collectionFrag.submit(v)
   }
+  def checkPrivacy(v:View) {
+    if(null!=collectionFrag) collectionFrag.checkPrivacy(v)
+  }
 
   def addTag(v:View){
     getFragmentManager.beginTransaction().add(R.id.collection_container,new TagFragment()).addToBackStack("tags").commit()
@@ -45,7 +48,7 @@ class CollectionActivity extends DoubanActivity {
 
 class CollectionFragment extends DoubanFragment[CollectionActivity]{
   var status="wish"
-  var privacy="public" //private
+  var public=true
   val mapping=Map("read"-> R.id.read, "reading"-> R.id.reading,  "wish" -> R.id.wish)
   val reverseMapping=mapping.map(_.swap)
   var collection:Collection=null
@@ -84,21 +87,32 @@ class CollectionFragment extends DoubanFragment[CollectionActivity]{
   def check(v: View) {
     v match {
       case b: Button => {
-        val mark = '✓'
-        status=reverseMapping(b.getId)
-        b.setText(b.getText + mark.toString)
-        List(R.id.read, R.id.reading, R.id.wish).filter(_ != b.getId).foreach(id => {
-          val button = getView.find[Button](id)
-          button.setText(button.getText.toString.takeWhile(_ != mark))
-        })
+
+      val mark = '✓'
+        val txt: String = b.getText.toString
+        if(!txt.contains(mark)) {
+          status = reverseMapping(b.getId)
+          b.setText(txt + mark.toString)
+          List(R.id.read, R.id.reading, R.id.wish).filter(_ != b.getId).foreach(id => {
+            val button = getView.find[Button](id)
+            button.setText(button.getText.toString.takeWhile(_ != mark))
+          }
+        )
       }
+    }
+  }
+  }
+
+  def checkPrivacy(v:View) {
+    v match {
+      case b:Button if b.getId==R.id.privacy => public=toggleBackGround(public,b.getId,(R.drawable.private_icon,R.drawable.public_icon))
     }
   }
 
   def submit(v:View){
     val layout=getView.find[LinearLayout](R.id.tags_container)
     val tags =(0 until layout.getChildCount).map(i=>layout.getChildAt(i).asInstanceOf[TextView].getText).toSet.mkString(" ")
-    val p=CollectionPosted(status,tags,getView.find[EditText](R.id.comment).getText.toString.trim,getView.find[RatingBar](R.id.rating).getNumStars,privacy)
+    val p=CollectionPosted(status,tags,getView.find[EditText](R.id.comment).getText.toString.trim,getView.find[RatingBar](R.id.rating).getNumStars,privacy=if(public) "public" else "private")
     future(Book.postCollection(getThisActivity.book.id,p)) onComplete{
       case Success(Some(c:Collection))=>{
         toast(R.string.collect_successfully)
@@ -116,6 +130,6 @@ class TagFragment extends DoubanFragment[CollectionActivity]{
   override def onViewCreated(view: View, savedInstanceState: Bundle) {
     super.onViewCreated(view, savedInstanceState)
     getThisActivity.book.tags
-    Book.tagsOf(defaultSharedPreferences.getLong(Constant.userIdString,0))//TODO
+    Book.tagsOf(defaultSharedPreferences.getLong(Constant.userIdString,0))
   }
 }
