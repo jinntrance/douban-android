@@ -2,16 +2,18 @@ package com.douban.book
 
 import com.douban.base.{DoubanFragment, Constant, DoubanActivity}
 import android.os.Bundle
-import com.douban.models.{CollectionPosted, Book, Collection}
+import com.douban.models.{ReviewRating, Book, CollectionPosted, Collection}
 import android.widget._
 import android.view.{ViewGroup, LayoutInflater, View}
 import collection.JavaConverters._
 import scala.concurrent._
 import ExecutionContext.Implicits.global
 import org.scaloid.common._
-import scala.util.{Failure, Success}
-import android.app.Activity
-import android.content.Intent
+import scala.util.Failure
+import scala.Some
+import scala.util.Success
+import com.douban.book.db.MyTagsHelper
+import java.util
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -67,11 +69,9 @@ class CollectionFragment extends DoubanFragment[CollectionActivity]{
       check(getView.find[Button](if (0 == id) R.id.wish else id))
       future {
         getThisActivity.getAccessToken
-        Book.collectionOf(book.id)
-      }onSuccess{case c=>{
-        collection= book.updateCollection(c)
-        updateCollection(c)
-      }}
+        collection= book.updateCollection(Book.collectionOf(book.id))
+        updateCollection(collection)
+      }
     }
   }
 
@@ -79,7 +79,8 @@ class CollectionFragment extends DoubanFragment[CollectionActivity]{
     val currentStatus = getView.find[Button](mapping(collection.status))
     check(currentStatus)
     getView.find[EditText](R.id.comment).setText(collection.comment)
-    getView.find[RatingBar](R.id.rating).setRating(collection.rating.value.toFloat)
+    val rat: ReviewRating = collection.rating
+    if(null!=rat)getView.find[RatingBar](R.id.rating).setRating(rat.value.toFloat)
     val tagsContainer: LinearLayout = getView.find[LinearLayout](R.id.tags_container)
     collection.tags.asScala.foreach(tag => tagsContainer.addView(tag))
   }
@@ -104,9 +105,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity]{
   }
 
   def checkPrivacy(v:View) {
-    v match {
-      case b:Button if b.getId==R.id.privacy => public=toggleBackGround(public,b.getId,(R.drawable.private_icon,R.drawable.public_icon))
-    }
+    runOnUiThread(public=toggleBackGround(public,v,(R.drawable.private_icon,R.drawable.public_icon)))
   }
 
   def submit(v:View){
@@ -114,22 +113,60 @@ class CollectionFragment extends DoubanFragment[CollectionActivity]{
     val tags =(0 until layout.getChildCount).map(i=>layout.getChildAt(i).asInstanceOf[TextView].getText).toSet.mkString(" ")
     val p=CollectionPosted(status,tags,getView.find[EditText](R.id.comment).getText.toString.trim,getView.find[RatingBar](R.id.rating).getNumStars,privacy=if(public) "public" else "private")
     future(Book.postCollection(getThisActivity.book.id,p)) onComplete{
-      case Success(Some(c:Collection))=>{
+      case Success(Some(c:Collection))=>runOnUiThread{
         toast(R.string.collect_successfully)
 //        getActivity.getIntent.putExtra(Constant.UPDATED,true)
         getThisActivity.getFragmentManager.beginTransaction().remove(this).commit()
-      } case Failure(c)=>toast(R.string.collect_failed)
+      }
+      case _=>toast(R.string.collect_failed)
     }
   }
 
 }
 
 class TagFragment extends DoubanFragment[CollectionActivity]{
+
+  lazy val tags_input=rootView.find[MultiAutoCompleteTextView](R.id.tags_multi_text)
+
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, b: Bundle): View =inflater.inflate(R.layout.add_tags,container,false)
 
   override def onViewCreated(view: View, savedInstanceState: Bundle) {
     super.onViewCreated(view, savedInstanceState)
-    getThisActivity.book.tags
-    Book.tagsOf(defaultSharedPreferences.getLong(Constant.userIdString,0))
+    getThisActivity.replaceActionBar(R.layout.header_tag,getString(R.string.add_tags))
+    val helper = MyTagsHelper()
+    val myTags: util.List[String] = helper.findData(15).map(_.title)
+    val myTagsAdapter=new TagAdapter(myTags)
+    rootView.find[ListView](R.id.my_tags_list).setAdapter(myTagsAdapter)
+    if(getThisActivity.usingWIfi|| !getThisActivity.using2G) {
+      future{
+        val r=Book.tagsOf(defaultSharedPreferences.getLong(Constant.userIdString,0))
+        if(myTags.size()==0) myTags.addAll(r.tags.map(_.title))
+        myTagsAdapter.notifyDataSetChanged()
+        r.tags.foreach(helper.insert)
+      }
+    }
+    rootView.find[ListView](R.id.pop_tags_list).setAdapter(new TagAdapter(getThisActivity.book.tags.asScala.map(_.title).asJava))
+
+  }
+
+  class TagAdapter(tags:java.util.List[String]) extends ArrayAdapter[String](getThisActivity,R.layout.add_tags_item,tags) {
+    override def getView(position: Int, view: View, parent: ViewGroup): View = {
+      val convertView = super.getView(position, view, parent)
+      if(null!=convertView){
+         convertView.find[TextView](R.id.tag).onClick(v=>{
+           val txt:String=tags_input.getText.toString
+           val tag=getItem(position)
+           tags_input.setText(
+           if(txt.contains(tag))  {
+             v.setVisibility(View.GONE)
+             txt.replace(tag,"")
+           }  else{
+             v.setVisibility(View.VISIBLE)
+             txt+tag
+           })}).setText(getItem(position))
+      }
+      convertView
+    }
+
   }
 }

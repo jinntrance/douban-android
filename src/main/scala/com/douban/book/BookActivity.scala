@@ -61,17 +61,14 @@ class BookActivity extends DoubanActivity {
   }
 
   def deCollect(v:View){
-    alert("删除收藏", "之前的短评将会消失，确定要删除收藏么？",{
-
-    })
     new AlertDialog.Builder(this)
       .setTitle("删除收藏")
       .setMessage("之前的短评将会消失，确定要删除收藏么？")
       .setPositiveButton("删除", new DialogInterface.OnClickListener {
       def onClick(dialog: DialogInterface, which: Int) {
         future{
-          Book.deleteCollection(book.id)
-        }onComplete{case Success(r)=> if(r) toast(R.string.decollect_successfully)}
+          if(Book.deleteCollection(book.id)) toast(R.string.decollect_successfully)
+        }
       }
     })
       .setNegativeButton("取消", new DialogInterface.OnClickListener {
@@ -86,17 +83,21 @@ class BookActivity extends DoubanActivity {
   }
 
   def toggleAuthor(v: View) = {
-    toggle(R.id.book_author_abstract,R.id.book_author_abstract_longtext)
-    authorCollapsed=toggleBackGround(authorCollapsed,R.id.content_arrow,(android.R.drawable.arrow_up_float,android.R.drawable.arrow_down_float))
+    toggleBetween(R.id.book_author_abstract,R.id.book_author_abstract_longtext)
+    authorCollapsed=toggleBackGround(authorCollapsed,R.id.author_arrow,(android.R.drawable.arrow_up_float,android.R.drawable.arrow_down_float))
   }
 
   def toggleContent(v: View) = {
-    toggle((R.id.book_content_abstract,R.id.book_content_abstract_longtext))
-    contentCollapsed=toggleBackGround(contentCollapsed,R.id.author_arrow,(android.R.drawable.arrow_up_float,android.R.drawable.arrow_down_float))
+    toggleBetween(R.id.book_content_abstract,R.id.book_content_abstract_longtext)
+    contentCollapsed=toggleBackGround(contentCollapsed,R.id.content_arrow,(android.R.drawable.arrow_up_float,android.R.drawable.arrow_down_float))
   }
   def toggleCatalog(v: View) = {
-    toggle((R.id.book_catalog_abstract,R.id.book_catalog_abstract_longtext))
+    toggleBetween(R.id.book_catalog_abstract,R.id.book_catalog_abstract_longtext)
     catalogCollapsed=toggleBackGround(catalogCollapsed,R.id.catalog_arrow,(android.R.drawable.arrow_up_float,android.R.drawable.arrow_down_float))
+  }
+
+  def viewNotes(v:View)={
+    startActivity(SIntent[CollectionActivity].putExtra(Constant.BOOK_ID,book.id))
   }
 
 }
@@ -116,7 +117,8 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
     if (null != bk) {
       book = bk.asInstanceOf[Book]
       getActivity.setTitle(book.title)
-      Map(R.id.subtitle_layout->book.subtitle,R.id.book_author->book.author_intro,R.id.book_content->book.summary,R.id.book_catalog->book.catalog).foreach(hideWhenEmpty)
+      Map(R.id.subtitle_layout->book.subtitle,R.id.book_author->book.author_intro,R.id.book_content->book.summary,R.id.book_catalog->book.catalog
+      ).foreach(hideWhenEmpty)
 
       val toDel = if (null == book.current_user_collection) {
         rootView.find[LinearLayout](R.id.book_layout_tags).setVisibility(View.GONE)
@@ -130,7 +132,8 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
         val rat=book.current_user_collection.rating
         if(null!=rat) {
           val rating=rat.value.toInt
-          rootView.find[TextView](R.id.recommend).setText(rating+"星"+r(rating-1))
+          val txt=if(rating>0 && rating<=5) rating+"星"+r(rating-1) else ""
+          rootView.find[TextView](R.id.recommend).setText(txt)
         }
         book.current_user_collection.status match {
         case "read" => List(R.id.reading, R.id.wish)

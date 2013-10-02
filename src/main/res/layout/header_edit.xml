@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/privacy"  android:src="@drawable/public_icon"
         android:layout_alignParentRight="false"  android:layout_margin="@dimen/margin_medium"
-        android:layout_centerInParent="true"
+        android:layout_centerInParent="true"  android:layout_marginRight="@dimen/margin_large"
         android:layout_alignBaseline="@+id/submit"
         android:layout_toLeftOf="@+id/submit" />
 

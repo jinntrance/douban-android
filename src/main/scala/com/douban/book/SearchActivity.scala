@@ -28,13 +28,11 @@ class SearchActivity extends DoubanActivity {
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.search)
-    find[SearchView](R.id.searchBookText) onKey (
-      (v: View, k: Int, e: KeyEvent) => {
-        if (k == KeyEvent.KEYCODE_ENTER) {
-          search(v)
-          true
-        } else false
-      })
+    find[SearchView](R.id.searchBookText) setOnQueryTextListener new SearchView.OnQueryTextListener() {
+      def onQueryTextSubmit(p1: String): Boolean = search(p1)
+
+      def onQueryTextChange(p1: String): Boolean = true
+    }
   }
 
   override def onResume() {
@@ -59,9 +57,13 @@ class SearchActivity extends DoubanActivity {
     new IntentIntegrator(this).initiateScan()
   }
 
-  def search(v: View) {
-    val searchText = find[SearchView](R.id.searchBookText).getQuery.toString.trim
-    if (!searchText.isEmpty) startActivity(SIntent[SearchResultActivity].putExtra(SEARCH_TEXT_KEY, searchText))
+  def search(v: View){
+    search(find[SearchView](R.id.searchBookText).getQuery.toString.trim)
+  }
+
+  def search(txt:String)= {
+    if (!txt.isEmpty) startActivity(SIntent[SearchResultActivity].putExtra(SEARCH_TEXT_KEY, txt))
+    txt.isEmpty
   }
 
   override def onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {

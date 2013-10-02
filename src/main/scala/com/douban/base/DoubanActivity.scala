@@ -41,7 +41,7 @@ trait Douban {
     def findViewById(id:Int):View
   }
 
-  protected val count = 10
+  protected val count = 12
 
   implicit val ctx:Context
 
@@ -55,9 +55,11 @@ trait Douban {
     val values = beanToMap(bean)
     m.foreach {
       case (id, key) => {
-        val view = holder.findViewById(id)
         val value=values.get(key)
-        if (null != view && null!=value && !value.isEmpty) view.asInstanceOf[TextView].setText(value)
+        if (null!=value ) {
+          val view = holder.findViewById(id)
+          if(null!=view && view.isInstanceOf[TextView]) view.asInstanceOf[TextView].setText(value)
+        }
       }
     }
   }
@@ -78,36 +80,44 @@ trait Douban {
   }
 
   implicit def String2TextView(s:String)(implicit ctx:Context):View={
-    val t=new Button(getThisActivity)
+    val t=new TextView(getThisActivity)
     t.setText(s)
     t
   }
+
+  implicit def javaList2Scala[T](l:java.util.List[T]):mutable.Buffer[T]=l.asScala
+  implicit def scalaList2java[T](l:scala.List[T]):java.util.List[T]=l.asJava
+  implicit def scalaBuffer2java[T](l:mutable.Buffer[T]):java.util.List[T]=l.asJava
 
   def hideWhenEmpty(m:(Int,String)){
     hideWhenEmpty(m._1,m._2)
   }
 
-  def hideWhenEmpty(resId:Int,value:String){
+  def hideWhenEmpty(resId:Int,value:String,holder:V=rootView){
      if(null==value||value.isEmpty) {
-       val v=rootView.findViewById(resId)
+       val v=holder.findViewById(resId)
        if(null!=v)  v.setVisibility(View.GONE)
      }
   }
 
-  def hideWhen(resId:Int,condition:Boolean){
+  def hideWhen(resId:Int,condition:Boolean,holder:V=rootView){
      if(condition) {
-       val v=rootView.findViewById(resId)
+       val v=holder.findViewById(resId)
        if(null!=v)  v.setVisibility(View.GONE)
      }
   }
 
+  def displayWhen(resId:Int,condition:Boolean,holder:V=rootView)={
+    val v=holder.findViewById(resId)
+    if(null!=v) v.setVisibility(if(condition)View.VISIBLE else View.GONE)
+  }
   /**
    *
    * @return the visible one
    */
-  def toggle(t:(Int,Int)):View={
-    val v1=rootView.findViewById(t._1)
-    val v2=rootView.findViewById(t._2)
+  def toggleBetween(view1:Int,view2:Int,holder:V=rootView):View={
+    val v1=holder.findViewById(view1)
+    val v2=holder.findViewById(view2)
     if(v1.getVisibility==View.GONE){
       v2.setVisibility(View.GONE)
       v1.setVisibility(View.VISIBLE)
@@ -118,11 +128,14 @@ trait Douban {
       v2
     }
   }
+  def toggleBackGround(firstOneAsBackground:Boolean,viewId:Int,res:(Int,Int),holder:V=rootView):Boolean=toggleBackGround(firstOneAsBackground,holder.findViewById(viewId),res)
 
-  def toggleBackGround(firstOneAsBackground:Boolean,viewId:Int,res:(Int,Int)):Boolean={
+
+  def toggleBackGround(firstOneAsBackground:Boolean,view:View,res:(Int,Int)):Boolean={
     val chosen=if(firstOneAsBackground) res._1 else res._2
-    rootView.findViewById(viewId) match {
+    view match {
       case img:ImageView=>img.setImageResource(chosen)
+      case _=>
     }
     !firstOneAsBackground
   }
@@ -249,12 +262,12 @@ trait DoubanActivity extends SActivity with Douban {
     } onComplete {
       case Success(b) => {
         runOnUiThread(holder.findViewById(imgId).asInstanceOf[ImageView].setImageBitmap(b))
-        if(cacheFile.canWrite){
-        if (!cacheFile.exists()) cacheFile.createNewFile()
+        if (!cacheFile.exists()&&cacheFile.getParentFile.mkdirs) {
+           cacheFile.createNewFile()
+        }
         val out = new FileOutputStream(cacheFile, false)
         b.compress(Bitmap.CompressFormat.JPEG, 100, out)
         out.close()
-        }
       }
       case Failure(b) => toast(getString(R.string.load_img_fail, name))
     }
@@ -262,6 +275,7 @@ trait DoubanActivity extends SActivity with Douban {
 }
 
 trait DoubanListFragment[T<:DoubanActivity] extends ListFragment with Douban {
+  lazy implicit val loggerTag=getThisActivity.loggerTag
 
   def simpleAdapter(a: Activity, list: util.List[_ <: Any], itemLayout: Int, m: Map[Int, String]) = {
     new SimpleAdapter(a, listToMap(list), itemLayout, m.values.toArray, m.keys.toArray)
@@ -277,6 +291,8 @@ trait DoubanListFragment[T<:DoubanActivity] extends ListFragment with Douban {
 }
 
 trait DoubanFragment[T<:DoubanActivity] extends Fragment with Douban{
+
+  lazy implicit val loggerTag=getThisActivity.loggerTag
 
   def getThisActivity:T=getActivity.asInstanceOf[T]
 

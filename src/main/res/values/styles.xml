@@ -2,6 +2,8 @@
 <resources>
 
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="black_light">#6b6b6b</color>
     <color name="transparent">#00000000</color>
     <color name="gray">#797979</color>
     <color name="gray_divider">#c9c9c9</color>
@@ -32,11 +34,17 @@
         <item name="android:background">@color/text_background</item>
         <item name="android:textColor">@color/text_white</item>
         <item name="android:padding">@dimen/one_dp</item>
+        <item name="android:layout_margin">@dimen/margin_micro</item>
     </style>
     <style name="DoubanButton.Small" parent="DoubanButton.WhiteText">
         <item name="android:textSize">@dimen/text_small</item>
         <item name="android:layout_margin">@dimen/margin_micro</item>
         <item name="android:padding">@dimen/one_dp</item>
+        <item name="android:layout_height">@dimen/text_double_size</item>
+    </style>
+    <style name="DoubanButton.Note" parent="DoubanButton.Small">
+        <item name="android:background">@color/black</item>
+        <item name="android:layout_margin">@dimen/margin_medium</item>
     </style>
     <style name="DoubanTextTitle" parent="@android:style/Widget.Holo.Light.TextView">
         <item name="android:textSize">@dimen/text_medium</item>
@@ -53,8 +61,6 @@
     </style>
     <style name="DoubanTextGray" parent="@android:style/Widget.Holo.Light.TextView">
         <item name="android:textColor">@color/gray</item>
-        <item name="android:layout_margin">@dimen/one_dp</item>
-        <item name="android:padding">0dp</item>
     </style>
     <style name="DoubanTextGray.Root" parent="DoubanTextGray">
         <item name="android:layout_marginRight">0dp</item>
@@ -81,18 +87,24 @@
     <style name="DoubanActionBar.Title" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/text_white</item>
     </style>
-    <style name="DoubanRatingBar" parent="@android:style/Widget.Holo.Light.RatingBar">
+    <style name="DoubanRatingBar" parent="@android:style/Widget.Holo.Light.RatingBar.Small">
         <item name="android:minHeight">32dp</item>
         <item name="android:maxHeight">32dp</item>
+<!--        <item name="android:progressDrawable">@drawable/rating_bar</item>
+        <item name="android:indeterminateDrawable">@drawable/rating_bar</item>-->
     </style>
     <style name="DoubanActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:titleTextStyle">@style/DoubanActionBar.Title</item>
         <item name="android:background">@color/text_background</item>
         <item name="android:icon">@drawable/header_menu</item>
-        <item name="android:actionBarItemBackground">@color/transparent</item>
+        <item name="android:actionBarItemBackground">@color/text_background</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
         <item name="android:windowTitleBackgroundStyle">@color/text_background</item>
+        <item name="android:layout_margin">0dp</item>
+    </style>
+    <style name="DoubanListView" parent="@android:style/Widget.Holo.Light.ListView">
+        <item name="android:divider">@drawable/divider</item>
     </style>
     <style name="DoubanTheme" parent="android:Theme.Holo.Light">
         <item name="android:background">@color/transparent</item>
