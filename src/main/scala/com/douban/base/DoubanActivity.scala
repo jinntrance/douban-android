@@ -27,6 +27,8 @@ import android.graphics.{Bitmap, BitmapFactory}
 import android.content.Context
 import android.telephony.TelephonyManager
 import android.widget.LinearLayout.LayoutParams
+import scala.language.implicitConversions
+import scala.language.reflectiveCalls
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -41,7 +43,7 @@ trait Douban {
     def findViewById(id:Int):View
   }
 
-  protected val count = 12
+  protected val countPerPage = 12
 
   implicit val ctx:Context
 

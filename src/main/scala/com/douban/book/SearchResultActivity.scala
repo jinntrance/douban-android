@@ -42,7 +42,7 @@ class SearchResultActivity extends DoubanActivity with OnBookSelectedListener {
       }
     })}
     future {
-      Book.search(searchText, "", count = this.count)
+      Book.search(searchText, "", count = this.countPerPage)
     } onComplete {
       case Success(books) => {
         noResult=false
@@ -160,15 +160,15 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
       convertView
     }
     def load()= {
-      if ((currentPage * this.count < result.total)&& !loading) future {
+      if ((currentPage * countPerPage < result.total)&& !loading) future {
         currentPage += 1
         loading=true
-        Book.search(getThisActivity.searchText, "", currentPage, this.count)
+        Book.search(getThisActivity.searchText, "", currentPage, countPerPage)
       } onComplete {
         case Success(b) => {
           books.addAll(b.books)
           data.addAll(b.books.map(beanToMap(_)))
-          notifyDataSetChanged()
+          runOnUiThread(notifyDataSetChanged())
           updateFooter()
           loading=false
         }
