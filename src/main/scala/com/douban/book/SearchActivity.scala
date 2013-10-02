@@ -1,18 +1,13 @@
 package com.douban.book
 
 import android.os.{Handler, Bundle}
-import android.view.{WindowManager, KeyEvent, View}
+import android.view.{WindowManager, View}
 import android.widget.SearchView
-import com.douban.models.{BookSearchResult, Book}
 import org.scaloid.common._
-import android.content.{DialogInterface, Intent}
+import android.content.Intent
 import com.douban.base.{Constant, DoubanActivity}
-import scala.concurrent._
-import scala.util.{Failure, Success}
-import ExecutionContext.Implicits.global
 import com.google.zxing.integration.android.IntentIntegrator
 import Constant._
-import android.app.ProgressDialog
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
