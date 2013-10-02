@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:gravity="center"
+    android:gravity="center"   android:focusable="true" android:focusableInTouchMode="true"
     android:orientation="vertical"
     android:clickable="false"
     android:weightSum="1">
@@ -24,8 +24,8 @@
             <SearchView  android:layout_weight="0.8"
                 android:layout_width="0dp" android:singleLine="true"
                 android:layout_height="wrap_content" android:queryHint="@string/book_search_hint"
-                android:id="@+id/searchBookText"
-                android:gravity="left"
+                android:id="@+id/searchBookText"  android:iconifiedByDefault="false"
+                android:gravity="left"  android:imeOptions="actionSearch"
                 android:inputType="textAutoComplete" />
 
         </LinearLayout>

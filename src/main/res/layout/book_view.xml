@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
-    android:layout_width="fill_parent" android:layout_height="fill_parent" >
+    android:layout_width="fill_parent" android:layout_height="fill_parent"  >
 
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true">
 
         <LinearLayout
             android:orientation="vertical"
@@ -27,7 +28,7 @@
                     android:id="@+id/book_basic_info"  android:layout_weight="0.22">
                     <ImageView
                         android:layout_width="fill_parent"
-                        android:layout_height="105dp"
+                        android:layout_height="wrap_content"
                         android:id="@+id/book_img" android:src="@drawable/default_book_img"/>
                     <LinearLayout
                         android:orientation="horizontal"
@@ -149,7 +150,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true" />
+                        android:layout_alignParentBottom="true"  />
                 </RelativeLayout>
 
             </LinearLayout>
@@ -160,25 +161,21 @@
             android:layout_height="wrap_content" android:id="@+id/status_layout"
             android:layout_gravity="center_vertical">
             <Button
-                android:layout_width="0dp"  android:onClick="collect"
-                android:layout_height="wrap_content" style="@style/DoubanButton.Small"
+                android:layout_width="0dp"  android:onClick="collect" style="@style/DoubanButton.Small"
                 android:text="想读"  android:layout_weight="0.25"  android:background="@drawable/button_pink"
                 android:id="@+id/wish"  />
 
             <Button
-                android:layout_width="0dp" android:onClick="collect"
-                android:layout_height="wrap_content"   style="@style/DoubanButton.Small"
+                android:layout_width="0dp" android:onClick="collect"  style="@style/DoubanButton.Small"
                 android:text="在读"  android:layout_weight="0.25"  android:background="@drawable/button_green"
                 android:id="@+id/reading" />
 
             <Button
-                android:layout_width="0dp" android:onClick="collect"
-                android:layout_height="wrap_content"  style="@style/DoubanButton.Small"
+                android:layout_width="0dp" android:onClick="collect" style="@style/DoubanButton.Small"
                 android:text="读过"  android:layout_weight="0.25"  android:background="@drawable/button_brown"
                 android:id="@+id/read" />
             <Button
-                android:layout_width="0dp" android:onClick="deCollect"
-                android:layout_height="wrap_content"  style="@style/DoubanButton.Small"
+                android:layout_width="0dp" android:onClick="deCollect" style="@style/DoubanButton.Small"
                 android:text="删除收藏" android:layout_weight="0.15" android:background="@drawable/button_black"
                 android:id="@+id/delete" />
 
@@ -192,7 +189,7 @@
 
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
+                    android:layout_height="fill_parent" android:id="@+id/comments">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -210,14 +207,14 @@
 
             </LinearLayout>
 
-            <include layout="@layout/divider" />
+
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" android:layout_margin="@dimen/margin_medium"
+                android:layout_height="wrap_content"
                 android:id="@+id/book_content">
-
+                <include layout="@layout/divider" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"  style="@style/DoubanTextTitle.Green"
@@ -226,16 +223,16 @@
 
                 <FrameLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"   android:onClick="toggleContent" android:clickable="true">
 
-                    <TextView  android:clickable="true"
-                        android:layout_width="wrap_content"   android:onClick="toggleContent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="无"
                         android:id="@+id/book_content_abstract"  android:ellipsize="marquee" android:maxLines="4"
                         android:layout_gravity="left|center_vertical" />
-                    <TextView   android:clickable="true"
-                        android:layout_width="wrap_content"   android:onClick="toggleContent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content" android:visibility="gone"
                         android:text="无"
                         android:id="@+id/book_content_abstract_longtext"
@@ -244,7 +241,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/content_arrow"    android:onClick="toggleContent"
+                        android:id="@+id/content_arrow"
                         android:layout_gravity="bottom|right"
                         android:src="@android:drawable/arrow_down_float" />
                 </FrameLayout>
@@ -252,7 +249,7 @@
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="fill_parent"  android:layout_margin="@dimen/margin_medium"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/book_author">
                 <include layout="@layout/divider" />
@@ -263,15 +260,15 @@
                     android:id="@+id/book_author_title" />
                 <FrameLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
-                <TextView  android:clickable="true"
-                    android:layout_width="wrap_content"   android:onClick="toggleAuthor"
+                    android:layout_height="wrap_content" android:clickable="true"   android:onClick="toggleAuthor">
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content" android:ellipsize="marquee" android:maxLines="4"
                     android:text="无"
                     android:id="@+id/book_author_abstract" />
 
-                <TextView   android:clickable="true"
-                        android:layout_width="wrap_content"   android:onClick="toggleAuthor"
+                <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"   android:visibility="gone"
                         android:text="无"
                         android:id="@+id/book_author_abstract_longtext" />
@@ -280,13 +277,13 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/author_arrow"
                         android:layout_gravity="bottom|right"
-                        android:src="@android:drawable/arrow_down_float" android:onClick="toggleAuthor"/>
+                        android:src="@android:drawable/arrow_down_float" />
                 </FrameLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="fill_parent"  android:layout_margin="@dimen/margin_medium"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/book_catalog">
                 <include layout="@layout/divider" />
@@ -297,15 +294,15 @@
                     android:id="@+id/book_catalog_title" />
                 <FrameLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
-                <TextView   android:clickable="true"
-                    android:layout_width="wrap_content"   android:onClick="toggleCatalog"
+                    android:layout_height="wrap_content" android:clickable="true" android:onClick="toggleCatalog">
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content" android:ellipsize="marquee" android:maxLines="4"
                     android:text="无"
                     android:id="@+id/book_catalog_abstract" />
 
-                <TextView    android:clickable="true"
-                        android:layout_width="wrap_content"   android:onClick="toggleCatalog"
+                <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"   android:visibility="gone"
                         android:text="无"
                         android:id="@+id/book_catalog_abstract_longtext" />
@@ -314,7 +311,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/catalog_arrow"
                         android:layout_gravity="bottom|right"
-                        android:src="@android:drawable/arrow_down_float" android:onClick="toggleCatalog"/>
+                        android:src="@android:drawable/arrow_down_float" />
                 </FrameLayout>
             </LinearLayout>
 
@@ -322,8 +319,8 @@
     </ScrollView>
     <RelativeLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"  android:clickable="true"
+        android:layout_height="wrap_content"  android:onClick="viewNotes"
         android:id="@+id/book_annotation"  android:background="@color/white"
         android:layout_alignParentBottom="true"
         android:layout_alignBaseline="@+id/scrollView">
@@ -350,7 +347,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/guide_icon" android:layout_margin="@dimen/margin_medium"
+            android:id="@+id/guide_icon"
             android:src="@drawable/book_content_right_arrow"
             android:layout_gravity="right|center_vertical|fill_vertical"
             android:layout_alignParentRight="true"

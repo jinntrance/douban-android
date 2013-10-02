@@ -84,6 +84,7 @@ trait OnBookSelectedListener {
 }
 
 class SearchResultList extends DoubanListFragment[SearchResultActivity] {
+  var loading=false
   var books: java.util.List[Book] = null
   var adapter: SimpleAdapter = null
   private var currentPage = 1
@@ -112,7 +113,7 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
     updateFooter()
   }
 
-  def updateFooter() {
+  def updateFooter() =runOnUiThread{
     val footer=getThisActivity.find[TextView](R.id.to_load)
     if(null!=footer) footer.setText(getString(R.string.swipe_up_to_load, new Integer(books.size()), new Integer(result.total)))
   }
@@ -129,21 +130,6 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
     mCallback = activity.asInstanceOf[OnBookSelectedListener]
   }
 
-  def load(v: View) {
-    if (currentPage * this.count < result.total) future {
-      toast(R.string.loading)
-      currentPage += 1
-      Book.search(getActivity.asInstanceOf[SearchResultActivity].searchText, "", currentPage, this.count)
-    } onComplete {
-      case Success(b) => {
-        books.addAll(b.books)
-        adapter.notifyDataSetChanged()
-        updateFooter()
-      }
-      case Failure(err) => sys.error(err.getMessage)
-    }
-  }
-
 
   override def onListItemClick(l: ListView, v: View, position: Int, id: Long) {
     getListView.setItemChecked(position, true)
@@ -151,37 +137,47 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
     mCallback.onBookSelected(position)
   }
 
-  class BookItemAdapter(context: Context, data: java.util.List[_ <: java.util.Map[String, _]], resource: Int, from: Array[String], to: Array[Int]) extends SimpleAdapter(context, data, resource, from, to) {
-    override def getView(position: Int, view: View, parent: ViewGroup): View = {
+  class BookItemAdapter(context: Context, data: java.util.List[java.util.Map[String, String]], resource: Int, from: Array[String], to: Array[Int]) extends SimpleAdapter(context, data, resource, from, to) {
+    override def getView(position: Int, view: View, parent: ViewGroup): View ={
       val convertView = super.getView(position, view, parent)
       if (null != convertView) {
         val b = books.get(position)
         convertView.find[TextView](R.id.ratingNum).setText("(" + b.rating.numRaters + ")")
+        displayWhen(R.id.favorite,null==b.current_user_collection,convertView)
         if (null != b.current_user_collection) {
-          convertView.find[ImageView](R.id.favorite).setVisibility(View.GONE)
           convertView.find[TextView](R.id.currentState).setText(b.current_user_collection.status match {
             case "wish" => "想读"
             case "reading" => "在读"
             case "read" => "读过"
-            case _ => ""
+            case _ =>""
           })
-        } else {
-          getActivity.getIntent.putExtra(BOOK_KEY, books.get(position))
-          convertView.find[ImageView](R.id.favorite).onClick(v=>{
-            getActivity.getIntent.putExtra(BOOK_KEY, books.get(position))
-            startActivity(SIntent[CollectionActivity].putExtras(getActivity.getIntent))
+        } else convertView.findViewById(R.id.fav_layout) onClick(v=>{
+            startActivity(SIntent[CollectionActivity].putExtras(getActivity.getIntent.putExtra(BOOK_KEY, books.get(position))))
           })
-          convertView.find[TextView](R.id.currentState).onClick(v => {
-            getActivity.getIntent.putExtra(BOOK_KEY, books.get(position)).putExtra(STATE_ID, v.getId)
-            startActivity(SIntent[CollectionActivity].putExtras(getActivity.getIntent))
-          })
-        }
         getThisActivity.loadImage(b.image, R.id.book_img, b.title, convertView)
+        if(position+2==books.size()) load()
       }
       convertView
     }
+    def load()= {
+      if ((currentPage * this.count < result.total)&& !loading) future {
+        currentPage += 1
+        loading=true
+        Book.search(getThisActivity.searchText, "", currentPage, this.count)
+      } onComplete {
+        case Success(b) => {
+          books.addAll(b.books)
+          b.books.map(b=>{
+            data.add(beanToMap(b))
+          })
+          this.notifyDataSetChanged()
+          updateFooter()
+          loading=false
+        }
+        case Failure(err) => if(null!=err) err.printStackTrace()
+      }
+    }
   }
-
 }
 
 object SearchResult {

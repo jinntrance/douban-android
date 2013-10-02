@@ -48,7 +48,7 @@ class DBHelper[T: ClassTag](c: android.content.Context, tableName: String, field
     val c = getReadableDatabase.query(tableName, Array(dataColumn), null, null, null, null, s" $idColumn desc", s" ${size * (page - 1)},$size")
     val list = mutable.Buffer.newBuilder[T]
     do {
-      list += (Req.g.fromJson[T](c.getString(1), classTag[T].runtimeClass))
+      list += Req.g.fromJson[T](c.getString(1), classTag[T].runtimeClass)
     } while (c.moveToNext())
     list.result().toList
   }

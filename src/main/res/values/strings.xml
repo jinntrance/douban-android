@@ -68,5 +68,6 @@
     <string name="annotation">读书笔记</string>
     <string name="add_note">写笔记</string>
     <string name="add_collection">添加收藏</string>
+    <string name="add_tags">添加标签</string>
     <string name="tags_hint">添加标签，空格区分</string>
 </resources>

@@ -1,7 +1,7 @@
 package com.douban.book.db
 
 import com.douban.base.DBHelper
-import com.douban.models.AnnotationPosted
+import com.douban.models.{Tag, AnnotationPosted}
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -22,3 +22,5 @@ case class SearchHistory(search: String)
 class AnnotationUploaderHelper(c: android.content.Context) extends DBHelper[AnnotationUploader](c, "annotations_to_post")
 
 case class AnnotationUploader(bookId: String, annotation: AnnotationPosted)
+
+case class MyTagsHelper(implicit  c:android.content.Context) extends DBHelper[Tag](c,"my_tags")
