@@ -5,14 +5,13 @@ import android.os.Bundle
 import android.widget.{ImageView, TextView, LinearLayout}
 import com.douban.base.{DoubanFragment, DoubanActivity, Constant}
 import com.douban.models.Book
-import android.app.{ AlertDialog}
+import android.app.AlertDialog
 import android.view._
 import Constant._
 import collection.JavaConverters._
 import scala.concurrent._
 import ExecutionContext.Implicits.global
-import android.content.{ DialogInterface}
-import scala.util.Success
+import android.content.DialogInterface
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -27,23 +26,23 @@ class BookActivity extends DoubanActivity {
   var contentCollapsed = true
   var authorCollapsed = true
   var catalogCollapsed = true
+  var fragment:SearchResultDetail=null
 
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.book_view_container)
     val extras=getIntent.getExtras
-    val bk = getIntent.getSerializableExtra(BOOK_KEY)
-    book = extras match {
-      case x if null != bk => bk.asInstanceOf[Book]
+    val bk = SearchResult.selectedBook
+    book = if(null!=book) book else extras match {
       case x if !extras.getString(Constant.ISBN).isEmpty => Book.byISBN(b.getString(Constant.ISBN))
       case x if !extras.getString(Constant.BOOK_ID).isEmpty => Book.byId(b.getString(Constant.BOOK_ID).toLong)
+      case x if null != SearchResult.selectedBook => SearchResult.selectedBook
       case _ => {
         this.finish()
         null
       }
     }
-    if(null!=bk) getIntent.putExtra(BOOK_KEY,book)
-    val fragment = new SearchResultDetail()
+    fragment = new SearchResultDetail()
     getFragmentManager.beginTransaction().replace(R.id.book_view_id, fragment).commit()
     //    find[Button](R.id.shareButton) onClick (
     //      startActivity(SIntent(Intent.ACTION_SEND_MULTIPLE).setType("*/*").putExtra(Intent.EXTRA_TEXT,"").putExtra(Intent.EXTRA_STREAM,""))
@@ -67,11 +66,14 @@ class BookActivity extends DoubanActivity {
       .setPositiveButton("删除", new DialogInterface.OnClickListener {
       def onClick(dialog: DialogInterface, which: Int) {
         future{
-          if(Book.deleteCollection(book.id)) toast(R.string.decollect_successfully)
+          if(Book.deleteCollection(book.id)) {
+            toast(R.string.decollect_successfully)
+            book.updateCollection(null)
+            fragment.updateBookView()
+          } else toast(R.string.decollect_unsuccessfully)
         }
       }
-    })
-      .setNegativeButton("取消", new DialogInterface.OnClickListener {
+    }).setNegativeButton("取消", new DialogInterface.OnClickListener {
       def onClick(dialog: DialogInterface, which: Int) {
         dialog.cancel()
       }
@@ -113,9 +115,8 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
  }
 
   def updateBookView() {
-    val bk = getActivity.getIntent.getExtras.getSerializable(BOOK_KEY)
-    if (null != bk) {
-      book = bk.asInstanceOf[Book]
+    if (null != getThisActivity.book) {
+      book = getThisActivity.book
       getActivity.setTitle(book.title)
       Map(R.id.subtitle_layout->book.subtitle,R.id.book_author->book.author_intro,R.id.book_content->book.summary,R.id.book_catalog->book.catalog
       ).foreach(hideWhenEmpty)

@@ -16,4 +16,5 @@
     <dimen name="text_titanic">23sp</dimen>
     <dimen name="text_gigantic">24sp</dimen>
     <dimen name="text_double_size">40dp</dimen>
+    <dimen name="text_triple_size">40dp</dimen>
 </resources>

@@ -8,6 +8,7 @@
     <string name="login_successfully">登录成功</string>
     <string name="collect_successfully">收藏成功</string>
     <string name="decollect_successfully">成功删除收藏</string>
+    <string name="decollect_unsuccessfully">删除收藏失败</string>
     <string name="relogin_needed">认证过期，请重新登录</string>
     <string name="waiting_for_auth">等待授权ing，亲操作操作其他先</string>
     <string name="press_again_to_logout">再按一次退出</string>

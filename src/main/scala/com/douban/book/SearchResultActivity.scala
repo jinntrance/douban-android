@@ -41,18 +41,19 @@ class SearchResultActivity extends DoubanActivity with OnBookSelectedListener {
     future {
       Book.search(searchText, "", count = this.countPerPage)
     } onComplete {
-      case Success(books) => {
+      case Success(books) => runOnUiThread{
         noResult=false
-        if (books.total == 0) pd.setMessage(R.string.search_no_result)
-        else runOnUiThread{
+        pd.cancel()
+        SearchResult.init(books)
+        if (books.total == 0) {
+          toast(R.string.search_no_result)
+        }
+        else {
           debug("search result total:" + books.total)
           if (findViewById(R.id.list_container) != null) {
-            val listFragment = new SearchResultList()
-            listFragment.setArguments(getIntent.putExtra(BOOKS_KEY,books).getExtras)
-            getFragmentManager.beginTransaction().replace(R.id.list_container, listFragment).commit()
+            getFragmentManager.beginTransaction().replace(R.id.list_container, new SearchResultList()).commit()
           }
         }
-        pd.cancel()
       }
       case Failure(err) => {
         error(err.getMessage)
@@ -82,18 +83,14 @@ trait OnBookSelectedListener {
 
 class SearchResultList extends DoubanListFragment[SearchResultActivity] {
   var loading=false
-  var books: java.util.List[Book] = null
   var adapter: SimpleAdapter = null
   var footer:View=null
   private var currentPage = 1
-  private var result: BookSearchResult = null
   private var mCallback: OnBookSelectedListener = null
 
   override def onCreate(b: Bundle) {
     super.onCreate(b)
-    result = getArguments.getSerializable(BOOKS_KEY).asInstanceOf[BookSearchResult]
-    books = result.books
-    adapter = new BookItemAdapter(getActivity, listToMap(books), R.layout.book_list_item, SearchResult.mapping.values.toArray, SearchResult.mapping.keys.toArray)
+    adapter = new BookItemAdapter(getActivity, listToMap(SearchResult.books), R.layout.book_list_item, SearchResult.mapping.values.toArray, SearchResult.mapping.keys.toArray)
   }
 
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, bundle: Bundle) = {
@@ -118,7 +115,7 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
 
   def updateFooter() =runOnUiThread{
     val footer=getThisActivity.find[TextView](R.id.to_load)
-    if(null!=footer) footer.setText(getString(R.string.swipe_up_to_load, new Integer(books.size()), new Integer(result.total)))
+    if(null!=footer) footer.setText(getString(R.string.swipe_up_to_load, new Integer(SearchResult.books.size()), SearchResult.total.toString))
   }
 
   override def onStart() {
@@ -136,7 +133,6 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
 
   override def onListItemClick(l: ListView, v: View, position: Int, id: Long) {
     getListView.setItemChecked(position, true)
-    getActivity.getIntent.putExtra(BOOK_KEY, result.books.get(position))
     mCallback.onBookSelected(position)
   }
 
@@ -144,7 +140,7 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
     override def getView(position: Int, view: View, parent: ViewGroup): View ={
       val convertView = super.getView(position, view, parent)
       if (null != convertView) {
-        val b = books.get(position)
+        val b = SearchResult.books.get(position)
         convertView.find[TextView](R.id.ratingNum).setText("(" + b.rating.numRaters + ")")
         displayWhen(R.id.favorite,null==b.current_user_collection,convertView)
         if (null != b.current_user_collection) {
@@ -155,21 +151,21 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
             case _ =>""
           })
         } else convertView.findViewById(R.id.fav_layout) onClick(v=>{
-            startActivity(SIntent[CollectionActivity].putExtras(getActivity.getIntent.putExtra(BOOK_KEY, books.get(position))))
+            startActivity(SIntent[CollectionActivity])
           })
         getThisActivity.loadImage(b.image, R.id.book_img, b.title, convertView)
-        if(position+2==books.size()) load()
+        if(position+2==SearchResult.total) load()
       }
       convertView
     }
     def load()= {
-      if ((currentPage * countPerPage < result.total)&& !loading) future {
+      if ((SearchResult.searchedNumber <= SearchResult.total)&& !loading) future {
         currentPage += 1
         loading=true
         Book.search(getThisActivity.searchText, "", currentPage, countPerPage)
       } onComplete {
         case Success(b) => {
-          books.addAll(b.books)
+          SearchResult.add(b)
           data.addAll(b.books.map(beanToMap(_)))
           runOnUiThread(notifyDataSetChanged())
           updateFooter()
@@ -187,4 +183,18 @@ object SearchResult {
     R.id.ratingNum -> "rating.numRaters", R.id.ratedStars -> "rating.average",
     R.id.currentState -> "current_user_collection.status"
   )
+  var books:java.util.List[Book]=null
+  var selectedBook:Book=null
+  var total:Long=0
+  var searchedNumber=0
+
+  def init(r:BookSearchResult)={
+    books=r.books
+    total=r.total
+    searchedNumber+=r.books.size()
+  }
+  def add(r:BookSearchResult)={
+    books.addAll(r.books)
+    searchedNumber+=books.size()
+  }
 }

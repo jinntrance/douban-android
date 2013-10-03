@@ -40,7 +40,7 @@
             android:layout_width="0dp"  android:layout_weight="1"
             android:layout_height="wrap_content"
             android:id="@+id/user_avatar"
-            android:src="@drawable/default_book_img" />
+            android:src="@drawable/default_image" />
 
         <LinearLayout
             android:orientation="vertical"
