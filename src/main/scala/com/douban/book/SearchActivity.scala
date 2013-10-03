@@ -6,7 +6,7 @@ import android.widget.SearchView
 import org.scaloid.common._
 import android.content.Intent
 import com.douban.base.{Constant, DoubanActivity}
-import com.google.zxing.integration.android.IntentIntegrator
+import com.google.zxing.integration.android.{IntentResult, IntentIntegrator}
 import Constant._
 
 /**
@@ -65,15 +65,16 @@ class SearchActivity extends DoubanActivity {
   }
 
   override def onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
-    val scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent)
     /*    if (scannerCode == requestCode && resultCode == Activity.RESULT_OK) {
           val contents = intent.getStringExtra("SCAN_RESULT")
           val format = intent.getStringExtra("SCAN_RESULT_FORMAT")
         }*/
-    if (null != scanResult) {
-      info(s"scanning result ${scanResult.getContents}")
-      startActivity(SIntent[BookActivity].putExtra(Constant.ISBN, scanResult.getContents))
+      IntentIntegrator.parseActivityResult(requestCode, resultCode, intent) match {
+      case s:IntentResult => {
+        info(s"scanning result ${s.getContents}")
+        startActivity(SIntent[BookActivity].putExtra(Constant.ISBN, s.getContents))
+      }
+      case _ =>toast(R.string.scan_failed)
     }
-    else toast(R.string.scan_failed)
   }
 }

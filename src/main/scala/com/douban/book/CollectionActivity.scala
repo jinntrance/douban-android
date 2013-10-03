@@ -22,27 +22,31 @@ import android.content.Context
  * @version 1.0
  */
 class CollectionActivity extends DoubanActivity {
-  var collectionFrag:CollectionFragment=null
-  lazy val book:Book=SearchResult.selectedBook
+  var collectionFrag:Option[CollectionFragment]=None
+  lazy val book:Option[Book]=SearchResult.selectedBook
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.collection_container)
-    if(null==collectionFrag) collectionFrag=new CollectionFragment()
-    getFragmentManager.beginTransaction().replace(R.id.collection_container,collectionFrag).commit()
+    collectionFrag=Some(new CollectionFragment())
+    getFragmentManager.beginTransaction().replace(R.id.collection_container,collectionFrag.get).commit()
   }
-  def check(v: View) {
-    if(null!=collectionFrag) collectionFrag.check(v)
+  def check(v: View) = collectionFrag match {
+    case Some(cf) =>cf.check(v)
+    case None =>
   }
 
-  def submit(v: View) {
-    if(null!=collectionFrag) collectionFrag.submit(v)
+
+  def submit(v: View) = collectionFrag match {
+    case Some(cf) => cf.submit(v)
+    case None =>
   }
-  def checkPrivacy(v:View) {
-    if(null!=collectionFrag) collectionFrag.checkPrivacy(v)
+  def checkPrivacy(v:View)=collectionFrag match {
+    case Some(cf) =>cf.checkPrivacy(v)
+    case None =>
   }
 
   def addTag(v:View){
-    getFragmentManager.beginTransaction().replace(R.id.collection_container,new TagFragment()).addToBackStack(null).commit()
+    getFragmentManager.beginTransaction().replace(R.id.collection_container,new TagFragment()).addToBackStack("").commit()
   }
 }
 
@@ -51,36 +55,37 @@ class CollectionFragment extends DoubanFragment[CollectionActivity]{
   var public=true
   val mapping=Map("read"-> R.id.read, "reading"-> R.id.reading,  "wish" -> R.id.wish)
   val reverseMapping=mapping.map(_.swap)
-  var collection:Collection=null
 
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, b: Bundle): View =inflater.inflate(R.layout.collection,container,false)
 
   override def onActivityCreated(b: Bundle) {
     super.onActivityCreated(b)
     getThisActivity.replaceActionBar(R.layout.header_edit,getString(R.string.add_collection))
-    val book=getThisActivity.book
-    collection =  book.current_user_collection
-    if (null != collection) {
-      updateCollection(collection)
-    } else {
-      val id = getActivity.getIntent.getExtras.getInt(Constant.STATE_ID)
-      check(getView.find[Button](if (0 == id) R.id.wish else id))
-      future {
-        getThisActivity.getAccessToken
-        collection= book.updateCollection(Book.collectionOf(book.id))
-        updateCollection(collection)
-      }
-    }
+    getThisActivity.book match {
+     case Some(book) =>book.current_user_collection match {
+       case c:Collection =>updateCollection(c)
+       case _ =>  {
+         val id = getActivity.getIntent.getExtras.getInt(Constant.STATE_ID)
+         check(getView.find[Button](if (0 == id) R.id.wish else id))
+         future {
+           getThisActivity.getAccessToken
+           updateCollection(book.updateCollection(Book.collectionOf(book.id)))
+         }
+       }
+     }
+     case None =>
+   }
   }
 
   def updateCollection(collection: Collection) {
     val currentStatus = getView.find[Button](mapping(collection.status))
     check(currentStatus)
     getView.find[EditText](R.id.comment).setText(collection.comment)
-    val rat: ReviewRating = collection.rating
-    if(null!=rat)getView.find[RatingBar](R.id.rating).setRating(rat.value.toFloat)
-    val tagsContainer: LinearLayout = getView.find[LinearLayout](R.id.tags_container)
-    collection.tags.asScala.foreach(tag => tagsContainer.addView(tag))
+    collection.rating match {
+      case rat: ReviewRating =>getView.find[RatingBar](R.id.rating).setRating(rat.value.toInt)
+      case _ =>
+    }
+    getView.find[LinearLayout](R.id.tags_container) addView string2TextView(collection.tags.mkString(" "))
   }
 
   def check(v: View) {
@@ -92,8 +97,10 @@ class CollectionFragment extends DoubanFragment[CollectionActivity]{
           status = reverseMapping(b.getId)
           b.setText(txt + mark.toString)
           List(R.id.read, R.id.reading, R.id.wish).filter(_ != b.getId).foreach(id => {
-            val button = getView.find[Button](id)
-            button.setText(button.getText.toString.takeWhile(_ != mark))
+           getView.find[Button](id) match {
+             case b: Button =>b.setText(b.getText.toString.takeWhile(_ != mark))
+             case _ =>
+           }
           }
         )
       }
@@ -110,7 +117,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity]{
     val layout=getView.find[LinearLayout](R.id.tags_container)
     val tags =(0 until layout.getChildCount).map(i=>layout.getChildAt(i).asInstanceOf[TextView].getText).toSet.mkString(" ")
     val p=CollectionPosted(status,tags,getView.find[EditText](R.id.comment).getText.toString.trim,getView.find[RatingBar](R.id.rating).getNumStars,privacy=if(public) "public" else "private")
-    future(Book.postCollection(getThisActivity.book.id,p)) onComplete{
+    future(Book.postCollection(getThisActivity.book.get.id,p)) onComplete{
       case Success(Some(c:Collection))=>runOnUiThread{
         toast(R.string.collect_successfully)
 //        getActivity.getIntent.putExtra(Constant.UPDATED,true)
@@ -145,7 +152,7 @@ class TagFragment extends DoubanFragment[CollectionActivity]{
       }
     }
 //    rootView.find[ListView](R.id.pop_tags_list).setAdapter(new TagAdapter(getThisActivity.book.tags.map(_.title)))
-    tags_input.setAdapter(new ArrayAdapter[String](getThisActivity,android.R.layout.simple_list_item_checked,getThisActivity.book.tags.map(_.title)))
+    tags_input.setAdapter(new ArrayAdapter[String](getThisActivity,android.R.layout.simple_list_item_checked,getThisActivity.book.get.tags.map(_.title)))
     tags_input.setThreshold(0)
 
   }
@@ -153,9 +160,11 @@ class TagFragment extends DoubanFragment[CollectionActivity]{
   class TagAdapter(tags:java.util.List[String]) extends BaseAdapter {
     lazy val inflater=getThisActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE).asInstanceOf[LayoutInflater]
     override def getView(position: Int, view: View, parent: ViewGroup): View = {
-      val convertView = if(null==view) inflater.inflate(R.layout.add_tags_item,parent,false) else view
-      if(null!=convertView){
-         convertView.findViewById(R.id.tag_container).onClick(v=>{
+      val convertView = view match {
+        case v: View =>  view
+        case _ =>  inflater.inflate(R.layout.add_tags_item,parent,false)
+      }
+      convertView.findViewById(R.id.tag_container).onClick(v=>{
            val txt=tags_input.getText
            val tag=getItem(position)
            val view=v.findViewById(R.id.checker)
@@ -167,7 +176,7 @@ class TagFragment extends DoubanFragment[CollectionActivity]{
              tags_input.append(s" $tag")
            }})
        convertView.find[TextView](R.id.tag).setText(tags.get(position))
-      }
+
       convertView
     }
 
