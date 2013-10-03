@@ -15,6 +15,7 @@ import Constant._
 import com.douban.models.BookSearchResult
 import scala.util.Failure
 import scala.util.Success
+import java.util
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -45,16 +46,16 @@ class SearchResultActivity extends DoubanActivity with OnBookSelectedListener {
         noResult=false
         pd.cancel()
         SearchResult.init(books)
-        if (books.total == 0) {
-          toast(R.string.search_no_result)
-        }
-        else {
+        books.total match{
+          case 0=>  toast(R.string.search_no_result)
+          case _=>{
           debug("search result total:" + books.total)
-          if (findViewById(R.id.list_container) != null) {
-            getFragmentManager.beginTransaction().replace(R.id.list_container, new SearchResultList()).commit()
+          findViewById(R.id.list_container) match {
+            case v:View=>getFragmentManager.beginTransaction().replace(R.id.list_container, new SearchResultList()).commit()
+            case _=>
           }
         }
-      }
+      }}
       case Failure(err) => {
         error(err.getMessage)
         finish()
@@ -68,11 +69,10 @@ class SearchResultActivity extends DoubanActivity with OnBookSelectedListener {
   }
 
   def onBookSelected(position: Int) {
-    val articleFrag: SearchResultDetail = getFragmentManager.findFragmentById(R.id.book_fragment).asInstanceOf[SearchResultDetail]
-    if (articleFrag != null) {
-      articleFrag.updateBookView()
-    } else {
-      startActivity(SIntent[BookActivity].putExtras(getIntent.getExtras))
+    getFragmentManager.findFragmentById(R.id.book_fragment) match {
+      case bf: SearchResultDetail =>
+        bf.updateBookView()
+      case _ =>  startActivity(SIntent[BookActivity].putExtras(getIntent.getExtras))
     }
   }
 }
@@ -83,18 +83,18 @@ trait OnBookSelectedListener {
 
 class SearchResultList extends DoubanListFragment[SearchResultActivity] {
   var loading=false
-  var adapter: SimpleAdapter = null
-  var footer:View=null
+  var adapter: Option[SimpleAdapter] = None
+  var footer:Option[View]=None
   private var currentPage = 1
   private var mCallback: OnBookSelectedListener = null
 
   override def onCreate(b: Bundle) {
     super.onCreate(b)
-    adapter = new BookItemAdapter(getActivity, listToMap(SearchResult.books), R.layout.book_list_item, SearchResult.mapping.values.toArray, SearchResult.mapping.keys.toArray)
+    adapter = Some(new BookItemAdapter(getActivity, listToMap(SearchResult.books), R.layout.book_list_item, SearchResult.mapping.values.toArray, SearchResult.mapping.keys.toArray))
   }
 
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, bundle: Bundle) = {
-    footer = inflater.inflate(R.layout.book_list_loader, null)
+    footer = Some(inflater.inflate(R.layout.book_list_loader, null))
     super.onCreateView(inflater, container, bundle)
   }
 
@@ -102,8 +102,8 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
     super.onActivityCreated(bundle)
     getListView.setDivider(null)
     getListView.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS)
-    getListView.addFooterView(footer)
-    setListAdapter(adapter)
+    getListView.addFooterView(footer.get)
+    setListAdapter(adapter.get)
     getThisActivity.updateTitle()
     updateFooter()
   }
@@ -113,9 +113,10 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
     setListAdapter(null)
   }
 
-  def updateFooter() =runOnUiThread{
-    val footer=getThisActivity.find[TextView](R.id.to_load)
-    if(null!=footer) footer.setText(getString(R.string.swipe_up_to_load, new Integer(SearchResult.books.size()), SearchResult.total.toString))
+  def updateFooter() =runOnUiThread{getThisActivity.find[TextView](R.id.to_load) match {
+      case footer: TextView => footer.setText(getString(R.string.swipe_up_to_load, SearchResult.books.size().toString, SearchResult.total.toString))
+      case _ =>
+    }
   }
 
   override def onStart() {
@@ -163,15 +164,14 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
         currentPage += 1
         loading=true
         Book.search(getThisActivity.searchText, "", currentPage, countPerPage)
-      } onComplete {
-        case Success(b) => {
+      } onSuccess  {
+        case b => {
           SearchResult.add(b)
           data.addAll(b.books.map(beanToMap(_)))
           runOnUiThread(notifyDataSetChanged())
           updateFooter()
           loading=false
         }
-        case Failure(err) => if(null!=err) err.printStackTrace()
       }
     }
   }
@@ -183,8 +183,8 @@ object SearchResult {
     R.id.ratingNum -> "rating.numRaters", R.id.ratedStars -> "rating.average",
     R.id.currentState -> "current_user_collection.status"
   )
-  var books:java.util.List[Book]=null
-  var selectedBook:Book=null
+  var books:java.util.List[Book]=new util.ArrayList[Book]()
+  var selectedBook:Option[Book]=None
   var total:Long=0
   var searchedNumber=0
 

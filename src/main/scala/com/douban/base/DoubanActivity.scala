@@ -2,8 +2,7 @@ package com.douban.base
 
 import android.content
 import android.net.ConnectivityManager
-import android.preference.PreferenceManager
-import android.view.{ViewGroup, View, MenuItem}
+import android.view.{View, MenuItem}
 import com.douban.book.{LoginActivity, R}
 import com.douban.common._
 import java.lang.Thread.UncaughtExceptionHandler
@@ -13,7 +12,6 @@ import ExecutionContext.Implicits.global
 import collection.JavaConverters._
 import java.util
 import scala.collection.mutable
-import android.os.Bundle
 import android.app._
 import android.widget.{Button, ImageView, TextView, SimpleAdapter}
 import android.graphics.drawable.Drawable
@@ -26,7 +24,6 @@ import scala.util.Success
 import android.graphics.{Bitmap, BitmapFactory}
 import android.content.Context
 import android.telephony.TelephonyManager
-import android.widget.LinearLayout.LayoutParams
 import scala.language.implicitConversions
 import scala.language.reflectiveCalls
 
@@ -38,29 +35,28 @@ import scala.language.reflectiveCalls
  * @version 1.0
  */
 trait Douban {
-
-  type V={
-    def findViewById(id:Int):View
+  type V = {
+    def findViewById(id: Int): View
   }
-
   protected val countPerPage = 12
+  implicit val ctx: Context
 
-  implicit val ctx:Context
+  def getCurrentView: V
 
-  def getCurrentView:V
+  protected lazy val rootView: V = getCurrentView
 
-  protected lazy val rootView:V=getCurrentView
+  def getThisActivity: DoubanActivity
 
-  def getThisActivity:DoubanActivity
-
-  def batchSetTextView[T <: V](m: Map[Int, String], bean: Any, holder: T=rootView) {
+  def batchSetTextView[T <: V](m: Map[Int, String], bean: Any, holder: T = rootView) {
     val values = beanToMap(bean)
     m.foreach {
       case (id, key) => {
-        val value=values.get(key)
-        if (null!=value ) {
-          val view = holder.findViewById(id)
-          if(null!=view && view.isInstanceOf[TextView]) view.asInstanceOf[TextView].setText(value)
+        values.get(key) match {
+          case value: String => holder.findViewById(id) match {
+            case view: TextView => view.setText(value)
+            case _ =>
+          }
+          case _ =>
         }
       }
     }
@@ -81,52 +77,58 @@ trait Douban {
     new util.ArrayList[util.Map[String, String]](Req.g.toJsonTree(b).getAsJsonArray.asScala.map(beanToMap(_)).asJavaCollection)
   }
 
-  def string2TextView(s:String)(implicit ctx:Context):View={
-    val t=new TextView(getThisActivity)
+  def string2TextView(s: String)(implicit ctx: Context): View = {
+    val t = new TextView(getThisActivity)
     t.setText(s)
     t
   }
 
-   implicit def string2Button(s:String)(implicit ctx:Context):View={
-    val t=new Button(getThisActivity)
+  implicit def string2Button(s: String)(implicit ctx: Context): View = {
+    val t = new Button(getThisActivity)
     t.setText(s)
     t
   }
 
-  implicit def javaList2Scala[T](l:java.util.List[T]):mutable.Buffer[T]=l.asScala
-  implicit def scalaList2java[T](l:scala.List[T]):java.util.List[T]=l.asJava
-  implicit def scalaBuffer2java[T](l:mutable.Buffer[T]):java.util.List[T]=l.asJava
+  implicit def javaList2Scala[T](l: java.util.List[T]): mutable.Buffer[T] = l.asScala
 
-  def hideWhenEmpty(m:(Int,String)){
-    hideWhenEmpty(m._1,m._2)
+  implicit def scalaList2java[T](l: scala.List[T]): java.util.List[T] = l.asJava
+
+  implicit def scalaBuffer2java[T](l: mutable.Buffer[T]): java.util.List[T] = l.asJava
+
+  def hideWhenEmpty(m: (Int, String)) {
+    hideWhenEmpty(m._1, m._2)
   }
 
-  def hideWhenEmpty(resId:Int,value:String,holder:V=rootView){
-     if(null==value||value.isEmpty) {
-       val v=holder.findViewById(resId)
-       if(null!=v)  v.setVisibility(View.GONE)
-     }
+  def hideWhenEmpty(resId: Int, value: String, holder: V = rootView)= value match {
+      case null|""=> holder.findViewById(resId) match {
+        case v:View => v.setVisibility(View.GONE)
+        case _ =>
+      }
+      case _ =>
+    }
+
+  def hideWhen(resId: Int, condition: Boolean, holder: V = rootView) = if (condition) {
+      holder.findViewById(resId) match {
+        case v:View =>v.setVisibility(View.GONE)
+        case _ =>
+      }
   }
 
-  def hideWhen(resId:Int,condition:Boolean,holder:V=rootView){
-     if(condition) {
-       val v=holder.findViewById(resId)
-       if(null!=v)  v.setVisibility(View.GONE)
-     }
+  def displayWhen(resId: Int, condition: Boolean, holder: V = rootView) = {
+    holder.findViewById(resId) match {
+      case v:View =>v.setVisibility(if (condition) View.VISIBLE else View.GONE)
+      case _ =>
+    }
   }
 
-  def displayWhen(resId:Int,condition:Boolean,holder:V=rootView)={
-    val v=holder.findViewById(resId)
-    if(null!=v) v.setVisibility(if(condition)View.VISIBLE else View.GONE)
-  }
   /**
    *
    * @return the visible one
    */
-  def toggleBetween(view1:Int,view2:Int,holder:V=rootView):View={
-    val v1=holder.findViewById(view1)
-    val v2=holder.findViewById(view2)
-    if(v1.getVisibility==View.GONE){
+  def toggleBetween(view1: Int, view2: Int, holder: V = rootView): View = {
+    val v1 = holder.findViewById(view1)
+    val v2 = holder.findViewById(view2)
+    if (v1.getVisibility == View.GONE) {
       v2.setVisibility(View.GONE)
       v1.setVisibility(View.VISIBLE)
       v1
@@ -136,14 +138,14 @@ trait Douban {
       v2
     }
   }
-  def toggleBackGround(firstOneAsBackground:Boolean,viewId:Int,res:(Int,Int),holder:V=rootView):Boolean=toggleBackGround(firstOneAsBackground,holder.findViewById(viewId),res)
 
+  def toggleBackGround(firstOneAsBackground: Boolean, viewId: Int, res: (Int, Int), holder: V = rootView): Boolean = toggleBackGround(firstOneAsBackground, holder.findViewById(viewId), res)
 
-  def toggleBackGround(firstOneAsBackground:Boolean,view:View,res:(Int,Int)):Boolean={
-    val chosen=if(firstOneAsBackground) res._1 else res._2
+  def toggleBackGround(firstOneAsBackground: Boolean, view: View, res: (Int, Int)): Boolean = {
+    val chosen = if (firstOneAsBackground) res._1 else res._2
     view match {
-      case img:ImageView=>img.setImageResource(chosen)
-      case _=>
+      case img: ImageView => img.setImageResource(chosen)
+      case _ =>
     }
     !firstOneAsBackground
   }
@@ -175,9 +177,9 @@ trait DoubanActivity extends SActivity with Douban {
     }*/
   override def getFragmentManager: FragmentManager = super.getFragmentManager
 
-  def getThisActivity=this
+  def getThisActivity = this
 
-  def getCurrentView:V=this
+  def getCurrentView: V = this
 
   def handle[R](result: => R, handler: (R) => Unit) {
     future {
@@ -188,7 +190,7 @@ trait DoubanActivity extends SActivity with Douban {
     }
   }
 
-  def replaceActionBar(layoutId:Int=R.layout.header,title:String=getString(R.string.app_name)) {
+  def replaceActionBar(layoutId: Int = R.layout.header, title: String = getString(R.string.app_name)) {
     getActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM)
     getActionBar.setCustomView(layoutId)
     setWindowTitle(title)
@@ -237,13 +239,13 @@ trait DoubanActivity extends SActivity with Douban {
     activeNetwork.getType == ConnectivityManager.TYPE_WIFI
   }
 
-  def using2G:Boolean ={
+  def using2G: Boolean = {
     import TelephonyManager._
-    val t=getSystemService(Context.TELEPHONY_SERVICE).asInstanceOf[TelephonyManager].getNetworkType match{
-      case NETWORK_TYPE_GPRS|NETWORK_TYPE_EDGE|NETWORK_TYPE_CDMA|NETWORK_TYPE_1xRTT|NETWORK_TYPE_IDEN=>"2G"
-      case _=>"3G"
+    val t = getSystemService(Context.TELEPHONY_SERVICE).asInstanceOf[TelephonyManager].getNetworkType match {
+      case NETWORK_TYPE_GPRS | NETWORK_TYPE_EDGE | NETWORK_TYPE_CDMA | NETWORK_TYPE_1xRTT | NETWORK_TYPE_IDEN => "2G"
+      case _ => "3G"
     }
-    t=="2G"
+    t == "2G"
   }
 
   def isAuthenticated = {
@@ -270,8 +272,8 @@ trait DoubanActivity extends SActivity with Douban {
     } onComplete {
       case Success(b) => {
         runOnUiThread(holder.findViewById(imgId).asInstanceOf[ImageView].setImageBitmap(b))
-        if (!cacheFile.exists()&&cacheFile.getParentFile.mkdirs) {
-           cacheFile.createNewFile()
+        if (!cacheFile.exists() && cacheFile.getParentFile.mkdirs) {
+          cacheFile.createNewFile()
         }
         val out = new FileOutputStream(cacheFile, false)
         b.compress(Bitmap.CompressFormat.JPEG, 100, out)
@@ -282,32 +284,29 @@ trait DoubanActivity extends SActivity with Douban {
   }
 }
 
-trait DoubanListFragment[T<:DoubanActivity] extends ListFragment with Douban {
-  lazy implicit val loggerTag=getThisActivity.loggerTag
+trait DoubanListFragment[T <: DoubanActivity] extends ListFragment with Douban {
+  lazy implicit val loggerTag = getThisActivity.loggerTag
 
   def simpleAdapter(a: Activity, list: util.List[_ <: Any], itemLayout: Int, m: Map[Int, String]) = {
     new SimpleAdapter(a, listToMap(list), itemLayout, m.values.toArray, m.keys.toArray)
   }
 
-  def getThisActivity:T=getActivity.asInstanceOf[T]
+  def getThisActivity: T = getActivity.asInstanceOf[T]
 
-  implicit val ctx:Context=getThisActivity
+  implicit val ctx: Context = getThisActivity
+  override lazy val rootView = getView
 
-  override lazy val rootView=getView
-
-  def getCurrentView:V=getView
+  def getCurrentView: V = getView
 }
 
-trait DoubanFragment[T<:DoubanActivity] extends Fragment with Douban{
+trait DoubanFragment[T <: DoubanActivity] extends Fragment with Douban {
+  lazy implicit val loggerTag = getThisActivity.loggerTag
 
-  lazy implicit val loggerTag=getThisActivity.loggerTag
+  def getThisActivity: T = getActivity.asInstanceOf[T]
 
-  def getThisActivity:T=getActivity.asInstanceOf[T]
+  implicit val ctx: Context = getThisActivity
 
-  implicit val ctx:Context=getThisActivity
+  def getCurrentView: V = getView
 
-  def getCurrentView:V=getView
-
-  override lazy val rootView=getView
-
+  override lazy val rootView = getView
 }

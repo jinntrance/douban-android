@@ -18,15 +18,15 @@ import ExecutionContext.Implicits.global
  */
 class NotesActivity extends DoubanActivity{
   lazy val bookId=getIntent.getLongExtra(Constant.BOOK_ID,0)
-  var notesListFragment: NotesListFragment = null
+  var notesListFragment: Option[NotesListFragment] = None
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     if(0==bookId) finish()
     setContentView(R.layout.notes)
-    notesListFragment=new NotesListFragment()
-    getFragmentManager.beginTransaction().replace(R.id.notes_list,notesListFragment).commit()
+    notesListFragment=Some(new NotesListFragment())
+    getFragmentManager.beginTransaction().replace(R.id.notes_list,notesListFragment.get).commit()
   }
-  def search(v:View)=notesListFragment.search(v)
+  def search(v:View)=notesListFragment.get.search(v)
 }
 
 class NotesListFragment extends DoubanListFragment[NotesActivity]{
@@ -55,9 +55,6 @@ class NotesListFragment extends DoubanListFragment[NotesActivity]{
   class NoteItemAdapter(context: Context, data: java.util.List[_ <: java.util.Map[String, _]], resource: Int, from: Array[String], to: Array[Int]) extends SimpleAdapter(context, data, resource, from, to) {
     override def getView(position: Int, view: View, parent: ViewGroup): View = {
       val convertView = super.getView(position, view, parent)
-      if (null != convertView) {
-
-      }
       convertView
     }
   }
