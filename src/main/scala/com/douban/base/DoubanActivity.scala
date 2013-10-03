@@ -51,8 +51,8 @@ trait Douban {
     val values = beanToMap(bean)
     m.foreach {
       case (id, key) => {
-        values.get(key) match {
-          case value: String => holder.findViewById(id) match {
+        values.get(key) match { //TODO if !value.isEmpty
+          case value: String  => holder.findViewById(id) match {
             case view: TextView => view.setText(value)
             case _ =>
           }

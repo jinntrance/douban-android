@@ -1,7 +1,7 @@
 package com.douban.book
 
 import android.os.{Handler, Bundle}
-import android.view.{WindowManager, View}
+import android.view.View
 import android.widget.SearchView
 import org.scaloid.common._
 import android.content.Intent
@@ -17,7 +17,6 @@ import Constant._
  * @version 1.0
  */
 class SearchActivity extends DoubanActivity {
-
   private var doubleBackToExitPressedOnce = false
 
   protected override def onCreate(b: Bundle) {
@@ -52,13 +51,13 @@ class SearchActivity extends DoubanActivity {
     new IntentIntegrator(this).initiateScan()
   }
 
-  def search(v: View){
+  def search(v: View) {
     search(find[SearchView](R.id.searchBookText).getQuery.toString.trim)
   }
 
-  def search(txt:String)= {
+  def search(txt: String) = {
     if (!txt.isEmpty) {
-//      getWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN) //TODO
+      //      getWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN) //TODO
       startActivity(SIntent[SearchResultActivity].putExtra(SEARCH_TEXT_KEY, txt))
     }
     txt.isEmpty
@@ -69,12 +68,12 @@ class SearchActivity extends DoubanActivity {
           val contents = intent.getStringExtra("SCAN_RESULT")
           val format = intent.getStringExtra("SCAN_RESULT_FORMAT")
         }*/
-      IntentIntegrator.parseActivityResult(requestCode, resultCode, intent) match {
-      case s:IntentResult => {
+    IntentIntegrator.parseActivityResult(requestCode, resultCode, intent) match {
+      case s: IntentResult => {
         info(s"scanning result ${s.getContents}")
         startActivity(SIntent[BookActivity].putExtra(Constant.ISBN, s.getContents))
       }
-      case _ =>toast(R.string.scan_failed)
+      case _ => toast(R.string.scan_failed)
     }
   }
 }
