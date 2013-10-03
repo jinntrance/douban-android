@@ -4,8 +4,8 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <MultiAutoCompleteTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"  android:shadowColor="@color/background_black_light"  android:shadowRadius="3.0"
+        android:layout_height="wrap_content"  android:completionThreshold="1"  android:text="tag1 tag2" android:textColor="@color/white"
         android:id="@+id/tags_multi_text" android:hint="@string/tags_hint"/>
 
     <TabHost

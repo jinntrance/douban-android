@@ -12,6 +12,8 @@ import scala.Some
 import scala.util.Success
 import com.douban.book.db.MyTagsHelper
 import android.content.Context
+import android.text.util.Rfc822Tokenizer
+import android.widget.MultiAutoCompleteTextView.CommaTokenizer
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -23,6 +25,7 @@ import android.content.Context
 class CollectionActivity extends DoubanActivity {
   var collectionFrag: Option[CollectionFragment] = None
   lazy val book: Option[Book] = SearchResult.selectedBook
+  var tags=""
 
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
@@ -46,8 +49,15 @@ class CollectionActivity extends DoubanActivity {
     case None =>
   }
 
+  var fragment: TagFragment = null
+
   def addTag(v: View) {
-    getFragmentManager.beginTransaction().replace(R.id.collection_container, new TagFragment()).addToBackStack("").commit()
+    fragment=new TagFragment()
+    getFragmentManager.beginTransaction().replace(R.id.collection_container, fragment).addToBackStack("").commit()
+  }
+
+  def tagsAdded(v:View){
+     fragment.tagsAdded
   }
 }
 
@@ -78,6 +88,8 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
     }
   }
 
+  lazy val tagsContainer: LinearLayout = getView.find[LinearLayout](R.id.tags_container)
+
   def updateCollection(collection: Collection) {
     val currentStatus = getView.find[Button](mapping(collection.status))
     check(currentStatus)
@@ -86,7 +98,8 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
       case rat: ReviewRating => getView.find[RatingBar](R.id.rating).setRating(rat.value.toInt)
       case _ =>
     }
-    getView.find[LinearLayout](R.id.tags_container) addView string2TextView(collection.tags.mkString(" "))
+    getThisActivity.tags=collection.tags.mkString(" ")
+    collection.tags.foreach(tagsContainer addView string2Button(_))
   }
 
   def check(v: View) {
@@ -111,7 +124,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
   }
 
   def checkPrivacy(v: View) {
-    runOnUiThread(public = toggleBackGround(public, v, (R.drawable.private_icon, R.drawable.public_icon)))
+    getThisActivity.runOnUiThread(public = toggleBackGround(public, v, (R.drawable.private_icon, R.drawable.public_icon)))
   }
 
   def submit(v: View) {
@@ -119,13 +132,17 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
     val tags = (0 until layout.getChildCount).map(i => layout.getChildAt(i).asInstanceOf[TextView].getText).toSet.mkString(" ")
     val p = CollectionPosted(status, tags, getView.find[EditText](R.id.comment).getText.toString.trim, getView.find[RatingBar](R.id.rating).getNumStars, privacy = if (public) "public" else "private")
     future(Book.postCollection(getThisActivity.book.get.id, p)) onComplete {
-      case Success(Some(c: Collection)) => runOnUiThread {
-        toast(R.string.collect_successfully)
-        //        getActivity.getIntent.putExtra(Constant.UPDATED,true)
+      case Success(Some(c: Collection)) => getThisActivity.runOnUiThread {
+        toast(getString(R.string.collect_successfully))
         getThisActivity.getFragmentManager.beginTransaction().remove(this).commit()
       }
-      case _ => toast(R.string.collect_failed)
+      case _ => toast(getString(R.string.collect_failed))
     }
+  }
+
+  def updateTags(tags:String)={
+    tagsContainer.removeAllViews()
+    tags.split(' ').foreach(tagsContainer addView string2Button(_))
   }
 }
 
@@ -137,22 +154,18 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
   override def onViewCreated(view: View, savedInstanceState: Bundle) {
     super.onViewCreated(view, savedInstanceState)
     getThisActivity.replaceActionBar(R.layout.header_tag, getString(R.string.add_tags))
-    val helper = MyTagsHelper()
-    //    val myTags: util.List[String] = helper.findData(15).map(_.title)
-    //    val myTagsAdapter=new TagAdapter(myTags)
-
-    if (getThisActivity.usingWIfi || !getThisActivity.using2G) {
       future {
         val r = Book.tagsOf(defaultSharedPreferences.getLong(Constant.userIdString, 0))
-        runOnUiThread(rootView.find[ListView](R.id.my_tags_list).setAdapter(new TagAdapter(r.tags.map(_.title))))
-        //        if(myTags.size()==0) myTags.addAll(r.tags.map(_.title))
-        //        myTagsAdapter.notifyDataSetChanged()
-        //        r.tags.foreach(helper.insert)
-      }
+        rootView.find[ListView](R.id.my_tags_list).setAdapter(new TagAdapter(r.tags.map(_.title)))
     }
-    //    rootView.find[ListView](R.id.pop_tags_list).setAdapter(new TagAdapter(getThisActivity.book.tags.map(_.title)))
-    tags_input.setAdapter(new ArrayAdapter[String](getThisActivity, android.R.layout.simple_list_item_checked, getThisActivity.book.get.tags.map(_.title)))
-    tags_input.setThreshold(0)
+    val popTagsAdapter = new TagAdapter(getThisActivity.book.get.tags.map(_.title))
+    rootView.find[ListView](R.id.pop_tags_list).setAdapter(popTagsAdapter)
+    tags_input.setTokenizer(new CommaTokenizer())
+
+    val th=rootView.find[TabHost](R.id.tabHost)
+    th.setup()
+    th.addTab(th.newTabSpec("tab1").setIndicator("热门标签").setContent(R.id.pop_tags))
+    th.addTab(th.newTabSpec("tab2").setIndicator("我的标签").setContent(R.id.my_tags))
   }
 
   class TagAdapter(tags: java.util.List[String]) extends BaseAdapter {
@@ -164,12 +177,12 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
         case _ => inflater.inflate(R.layout.add_tags_item, parent, false)
       }
       convertView.findViewById(R.id.tag_container).onClick(v => {
-        val txt = tags_input.getText
+        val txt = tags_input.getText.toString
         val tag = getItem(position)
         val view = v.findViewById(R.id.checker)
-        if (txt.toString.contains(tag)) {
+        if (txt.indexOf(tag)>=0) {
           view.setVisibility(View.GONE)
-          //             txt.toString (tags.get(position),"")
+          tags_input.setText(txt.replaceAll(tags.get(position),""))
         } else {
           view.setVisibility(View.VISIBLE)
           tags_input.append(s" $tag")
@@ -187,4 +200,8 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
     def getCount: Int = tags.size()
   }
 
+  def tagsAdded={
+    getThisActivity.tags=rootView.find[MultiAutoCompleteTextView](R.id.tags_multi_text).getText.toString
+    getFragmentManager.beginTransaction().remove(this).commit()
+  }
 }

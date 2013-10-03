@@ -2,7 +2,7 @@
 
 <LinearLayout
     android:layout_width="fill_parent"  android:descendantFocusability="blocksDescendants"
-    android:layout_height="wrap_content" android:orientation="vertical"  android:layout_margin="@dimen/margin_medium" android:layout_marginRight="@dimen/margin_small"
+    android:layout_height="wrap_content" android:orientation="vertical"  android:layout_margin="@dimen/margin_medium"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
