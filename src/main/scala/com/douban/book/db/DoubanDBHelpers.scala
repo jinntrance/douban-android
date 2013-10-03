@@ -23,4 +23,4 @@ class AnnotationUploaderHelper(c: android.content.Context) extends DBHelper[Anno
 
 case class AnnotationUploader(bookId: String, annotation: AnnotationPosted)
 
-case class MyTagsHelper(implicit  c:android.content.Context) extends DBHelper[Tag](c,"my_tags")
+case class MyTagsHelper(implicit c: android.content.Context) extends DBHelper[Tag](c, "my_tags")
