@@ -58,7 +58,7 @@ class SearchActivity extends DoubanActivity {
 
   def search(txt:String)= {
     if (!txt.isEmpty) {
-      getWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+//      getWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN) //TODO
       startActivity(SIntent[SearchResultActivity].putExtra(SEARCH_TEXT_KEY, txt))
     }
     txt.isEmpty

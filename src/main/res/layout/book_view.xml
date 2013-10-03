@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
-    android:layout_width="fill_parent" android:layout_height="fill_parent"  >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"   android:layout_margin="@dimen/margin_medium"
+    android:layout_width="fill_parent" android:layout_height="fill_parent"  android:layout_weight="1">
 
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView"
         android:layout_alignParentTop="true"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        android:layout_weight="9">
 
         <LinearLayout
             android:orientation="vertical"
@@ -53,7 +54,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="不要和鲨鱼接吻,但要和勇敢一起睡觉"  android:singleLine="true" android:ellipsize="end"
+                            android:text="民主的细节"  android:singleLine="true" android:ellipsize="end"
                             style="@style/DoubanTextTitle.Black"
                             android:id="@+id/bookTitle" />
                         <LinearLayout
@@ -63,11 +64,11 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="副标题:"
-                                style="@style/DoubanTextGray.Prefix"/>
+                                style="@style/DoubanText.Prefix"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="不要和鲨鱼接吻,但要和勇敢一起睡觉"  android:singleLine="true" android:ellipsize="end" style="@style/DoubanTextGray"
+                                android:text="美国当代政治观察随笔"  android:singleLine="true" android:ellipsize="end" style="@style/DoubanText"
                                 android:id="@+id/bookSubtitle" />
                         </LinearLayout>
                         <LinearLayout
@@ -75,21 +76,21 @@
                             android:layout_height="wrap_content">
                             <TextView
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" android:singleLine="true"
-                                android:text="Author"  android:ellipsize="end"
-                                style="@style/DoubanTextGray.Prefix"
+                                android:layout_height="wrap_content"
+                                android:text="刘瑜"  android:ellipsize="end"
+                                style="@style/DoubanText.Prefix"
                                 android:id="@+id/bookAuthor" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="/"
-                                style="@style/DoubanTextGray.Root"
+                                style="@style/DoubanText.Root"
                                 android:visibility="gone" />
                             <TextView
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"  android:singleLine="true" android:ellipsize="end"
+                                android:layout_height="wrap_content"  android:ellipsize="end"
                                 android:text=""   android:id="@+id/bookTranslators"
-                                style="@style/DoubanTextGray.Suffix"/>
+                                style="@style/DoubanText.Suffix"/>
 
 
                         </LinearLayout>
@@ -100,18 +101,19 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="出版:"
-                                style="@style/DoubanTextGray.Prefix"/>
+                                style="@style/DoubanText.Prefix"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Publisher"
-                                style="@style/DoubanTextGray"
-                                android:id="@+id/bookPublisher" />
+                                android:text="上海三联书店"
+                                style="@style/DoubanText"
+                                android:id="@+id/bookPublisher"
+                                android:layout_marginRight="@dimen/margin_medium" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="2011"
-                                style="@style/DoubanTextGray.Suffix"
+                                android:text="2009-6"
+                                style="@style/DoubanText.Suffix"
                                 android:id="@+id/bookPublishYear" />
 
                         </LinearLayout>
@@ -121,12 +123,12 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="页数:" style="@style/DoubanTextGray.Prefix"/>
+                                android:text="页数:" style="@style/DoubanText.Prefix"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="500"
-                            style="@style/DoubanTextGray.Suffix"
+                            style="@style/DoubanText.Suffix"
                             android:id="@+id/bookPages" />
                             </LinearLayout>
                         <LinearLayout
@@ -135,12 +137,12 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="价格:" style="@style/DoubanTextGray.Prefix"/>
+                                android:text="价格:" style="@style/DoubanText.Prefix"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="$192"
-                            style="@style/DoubanTextGray.Suffix"
+                            style="@style/DoubanText.Suffix"
                             android:id="@+id/bookPrice" />
                         </LinearLayout>
 
@@ -185,22 +187,23 @@
                 android:orientation="vertical" android:id="@+id/book_layout_tags" android:visibility="visible"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
-               <include layout="@layout/tags"/>
+               <include layout="@layout/tags"
+                   android:layout_height="@dimen/text_huge" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" android:id="@+id/comments">
+                    android:layout_height="wrap_content" android:id="@+id/comments">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="10分力荐" style="@style/DoubanTextGray" android:textColor="@color/text_orange"
+                        android:text="5星力荐" style="@style/DoubanText" android:textColor="@color/text_orange"
                         android:id="@+id/recommend" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="New Text"
+                        android:text="觉着刘瑜就是把那种大道理讲成生活中的小事儿那种人，也就是她说的民主是融进柴米油盐的。这样的民主，很具体很易吸收。"
                         android:id="@+id/comment"
                         android:layout_gravity="center" />
                 </LinearLayout>
@@ -227,14 +230,14 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="无"
+                        android:layout_height="wrap_content"  style="@style/DoubanText.Clickable"
+                        android:text="这本书是作者过去几年给一些期刊报纸写的专栏文章结集，其中主要是给《南方人物周刊》的文章。全书中以讲故事的形式，把“美国的民主”这样一个概念性的东西拆解成点点滴滴的事件、政策和人物去描述。"
                         android:id="@+id/book_content_abstract"  android:ellipsize="marquee" android:maxLines="4"
                         android:layout_gravity="left|center_vertical" />
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="wrap_content"   style="@style/DoubanText.Clickable"
                         android:layout_height="wrap_content" android:visibility="gone"
-                        android:text="无"
+                        android:text="刘瑜，哥伦比亚大学政治学博士，哈佛大学博士后，剑桥大学讲师。现任教于清华大学政治系，担任副教授。"
                         android:id="@+id/book_content_abstract_longtext"
                         android:layout_gravity="left|center_vertical" />
 
@@ -263,14 +266,14 @@
                     android:layout_height="wrap_content" android:clickable="true"   android:onClick="toggleAuthor">
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:ellipsize="marquee" android:maxLines="4"
-                    android:text="无"
+                    android:layout_height="wrap_content" android:ellipsize="marquee" android:maxLines="4"    style="@style/DoubanText.Clickable"
+                    android:text="刘瑜，哥伦比亚大学政治学博士，哈佛大学博士后，剑桥大学讲师。现任教于清华大学政治系，担任副教授。"
                     android:id="@+id/book_author_abstract" />
 
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"   android:visibility="gone"
-                        android:text="无"
+                        android:text="无"   style="@style/DoubanText.Clickable"
                         android:id="@+id/book_author_abstract_longtext" />
                 <ImageView
                         android:layout_width="wrap_content"
@@ -298,13 +301,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" android:ellipsize="marquee" android:maxLines="4"
-                    android:text="无"
+                    android:text="无"    style="@style/DoubanText.Clickable"
                     android:id="@+id/book_catalog_abstract" />
 
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"   android:visibility="gone"
-                        android:text="无"
+                        android:text="无"    style="@style/DoubanText.Clickable"
                         android:id="@+id/book_catalog_abstract_longtext" />
                 <ImageView
                         android:layout_width="wrap_content"
@@ -323,7 +326,8 @@
         android:layout_height="wrap_content"  android:onClick="viewNotes"
         android:id="@+id/book_annotation"  android:background="@color/white"
         android:layout_alignParentBottom="true"
-        android:layout_alignBaseline="@+id/scrollView">
+        android:layout_alignBaseline="@+id/scrollView"
+        android:layout_gravity="bottom">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -342,7 +346,8 @@
             android:layout_gravity="center"  style="@style/DoubanTextTitle.Black"
             android:layout_alignParentBottom="false"
             android:layout_alignWithParentIfMissing="false"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@+id/annotation_icon" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -354,4 +359,4 @@
             android:layout_alignParentBottom="false"
             android:layout_centerInParent="true" />
     </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>

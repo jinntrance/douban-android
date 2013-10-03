@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     android:layout_width="fill_parent"
+    android:layout_alignBaseline="@id/list_container"
     android:layout_height="wrap_content"  android:background="@color/background_white"
-    android:layout_gravity="center" android:gravity="left"
+    android:layout_gravity="bottom" android:gravity="left"
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_alignParentBottom="true"
     android:orientation="vertical">
-    <include layout="@layout/divider"/>
     <TextView  android:layout_width="fill_parent"  android:layout_height="wrap_content" android:id="@+id/to_load" android:text="@string/swipe_up_to_load"
         android:layout_gravity="bottom"
         android:gravity="center|bottom" />
 
-    </LinearLayout>
+ </LinearLayout>

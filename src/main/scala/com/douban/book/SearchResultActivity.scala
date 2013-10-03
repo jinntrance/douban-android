@@ -33,11 +33,11 @@ class SearchResultActivity extends DoubanActivity with OnBookSelectedListener {
     if(null == b){
     var pd: ProgressDialog = null
     var noResult=true
-    runOnUiThread{pd= ProgressDialog.show(this, getString(R.string.search), getString(R.string.searching), false, true, new DialogInterface.OnCancelListener() {
+    pd= ProgressDialog.show(this, getString(R.string.search), getString(R.string.searching), false, true, new DialogInterface.OnCancelListener() {
       def onCancel(p1: DialogInterface) {
           if(noResult)  finish()
       }
-    })}
+    })
     future {
       Book.search(searchText, "", count = this.countPerPage)
     } onComplete {
@@ -84,6 +84,7 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
   var loading=false
   var books: java.util.List[Book] = null
   var adapter: SimpleAdapter = null
+  var footer:View=null
   private var currentPage = 1
   private var result: BookSearchResult = null
   private var mCallback: OnBookSelectedListener = null
@@ -93,21 +94,26 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
     result = getArguments.getSerializable(BOOKS_KEY).asInstanceOf[BookSearchResult]
     books = result.books
     adapter = new BookItemAdapter(getActivity, listToMap(books), R.layout.book_list_item, SearchResult.mapping.values.toArray, SearchResult.mapping.keys.toArray)
-    setListAdapter(adapter)
   }
 
-/*  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, bundle: Bundle) = {
-    val r = super.onCreateView(inflater, container, bundle)
-    footer = inflater.inflate(R.layout.book_list_loader, container, true)
-    r
-  }*/
+  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, bundle: Bundle) = {
+    footer = inflater.inflate(R.layout.book_list_loader, null)
+    super.onCreateView(inflater, container, bundle)
+  }
 
   override def onActivityCreated(bundle: Bundle) {
     super.onActivityCreated(bundle)
     getListView.setDivider(null)
     getListView.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS)
+    getListView.addFooterView(footer)
+    setListAdapter(adapter)
     getThisActivity.updateTitle()
     updateFooter()
+  }
+
+  override def onDestroyView() {
+    super.onDestroyView()
+    setListAdapter(null)
   }
 
   def updateFooter() =runOnUiThread{
