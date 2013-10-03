@@ -6,29 +6,23 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" android:id="@+id/status_layout" >
         <Button
-            android:layout_width="wrap_content"  android:onClick="check"
-            android:layout_height="wrap_content" style="@style/DoubanButton.Small"
+            android:layout_width="wrap_content"  android:onClick="check" style="@style/DoubanButton.Small"
             android:text="想读"  android:layout_weight="0.25"  android:background="@drawable/button_pink"
-            android:id="@+id/wish"  />
+            android:id="@+id/wish"
+            android:layout_gravity="center" />
         <Button
-            android:layout_width="wrap_content" android:onClick="check"
-            android:layout_height="wrap_content"   style="@style/DoubanButton.Small"
+            android:layout_width="wrap_content" android:onClick="check"   style="@style/DoubanButton.Small"
             android:text="在读"  android:layout_weight="0.25"  android:background="@drawable/button_green"
-            android:id="@+id/reading" />
+            android:id="@+id/reading"
+            android:layout_gravity="center" />
 
         <Button
-            android:layout_width="wrap_content" android:onClick="check"
-            android:layout_height="wrap_content"   style="@style/DoubanButton.Small"
+            android:layout_width="wrap_content" android:onClick="check"  style="@style/DoubanButton.Small"
             android:text="读过"  android:layout_weight="0.25"  android:background="@drawable/button_brown"
-            android:id="@+id/read" />
+            android:id="@+id/read"
+            android:layout_gravity="center" />
 
-        <RatingBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/rating"
-            android:stepSize="1"
-            android:rating="3"
-            android:numStars="5"
+        <include layout="@layout/ratingbar"
             android:layout_gravity="center" />
     </LinearLayout>
     <LinearLayout
@@ -51,7 +45,8 @@
         android:lines="7"
         android:longClickable="true"
         android:linksClickable="true"
-        android:gravity="top" />
+        android:gravity="top"
+        android:layout_gravity="center" />
 
     <ImageView android:visibility="gone"
         android:layout_width="wrap_content"

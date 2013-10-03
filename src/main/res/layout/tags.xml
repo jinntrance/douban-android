@@ -9,5 +9,18 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="fill_parent" android:id="@+id/tags_container"
-        android:layout_gravity="center"></LinearLayout>
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="文政哲"
+            android:id="@+id/textView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="democracy"
+            android:id="@+id/textView1" />
+    </LinearLayout>
 </LinearLayout>

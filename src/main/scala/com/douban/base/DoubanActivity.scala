@@ -81,8 +81,14 @@ trait Douban {
     new util.ArrayList[util.Map[String, String]](Req.g.toJsonTree(b).getAsJsonArray.asScala.map(beanToMap(_)).asJavaCollection)
   }
 
-  implicit def String2TextView(s:String)(implicit ctx:Context):View={
+  def string2TextView(s:String)(implicit ctx:Context):View={
     val t=new TextView(getThisActivity)
+    t.setText(s)
+    t
+  }
+
+   implicit def string2Button(s:String)(implicit ctx:Context):View={
+    val t=new Button(getThisActivity)
     t.setText(s)
     t
   }

@@ -17,13 +17,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="诺艾儿·汉考克 ,诺艾儿·汉考克 ,诺艾儿·汉考克" android:singleLine="true" android:ellipsize="end"
-        style="@style/DoubanTextGray"
+        style="@style/DoubanText"
         android:id="@+id/bookAuthor" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Publisher"
-        style="@style/DoubanTextGray"
+        style="@style/DoubanText"
         android:id="@+id/bookPublisher" />
 </LinearLayout>

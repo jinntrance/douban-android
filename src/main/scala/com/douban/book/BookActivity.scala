@@ -127,7 +127,7 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
       else {
         val container=rootView.find[LinearLayout](R.id.tags_container)
         val tags=book.current_user_collection.tags
-        if(null!=tags)  tags.asScala.foreach(e=>container.addView(e))
+        if(null!=tags&&0<tags.size())  container.addView(string2TextView(tags.asScala.mkString(" ")))
         val r=Array("很差","较差","还行","推荐","力荐")
         val rat=book.current_user_collection.rating
         if(null!=rat) {
