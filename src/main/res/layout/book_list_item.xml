@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/book_img"
             android:contentDescription="@string/book_cover" android:layout_weight="0.17"
-            android:src="@drawable/default_book_img" />
+            android:src="@drawable/default_image" />
         <RelativeLayout android:layout_height="match_parent"
             android:layout_width="0dp"  android:layout_weight="0.83"
             android:layout_gravity="center"

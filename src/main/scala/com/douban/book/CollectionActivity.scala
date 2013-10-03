@@ -9,11 +9,9 @@ import collection.JavaConverters._
 import scala.concurrent._
 import ExecutionContext.Implicits.global
 import org.scaloid.common._
-import scala.util.Failure
 import scala.Some
 import scala.util.Success
 import com.douban.book.db.MyTagsHelper
-import java.util
 import android.content.Context
 
 /**
@@ -25,11 +23,10 @@ import android.content.Context
  */
 class CollectionActivity extends DoubanActivity {
   var collectionFrag:CollectionFragment=null
-  var book:Book=null
+  lazy val book:Book=SearchResult.selectedBook
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.collection_container)
-    book = getIntent.getSerializableExtra(Constant.BOOK_KEY).asInstanceOf[Book]
     if(null==collectionFrag) collectionFrag=new CollectionFragment()
     getFragmentManager.beginTransaction().replace(R.id.collection_container,collectionFrag).commit()
   }
@@ -45,7 +42,7 @@ class CollectionActivity extends DoubanActivity {
   }
 
   def addTag(v:View){
-    getFragmentManager.beginTransaction().add(R.id.collection_container,new TagFragment()).addToBackStack("tags").commit()
+    getFragmentManager.beginTransaction().replace(R.id.collection_container,new TagFragment()).addToBackStack(null).commit()
   }
 }
 
@@ -89,10 +86,9 @@ class CollectionFragment extends DoubanFragment[CollectionActivity]{
   def check(v: View) {
     v match {
       case b: Button => {
-
       val mark = '✓'
-        val txt: String = b.getText.toString
-        if(!txt.contains(mark)) {
+      val txt: String = b.getText.toString
+      if(!txt.contains(mark)) {
           status = reverseMapping(b.getId)
           b.setText(txt + mark.toString)
           List(R.id.read, R.id.reading, R.id.wish).filter(_ != b.getId).foreach(id => {
@@ -101,6 +97,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity]{
           }
         )
       }
+      rootView.findViewById(R.id.rating).setVisibility(if(v.getId==R.id.wish) View.GONE else View.VISIBLE)
     }
   }
   }
@@ -147,7 +144,9 @@ class TagFragment extends DoubanFragment[CollectionActivity]{
 //        r.tags.foreach(helper.insert)
       }
     }
-    rootView.find[ListView](R.id.pop_tags_list).setAdapter(new TagAdapter(getThisActivity.book.tags.map(_.title)))
+//    rootView.find[ListView](R.id.pop_tags_list).setAdapter(new TagAdapter(getThisActivity.book.tags.map(_.title)))
+    tags_input.setAdapter(new ArrayAdapter[String](getThisActivity,android.R.layout.simple_list_item_checked,getThisActivity.book.tags.map(_.title)))
+    tags_input.setThreshold(0)
 
   }
 
@@ -156,16 +155,18 @@ class TagFragment extends DoubanFragment[CollectionActivity]{
     override def getView(position: Int, view: View, parent: ViewGroup): View = {
       val convertView = if(null==view) inflater.inflate(R.layout.add_tags_item,parent,false) else view
       if(null!=convertView){
-         convertView.find[TextView](R.id.tag).onClick(v=>{
-           val txt:String=tags_input.getText.toString
+         convertView.findViewById(R.id.tag_container).onClick(v=>{
+           val txt=tags_input.getText
            val tag=getItem(position)
-           tags_input.setText(if(txt.contains(tag)) {
-             v.setVisibility(View.GONE)
-             txt.replaceAll(tags.get(position),"")
+           val view=v.findViewById(R.id.checker)
+           if(txt.toString .contains(tag)) {
+             view.setVisibility(View.GONE)
+//             txt.toString (tags.get(position),"")
            }  else{
-             v.setVisibility(View.VISIBLE)
-             txt+tag
-           })}).setText(tags.get(position))
+             view.setVisibility(View.VISIBLE)
+             tags_input.append(s" $tag")
+           }})
+       convertView.find[TextView](R.id.tag).setText(tags.get(position))
       }
       convertView
     }

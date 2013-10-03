@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_margin="@dimen/margin_medium"
     android:layout_width="match_parent" android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="fill_parent"
@@ -25,14 +25,14 @@
         <include layout="@layout/ratingbar"
             android:layout_gravity="center" />
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <LinearLayout android:clickable="true" android:onClick="addTag"
+        android:layout_width="wrap_content"  android:layout_margin="@dimen/margin_medium"
         android:layout_height="wrap_content" >
         <include layout="@layout/tags"/>
         <TextView
-            android:layout_width="wrap_content"  android:clickable="true"
-            android:layout_height="wrap_content" android:onClick="addTag"
-            android:text="点此添加标签"  android:paddingLeft="@dimen/padding_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点此添加标签"
             android:id="@+id/add_tag"
             android:layout_gravity="center" />
 
@@ -52,6 +52,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/keyboard"
-        android:src="@drawable/add_note_keyboard_up"
+        android:src="@drawable/keyboard_up"
         android:layout_gravity="right" />
 </LinearLayout>
