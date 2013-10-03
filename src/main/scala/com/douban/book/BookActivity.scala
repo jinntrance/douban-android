@@ -160,12 +160,13 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
           R.id.comment -> "current_user_collection.comment"), book)
         rootView.find[TextView](R.id.ratingNum).setText(s"(${book.rating.numRaters})")
         getThisActivity.loadImage(if (getThisActivity.usingWIfi || !getThisActivity.using2G) book.images.large else book.image, R.id.book_img, book.title)
-        val a = rootView.find[TextView](R.id.book_content_abstract)
         val al = rootView.find[TextView](R.id.book_content_abstract_longtext)
-        if (a.getLineHeight > al.getLineHeight)
+        if (rootView.find[TextView](R.id.book_content_abstract).getLineCount<=4)
           rootView.find[ImageView](R.id.content_arrow).setVisibility(View.GONE)
-        if (rootView.find[TextView](R.id.book_author_abstract).getLineHeight > rootView.find[TextView](R.id.book_author_abstract_longtext).getLineHeight)
+        if (rootView.find[TextView](R.id.book_author_abstract).getLineCount<=4)
           rootView.find[ImageView](R.id.author_arrow).setVisibility(View.GONE)
+        if (rootView.find[TextView](R.id.book_catalog_abstract).getLineCount<=4)
+          rootView.find[ImageView](R.id.catalog_arrow).setVisibility(View.GONE)
       }
       case _ =>
     }

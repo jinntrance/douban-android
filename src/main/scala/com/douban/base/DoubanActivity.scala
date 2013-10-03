@@ -294,6 +294,7 @@ trait DoubanListFragment[T <: DoubanActivity] extends ListFragment with Douban {
   def getThisActivity: T = getActivity.asInstanceOf[T]
 
   implicit val ctx: Context = getThisActivity
+
   override lazy val rootView = getView
 
   def getCurrentView: V = getView

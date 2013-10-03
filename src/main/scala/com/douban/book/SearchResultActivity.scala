@@ -73,7 +73,10 @@ class SearchResultActivity extends DoubanActivity with OnBookSelectedListener {
     getFragmentManager.findFragmentById(R.id.book_fragment) match {
       case bf: SearchResultDetail =>
         bf.updateBookView()
-      case _ => startActivity(SIntent[BookActivity].putExtras(getIntent.getExtras))
+      case _ => {
+        SearchResult.selectedBook=Some(SearchResult.books.get(position))
+        startActivity(SIntent[BookActivity])
+      }
     }
   }
 }
@@ -154,7 +157,7 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
             case _ => ""
           })
         } else convertView.findViewById(R.id.fav_layout) onClick (v => {
-          startActivity(SIntent[CollectionActivity])
+          runOnUiThread(startActivity(SIntent[CollectionActivity]))
         })
         getThisActivity.loadImage(b.image, R.id.book_img, b.title, convertView)
         if (position + 2 == SearchResult.searchedNumber) load()
@@ -193,13 +196,14 @@ object SearchResult {
   var searchedNumber = 0
 
   def init(r: BookSearchResult) = {
-    books = r.books
+    books.clear()
+    books.addAll(r.books)
     total = r.total
-    searchedNumber += r.books.size()
+    searchedNumber = r.books.size()
   }
 
   def add(r: BookSearchResult) = {
     books.addAll(r.books)
-    searchedNumber += books.size()
+    searchedNumber += r.books.size()
   }
 }
