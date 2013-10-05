@@ -17,7 +17,7 @@
         android:contentDescription="评分"
         android:textColor="@color/text_orange"
         android:layout_gravity="center" />
-         <TextView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"    android:singleLine="true"  android:ellipsize="marquee"
         android:text="(90080)"

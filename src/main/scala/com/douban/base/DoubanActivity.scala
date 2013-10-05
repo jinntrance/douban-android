@@ -13,7 +13,7 @@ import collection.JavaConverters._
 import java.util
 import scala.collection.mutable
 import android.app._
-import android.widget.{Button, ImageView, TextView, SimpleAdapter}
+import android.widget._
 import android.graphics.drawable.Drawable
 import java.net.URL
 import java.io.{FileOutputStream, File, InputStream}
@@ -26,6 +26,10 @@ import android.content.Context
 import android.telephony.TelephonyManager
 import scala.language.implicitConversions
 import scala.language.reflectiveCalls
+import scala.util.Failure
+import org.scaloid.common.LoggerTag
+import scala.util.Success
+import com.douban.common.AccessTokenResult
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -39,7 +43,8 @@ trait Douban {
     def findViewById(id: Int): View
   }
   protected val countPerPage = 12
-  implicit val ctx: Context
+
+  implicit val ctx: DoubanActivity=getThisActivity
 
   def getCurrentView: V
 
@@ -47,35 +52,39 @@ trait Douban {
 
   def getThisActivity: DoubanActivity
 
-  def batchSetTextView[T <: V](m: Map[Int, String], bean: Any, holder: T = rootView) {
-    val values = beanToMap(bean)
-    m.foreach {
-      case (id, key) => {
-        values.get(key) match { //TODO if !value.isEmpty
-          case value: String  => holder.findViewById(id) match {
-            case view: TextView => view.setText(value)
-            case _ =>
-          }
+  def batchSetTextView[T <: V](m: Map[Int, Any], values:mutable.Map[String,String], holder: T = rootView,separator:String="/") {
+
+    def setViewValue(id: Int,value: Any) {
+      value match {
+        case null|""|"null" => holder.findViewById(id) match {
+          case view: View => view.setVisibility(View.GONE)
           case _ =>
         }
+        case value: String => holder.findViewById(id) match {
+          case view: TextView => view.setText(value)
+          case rating: RatingBar => rating.setNumStars(value.toInt)
+          case _ =>
+        }
+        case _=>
       }
+    }
+    m.foreach {
+      case (id, key:String) => setViewValue(id, values(key))
+      case (id,l:List[String])  => setViewValue(id,l.map(values(_)).mkString(separator))
+      case (id,(key:String,format:String))  => setViewValue(id,format.format(values.get(key)))
     }
   }
 
-  def beanToMap(b: Any, keyPre: String = ""): util.Map[String, String] =
+  def beanToMap(b: Any, keyPre: String = "",separator:String="/"): mutable.Map[String, String] =
     Req.g.toJsonTree(b).getAsJsonObject.entrySet().asScala.foldLeft(mutable.Map[String, String]()) {
       case (a, e) => {
         val key = keyPre + e.getKey
         if (e.getValue.isJsonPrimitive) a + (key -> e.getValue.getAsString)
-        else if (e.getValue.isJsonArray) a + (key -> e.getValue.getAsJsonArray.iterator().asScala.filter(_.isJsonPrimitive).map(_.getAsString).mkString(", "))
-        else if (e.getValue.isJsonObject) a ++ beanToMap(e.getValue, key + ".").asScala
+        else if (e.getValue.isJsonArray) a + (key -> e.getValue.getAsJsonArray.iterator().asScala.filter(_.isJsonPrimitive).map(_.getAsString).mkString(separator))
+        else if (e.getValue.isJsonObject) a ++ beanToMap(e.getValue, key + ".",separator)
         else a
       }
-    }.asJava
-
-  def listToMap[T](b: util.List[_ <: Any]): util.List[util.Map[String, String]] = {
-    new util.ArrayList[util.Map[String, String]](Req.g.toJsonTree(b).getAsJsonArray.asScala.map(beanToMap(_)).asJavaCollection)
-  }
+    }
 
   def string2TextView(s: String)(implicit ctx: Context): View = {
     val t = new TextView(getThisActivity)
@@ -94,18 +103,6 @@ trait Douban {
   implicit def scalaList2java[T](l: scala.List[T]): java.util.List[T] = l.asJava
 
   implicit def scalaBuffer2java[T](l: mutable.Buffer[T]): java.util.List[T] = l.asJava
-
-  def hideWhenEmpty(m: (Int, String)) {
-    hideWhenEmpty(m._1, m._2)
-  }
-
-  def hideWhenEmpty(resId: Int, value: String, holder: V = rootView)= value match {
-      case null|""=> holder.findViewById(resId) match {
-        case v:View => v.setVisibility(View.GONE)
-        case _ =>
-      }
-      case _ =>
-    }
 
   def hideWhen(resId: Int, condition: Boolean, holder: V = rootView) = if (condition) {
       holder.findViewById(resId) match {
@@ -153,6 +150,9 @@ trait Douban {
 
 trait DoubanActivity extends SActivity with Douban {
   override implicit val loggerTag = LoggerTag("DoubanBook")
+
+
+
   Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
     def uncaughtException(thread: Thread, ex: Throwable) {
       ex match {
@@ -171,13 +171,14 @@ trait DoubanActivity extends SActivity with Douban {
       ex.printStackTrace()
     }
   })
+  override implicit val ctx: DoubanActivity = this
 
   /*  override def startActivity(intent: Intent) {
-      super.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK))
-    }*/
+        super.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK))
+      }*/
   override def getFragmentManager: FragmentManager = super.getFragmentManager
 
-  def getThisActivity = this
+  override def getThisActivity = this
 
   def getCurrentView: V = this
 
@@ -287,13 +288,7 @@ trait DoubanActivity extends SActivity with Douban {
 trait DoubanListFragment[T <: DoubanActivity] extends ListFragment with Douban {
   lazy implicit val loggerTag = getThisActivity.loggerTag
 
-  def simpleAdapter(a: Activity, list: util.List[_ <: Any], itemLayout: Int, m: Map[Int, String]) = {
-    new SimpleAdapter(a, listToMap(list), itemLayout, m.values.toArray, m.keys.toArray)
-  }
-
-  def getThisActivity: T = getActivity.asInstanceOf[T]
-
-  implicit val ctx: Context = getThisActivity
+  override def getThisActivity: T = getActivity.asInstanceOf[T]
 
   override lazy val rootView = getView
 
@@ -303,9 +298,7 @@ trait DoubanListFragment[T <: DoubanActivity] extends ListFragment with Douban {
 trait DoubanFragment[T <: DoubanActivity] extends Fragment with Douban {
   lazy implicit val loggerTag = getThisActivity.loggerTag
 
-  def getThisActivity: T = getActivity.asInstanceOf[T]
-
-  implicit val ctx: Context = getThisActivity
+  override def getThisActivity: T = getActivity.asInstanceOf[T]
 
   def getCurrentView: V = getView
 

@@ -5,12 +5,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding_medium">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"  android:background="@drawable/button_green_darker"
-            android:text="P423"  style="@style/DoubanButton.Small"
+            android:layout_width="50dp"
+            android:layout_height="@dimen/text_titanic"  android:background="@drawable/button_green_darker"
+            android:text="P423"  style="@style/DoubanButton.Note"  android:padding="0dp"
             android:id="@+id/page_num" />
 
         <TextView
@@ -19,8 +20,8 @@
             android:text="Chapter one"
             android:id="@+id/chapter_name" style="@style/DoubanTextTitle.Green"
             android:singleLine="false"
-            android:layout_alignBaseline="@+id/page_num"
-            android:layout_toRightOf="@+id/page_num" />
+            android:layout_toRightOf="@+id/page_num"
+            android:layout_alignBaseline="@+id/page_num" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,30 +35,44 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="0dp"  android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:id="@+id/user_avatar"
-            android:src="@drawable/default_image" />
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding_medium">
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="0dp"  android:layout_weight="7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="top"
+            android:gravity="top">
+
+            <ImageView
+                android:layout_width="wrap_content"  android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_avatar"
+                android:src="@drawable/default_user_img"
+                android:layout_gravity="top"
+                android:layout_margin="@dimen/padding_medium" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"  android:layout_weight="7"
             android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Title"   style="@style/DoubanTextTitle.Black"
-                android:id="@+id/note_title" />
+                android:layout_height="wrap_content"  android:singleLine="true" android:ellipsize="end"
+                android:text="其實每每選擇自己不完全知道的，才能進步，也才能有一定的把握做成功。"   style="@style/DoubanTextTitle.Black"
+                android:id="@+id/note_title"
+                android:layout_margin="@dimen/margin_medium" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Content"  android:maxLines="4" android:ellipsize="end"
-                android:id="@+id/note_content" />
+                android:text="其實每每選擇自己不完全知道的，才能進步，也才能有一定的把握做成功。 一個人要追求這樣的生活狀態，就是你永遠做不知道該怎麼做的事情，在努力地去探索着，這個時候你的東西才是真正有活力。"  android:maxLines="4" android:ellipsize="end"
+                android:id="@+id/note_content"
+                android:layout_margin="@dimen/margin_medium" />
         </LinearLayout>
     </LinearLayout>
 
