@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="horizontal"  android:clickable="true" android:layout_margin="@dimen/margin_medium"
-    android:layout_width="fill_parent" android:layout_height="wrap_content" android:background="@color/white" android:id="@+id/tag_container">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="horizontal"  android:clickable="true" android:layout_margin="@dimen/margin_medium"
+    android:layout_width="fill_parent" android:layout_height="wrap_content" android:background="@color/white" android:id="@+id/tag_container" >
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tag1"   style="@style/DoubanTextTitle.Black"
-        android:id="@+id/tag" />
+        android:id="@+id/tag"
+        android:layout_alignParentLeft="true" />
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="wrap_content"  android:layout_gravity="right"
         android:layout_height="wrap_content"
         android:id="@+id/checker"
-        android:visibility="gone"
-        android:src="@android:drawable/btn_star_big_off" />
-</LinearLayout>
+        android:visibility="visible"
+        android:src="@android:drawable/btn_star_big_off"
+        android:layout_alignParentRight="true" />
+</RelativeLayout>

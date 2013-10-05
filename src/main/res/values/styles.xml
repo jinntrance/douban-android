@@ -50,6 +50,11 @@
         <!--<item name="android:layout_marginRight">@dimen/margin_micro</item>-->
         <item name="android:layout_margin">@dimen/margin_small</item>
     </style>
+<!--    <style name="DoubanAutoCompleteText" parent="@android:style/Widget.Holo.Light.AutoCompleteTextView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/background_black_light</item>
+        <item name="android:completionHintView">@id/my_tags</item>
+    </style>-->
     <style name="DoubanTextTitle" parent="DoubanText">
         <item name="android:textSize">@dimen/text_medium</item>
     </style>
@@ -58,6 +63,10 @@
     </style>
     <style name="DoubanTextTitle.Green"  parent="DoubanTextTitle">
         <item name="android:textColor">@color/text_green</item>
+    </style>
+    <style name="DoubanTextTitle.White"  parent="DoubanTextTitle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_margin">@dimen/margin_medium</item>
     </style>
     <style name="DoubanText.Clickable" parent="DoubanText">
         <item name="android:textColor">@color/text_black</item>
@@ -114,5 +123,6 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textViewStyle">@style/DoubanText</item>
+        <!--<item name="android:autoCompleteTextViewStyle">@style/DoubanAutoCompleteText</item>-->
     </style>
 </resources>

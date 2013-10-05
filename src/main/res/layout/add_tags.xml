@@ -4,8 +4,8 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <MultiAutoCompleteTextView
-        android:layout_width="match_parent"  android:shadowColor="@color/background_black_light"  android:shadowRadius="3.0"
-        android:layout_height="wrap_content"  android:completionThreshold="1"  android:text="tag1 tag2" android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"  android:completionThreshold="1"  android:text="" android:textColor="@color/white"
         android:id="@+id/tags_multi_text" android:hint="@string/tags_hint"/>
 
     <TabHost
@@ -44,8 +44,7 @@
                     android:id="@+id/my_tags"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:longClickable="false"
-                    android:layout_gravity="left|center_vertical">
+                    android:longClickable="false" >
 
                     <ListView
                         android:layout_width="wrap_content"
