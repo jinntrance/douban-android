@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"   android:layout_margin="@dimen/margin_medium"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
     android:layout_width="fill_parent" android:layout_height="fill_parent"  android:layout_weight="1">
 
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView"
+        android:id="@+id/scrollView"   android:layout_margin="@dimen/margin_medium"
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
         android:layout_weight="9">
@@ -24,18 +24,14 @@
                 android:baselineAligned="false">
                 <LinearLayout
                     android:orientation="vertical"
-                    android:layout_width="0dp"  android:gravity="center"
-                    android:layout_height="fill_parent"  android:layout_gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"  android:layout_gravity="center|top"
                     android:id="@+id/book_basic_info"  android:layout_weight="0.22">
                     <ImageView
-                        android:layout_width="fill_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/book_img" android:src="@drawable/default_image"/>
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content" android:layout_gravity="center"
-                        android:layout_height="wrap_content">
-                    </LinearLayout>
+                        android:id="@+id/book_img" android:src="@drawable/default_image"
+                        android:layout_gravity="top" />
 
                 </LinearLayout>
 
@@ -57,9 +53,11 @@
                             android:text="民主的细节"  android:singleLine="true" android:ellipsize="end"
                             style="@style/DoubanTextTitle.Black"
                             android:id="@+id/bookTitle" />
+
                         <LinearLayout
                             android:layout_width="fill_parent" android:id="@+id/subtitle_layout"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/bookTitle">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -71,9 +69,12 @@
                                 android:text="美国当代政治观察随笔"  android:singleLine="true" android:ellipsize="end" style="@style/DoubanText"
                                 android:id="@+id/bookSubtitle" />
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="fill_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/subtitle_layout"
+                            android:id="@+id/authors_container">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -94,9 +95,12 @@
 
 
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="fill_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/authors_container"
+                            android:id="@+id/publisher_container">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -109,17 +113,14 @@
                                 style="@style/DoubanText"
                                 android:id="@+id/bookPublisher"
                                 android:layout_marginRight="@dimen/margin_medium" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="2009-6"
-                                style="@style/DoubanText.Suffix"
-                                android:id="@+id/bookPublishYear" />
 
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="fill_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:id="@+id/page_container"
+                            android:layout_below="@+id/publisher_container">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -131,9 +132,12 @@
                             style="@style/DoubanText.Suffix"
                             android:id="@+id/bookPages" />
                             </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="fill_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:id="@+id/price_container"
+                            android:layout_below="@+id/page_container">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -144,15 +148,25 @@
                             android:text="$192"
                             style="@style/DoubanText.Suffix"
                             android:id="@+id/bookPrice" />
-                        </LinearLayout>
 
+                        </LinearLayout>
                     </LinearLayout>
 
-                    <include layout="@layout/rating" android:layout_gravity="right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true"  />
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"                               android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignWithParentIfMissing="false"
+                        android:layout_height="match_parent">
+
+                        <include layout="@layout/rating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:layout_marginRight="@dimen/margin_medium"
+                            android:layout_marginBottom="@dimen/margin_small" />
+                    </LinearLayout>
+
                 </RelativeLayout>
 
             </LinearLayout>
@@ -161,23 +175,24 @@
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" android:id="@+id/status_layout"
-            android:layout_gravity="center_vertical">
+            android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/margin_medium">
             <Button
-                android:layout_width="0dp"  android:onClick="collect" style="@style/DoubanButton.Small"
+                android:layout_width="0dp"  android:onClick="collect" style="@style/DoubanButton.WhiteText"
                 android:text="想读"  android:layout_weight="0.25"  android:background="@drawable/button_pink"
                 android:id="@+id/wish"  />
 
             <Button
-                android:layout_width="0dp" android:onClick="collect"  style="@style/DoubanButton.Small"
+                android:layout_width="0dp" android:onClick="collect"  style="@style/DoubanButton.WhiteText"
                 android:text="在读"  android:layout_weight="0.25"  android:background="@drawable/button_green"
                 android:id="@+id/reading" />
 
             <Button
-                android:layout_width="0dp" android:onClick="collect" style="@style/DoubanButton.Small"
+                android:layout_width="0dp" android:onClick="collect" style="@style/DoubanButton.WhiteText"
                 android:text="读过"  android:layout_weight="0.25"  android:background="@drawable/button_brown"
                 android:id="@+id/read" />
             <Button
-                android:layout_width="0dp" android:onClick="deCollect" style="@style/DoubanButton.Small"
+                android:layout_width="0dp" android:onClick="deCollect" style="@style/DoubanButton.WhiteText"
                 android:text="删除收藏" android:layout_weight="0.15" android:background="@drawable/button_black"
                 android:id="@+id/delete" />
 
@@ -188,7 +203,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
                <include layout="@layout/tags"
-                   android:layout_height="@dimen/text_huge" />
+                   android:layout_height="@dimen/text_huge"
+                   android:layout_margin="@dimen/margin_medium" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -198,14 +214,25 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="5星力荐" style="@style/DoubanText" android:textColor="@color/text_orange"
-                        android:id="@+id/recommend" />
+                        android:id="@+id/recommend"
+                        android:layout_gravity="top"
+                        android:gravity="top"
+                        android:layout_marginTop="0dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="觉着刘瑜就是把那种大道理讲成生活中的小事儿那种人，也就是她说的民主是融进柴米油盐的。这样的民主，很具体很易吸收。"
-                        android:id="@+id/comment"
-                        android:layout_gravity="center" />
+                        android:text="「"
+                        android:layout_gravity="left|top" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="觉着刘瑜就是把那种大道理讲成生活中的小事儿那种人，也就是她说的民主是融进柴米油盐的。这样的民主，很具体很易吸收。」"
+                        android:id="@+id/comment"   android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/margin_micro" />
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -327,7 +354,7 @@
         android:id="@+id/book_annotation"  android:background="@color/white"
         android:layout_alignParentBottom="true"
         android:layout_alignBaseline="@+id/scrollView"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom|center">
 
         <ImageView
             android:layout_width="wrap_content"

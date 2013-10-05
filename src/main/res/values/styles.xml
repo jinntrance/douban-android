@@ -38,16 +38,17 @@
     </style>
     <style name="DoubanButton.Small" parent="DoubanButton.WhiteText">
         <item name="android:textSize">@dimen/text_small</item>
-        <item name="android:layout_margin">@dimen/margin_micro</item>
+        <item name="android:layout_margin">@dimen/margin_small</item>
         <item name="android:layout_height">@dimen/text_triple_size</item>
     </style>
     <style name="DoubanButton.Note" parent="DoubanButton.Small">
         <item name="android:background">@color/black</item>
-        <item name="android:layout_margin">@dimen/margin_medium</item>
+        <item name="android:layout_height">@dimen/text_double_size</item>
+
     </style>
     <style name="DoubanText" parent="@android:style/Widget.Holo.Light.TextView">
         <item name="android:textColor">@color/gray</item>
-        <!--<item name="android:layout_marginRight">@dimen/margin_micro</item>-->
+        <item name="android:layout_marginRight">@dimen/margin_micro</item>
         <item name="android:layout_margin">@dimen/margin_small</item>
     </style>
 <!--    <style name="DoubanAutoCompleteText" parent="@android:style/Widget.Holo.Light.AutoCompleteTextView">
@@ -96,8 +97,8 @@
     <style name="DoubanRatingBar" parent="@android:style/Widget.Holo.Light.RatingBar.Small">
         <item name="android:minHeight">32dp</item>
         <item name="android:maxHeight">32dp</item>
-<!--        <item name="android:progressDrawable">@drawable/rating_bar</item>
-        <item name="android:indeterminateDrawable">@drawable/rating_bar</item>-->
+        <item name="android:progressDrawable">@drawable/rating_bar</item>
+        <item name="android:indeterminateDrawable">@drawable/rating_bar</item>
     </style>
     <style name="DoubanActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:titleTextStyle">@style/DoubanActionBar.Title</item>

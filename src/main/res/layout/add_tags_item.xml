@@ -15,6 +15,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/checker"
         android:visibility="visible"
-        android:src="@android:drawable/btn_star_big_off"
+        android:src="@drawable/filter_chosen"
         android:layout_alignParentRight="true" />
 </RelativeLayout>

@@ -8,14 +8,24 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"  android:gravity="center"  android:layout_gravity="center"
-        android:layout_height="wrap_content"     android:weightSum="1" android:id="@+id/book_item">
+        android:layout_height="wrap_content"
+        android:id="@+id/book_item">
 
-        <ImageView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/book_img"
-            android:contentDescription="@string/book_cover" android:layout_weight="0.17"
-            android:src="@drawable/default_image" />
+            android:layout_height="105dp"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:layout_weight="0.222">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/book_img"
+                android:contentDescription="@string/book_cover" android:layout_weight="0.17"
+                android:src="@drawable/default_image" />
+        </LinearLayout>
+
         <RelativeLayout android:layout_height="match_parent"
             android:layout_width="0dp"  android:layout_weight="0.83"
             android:layout_gravity="center"
@@ -31,12 +41,14 @@
             <include layout="@layout/rating" />
             </LinearLayout>
 
-        <RelativeLayout android:layout_height="match_parent"
+        <LinearLayout android:layout_height="wrap_content"
             android:layout_width="wrap_content"  android:clickable="true"
             android:layout_gravity="center"
             android:gravity="center" android:id="@+id/fav_layout"
             android:layout_alignParentRight="true"  android:layout_margin="@dimen/margin_medium"
-            android:layout_centerInParent="true">
+            android:layout_centerInParent="true"
+            android:layout_marginRight="@dimen/margin_large"
+            android:layout_alignParentBottom="false">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -49,13 +61,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/currentState" />
+                android:id="@+id/currentState"
+                android:autoText="false"
+                android:text="在读"
+                android:gravity="center_vertical" />
 
 
-        </RelativeLayout>
+        </LinearLayout>
         </RelativeLayout>
 
     </LinearLayout>
-    <include layout="@layout/divider"/>
+    <include layout="@layout/divider" android:layout_marginTop="@dimen/margin_medium" android:layout_marginBottom="@dimen/margin_medium"/>
 
 </LinearLayout>
