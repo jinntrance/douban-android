@@ -10,9 +10,7 @@ import ExecutionContext.Implicits.global
 import org.scaloid.common._
 import scala.Some
 import scala.util.Success
-import com.douban.book.db.MyTagsHelper
 import android.content.Context
-import android.text.util.Rfc822Tokenizer
 import android.widget.MultiAutoCompleteTextView.CommaTokenizer
 
 /**
@@ -80,7 +78,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
           check(getView.find[Button](if (0 == id) R.id.wish else id))
           future {
             getThisActivity.getAccessToken
-            updateCollection(book.updateCollection(Book.collectionOf(book.id)))
+            updateCollection(getThisActivity.book.getOrElse(book).updateCollection(Book.collectionOf(book.id)))
           }
         }
       }
@@ -155,10 +153,11 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
     super.onViewCreated(view, savedInstanceState)
     getThisActivity.replaceActionBar(R.layout.header_tag, getString(R.string.add_tags))
       future {
-        val r = Book.tagsOf(defaultSharedPreferences.getLong(Constant.userIdString, 0))
+        val r = Book.tagsOf(defaultSharedPreferences.getString(Constant.userIdString, "0").toLong)
         rootView.find[ListView](R.id.my_tags_list).setAdapter(new TagAdapter(r.tags.map(_.title)))
     }
     val popTagsAdapter = new TagAdapter(getThisActivity.book.get.tags.map(_.title))
+//    val popTagsAdapter = new ArrayAdapter[String](getThisActivity,android.R.layout.simple_dropdown_item_1line,getThisActivity.book.get.tags.map(_.title))
     rootView.find[ListView](R.id.pop_tags_list).setAdapter(popTagsAdapter)
     tags_input.setTokenizer(new CommaTokenizer())
 
@@ -178,7 +177,7 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
       }
       convertView.findViewById(R.id.tag_container).onClick(v => {
         val txt = tags_input.getText.toString
-        val tag = getItem(position)
+        val tag = getItem(position).toString
         val view = v.findViewById(R.id.checker)
         if (txt.indexOf(tag)>=0) {
           view.setVisibility(View.GONE)

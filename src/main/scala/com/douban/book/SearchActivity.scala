@@ -1,7 +1,7 @@
 package com.douban.book
 
 import android.os.{Handler, Bundle}
-import android.view.View
+import android.view.{WindowManager, View}
 import android.widget.SearchView
 import org.scaloid.common._
 import android.content.Intent
@@ -57,7 +57,7 @@ class SearchActivity extends DoubanActivity {
 
   def search(txt: String) = {
     if (!txt.isEmpty) {
-      //      getWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN) //TODO
+      getWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
       startActivity(SIntent[SearchResultActivity].putExtra(SEARCH_TEXT_KEY, txt))
     }
     txt.isEmpty
