@@ -177,8 +177,7 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
            notifyDataSetChanged()
            updateFooter()
          }
-          toast(getString(R.string.more_books_loaded).format(SearchResult.searchedNumber))
-
+         toast(getString(R.string.more_books_loaded).format(SearchResult.searchedNumber))
          loading = false
         }
       }
