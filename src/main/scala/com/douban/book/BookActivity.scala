@@ -108,9 +108,11 @@ class BookActivity extends DoubanActivity {
 }
 
 class SearchResultDetail extends DoubanFragment[BookActivity] {
-  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, b: Bundle) = inflater.inflate(R.layout.book_view, container, false)
+  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, b: Bundle) = {
+    inflater.inflate(R.layout.book_view, container, false)
+  }
 
-  override def onActivityCreated(b: Bundle) {
+  override def onActivityCreated(b: Bundle){
     super.onActivityCreated(b)
     updateBookView()
   }
@@ -119,6 +121,8 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
     getThisActivity.book match {
       case Some(book) => {
         getActivity.setTitle(book.title)
+        Map(R.id.subtitle_layout -> book.subtitle, R.id.book_author -> book.author_intro, R.id.book_content -> book.summary, R.id.book_catalog -> book.catalog
+        ).foreach(hideWhenEmpty)
 
         val toDel = book.current_user_collection match {
           case c: Collection => {
@@ -143,20 +147,20 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
             }
           }
           case _ => {
-            rootView.find[LinearLayout](R.id.book_layout_tags).setVisibility(View.GONE)
+            hideWhen(R.id.book_layout_tags,condition = true)
             List(R.id.delete)
           }
         }
         val l = rootView.find[LinearLayout](R.id.status_layout)
         toDel.foreach(id => l.removeView(rootView.findViewById(id)))
 
-        batchSetTextView(SearchResult.mapping ++ Map( R.id.bookSubtitle -> "subtitle", R.id.bookPages -> "pages", R.id.bookPrice -> "price",
+        batchSetValues(SearchResult.mapping ++ Map( R.id.bookSubtitle -> "subtitle", R.id.bookPages -> "pages", R.id.bookPrice -> "price",
           R.id.book_author_abstract -> "author_intro", R.id.book_author_abstract_longtext -> "author_intro",
           R.id.book_content_abstract -> "summary", R.id.book_content_abstract_longtext -> "summary",
           R.id.book_catalog_abstract -> "catalog", R.id.book_catalog_abstract_longtext -> "catalog",
           R.id.comment -> ("current_user_collection.comment","%s」")), beanToMap(book))
 //        rootView.find[TextView](R.id.ratingNum).setText(s"(${book.rating.numRaters})")
-        getThisActivity.loadImage(if (getThisActivity.usingWIfi || !getThisActivity.using2G) book.images.large else book.images.small, R.id.book_img, book.title)
+        getThisActivity.loadImage(if (getThisActivity.usingWIfi || !getThisActivity.using2G) book.images.large else book.images.small,R.id.book_img,book.title)
         displayWhen(R.id.content_arrow,rootView.find[TextView](R.id.book_content_abstract).getLineCount>4)
         displayWhen(R.id.author_arrow,rootView.find[TextView](R.id.book_author_abstract).getLineCount>4)
         displayWhen(R.id.catalog_arrow,rootView.rootView.find[TextView](R.id.book_catalog_abstract).getLineCount>4)

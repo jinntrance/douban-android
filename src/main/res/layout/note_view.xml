@@ -16,7 +16,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/user_avartar"
+                android:id="@+id/user_avatar"
                 android:src="@drawable/default_user_img" />
 
             <TextView
@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:text="Title"
                 android:id="@+id/note_title"
-                android:layout_toRightOf="@+id/user_avartar"
+                android:layout_toRightOf="@+id/user_avatar"
                 android:layout_marginLeft="@dimen/margin_medium" />
 
             <TextView
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:text="2013-11-08 07:54:36"
                 android:id="@+id/note_time"
-                android:layout_toRightOf="@+id/user_avartar"
+                android:layout_toRightOf="@+id/user_avatar"
                 android:layout_below="@+id/note_title"
                 android:layout_marginLeft="@dimen/margin_medium" />
 

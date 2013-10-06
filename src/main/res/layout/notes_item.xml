@@ -63,8 +63,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"  android:singleLine="true" android:ellipsize="end"
-                android:text="其實每每選擇自己不完全知道的，才能進步，也才能有一定的把握做成功。"   style="@style/DoubanTextTitle.Black"
-                android:id="@+id/note_title"
+                android:text="User"   style="@style/DoubanTextTitle.Black"
+                android:id="@+id/username"
                 android:layout_margin="@dimen/margin_medium" />
 
             <TextView

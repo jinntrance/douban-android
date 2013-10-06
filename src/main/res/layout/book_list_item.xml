@@ -14,7 +14,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="0dp"
-            android:layout_height="105dp"
+            android:layout_height="120dp"
             android:layout_marginRight="@dimen/margin_medium"
             android:layout_weight="0.222">
 
@@ -63,7 +63,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/currentState"
                 android:autoText="false"
-                android:text="在读"
                 android:gravity="center_vertical" />
 
 
