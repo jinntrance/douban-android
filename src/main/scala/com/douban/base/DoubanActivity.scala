@@ -10,17 +10,12 @@ import org.scaloid.common._
 import scala.concurrent._
 import ExecutionContext.Implicits.global
 import collection.JavaConverters._
-import java.util
 import scala.collection.mutable
 import android.app._
 import android.widget._
 import android.graphics.drawable.Drawable
 import java.net.URL
 import java.io.{FileOutputStream, File, InputStream}
-import com.douban.common.AccessTokenResult
-import scala.util.Failure
-import org.scaloid.common.LoggerTag
-import scala.util.Success
 import android.graphics.{Bitmap, BitmapFactory}
 import android.content.Context
 import android.telephony.TelephonyManager
@@ -46,45 +41,48 @@ trait Douban {
 
   implicit val ctx: DoubanActivity=getThisActivity
 
-  def getCurrentView: V
-
-  protected lazy val rootView: V = getCurrentView
+  protected val rootView: V
 
   def getThisActivity: DoubanActivity
 
-  def batchSetTextView[T <: V](m: Map[Int, Any], values:mutable.Map[String,String], holder: T = rootView,separator:String="/") {
-
-    def setViewValue(id: Int,value: Any) {
-      value match {
-        case null|""|"null" => holder.findViewById(id) match {
-          case view: View => view.setVisibility(View.GONE)
-          case _ =>
-        }
-        case value: String => holder.findViewById(id) match {
-          case view: TextView => view.setText(value)
-          case rating: RatingBar => rating.setNumStars(value.toInt)
-          case _ =>
-        }
-        case _=>
+  def setViewValue[T <: V](id: Int,value: Any,holder:T=rootView,notification:String="") {
+    value match {
+      case "" => holder.findViewById(id) match {
+        case view: View => view.setVisibility(View.GONE)
+        case _ =>
       }
-    }
-    m.foreach {
-      case (id, key:String) => setViewValue(id, values(key))
-      case (id,l:List[String])  => setViewValue(id,l.map(values(_)).mkString(separator))
-      case (id,(key:String,format:String))  => setViewValue(id,format.format(values.get(key)))
+      case value: String => holder.findViewById(id) match {
+        case view: TextView => view.setText(value)
+        case rating: RatingBar => rating.setNumStars(value.toInt)
+        case img: ImageView if value!="URL" =>loadImage(value,img,notification)
+        case _ =>
+      }
+      case _=>
     }
   }
 
-  def beanToMap(b: Any, keyPre: String = "",separator:String="/"): mutable.Map[String, String] =
+  def batchSetValues[T <: V](m: Map[Int, Any], values:Map[String,String], holder: T = rootView,separator:String="/") {
+    m.foreach {
+      case (id, key:String) => setViewValue(id, values.getOrElse(key,""),holder)
+      case (id,(key:String,format:String))  => setViewValue(id,format.format(values.getOrElse(key,"")),holder)
+      case (id,l:List[String])  => setViewValue(id,l.map(values.getOrElse(_,"")).filter(_!="").mkString(separator),holder)
+      case (id,(urlKey:String,(notifyField:String,format:String)))  => setViewValue(id, values.getOrElse(urlKey,"URL"),holder,format.format(values.getOrElse(notifyField,"")))//TODO add support
+    }
+  }
+  def beanToMap[TYPE<:Any](b: TYPE, keyPre: String = "",separator:String="/"): Map[String, String]={
+
+  def beanToMapHelper(b: Any, keyPre: String = "",separator:String="/"): mutable.Map[String, String] =
     Req.g.toJsonTree(b).getAsJsonObject.entrySet().asScala.foldLeft(mutable.Map[String, String]()) {
       case (a, e) => {
         val key = keyPre + e.getKey
         if (e.getValue.isJsonPrimitive) a + (key -> e.getValue.getAsString)
         else if (e.getValue.isJsonArray) a + (key -> e.getValue.getAsJsonArray.iterator().asScala.filter(_.isJsonPrimitive).map(_.getAsString).mkString(separator))
-        else if (e.getValue.isJsonObject) a ++ beanToMap(e.getValue, key + ".",separator)
+        else if (e.getValue.isJsonObject) a ++ beanToMapHelper(e.getValue, key + ".",separator)
         else a
       }
     }
+    Map() ++ beanToMapHelper(b,keyPre,separator)
+  }
 
   def string2TextView(s: String)(implicit ctx: Context): View = {
     val t = new TextView(getThisActivity)
@@ -103,6 +101,18 @@ trait Douban {
   implicit def scalaList2java[T](l: scala.List[T]): java.util.List[T] = l.asJava
 
   implicit def scalaBuffer2java[T](l: mutable.Buffer[T]): java.util.List[T] = l.asJava
+
+  def hideWhenEmpty(m: (Int, String)) {
+    hideWhenEmpty(m._1, m._2)
+  }
+
+  def hideWhenEmpty(resId: Int, value: String, holder: V = rootView)= value match {
+      case null|""=> holder.findViewById(resId) match {
+        case v:View => v.setVisibility(View.GONE)
+        case _ =>
+      }
+      case _ =>
+    }
 
   def hideWhen(resId: Int, condition: Boolean, holder: V = rootView) = if (condition) {
       holder.findViewById(resId) match {
@@ -146,12 +156,60 @@ trait Douban {
     }
     !firstOneAsBackground
   }
+  def isOnline = {
+    val activeNetwork = ctx.getSystemService(content.Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo
+    activeNetwork.isConnectedOrConnecting
+  }
+
+  def usingWIfi = {
+    val activeNetwork = ctx.getSystemService(content.Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo
+    activeNetwork.getType == ConnectivityManager.TYPE_WIFI
+  }
+
+  def using2G: Boolean = {
+    import TelephonyManager._
+    val t = ctx.getSystemService(Context.TELEPHONY_SERVICE).asInstanceOf[TelephonyManager].getNetworkType match {
+      case NETWORK_TYPE_GPRS | NETWORK_TYPE_EDGE | NETWORK_TYPE_CDMA | NETWORK_TYPE_1xRTT | NETWORK_TYPE_IDEN => "2G"
+      case _ => "3G"
+    }
+    t == "2G"
+  }
+
+
+  def BitmapFromUrl(url: String) = {
+    BitmapFactory.decodeStream(new URL(url).getContent.asInstanceOf[InputStream])
+  }
+
+  def loadImage(url:String,resId:Int,title:String,holder:V=rootView,updateCache:Boolean=false):Unit=holder.findViewById(resId) match{
+    case img:ImageView=>loadImage(url,img,ctx.getString(R.string.load_img_fail,title),updateCache)
+    case _=>
+  }
+
+
+  def loadImage(url: String, img:ImageView,notification:String="",updateCache: Boolean = false):Unit= {
+        val cacheFile = new File(ctx.getExternalCacheDir, url.dropWhile(_ != '/'))
+        if (!updateCache && cacheFile.exists()) {
+          val b = Drawable.createFromPath(cacheFile.getAbsolutePath)
+          runOnUiThread(img.asInstanceOf[ImageView].setImageDrawable(b))
+        } else future {
+          BitmapFromUrl(url)
+        } onComplete {
+          case Success(b) => {
+            runOnUiThread(img.asInstanceOf[ImageView].setImageBitmap(b))
+            if (!cacheFile.exists() && cacheFile.getParentFile.mkdirs) {
+              cacheFile.createNewFile()
+            }
+            val out = new FileOutputStream(cacheFile, false)
+            b.compress(Bitmap.CompressFormat.JPEG, 100, out)
+            out.close()
+          }
+          case Failure(b) => toast(notification)
+        }
+  }
 }
 
 trait DoubanActivity extends SActivity with Douban {
   override implicit val loggerTag = LoggerTag("DoubanBook")
-
-
 
   Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
     def uncaughtException(thread: Thread, ex: Throwable) {
@@ -180,7 +238,7 @@ trait DoubanActivity extends SActivity with Douban {
 
   override def getThisActivity = this
 
-  def getCurrentView: V = this
+  override lazy val rootView: V = this
 
   def handle[R](result: => R, handler: (R) => Unit) {
     future {
@@ -230,25 +288,6 @@ trait DoubanActivity extends SActivity with Douban {
     onBackPressed()
   }
 
-  def isOnline = {
-    val activeNetwork = getApplicationContext.getSystemService(content.Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo
-    activeNetwork.isConnectedOrConnecting
-  }
-
-  def usingWIfi = {
-    val activeNetwork = getApplicationContext.getSystemService(content.Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo
-    activeNetwork.getType == ConnectivityManager.TYPE_WIFI
-  }
-
-  def using2G: Boolean = {
-    import TelephonyManager._
-    val t = getSystemService(Context.TELEPHONY_SERVICE).asInstanceOf[TelephonyManager].getNetworkType match {
-      case NETWORK_TYPE_GPRS | NETWORK_TYPE_EDGE | NETWORK_TYPE_CDMA | NETWORK_TYPE_1xRTT | NETWORK_TYPE_IDEN => "2G"
-      case _ => "3G"
-    }
-    t == "2G"
-  }
-
   def isAuthenticated = {
     !get(Constant.accessTokenString).isEmpty
   }
@@ -258,31 +297,6 @@ trait DoubanActivity extends SActivity with Douban {
     put(Constant.refreshTokenString, t.refresh_token)
     put(Constant.userIdString, t.douban_user_id)
   }
-
-  def BitmapFromUrl(url: String) = {
-    BitmapFactory.decodeStream(new URL(url).getContent.asInstanceOf[InputStream])
-  }
-
-  def loadImage[T <: {def findViewById(id : Int) : View}](url: String, imgId: Int, name: String = "", holder: T = this, updateCache: Boolean = false) {
-    val cacheFile = new File(getExternalCacheDir, url.dropWhile(_ != '/'))
-    if (!updateCache && cacheFile.exists()) {
-      val b = Drawable.createFromPath(cacheFile.getAbsolutePath)
-      runOnUiThread(holder.findViewById(imgId).asInstanceOf[ImageView].setImageDrawable(b))
-    } else future {
-      BitmapFromUrl(url)
-    } onComplete {
-      case Success(b) => {
-        runOnUiThread(holder.findViewById(imgId).asInstanceOf[ImageView].setImageBitmap(b))
-        if (!cacheFile.exists() && cacheFile.getParentFile.mkdirs) {
-          cacheFile.createNewFile()
-        }
-        val out = new FileOutputStream(cacheFile, false)
-        b.compress(Bitmap.CompressFormat.JPEG, 100, out)
-        out.close()
-      }
-      case Failure(b) => toast(getString(R.string.load_img_fail, name))
-    }
-  }
 }
 
 trait DoubanListFragment[T <: DoubanActivity] extends ListFragment with Douban {
@@ -290,9 +304,10 @@ trait DoubanListFragment[T <: DoubanActivity] extends ListFragment with Douban {
 
   override def getThisActivity: T = getActivity.asInstanceOf[T]
 
-  override lazy val rootView = getView
+  override lazy val rootView:View = getView
 
-  def getCurrentView: V = getView
+  override implicit val ctx: DoubanActivity = getThisActivity
+
 }
 
 trait DoubanFragment[T <: DoubanActivity] extends Fragment with Douban {
@@ -300,7 +315,7 @@ trait DoubanFragment[T <: DoubanActivity] extends Fragment with Douban {
 
   override def getThisActivity: T = getActivity.asInstanceOf[T]
 
-  def getCurrentView: V = getView
+  override lazy val rootView:View = getView
 
-  override lazy val rootView = getView
+  override implicit val ctx: DoubanActivity = getThisActivity
 }

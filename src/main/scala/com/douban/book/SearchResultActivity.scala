@@ -15,6 +15,8 @@ import Constant._
 import scala.util.Failure
 import scala.util.Success
 import java.util
+import scala.collection.parallel.mutable
+import scala.collection
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -89,15 +91,9 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
 
   val stateMapping=Map("wish"-> "想读","reading"-> "在读","read" -> "读过")
   var loading = false
-  var adapter: Option[BookItemAdapter] = None
   var footer: Option[View] = None
   private var currentPage = 1
   private var mCallback: OnBookSelectedListener = null
-
-  override def onCreate(b: Bundle) {
-    super.onCreate(b)
-    adapter = Some(new BookItemAdapter())
-  }
 
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, bundle: Bundle) = {
     footer = Some(inflater.inflate(R.layout.book_list_loader, null))
@@ -109,7 +105,7 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
     getListView.setDivider(null)
     getListView.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS)
     getListView.addFooterView(footer.get)
-    setListAdapter(adapter.get)
+    setListAdapter(new BookItemAdapter(SearchResult.books.map(b=>beanToMap(b))))
     getThisActivity.updateTitle()
     updateFooter()
   }
@@ -138,23 +134,25 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
     mCallback.onBookSelected(position)
   }
 
-  class BookItemAdapter extends BaseAdapter {
+  class BookItemAdapter(list:collection.mutable.Buffer[Map[String,String]]) extends BaseAdapter {
+
+    case class ViewHolder(image:ImageView,title:TextView,authors:TextView,publisher:TextView,stars:ImageView)
 
     override def getView(position: Int, view: View, parent: ViewGroup): View = {
       import SearchResult._
-      val convertView = if(null!=view) view else getThisActivity.getLayoutInflater.inflate(R.layout.book_list_item,parent)
+      val convertView = if(null!=view) view else getThisActivity.getLayoutInflater.inflate(R.layout.book_list_item,null)
       if (null != convertView) {
-        val b = getItem(position)
-        batchSetTextView(mapping,beanToMap(b))
+        val b = SearchResult.books.get(position)
+        batchSetValues(mapping,list.get(position),convertView)
         val c: Collection = b.current_user_collection
         displayWhen(R.id.favorite, null == c, convertView)
         if (null != c) {
-          convertView.find[TextView](R.id.currentState).setText(stateMapping(c.status))
+          setViewValue(R.id.currentState,stateMapping(c.status),convertView)
         } else convertView.findViewById(R.id.fav_layout) onClick (v => {
           runOnUiThread(startActivity(SIntent[CollectionActivity]))
         })
         getThisActivity.loadImage(b.image, R.id.book_img, b.title, convertView)
-        if (position + currentPage/4 >= SearchResult.searchedNumber) load()
+        if (position + 2 >= SearchResult.searchedNumber) load()
       }
       convertView
     }
@@ -169,7 +167,8 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
           addResult(b)
           runOnUiThread{
             notifyDataSetChanged()
-            toast(getString(R.string.more_books_loaded,SearchResult.searchedNumber.toString))
+            val msg=getString(R.string.more_books_loaded,SearchResult.searchedNumber.toString)
+            toast(msg)
           }
           updateFooter()
           loading = false
@@ -179,11 +178,14 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
 
     def getCount: Int = SearchResult.searchedNumber
 
-    def getItem(index: Int): Book = SearchResult.books.get(index)
+    def getItem(index: Int): Map[String,String] = list.get(index)
 
     def getItemId(position: Int): Long = position
 
-    def addResult(r:BookSearchResult)=SearchResult.add(r)
+    def addResult(r:BookSearchResult)={
+      list ++ r.books.map(beanToMap(_))
+      SearchResult.add(r)
+    }
   }
 
 }

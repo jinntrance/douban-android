@@ -6,8 +6,10 @@ import com.douban.models.{AnnotationSearch, Book}
 import android.view.{ViewGroup, View}
 import scala.concurrent._
 import android.content.Context
-import android.widget.SimpleAdapter
+import android.widget.{BaseAdapter, SimpleAdapter}
 import ExecutionContext.Implicits.global
+import scala.collection.mutable
+import collection.JavaConverters._
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -32,7 +34,9 @@ class NotesActivity extends DoubanActivity {
 }
 
 class NotesListFragment extends DoubanListFragment[NotesActivity] {
+  import R.id._
   var currentPage = 1
+  var mapping=Map(page_num->"page_no",chapter_name->"chapter",note_time->"time",username->"author_user.name",note_content->"content",user_avatar->("author_user.avatar",("author_user.name",getString(R.string.load_img_fail))))
 
   override def onCreate(b: Bundle) {
     super.onCreate(b)
@@ -45,22 +49,39 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
   }
 
   def search(v: View) {
+    loadData(v)
+  }
+
+  def loadData(v: View,page:Int=1) {
     val order = Map(R.id.rank -> "rank", R.id.collect -> "collect", R.id.page -> "page")
     v.getId match {
       case id: Int if order.contains(id) => {
         v.setBackgroundColor(R.color.black_light)
         order.keys.filter(_ != id).foreach(rootView.findViewById(_).setBackgroundColor(R.color.black))
-        currentPage = 1
+        currentPage = page
         search(order = order(id))
       }
     }
   }
 
-  class NoteItemAdapter(context: Context, data: java.util.List[_ <: java.util.Map[String, _]], resource: Int, from: Array[String], to: Array[Int]) extends SimpleAdapter(context, data, resource, from, to) {
+  def load(v: View){
+    loadData(v,currentPage+1)
+  }
+
+
+  class NoteItemAdapter(context: Context, data: mutable.Buffer[Map[String, String]]) extends BaseAdapter {
     override def getView(position: Int, view: View, parent: ViewGroup): View = {
-      val convertView = super.getView(position, view, parent)
+      val convertView = if(null!=view) view else ctx.getLayoutInflater.inflate(R.layout.notes_item,null)
+      val currentLine: Map[String, String] = data.get(position)
+      batchSetValues(mapping,currentLine,convertView)
       convertView
     }
+
+    def getCount: Int = data.length
+
+    def getItem(p1: Int): Map[String,String] =data.get(p1)
+
+    def getItemId(p1: Int): Long = p1
   }
 
 }

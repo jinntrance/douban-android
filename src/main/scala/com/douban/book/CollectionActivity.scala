@@ -101,6 +101,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
   }
 
   def check(v: View) {
+    val map=Map(R.id.wish->R.drawable.button_pink,R.id.reading->R.drawable.button_green,R.id.read->R.drawable.button_brown)
     v match {
       case b: Button => {
         val mark = '✓'
@@ -108,9 +109,13 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
         if (!txt.contains(mark)) {
           status = reverseMapping(b.getId)
           b.setText(txt + mark.toString)
+          b.setBackgroundResource(R.drawable.button_gray)
           List(R.id.read, R.id.reading, R.id.wish).filter(_ != b.getId).foreach(id => {
             getView.find[Button](id) match {
-              case b: Button => b.setText(b.getText.toString.takeWhile(_ != mark))
+              case b: Button => {
+                b.setText(b.getText.toString.takeWhile(_ != mark))
+                b.setBackgroundResource(map(b.getId))
+              }
               case _ =>
             }
           }
