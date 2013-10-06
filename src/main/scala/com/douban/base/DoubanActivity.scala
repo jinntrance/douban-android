@@ -74,7 +74,6 @@ trait Douban {
       }
       case value: String => holder.findViewById(id) match {
         case view: TextView => view.setText(value)
-        case view: Button => view.setText(value)
         case rating: RatingBar => rating.setNumStars(value.toInt)
         case img: ImageView if value!="URL" =>loadImage(value,img,notification)
         case _ =>

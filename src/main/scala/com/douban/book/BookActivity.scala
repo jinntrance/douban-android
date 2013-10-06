@@ -36,7 +36,7 @@ class BookActivity extends DoubanActivity {
         val bk = extras.getSerializable(Constant.BOOK_KEY)
         book = if (null != isbn && !isbn.isEmpty) Some(Book.byISBN(isbn))
         else if (0 != bookId) Some(Book.byId(bookId.toLong))
-        else if(null!=bk) Some(bk.asInstanceOf[Book])
+        else if(null!=bk) bk.asInstanceOf[Option[Book]]
         else  None
       }
       case _ =>
