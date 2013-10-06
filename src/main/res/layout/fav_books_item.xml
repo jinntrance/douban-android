@@ -15,7 +15,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="0dp"
-            android:layout_height="120dp"
+            android:layout_height="130dp"
             android:layout_marginRight="@dimen/margin_medium"
             android:layout_weight="0.222">
 
@@ -27,7 +27,7 @@
                 android:src="@drawable/default_image" />
         </LinearLayout>
 
-        <LinearLayout android:layout_height="match_parent"
+        <RelativeLayout android:layout_height="match_parent"
             android:layout_width="0dp"  android:layout_weight="0.83"
             android:layout_gravity="center"
             android:gravity="center"
@@ -40,30 +40,31 @@
             <include layout="@layout/book_basic_info" />
 
 
-            <include layout="@layout/rating" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5星力荐"           android:textColor="@color/text_orange"
+                android:id="@+id/textView"
+                android:layout_margin="@dimen/margin_small" />
+
+            <include layout="@layout/tags"
+                android:layout_margin="@dimen/margin_small" />
             </LinearLayout>
 
         <LinearLayout android:layout_height="match_parent"
             android:layout_width="wrap_content"  android:clickable="true"
             android:layout_gravity="center"
             android:gravity="center" android:id="@+id/fav_layout"  android:layout_margin="@dimen/margin_medium"
-            android:layout_marginRight="@dimen/margin_large" >
+            android:layout_marginRight="@dimen/margin_large"
+            android:layout_alignParentRight="true">
 
-            <ImageView
+           <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/toread"
-                android:id="@+id/favorite"
-                android:src="@drawable/button_favorite"
-                android:contentDescription="" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/currentState"
-                android:autoText="false"
+                android:layout_height="wrap_content" android:maxLength="16"  android:ellipsize="none"
+                android:id="@+id/time"  android:text="2012-01-01 13:33:33"
                 android:gravity="center_vertical" />
         </LinearLayout>
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
     <include layout="@layout/divider" android:layout_marginTop="@dimen/margin_medium" android:layout_marginBottom="@dimen/margin_medium"/>
