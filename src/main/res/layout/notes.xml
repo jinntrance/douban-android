@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
     android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/notes_container">
 
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:background="@color/background_black"
+        android:layout_gravity="center_vertical"
+        android:background="@color/background_black"  style="@style/DoubanButton.Note"
         android:padding="@dimen/margin_medium">
 
         <Button   android:onClick="search"
@@ -43,6 +43,5 @@
 
     <fragment  class="com.douban.book.NotesListFragment"
         android:layout_width="fill_parent" android:id="@+id/notes_list_fragment"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom" />
-</FrameLayout>
+        android:layout_height="wrap_content" />
+</LinearLayout>

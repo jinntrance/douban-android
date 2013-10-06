@@ -156,8 +156,10 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
 
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, b: Bundle): View = inflater.inflate(R.layout.add_tags, container, false)
 
-  override def onViewCreated(view: View, savedInstanceState: Bundle) {
-    super.onViewCreated(view, savedInstanceState)
+
+
+  override def onActivityCreated(bundle: Bundle) {
+    super.onActivityCreated(bundle)
     getThisActivity.replaceActionBar(R.layout.header_tag, getString(R.string.add_tags))
       future {
         val r = Book.tagsOf(defaultSharedPreferences.getString(Constant.userIdString, "0").toLong)

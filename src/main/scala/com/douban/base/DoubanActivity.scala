@@ -48,10 +48,12 @@ trait Douban {
 
   def waitToLoad()(implicit ctx:Context)={
     _sp=spinnerDialog("请稍候","数据加载中…")
+    _sp.setCanceledOnTouchOutside(true)
+    _sp.setCancelable(true)
     _sp.setOnCancelListener(new DialogInterface.OnCancelListener() {
       def onCancel(p1: DialogInterface) {
          _sp.dismiss()
-        getThisActivity.onBackPressed()
+        getThisActivity.finish()
       }
     })
     _sp.show()
@@ -60,7 +62,7 @@ trait Douban {
 
   def finishedLoading(){
     if(null!=_sp) {
-      _sp.dismiss()
+      _sp.cancel()
     }
   }
 

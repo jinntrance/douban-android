@@ -22,7 +22,7 @@ import org.scaloid.common._
  */
 class NotesActivity extends DoubanActivity {
   lazy val bookId = getIntent.getLongExtra(Constant.BOOK_ID, 0)
-  lazy val listFragment: NotesListFragment = findFragment[NotesListFragment](R.id.list_fragment)
+  lazy val listFragment: NotesListFragment = findFragment[NotesListFragment](R.id.notes_list_fragment)
 
   def getNote(i:Int):Map[String,String]=listFragment.adapter.getItem(i)
 

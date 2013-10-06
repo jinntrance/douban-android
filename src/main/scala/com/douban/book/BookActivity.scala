@@ -34,15 +34,22 @@ class BookActivity extends DoubanActivity {
         val isbn = extras.getString(Constant.ISBN)
         val bookId = extras.getLong(Constant.BOOK_ID)
         val bk = extras.getSerializable(Constant.BOOK_KEY)
-        book = if (null != isbn && !isbn.isEmpty) Some(Book.byISBN(isbn))
-        else if (0 != bookId) Some(Book.byId(bookId.toLong))
-        else if(null!=bk) bk.asInstanceOf[Option[Book]]
-        else  None
+        if (null==bk) future{
+          waitToLoad()
+          if (null != isbn && !isbn.isEmpty) Some(Book.byISBN(isbn))
+          else if (0 != bookId) Some(Book.byId(bookId.toLong))
+          else None
+        }onSuccess{
+          case Some(bb:Book)=>{
+            book=Some(bb)
+            fragment.updateBookView()
+            finishedLoading()
+          }
+        }
+        else  book=bk.asInstanceOf[Option[Book]]
       }
       case _ =>
     }
-    if (book.isEmpty&&SearchResult.selectedBook.isDefined) book = SearchResult.selectedBook
-    else finish()
     setContentView(R.layout.book_view_container)
     //    find[Button](R.id.shareButton) onClick (
     //      startActivity(SIntent(Intent.ACTION_SEND_MULTIPLE).setType("*/*").putExtra(Intent.EXTRA_TEXT,"").putExtra(Intent.EXTRA_STREAM,""))
