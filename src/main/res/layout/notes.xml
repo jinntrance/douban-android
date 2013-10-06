@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/notes_container">
 
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:background="@color/background_black">
+        android:background="@color/background_black"
+        android:padding="@dimen/margin_medium">
 
-        <Button
+        <Button   android:onClick="search"
             android:layout_width="wrap_content"
             android:text="有用" style="@style/DoubanButton.Note"
             android:id="@+id/rank"  android:background="@color/black_light"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true" />
 
-        <Button
+        <Button   android:onClick="search"
             android:layout_width="wrap_content"
             android:text="页码" style="@style/DoubanButton.Note"
             android:id="@+id/page"
@@ -25,14 +26,14 @@
             android:layout_alignParentLeft="false"
             android:layout_centerVertical="true" />
 
-        <Button
+        <Button   android:onClick="search"
             android:layout_width="wrap_content"
             android:text="最新" style="@style/DoubanButton.Note"
             android:id="@+id/collect"
             android:layout_toRightOf="@+id/page"
             android:layout_centerVertical="true" />
 
-        <Button
+        <Button    android:onClick="forward"
             android:layout_width="wrap_content"
             android:text="跳转至" style="@style/DoubanButton.Note"
             android:id="@+id/button3"
@@ -40,8 +41,7 @@
             android:layout_centerInParent="true" />
     </RelativeLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent" android:id="@+id/notes_list"
-        android:layout_height="wrap_content"></LinearLayout>
+    <fragment  class="com.douban.book.NotesListFragment"
+        android:layout_width="fill_parent" android:id="@+id/notes_list_fragment"
+        android:layout_height="wrap_content" />
 </LinearLayout>

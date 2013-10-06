@@ -44,7 +44,12 @@
     <style name="DoubanButton.Note" parent="DoubanButton.Small">
         <item name="android:background">@color/black</item>
         <item name="android:layout_height">@dimen/text_double_size</item>
-
+    </style>
+    <style name="DoubanButton.Page" parent="DoubanButton.Small">
+        <item name="android:background">@drawable/button_green_page</item>
+        <item name="android:layout_height">@dimen/text_double_size</item>
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:clickable">false</item>
     </style>
     <style name="DoubanText" parent="@android:style/Widget.Holo.Light.TextView">
         <item name="android:textColor">@color/gray</item>

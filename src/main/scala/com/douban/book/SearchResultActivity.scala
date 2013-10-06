@@ -9,14 +9,14 @@ import scala.concurrent._
 import org.scaloid.common._
 import ExecutionContext.Implicits.global
 import java.lang.String
-import android.app.{ProgressDialog, Activity}
-import android.content.{DialogInterface, Context}
+import android.app.Activity
+import android.content.DialogInterface
 import Constant._
 import scala.util.Failure
 import scala.util.Success
 import java.util
-import scala.collection.parallel.mutable
 import scala.collection
+
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -34,9 +34,9 @@ class SearchResultActivity extends DoubanActivity with OnBookSelectedListener {
     setContentView(R.layout.book_list)
     searchText = getIntent.getStringExtra(SEARCH_TEXT_KEY)
     if (null == b) {
-      var pd: ProgressDialog = null
       var noResult = true
-      pd = ProgressDialog.show(this, getString(R.string.search), getString(R.string.searching), false, true, new DialogInterface.OnCancelListener() {
+      val sp=waitToLoad
+      sp.setOnCancelListener(new DialogInterface.OnCancelListener() {
         def onCancel(p1: DialogInterface) {
           if (noResult) finish()
         }
@@ -44,7 +44,7 @@ class SearchResultActivity extends DoubanActivity with OnBookSelectedListener {
       future {
         Book.search(searchText, "", count = this.countPerPage)
       } onComplete {
-        case Success(books) => runOnUiThread {
+        case Success(books) =>  {
           noResult = false
           SearchResult.init(books)
           books.total match {
@@ -52,12 +52,12 @@ class SearchResultActivity extends DoubanActivity with OnBookSelectedListener {
             case _ => {
               debug("search result total:" + books.total)
               findViewById(R.id.list_container) match {
-                case v: View => getFragmentManager.beginTransaction().replace(R.id.list_container, new SearchResultList()).commit()
+                case v: View => runOnUiThread(getFragmentManager.beginTransaction().replace(R.id.list_container, new SearchResultList()).commit())
                 case _ =>
               }
             }
           }
-          pd.cancel()
+          sp.dismiss()
         }
         case Failure(err) => {
           error(err.getMessage)
@@ -77,7 +77,7 @@ class SearchResultActivity extends DoubanActivity with OnBookSelectedListener {
         bf.updateBookView()
       case _ => {
         SearchResult.selectedBook=Some(SearchResult.books.get(position))
-        startActivity(SIntent[BookActivity])
+        startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY,SearchResult.selectedBook))
       }
     }
   }
@@ -110,7 +110,7 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
     updateFooter()
   }
 
-  def updateFooter() = runOnUiThread {
+  def updateFooter() = {
     getThisActivity.find[TextView](R.id.to_load) match {
       case footer: TextView => footer.setText(getString(R.string.swipe_up_to_load, SearchResult.searchedNumber.toString, SearchResult.total.toString))
       case _ =>
@@ -140,6 +140,7 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
 
     override def getView(position: Int, view: View, parent: ViewGroup): View = {
       import SearchResult._
+      import CollectionActivity._
       val convertView = if(null!=view) view else getThisActivity.getLayoutInflater.inflate(R.layout.book_list_item,null)
       if (null != convertView) {
         val b = SearchResult.books.get(position)
@@ -147,9 +148,16 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
         val c: Collection = b.current_user_collection
         displayWhen(R.id.favorite, null == c, convertView)
         if (null != c) {
-          setViewValue(R.id.currentState,stateMapping(c.status),convertView)
+          convertView.findViewById(R.id.currentState) match{
+            case state:TextView=>{
+              state.setText(stateMapping(c.status))
+              state.setTextColor(colorMap(idsMap(c.status)))
+            }
+            case _=>
+          }
         } else convertView.findViewById(R.id.fav_layout) onClick (v => {
-          runOnUiThread(startActivity(SIntent[CollectionActivity]))
+          SearchResult.selectedBook=Some(SearchResult.books.get(position))
+          startActivity(SIntent[CollectionActivity].putExtra(Constant.BOOK_KEY,SearchResult.books.get(position)))
         })
         getThisActivity.loadImageWithTitle(b.image, R.id.book_img, b.title, convertView)
         if (position + 2 >= SearchResult.searchedNumber) load()
@@ -164,14 +172,14 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
         Book.search(getThisActivity.searchText, "", currentPage, countPerPage)
       } onSuccess {
         case b => {
-          addResult(b)
-          runOnUiThread{
-            notifyDataSetChanged()
-            val msg=getString(R.string.more_books_loaded,SearchResult.searchedNumber.toString)
-            toast(msg)
-          }
-          updateFooter()
-          loading = false
+         addResult(b)
+         runOnUiThread{
+           notifyDataSetChanged()
+           updateFooter()
+         }
+          toast(getString(R.string.more_books_loaded).format(SearchResult.searchedNumber))
+
+         loading = false
         }
       }
     }
@@ -183,7 +191,7 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
     def getItemId(position: Int): Long = position
 
     def addResult(r:BookSearchResult)={
-      list ++ r.books.map(beanToMap(_))
+      list++=r.books.map(beanToMap(_))
       SearchResult.add(r)
     }
   }

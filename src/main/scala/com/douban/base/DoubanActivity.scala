@@ -17,7 +17,7 @@ import android.graphics.drawable.Drawable
 import java.net.URL
 import java.io.{FileOutputStream, File, InputStream}
 import android.graphics.{Bitmap, BitmapFactory}
-import android.content.Context
+import android.content.{DialogInterface, Context}
 import android.telephony.TelephonyManager
 import scala.language.implicitConversions
 import scala.language.reflectiveCalls
@@ -25,6 +25,7 @@ import scala.util.Failure
 import org.scaloid.common.LoggerTag
 import scala.util.Success
 import com.douban.common.AccessTokenResult
+import android.os.Bundle
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -39,30 +40,50 @@ trait Douban {
   }
   protected val countPerPage = 12
 
-  implicit val ctx: DoubanActivity=getThisActivity
+  implicit def ctx: DoubanActivity=getThisActivity
 
   protected val rootView: V
 
+  private var _sp:ProgressDialog=null
+
+  def waitToLoad()(implicit ctx:Context)={
+    _sp=spinnerDialog("请稍候","数据加载中…")
+    _sp.setOnCancelListener(new DialogInterface.OnCancelListener() {
+      def onCancel(p1: DialogInterface) {
+         _sp.dismiss()
+        getThisActivity.onBackPressed()
+      }
+    })
+    _sp.show()
+    _sp
+  }
+
+  def finishedLoading(){
+    if(null!=_sp) {
+      _sp.dismiss()
+    }
+  }
+
   def getThisActivity: DoubanActivity
 
-  def setViewValue[T <: V](id: Int,value: Any,holder:T=rootView,notification:String="") {
-    value match {
+  def setViewValue[T <: V](id: Int,value: String,holder:T=rootView,notification:String="") {
+    value.trim match {
       case "" => holder.findViewById(id) match {
         case view: View => view.setVisibility(View.GONE)
         case _ =>
       }
       case value: String => holder.findViewById(id) match {
         case view: TextView => view.setText(value)
+        case view: Button => view.setText(value)
         case rating: RatingBar => rating.setNumStars(value.toInt)
         case img: ImageView if value!="URL" =>loadImage(value,img,notification)
         case _ =>
       }
-      case _=>
     }
   }
 
   def batchSetValues[T <: V](m: Map[Int, Any], values:Map[String,String], holder: T = rootView,separator:String="/") {
-    m.foreach {
+    m.par.foreach {
       case (id, key:String) => setViewValue(id, values.getOrElse(key,""),holder)
       case (id,(key:String,format:String))  => setViewValue(id,format.format(values.getOrElse(key,"")),holder)
       case (id,l:List[String])  => setViewValue(id,l.map(values.getOrElse(_,"")).filter(_!="").mkString(separator),holder)
@@ -135,6 +156,7 @@ trait Douban {
   def toggleBetween(view1: Int, view2: Int, holder: V = rootView): View = {
     val v1 = holder.findViewById(view1)
     val v2 = holder.findViewById(view2)
+//    play()
     if (v1.getVisibility == View.GONE) {
       v2.setVisibility(View.GONE)
       v1.setVisibility(View.VISIBLE)
@@ -190,12 +212,12 @@ trait Douban {
         val cacheFile = new File(ctx.getExternalCacheDir, url.dropWhile(_ != '/'))
         if (!updateCache && cacheFile.exists()) {
           val b = Drawable.createFromPath(cacheFile.getAbsolutePath)
-          runOnUiThread(img.asInstanceOf[ImageView].setImageDrawable(b))
+          runOnUiThread(img.setImageDrawable(b))
         } else future {
           BitmapFromUrl(url)
         } onComplete {
           case Success(b) => {
-            runOnUiThread(img.asInstanceOf[ImageView].setImageBitmap(b))
+            runOnUiThread(img.setImageBitmap(b))
             if (!cacheFile.exists() && cacheFile.getParentFile.mkdirs) {
               cacheFile.createNewFile()
             }
@@ -206,10 +228,16 @@ trait Douban {
           case Failure(b) => toast(notification)
         }
   }
+
 }
 
 trait DoubanActivity extends SActivity with Douban {
   override implicit val loggerTag = LoggerTag("DoubanBook")
+
+  def findFragment[T<:Fragment](fragmentId:Int):T=getFragmentManager.findFragmentById(fragmentId) match{
+    case f:Fragment=>f.asInstanceOf[T]
+    case _=>new Fragment().asInstanceOf[T]
+  }
 
   Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
     def uncaughtException(thread: Thread, ex: Throwable) {
@@ -306,16 +334,39 @@ trait DoubanListFragment[T <: DoubanActivity] extends ListFragment with Douban {
 
   override lazy val rootView:View = getView
 
-  override implicit val ctx: DoubanActivity = getThisActivity
-
+  def addArguments(args: Bundle):Fragment={
+    this.setArguments(args)
+    this
+  }
 }
 
 trait DoubanFragment[T <: DoubanActivity] extends Fragment with Douban {
+
   lazy implicit val loggerTag = getThisActivity.loggerTag
 
   override def getThisActivity: T = getActivity.asInstanceOf[T]
 
   override lazy val rootView:View = getView
 
-  override implicit val ctx: DoubanActivity = getThisActivity
+  def addArguments(args: Bundle):Fragment={
+    this.setArguments(args)
+    this
+  }
+}
+
+case class DBundle(b:Bundle=new Bundle()){
+  def put[T](key:String,value:T):Bundle={
+    value match{
+      case s:String=>b.putString(key,s)
+      case i:Int=>b.putInt(key,i)
+      case l:Long=>b.putLong(key,l)
+      case s:Serializable=>b.putSerializable(key,s)
+      case _=>
+    }
+    b
+  }
+  def put(bd:Bundle):Bundle={
+    b.putAll(bd)
+    b
+  }
 }

@@ -350,7 +350,7 @@
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"  android:clickable="true"
-        android:layout_height="wrap_content"  android:onClick="viewNotes"
+        android:layout_height="@dimen/text_triple_size"  android:onClick="viewNotes"
         android:id="@+id/book_annotation"  android:background="@color/white"
         android:layout_alignParentBottom="true"
         android:layout_alignBaseline="@+id/scrollView"

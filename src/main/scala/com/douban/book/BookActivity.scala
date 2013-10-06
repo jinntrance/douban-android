@@ -25,25 +25,25 @@ class BookActivity extends DoubanActivity {
   var contentCollapsed = true
   var authorCollapsed = true
   var catalogCollapsed = true
-  var fragment: Option[SearchResultDetail] = None
+  lazy val fragment: SearchResultDetail = findFragment[SearchResultDetail](R.id.book_view_fragment)
 
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
-    setContentView(R.layout.book_view_container)
     getIntent.getExtras match {
       case extras: Bundle => {
         val isbn = extras.getString(Constant.ISBN)
         val bookId = extras.getLong(Constant.BOOK_ID)
+        val bk = extras.getSerializable(Constant.BOOK_KEY)
         book = if (null != isbn && !isbn.isEmpty) Some(Book.byISBN(isbn))
         else if (0 != bookId) Some(Book.byId(bookId.toLong))
-        else None
+        else if(null!=bk) Some(bk.asInstanceOf[Book])
+        else  None
       }
       case _ =>
     }
     if (book.isEmpty&&SearchResult.selectedBook.isDefined) book = SearchResult.selectedBook
     else finish()
-    fragment = Some(new SearchResultDetail())
-    getFragmentManager.beginTransaction().replace(R.id.book_view_id, fragment.get).commit()
+    setContentView(R.layout.book_view_container)
     //    find[Button](R.id.shareButton) onClick (
     //      startActivity(SIntent(Intent.ACTION_SEND_MULTIPLE).setType("*/*").putExtra(Intent.EXTRA_TEXT,"").putExtra(Intent.EXTRA_STREAM,""))
     //      )
@@ -60,27 +60,18 @@ class BookActivity extends DoubanActivity {
   }
 
   def deCollect(v: View) {
-    new AlertDialog.Builder(this)
-      .setTitle("删除收藏")
-      .setMessage("之前的短评将会消失，确定要删除收藏么？")
-      .setPositiveButton("删除", new DialogInterface.OnClickListener {
-      def onClick(dialog: DialogInterface, which: Int) {
-        future {
-          book match {
-            case Some(b: Book) if Book.deleteCollection(b.id) => {
-              toast(R.string.decollect_successfully)
-              b.updateCollection(book.get.updateCollection(null))
-              if (fragment.isDefined) fragment.get.updateBookView()
+    new AlertDialogBuilder("删除收藏","之前的短评将会消失，确定要删除收藏么？"){
+        positiveButton(onClick={future{
+            book match {
+              case Some(b: Book) if Book.deleteCollection(b.id) => {
+                toast(R.string.decollect_successfully)
+                b.updateCollection(book.get.updateCollection(null))
+                fragment.updateBookView()
+              }
+              case _ => toast(R.string.decollect_unsuccessfully)
             }
-            case _ => toast(R.string.decollect_unsuccessfully)
-          }
-        }
-      }
-    }).setNegativeButton("取消", new DialogInterface.OnClickListener {
-      def onClick(dialog: DialogInterface, which: Int) {
-        dialog.cancel()
-      }
-    }).show()
+          }})
+    }.show()
   }
 
   def addNote(m: MenuItem) = {
