@@ -2,20 +2,16 @@ package com.douban.book
 
 import com.douban.base._
 import android.os.Bundle
-import com.douban.models.{Annotation, AnnotationSearch, Book}
+import com.douban.models.Book
 import android.view._
 import scala.concurrent._
 import android.widget.{ListView, BaseAdapter}
 import ExecutionContext.Implicits.global
 import scala.collection.mutable
-import org.scaloid.common.SIntent
 import com.douban.base.DBundle
 import com.douban.models.AnnotationSearch
 import com.douban.models.Annotation
-import android.graphics.drawable.Drawable
-import com.douban.base.DBundle
-import com.douban.models.AnnotationSearch
-import com.douban.models.Annotation
+import org.scaloid.common._
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -73,9 +69,8 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
       if(1==page) adapter.replaceCollections(a.annotations)
       else adapter.addNewCollections(a.annotations)
       adapter.notifyDataSetInvalidated()
-
       getThisActivity.setTitle(getString(R.string.annotation) + s"($index/${a.total})")
-      toast(getString(R.string.more_books_loaded,index))
+      toast(getString(R.string.more_books_loaded).format(index))
       finishedLoading()
     }
   }
