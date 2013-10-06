@@ -10,33 +10,37 @@
 
         <Button
             android:layout_width="50dp"
-            android:layout_height="@dimen/text_titanic"  android:background="@drawable/button_green_darker"
-            android:text="P423"  style="@style/DoubanButton.Note"  android:padding="0dp"
+            android:layout_height="@dimen/text_titanic"
+            android:text="P423"  style="@style/DoubanButton.Page"  android:padding="0dp"
             android:id="@+id/page_num" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chapter one"
+            android:text="Chapter one Chapter Two Chapter thress"
             android:id="@+id/chapter_name" style="@style/DoubanTextTitle.Green"
-            android:singleLine="false"
+            android:singleLine="true" android:ellipsize="end"
+            android:layout_weight="1"
             android:layout_toRightOf="@+id/page_num"
-            android:layout_alignBaseline="@+id/page_num" />
+            android:layout_centerVertical="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2012-11-28 07:54:36"
             android:id="@+id/note_time"
+            android:singleLine="true"
+            android:layout_gravity="center_vertical|right"
             android:layout_alignParentRight="true"
-            android:layout_centerInParent="true" />
+            android:layout_centerVertical="true" />
     </RelativeLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding_medium">
+        android:layout_margin="@dimen/padding_medium"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:orientation="vertical"
@@ -63,16 +67,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"  android:singleLine="true" android:ellipsize="end"
-                android:text="User"   style="@style/DoubanTextTitle.Black"
+                android:text="User"   style="@style/DoubanText.Clickable"
                 android:id="@+id/username"
-                android:layout_margin="@dimen/margin_medium" />
+                android:layout_gravity="left|top"
+                android:layout_marginLeft="@dimen/margin_medium" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="其實每每選擇自己不完全知道的，才能進步，也才能有一定的把握做成功。 一個人要追求這樣的生活狀態，就是你永遠做不知道該怎麼做的事情，在努力地去探索着，這個時候你的東西才是真正有活力。"  android:maxLines="4" android:ellipsize="end"
                 android:id="@+id/note_content"
-                android:layout_margin="@dimen/margin_medium" />
+                android:layout_margin="@dimen/margin_medium"
+                android:layout_gravity="left|top" />
         </LinearLayout>
     </LinearLayout>
 

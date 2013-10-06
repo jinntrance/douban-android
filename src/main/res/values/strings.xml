@@ -71,5 +71,5 @@
     <string name="add_collection">添加收藏</string>
     <string name="add_tags">添加标签</string>
     <string name="tags_hint">添加标签，空格区分</string>
-    <string name="more_books_loaded">再次加载到了%1%d本书</string>
+    <string name="more_books_loaded">再次加载到了%1$d本书</string>
 </resources>

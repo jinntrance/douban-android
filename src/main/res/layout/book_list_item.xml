@@ -9,7 +9,8 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"  android:gravity="center"  android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:id="@+id/book_item">
+        android:id="@+id/book_item"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:orientation="vertical"
@@ -26,11 +27,11 @@
                 android:src="@drawable/default_image" />
         </LinearLayout>
 
-        <RelativeLayout android:layout_height="match_parent"
+        <LinearLayout android:layout_height="match_parent"
             android:layout_width="0dp"  android:layout_weight="0.83"
             android:layout_gravity="center"
             android:gravity="center">
-        <LinearLayout  android:layout_gravity="center"
+        <LinearLayout  android:layout_gravity="center"  android:layout_weight="1"
             android:orientation="vertical"
             android:layout_width="wrap_content"  android:gravity="left"
             android:layout_height="match_parent"  >
@@ -67,7 +68,7 @@
 
 
         </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
     <include layout="@layout/divider" android:layout_marginTop="@dimen/margin_medium" android:layout_marginBottom="@dimen/margin_medium"/>

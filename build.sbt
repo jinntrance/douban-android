@@ -12,7 +12,7 @@ name := "douban-book"
 
 version := "2.1"
 
-scalaVersion := "2.10.2"
+scalaVersion := "2.10.3"
 
 platformTarget in Android := "android-14"
 
@@ -28,10 +28,11 @@ autoScalaLibrary := false
 
 // call install and run without having to prefix with android:
 run <<= run in Android
- 
+
 install <<= install in Android
 
 libraryDependencies ++= Seq(
+            "org.scala-lang" % "scala-reflect" % "2.10.3",
 			"org.scaloid" % "scaloid_2.10" % "2.4-8" withSources() withJavadoc(),
 			"com.douban" % "scala-api_2.10" % "2.4.2" withSources() withJavadoc(),
 			"com.google.zxing" % "core" % "2.2",

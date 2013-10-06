@@ -45,7 +45,11 @@
         <activity android:label="@string/scan_book" android:name=".ScannerActivity"/>
         <activity android:name=".BookActivity"/>
         <activity android:name=".CollectionActivity"/>
-        <activity android:label="@string/annotation" android:name=".NotesActivity"/>
+        <activity android:label="@string/annotation" android:name=".NotesActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
         <activity android:label="@string/add_note" android:name=".AddNoteActivity"/>
         <activity android:name=".AboutActivity"/>
         <activity android:name="com.google.zxing.client.android.CaptureActivity" android:screenOrientation="landscape"

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="horizontal"  android:clickable="true" android:layout_margin="@dimen/margin_medium"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="horizontal"  android:clickable="true" android:layout_margin="@dimen/margin_medium"
     android:layout_width="fill_parent" android:layout_height="wrap_content" android:background="@color/white" android:id="@+id/tag_container" >
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tag1"   style="@style/DoubanTextTitle.Black"
+        android:layout_height="wrap_content"   android:layout_weight="1"
+        android:text="Tag1"   style="@style/DoubanText.Clickable"
         android:id="@+id/tag"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="false"
+        android:layout_margin="@dimen/margin_medium" />
 
     <ImageView
-        android:layout_width="wrap_content"  android:layout_gravity="right"
+        android:layout_width="wrap_content"  android:layout_gravity="center_vertical|right"
         android:layout_height="wrap_content"
         android:id="@+id/checker"
-        android:visibility="visible"
-        android:src="@drawable/filter_chosen"
+        android:src="@drawable/add_tag"
         android:layout_alignParentRight="true" />
-</RelativeLayout>
+</LinearLayout>
