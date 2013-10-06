@@ -180,7 +180,7 @@ trait Douban {
     BitmapFactory.decodeStream(new URL(url).getContent.asInstanceOf[InputStream])
   }
 
-  def loadImage(url:String,resId:Int,title:String,holder:V=rootView,updateCache:Boolean=false):Unit=holder.findViewById(resId) match{
+  def loadImageWithTitle(url:String,resId:Int,title:String,holder:V=rootView,updateCache:Boolean=false):Unit=holder.findViewById(resId) match{
     case img:ImageView=>loadImage(url,img,ctx.getString(R.string.load_img_fail,title),updateCache)
     case _=>
   }

@@ -151,7 +151,7 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
         } else convertView.findViewById(R.id.fav_layout) onClick (v => {
           runOnUiThread(startActivity(SIntent[CollectionActivity]))
         })
-        getThisActivity.loadImage(b.image, R.id.book_img, b.title, convertView)
+        getThisActivity.loadImageWithTitle(b.image, R.id.book_img, b.title, convertView)
         if (position + 2 >= SearchResult.searchedNumber) load()
       }
       convertView
