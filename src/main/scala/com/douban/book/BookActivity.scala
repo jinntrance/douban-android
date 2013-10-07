@@ -56,6 +56,7 @@ class BookActivity extends DoubanActivity {
       case _ =>
     }
     setContentView(R.layout.book_view_container)
+    slidingMenu
     //    find[Button](R.id.shareButton) onClick (
     //      startActivity(SIntent(Intent.ACTION_SEND_MULTIPLE).setType("*/*").putExtra(Intent.EXTRA_TEXT,"").putExtra(Intent.EXTRA_STREAM,""))
     //      )

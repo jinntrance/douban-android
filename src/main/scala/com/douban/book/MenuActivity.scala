@@ -22,7 +22,7 @@ class MenuActivity {
 }
 
 class MenuFragment extends DoubanFragment[DoubanActivity]{
-  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = inflater.inflate(R.layout.settings,container,false)
+  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = inflater.inflate(R.layout.menu,container,false)
 
   override def onActivityCreated(b: Bundle) {
     super.onActivityCreated(b)
@@ -43,4 +43,7 @@ class MenuFragment extends DoubanFragment[DoubanActivity]{
    getView.find[LinearLayout](R.id.menu_favbooks) onClick(v=>startActivity[FavoriteBooksActivity])
    getView.find[LinearLayout](R.id.menu_settings) onClick(v=>startActivity[SettingsActivity])
   }
+
+
+
 }
