@@ -34,7 +34,7 @@
     <string name="load_img_fail">加载%1$s图片失败</string>
     <string name="menu_share">Share</string>
     <string name="menu_history">History</string>
-    <string name="menu_settings">Settings</string>
+    <string name="menu_settings">设置</string>
     <string name="menu_help">Help</string>
     <string name="menu_encode_mecard">Use MECARD</string>
     <string name="menu_encode_vcard">Use vCard</string>
@@ -67,6 +67,8 @@
     <string name="author_intro">作者简介</string>
     <string name="catalog_intro">目录</string>
     <string name="annotation">读书笔记</string>
+    <string name="annotation_added">添加笔记成功</string>
+    <string name="annotation_fails_to_add">添加笔记失败</string>
     <string name="add_note">写笔记</string>
     <string name="add_collection">添加收藏</string>
     <string name="add_tags">添加标签</string>

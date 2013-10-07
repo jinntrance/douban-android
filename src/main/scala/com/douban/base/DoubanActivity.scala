@@ -155,6 +155,7 @@ trait Douban {
     val chosen = if (firstOneAsBackground) res._1 else res._2
     view match {
       case img: ImageView => img.setImageResource(chosen)
+      case txt: TextView => txt.setBackgroundColor(chosen)
       case _ =>
     }
     !firstOneAsBackground
@@ -264,18 +265,24 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     setWindowTitle(title)
   }
 
-  def setWindowTitle(title: CharSequence) = find[TextView](R.id.title).setText(title)
+  def setWindowTitle(title: CharSequence) = setViewValue(R.id.title,title.toString)
 
-  def setWindowTitle(title: Int) = find[TextView](R.id.title).setText(title)
+  def setWindowTitle(title: Int) = setViewValue(R.id.title,title.toString)
 
   def menu(v: View) {
   }
 
   def put(key: String, value: Any) {
-    defaultSharedPreferences.edit().putString(key, value.toString).commit()
+    val edit= defaultSharedPreferences.edit()
+    value match {
+      case l:List[String]=>edit.putStringSet(key,l.toSet.asJava).commit()
+      case i:Any=>edit.putString(key,value.toString).commit()
+    }
   }
 
-  def get(key: String) = defaultSharedPreferences.getString(key, "")
+  lazy val currentUserId=get[Long](Constant.userIdString)
+
+  def get[T](key: String):T = defaultSharedPreferences.getAll.get(key).asInstanceOf[T]
 
   def contains(key: String): Boolean = defaultSharedPreferences.contains(key)
 
@@ -298,7 +305,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   }
 
   def isAuthenticated = {
-    !get(Constant.accessTokenString).isEmpty
+    !get[String](Constant.accessTokenString).isEmpty
   }
 
   protected def updateToken(t: AccessTokenResult) {

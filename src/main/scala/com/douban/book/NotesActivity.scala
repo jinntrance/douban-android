@@ -97,17 +97,18 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
     v.getId match {
       case id: Int if rank!=order.getOrElse(id,"rank") => {
         order.keys.foreach(toggleBackGround(true,_,(R.color.black,R.color.black_light)))
-        v.setBackgroundColor(R.color.black_light)
+        v.setBackgroundColor(R.color.gray)
         currentPage = page
         rank=order(id)
         search()
       }
+      case _=>
     }
   }
 
   override def onListItemClick(l: ListView, v: View, position: Int, id: Long){
     getListView.setItemChecked(position, true)
-    getFragmentManager.beginTransaction().replace(R.id.notes_container,new NoteViewFragment().addArguments(DBundle().put(Constant.ARG_POSITION,position))).addToBackStack("viewNote").commit()
+    getFragmentManager.beginTransaction().replace(R.id.notes_container,new NoteViewFragment().addArguments(DBundle().put(Constant.ARG_POSITION,position))).addToBackStack(null).commit()
   }
 
   class NoteItemAdapter(var data: mutable.Buffer[Map[String, String]]) extends BaseAdapter {
@@ -146,7 +147,8 @@ class NoteViewFragment extends DoubanFragment[NotesActivity]{
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = inflater.inflate(R.layout.note_view,container,false)
 
   override def onActivityCreated(b: Bundle){
-        batchSetValues(getThisActivity.listFragment.mapping,getThisActivity.getNote(getThisActivity.getIntent.getIntExtra(Constant.ARG_POSITION,0)))
+    super.onActivityCreated(b)
+//    batchSetValues(getThisActivity.listFragment.mapping,getThisActivity.getNote(getThisActivity.getIntent.getIntExtra(Constant.ARG_POSITION,0)))
   }
 }
 

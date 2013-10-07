@@ -12,13 +12,15 @@ import android.os.Bundle
  * @version 1.0
  */
 class FavoriteBooksActivity extends DoubanActivity{
+
 }
 
 
 class FavoriteBooksListFragment extends DoubanListFragment[DoubanActivity]{
-  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = inflater.inflate(R.layout.fav_books_item,container)
+
+  lazy val adapter=new BookItemAdapter(R.layout.fav_books_item,SearchResult.mapping)
 
   override def onActivityCreated(savedInstanceState: Bundle){
-
+    setListAdapter(new BookItemAdapter(R.layout.fav_books_item,SearchResult.mapping))
   }
 }

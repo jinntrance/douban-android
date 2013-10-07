@@ -115,8 +115,8 @@
         <item name="android:textColor">@color/text_white</item>
     </style>
     <style name="DoubanRatingBar" parent="@android:style/Widget.Holo.Light.RatingBar.Small">
-        <item name="android:minHeight">32dp</item>
-        <item name="android:maxHeight">32dp</item>
+        <item name="android:minHeight">20dp</item>
+        <item name="android:maxHeight">20dp</item>
         <item name="android:progressDrawable">@drawable/rating_bar</item>
         <item name="android:indeterminateDrawable">@drawable/rating_bar</item>
     </style>
