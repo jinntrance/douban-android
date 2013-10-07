@@ -52,6 +52,7 @@
     <style name="DoubanButton.Page" parent="DoubanButton.Small">
         <item name="android:background">@drawable/button_green_page</item>
         <item name="android:layout_height">@dimen/text_double_size</item>
+        <item name="android:padding">0dp</item>
         <item name="android:textSize">@dimen/text_small</item>
         <item name="android:clickable">false</item>
     </style>

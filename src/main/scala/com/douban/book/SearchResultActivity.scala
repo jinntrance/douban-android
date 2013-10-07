@@ -9,8 +9,6 @@ import scala.concurrent._
 import org.scaloid.common._
 import ExecutionContext.Implicits.global
 import java.lang.String
-import android.app.Activity
-import android.content.DialogInterface
 import Constant._
 import scala.util.Failure
 import scala.util.Success
@@ -26,7 +24,7 @@ import scala.collection
  * @version 1.0
  * @see http://developers.douban.com/wiki/?title=api_v2
  */
-class SearchResultActivity extends DoubanActivity with OnBookSelectedListener {
+class SearchResultActivity extends DoubanActivity {
   var searchText = ""
 
   protected override def onCreate(b: Bundle) = {
@@ -35,12 +33,7 @@ class SearchResultActivity extends DoubanActivity with OnBookSelectedListener {
     searchText = getIntent.getStringExtra(SEARCH_TEXT_KEY)
     if (null == b) {
       var noResult = true
-      val sp=waitToLoad
-      sp.setOnCancelListener(new DialogInterface.OnCancelListener() {
-        def onCancel(p1: DialogInterface) {
-          if (noResult) finish()
-        }
-      })
+      waitToLoad({if (noResult) finish()})
       future {
         Book.search(searchText, "", count = this.countPerPage)
       } onComplete {
@@ -52,12 +45,12 @@ class SearchResultActivity extends DoubanActivity with OnBookSelectedListener {
             case _ => {
               debug("search result total:" + books.total)
               findViewById(R.id.list_container) match {
-                case v: View => runOnUiThread(getFragmentManager.beginTransaction().replace(R.id.list_container, new SearchResultList()).commit())
+                case v: View => runOnUiThread(fragmentManager.beginTransaction().replace(R.id.list_container, new SearchResultList()).commit())
                 case _ =>
               }
             }
           }
-          sp.dismiss()
+          finishedLoading()
         }
         case Failure(err) => {
           error(err.getMessage)
@@ -71,20 +64,6 @@ class SearchResultActivity extends DoubanActivity with OnBookSelectedListener {
     setTitle(getString(R.string.search_result, searchText))
   }
 
-  def onBookSelected(position: Int) {
-    getFragmentManager.findFragmentById(R.id.book_fragment) match {
-      case bf: SearchResultDetail =>
-        bf.updateBookView()
-      case _ => {
-        SearchResult.selectedBook=Some(SearchResult.books.get(position))
-        startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY,SearchResult.selectedBook))
-      }
-    }
-  }
-}
-
-trait OnBookSelectedListener {
-  def onBookSelected(position: Int)
 }
 
 class SearchResultList extends DoubanListFragment[SearchResultActivity] {
@@ -93,7 +72,6 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
   var loading = false
   var footer: Option[View] = None
   private var currentPage = 1
-  private var mCallback: OnBookSelectedListener = null
 
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, bundle: Bundle) = {
     footer = Some(inflater.inflate(R.layout.book_list_loader, null))
@@ -124,14 +102,17 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
     }
   }
 
-  override def onAttach(activity: Activity) {
-    super.onAttach(activity)
-    mCallback = activity.asInstanceOf[OnBookSelectedListener]
-  }
 
   override def onListItemClick(l: ListView, v: View, position: Int, id: Long) {
     getListView.setItemChecked(position, true)
-    mCallback.onBookSelected(position)
+    getThisActivity.fragmentManager.findFragmentById(R.id.book_fragment) match {
+      case bf: SearchResultDetail =>
+        bf.updateBookView()
+      case _ => {
+        SearchResult.selectedBook=Some(SearchResult.books.get(position))
+        startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY,SearchResult.selectedBook))
+      }
+    }
   }
 
   class BookItemAdapter(list:collection.mutable.Buffer[Map[String,String]]) extends BaseAdapter {
@@ -150,6 +131,7 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
         if (null != c) {
           convertView.findViewById(R.id.currentState) match{
             case state:TextView=>{
+              state.setVisibility(View.VISIBLE)
               state.setText(stateMapping(c.status))
               state.setTextColor(colorMap(idsMap(c.status)))
             }
@@ -166,7 +148,7 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
     }
 
     def load() = {
-      if ((SearchResult.searchedNumber <= SearchResult.total) && !loading) future {
+      if ((SearchResult.searchedNumber < SearchResult.total) && !loading) future {
         currentPage += 1
         loading = true
         Book.search(getThisActivity.searchText, "", currentPage, countPerPage)
@@ -177,7 +159,8 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
            notifyDataSetChanged()
            updateFooter()
          }
-         toast(getString(R.string.more_books_loaded).format(SearchResult.searchedNumber))
+         if(SearchResult.searchedNumber == SearchResult.total)toast(getString(R.string.more_books_loaded).format(SearchResult.searchedNumber))
+         else toast(R.string.more_loaded_finished)
          loading = false
         }
       }

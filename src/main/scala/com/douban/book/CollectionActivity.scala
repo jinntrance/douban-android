@@ -32,7 +32,7 @@ class CollectionActivity extends DoubanActivity {
     super.onCreate(b)
     setContentView(R.layout.collection_container)
     collectionFrag = Some(new CollectionFragment())
-    getFragmentManager.beginTransaction().replace(R.id.collection_container, collectionFrag.get).commit()
+    fragmentManager.beginTransaction().replace(R.id.collection_container, collectionFrag.get).commit()
   }
 
   def check(v: View) = collectionFrag match {
@@ -54,7 +54,7 @@ class CollectionActivity extends DoubanActivity {
 
   def addTag(v: View) {
     fragment=new TagFragment()
-    getFragmentManager.beginTransaction().replace(R.id.collection_container, fragment).addToBackStack("").commit()
+    fragmentManager.beginTransaction().replace(R.id.collection_container, fragment).addToBackStack("").commit()
   }
 
   def tagsAdded(v:View){
@@ -139,7 +139,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
     future(Book.postCollection(getThisActivity.book.get.id, p)) onComplete {
       case Success(Some(c: Collection)) => {
         toast(getString(R.string.collect_successfully))
-        getThisActivity.getFragmentManager.beginTransaction().remove(this).commit()
+        getThisActivity.fragmentManager.beginTransaction().remove(this).commit()
       }
       case _ => toast(getString(R.string.collect_failed))
     }

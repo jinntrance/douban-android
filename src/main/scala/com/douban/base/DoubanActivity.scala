@@ -11,7 +11,6 @@ import scala.concurrent._
 import ExecutionContext.Implicits.global
 import collection.JavaConverters._
 import scala.collection.mutable
-import android.app._
 import android.widget._
 import android.graphics.drawable.Drawable
 import java.net.URL
@@ -26,6 +25,9 @@ import org.scaloid.common.LoggerTag
 import scala.util.Success
 import com.douban.common.AccessTokenResult
 import android.os.Bundle
+import org.scaloid.support.v4.{SFragment, SListFragment, SFragmentActivity}
+import android.support.v4.app.Fragment
+import android.app.{ProgressDialog, ActionBar}
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -43,28 +45,6 @@ trait Douban {
   implicit def ctx: DoubanActivity=getThisActivity
 
   protected val rootView: V
-
-  private var _sp:ProgressDialog=null
-
-  def waitToLoad()(implicit ctx:Context)={
-    _sp=spinnerDialog("请稍候","数据加载中…")
-    _sp.setCanceledOnTouchOutside(true)
-    _sp.setCancelable(true)
-    _sp.setOnCancelListener(new DialogInterface.OnCancelListener() {
-      def onCancel(p1: DialogInterface) {
-         _sp.dismiss()
-        getThisActivity.finish()
-      }
-    })
-    _sp.show()
-    _sp
-  }
-
-  def finishedLoading(){
-    if(null!=_sp) {
-      _sp.cancel()
-    }
-  }
 
   def getThisActivity: DoubanActivity
 
@@ -232,10 +212,10 @@ trait Douban {
 
 }
 
-trait DoubanActivity extends SActivity with Douban {
-  override implicit val loggerTag = LoggerTag("DoubanBook")
+trait DoubanActivity extends SFragmentActivity with Douban {
+  implicit val loggerTag = LoggerTag("DoubanBook")
 
-  def findFragment[T<:Fragment](fragmentId:Int):T=getFragmentManager.findFragmentById(fragmentId) match{
+  def findFragment[T<:Fragment](fragmentId:Int):T=fragmentManager.findFragmentById(fragmentId) match{
     case f:Fragment=>f.asInstanceOf[T]
     case _=>new Fragment().asInstanceOf[T]
   }
@@ -263,7 +243,7 @@ trait DoubanActivity extends SActivity with Douban {
   /*  override def startActivity(intent: Intent) {
         super.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK))
       }*/
-  override def getFragmentManager: FragmentManager = super.getFragmentManager
+  lazy val fragmentManager = getSupportFragmentManager
 
   override def getThisActivity = this
 
@@ -326,9 +306,30 @@ trait DoubanActivity extends SActivity with Douban {
     put(Constant.refreshTokenString, t.refresh_token)
     put(Constant.userIdString, t.douban_user_id)
   }
+  private var _sp:ProgressDialog=null
+
+  def waitToLoad(cancel: =>Unit={finishedLoading();getThisActivity.finish()})(implicit ctx:Context)={
+    _sp=spinnerDialog("请稍候","数据加载中…")
+    _sp.setCanceledOnTouchOutside(true)
+    _sp.setCancelable(true)
+    _sp.setOnCancelListener(new DialogInterface.OnCancelListener() {
+      def onCancel(p1: DialogInterface) {
+        cancel
+      }
+    })
+    _sp.show()
+    _sp
+  }
+
+  def finishedLoading(){
+    if(null!=_sp) {
+      _sp.dismiss()
+    }
+  }
+
 }
 
-trait DoubanListFragment[T <: DoubanActivity] extends ListFragment with Douban {
+trait DoubanListFragment[T <: DoubanActivity] extends SListFragment with Douban {
   lazy implicit val loggerTag = getThisActivity.loggerTag
 
   override def getThisActivity: T = getActivity.asInstanceOf[T]
@@ -341,7 +342,7 @@ trait DoubanListFragment[T <: DoubanActivity] extends ListFragment with Douban {
   }
 }
 
-trait DoubanFragment[T <: DoubanActivity] extends Fragment with Douban {
+trait DoubanFragment[T <: DoubanActivity] extends SFragment with Douban {
 
   lazy implicit val loggerTag = getThisActivity.loggerTag
 
