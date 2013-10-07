@@ -23,7 +23,7 @@ import android.widget.MultiAutoCompleteTextView.CommaTokenizer
 class CollectionActivity extends DoubanActivity {
   var collectionFrag: Option[CollectionFragment] = None
   lazy val book: Option[Book] = getIntent.getSerializableExtra(Constant.BOOK_KEY) match{
-    case bk:Book=>Some(bk)
+    case Some(bk:Book)=>Some(bk)
     case _=>None
   }
   var tags=""
@@ -166,7 +166,6 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
         rootView.find[ListView](R.id.my_tags_list).setAdapter(new TagAdapter(r.tags.map(_.title)))
     }
     val popTagsAdapter = new TagAdapter(getThisActivity.book.get.tags.map(_.title))
-//    val popTagsAdapter = new ArrayAdapter[String](getThisActivity,android.R.layout.simple_dropdown_item_1line,getThisActivity.book.get.tags.map(_.title))
     rootView.find[ListView](R.id.pop_tags_list).setAdapter(popTagsAdapter)
     tags_input.setTokenizer(new CommaTokenizer())
 

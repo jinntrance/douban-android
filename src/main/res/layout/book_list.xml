@@ -3,20 +3,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:id="@+id/list_container_root"
     android:layout_height="match_parent">
-
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" android:id="@+id/list_container">
         </LinearLayout>
-<!--        <include layout="@layout/book_list_loader" android:id="@+id/load_more"
-            android:layout_alignParentTop="false"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignBaseline="@id/list_container" />-->
-    </RelativeLayout>
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.douban.book.SearchResultList"
+        android:id="@+id/fragment" />
 </FrameLayout>

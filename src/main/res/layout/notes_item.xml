@@ -54,13 +54,12 @@
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="top"
             android:gravity="top">
 
             <ImageView
-                android:layout_width="wrap_content"  android:layout_weight="1"
-                android:layout_height="wrap_content"
+                android:layout_width="48dp"  android:layout_weight="1"
+                android:layout_height="48dp"
                 android:id="@+id/user_avatar"
                 android:src="@drawable/default_user_img"
                 android:layout_gravity="top"
@@ -78,15 +77,17 @@
                 android:text="User"   style="@style/DoubanText.Clickable"
                 android:id="@+id/username"
                 android:layout_gravity="left|top"
-                android:layout_marginLeft="@dimen/margin_medium" />
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:gravity="left|top" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="其實每每選擇自己不完全知道的，才能進步，也才能有一定的把握做成功。 一個人要追求這樣的生活狀態，就是你永遠做不知道該怎麼做的事情，在努力地去探索着，這個時候你的東西才是真正有活力。"  android:maxLines="4" android:ellipsize="end"
+                android:text="01."  android:maxLines="4" android:ellipsize="end"
                 android:id="@+id/note_content"
                 android:layout_margin="@dimen/margin_medium"
-                android:layout_gravity="left|top" />
+                android:layout_gravity="left|top"
+                android:gravity="left|top" />
         </LinearLayout>
     </LinearLayout>
 

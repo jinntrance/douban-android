@@ -94,7 +94,8 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical"
-            android:clickable="true">
+            android:clickable="true"
+            android:id="@+id/menu_favbooks">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -113,7 +114,8 @@
         <TableRow
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:clickable="true">
+            android:clickable="true"
+            android:id="@+id/menu_mynote">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -132,7 +134,8 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical"
-            android:clickable="true">
+            android:clickable="true"
+            android:id="@+id/menu_search">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -152,7 +155,8 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical"
-            android:clickable="true">
+            android:clickable="true"
+            android:id="@+id/menu_settings">
 
             <ImageView
                 android:layout_width="wrap_content"
