@@ -11,6 +11,7 @@ import Constant._
 import scala.concurrent._
 import ExecutionContext.Implicits.global
 import android.content.DialogInterface
+import scala.util.Success
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -39,11 +40,15 @@ class BookActivity extends DoubanActivity {
           if (null != isbn && !isbn.isEmpty) Some(Book.byISBN(isbn))
           else if (0 != bookId) Some(Book.byId(bookId.toLong))
           else None
-        }onSuccess{
-          case Some(bb:Book)=>{
+        }onComplete {
+          case Success(Some(bb:Book))=>{
             book=Some(bb)
             fragment.updateBookView()
             finishedLoading()
+          }
+          case _=>{
+            toast(R.string.search_no_result)
+            finish()
           }
         }
         else  book=bk.asInstanceOf[Option[Book]]

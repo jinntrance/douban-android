@@ -8,18 +8,22 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_black_darker">
+        android:background="@color/background_black_darker"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:layout_width="100dp"
-            android:layout_height="100dp">
+            android:layout_height="100dp"
+            android:gravity="center">
 
             <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_avatar"
                 android:layout_weight="1"
-                android:src="@drawable/default_user_img" />
+                android:src="@drawable/default_user_img"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/margin_medium" />
         </LinearLayout>
 
         <TableLayout
@@ -32,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Jane"
-                android:id="@+id/username"
+                android:id="@+id/username"  style="@style/DoubanTextTitle.White"
                 android:textStyle="bold"
                 android:layout_margin="@dimen/margin_medium" />
 
@@ -46,13 +50,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="收藏"
+                    android:text="收藏"  style="@style/DoubanTextTitle.White"
                     android:layout_gravity="center_vertical" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="100000000"
+                    android:text="100000000"  style="@style/DoubanTextTitle.White"
                     android:id="@+id/collection_num"
                     android:layout_marginLeft="@dimen/margin_medium" />
 
@@ -65,14 +69,14 @@
                 android:layout_margin="@dimen/margin_medium">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="wrap_content"   style="@style/DoubanTextTitle.White"
                     android:layout_height="wrap_content"
                     android:text="笔记" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12"
+                    android:text="12"   style="@style/DoubanTextTitle.White"
                     android:id="@+id/notes_num"
                     android:layout_marginLeft="@dimen/margin_medium" />
             </TableRow>
@@ -95,7 +99,8 @@
             android:layout_height="fill_parent"
             android:orientation="vertical"
             android:clickable="true"
-            android:id="@+id/menu_favbooks">
+            android:id="@+id/menu_favbooks"
+            android:layout_margin="@dimen/margin_medium">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -106,7 +111,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="收藏的书"
+                android:text="收藏的书"   style="@style/DoubanTextTitle.White"
                 android:layout_margin="@dimen/margin_medium" />
 
         </TableRow>
@@ -115,7 +120,8 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:clickable="true"
-            android:id="@+id/menu_mynote">
+            android:id="@+id/menu_mynote"
+            android:layout_margin="@dimen/margin_medium">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -125,7 +131,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="wrap_content"  style="@style/DoubanTextTitle.White"
                 android:text="我的笔记"   android:layout_margin="@dimen/margin_medium" />
 
         </TableRow>
@@ -135,7 +141,8 @@
             android:layout_height="fill_parent"
             android:orientation="vertical"
             android:clickable="true"
-            android:id="@+id/menu_search">
+            android:id="@+id/menu_search"
+            android:layout_margin="@dimen/margin_medium">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -146,7 +153,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="搜索"
+                android:text="搜索"   style="@style/DoubanTextTitle.White"
                 android:layout_margin="@dimen/margin_medium"
                 android:layout_gravity="left|center_vertical" />
         </TableRow>
@@ -156,17 +163,18 @@
             android:layout_height="fill_parent"
             android:orientation="vertical"
             android:clickable="true"
-            android:id="@+id/menu_settings">
+            android:id="@+id/menu_settings"
+            android:layout_margin="@dimen/margin_medium">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/menu_setting"
+                android:src="@drawable/menu_setting"   style="@style/DoubanTextTitle.White"
                 android:layout_gravity="center_vertical" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="wrap_content"   style="@style/DoubanTextTitle.White"
                 android:text="设置"    android:layout_margin="@dimen/margin_medium"
                 android:layout_gravity="left|center_vertical" />
         </TableRow>

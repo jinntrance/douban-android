@@ -27,6 +27,7 @@ class SearchActivity extends DoubanActivity {
 
       def onQueryTextChange(p1: String): Boolean = true
     }
+    slidingMenu
   }
 
   override def onResume() {

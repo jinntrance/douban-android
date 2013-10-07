@@ -3,7 +3,7 @@ package com.douban.base
 import android.content
 import android.net.ConnectivityManager
 import android.view.{View, MenuItem}
-import com.douban.book.{LoginActivity, R}
+import com.douban.book.{ImagePopupActivity, LoginActivity, R}
 import com.douban.common._
 import java.lang.Thread.UncaughtExceptionHandler
 import org.scaloid.common._
@@ -28,6 +28,8 @@ import android.os.Bundle
 import org.scaloid.support.v4.{SFragment, SListFragment, SFragmentActivity}
 import android.support.v4.app.Fragment
 import android.app.{ProgressDialog, ActionBar}
+import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -155,7 +157,7 @@ trait Douban {
     val chosen = if (firstOneAsBackground) res._1 else res._2
     view match {
       case img: ImageView => img.setImageResource(chosen)
-      case txt: TextView => txt.setBackgroundColor(chosen)
+      case txt: TextView => txt.setBackgroundResource(chosen)
       case _ =>
     }
     !firstOneAsBackground
@@ -221,6 +223,8 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     case _=>new Fragment().asInstanceOf[T]
   }
 
+
+
   Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
     def uncaughtException(thread: Thread, ex: Throwable) {
       ex match {
@@ -239,6 +243,21 @@ trait DoubanActivity extends SFragmentActivity with Douban {
       ex.printStackTrace()
     }
   })
+
+  lazy val slidingMenu = {
+    val sm=new SlidingMenu(this)
+    sm.setMode(SlidingMenu.LEFT)
+    sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN)
+    //    sm.setShadowWidthRes(R.dimen.shadow_width)
+    //    sm.setShadowDrawable(R.drawable.shadow)
+    sm.setBehindOffsetRes(R.dimen.margin_huge)//TODO
+    sm.setFadeDegree(0.35f)
+    sm.attachToActivity(this, SlidingMenu.SLIDING_WINDOW)
+    sm.setMenu(R.layout.settings)
+    getActionBar.setDisplayHomeAsUpEnabled(true)
+    sm
+  }
+
   override implicit val ctx: DoubanActivity = this
 
   /*  override def startActivity(intent: Intent) {
@@ -269,10 +288,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
 
   def setWindowTitle(title: Int) = setViewValue(R.id.title,title.toString)
 
-  def menu(v: View) {
-  }
-
-  def put(key: String, value: Any) {
+ def put(key: String, value: Any) {
     val edit= defaultSharedPreferences.edit()
     value match {
       case l:List[String]=>edit.putStringSet(key,l.toSet.asJava).commit()
@@ -324,12 +340,14 @@ trait DoubanActivity extends SFragmentActivity with Douban {
         cancel
       }
     })
+    getThisActivity.setVisible(false)
     _sp.show()
     _sp
   }
 
   def finishedLoading(){
     if(null!=_sp) {
+      getThisActivity.setVisible(true)
       _sp.dismiss()
     }
   }
@@ -346,6 +364,12 @@ trait DoubanListFragment[T <: DoubanActivity] extends SListFragment with Douban 
   def addArguments(args: Bundle):Fragment={
     this.setArguments(args)
     this
+  }
+
+  def popup(img:View){
+    img match{
+      case image:ImageView=>startActivity[ImagePopupActivity]
+    }
   }
 }
 

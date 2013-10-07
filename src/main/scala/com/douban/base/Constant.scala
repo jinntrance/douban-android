@@ -10,6 +10,8 @@ import com.douban.common.Auth
  * @version 1.0
  */
 object Constant {
+  val BOOK_PAGE="bookPage"
+  val IMAGE: String="image"
   var UPDATED="updated"
   val apiKey = Auth.api_key
   val apiSecret = "95125490b60b01ee"

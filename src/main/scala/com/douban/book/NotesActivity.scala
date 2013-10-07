@@ -5,13 +5,43 @@ import android.os.Bundle
 import com.douban.models.Book
 import android.view._
 import scala.concurrent._
-import android.widget.{EditText, ListView, BaseAdapter}
+import android.widget._
 import ExecutionContext.Implicits.global
 import scala.collection.mutable
 import com.douban.base.DBundle
 import com.douban.models.AnnotationSearch
 import com.douban.models.Annotation
 import org.scaloid.common._
+import com.douban.book.R.id._
+import com.douban.base.DBundle
+import com.douban.models.AnnotationSearch
+import com.douban.models.Annotation
+import com.douban.base.DBundle
+import com.douban.book.R.id.page_num
+import com.douban.models.AnnotationSearch
+import com.douban.book.R.id.note_time
+import com.douban.book.R.id.username
+import com.douban.book.R.id.note_content
+import com.douban.book.R.id.chapter_name
+import com.douban.book.R.id.page
+import com.douban.book.R.id.user_avatar
+import com.douban.book.R.id.rank
+import com.douban.book.R.id.bookPage
+import com.douban.book.R.id.search
+import com.douban.models.Annotation
+import com.douban.base.DBundle
+import com.douban.book.R.id.page_num
+import com.douban.models.AnnotationSearch
+import com.douban.book.R.id.note_time
+import com.douban.book.R.id.username
+import com.douban.book.R.id.note_content
+import com.douban.book.R.id.chapter_name
+import com.douban.book.R.id.page
+import com.douban.book.R.id.user_avatar
+import com.douban.book.R.id.rank
+import com.douban.book.R.id.bookPage
+import com.douban.book.R.id.search
+import com.douban.models.Annotation
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -22,9 +52,7 @@ import org.scaloid.common._
  */
 class NotesActivity extends DoubanActivity {
   lazy val bookId = getIntent.getLongExtra(Constant.BOOK_ID, 0)
-  lazy val listFragment: NotesListFragment = findFragment[NotesListFragment](R.id.notes_list_fragment)
-
-  def getNote(i:Int):Map[String,String]=listFragment.adapter.getItem(i)
+  def listFragment: NotesListFragment = findFragment[NotesListFragment](R.id.notes_list_fragment)
 
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
@@ -45,11 +73,22 @@ class NotesActivity extends DoubanActivity {
     hidePopup(v)
   }
 
+   override def back(v:View){
+    listFragment.bookPage=""
+    find[EditText](R.id.bookPage).setText("")
+    super.back(v)
+  }
+
   def hidePopup(v:View)=hideWhen(R.id.page_num_popup,true)
   def showPopup(v:View)=displayWhen(R.id.page_num_popup,true)
 
-  def addNote(m: MenuItem) = {
-    startActivity(SIntent[AddNoteActivity].putExtra(Constant.BOOK_ID, bookId))
+  def addNote(m: MenuItem) = listFragment match {
+    case l:NotesListFragment=>l.addNote()
+    case _=>
+  }
+  def addNote(v:View) = listFragment match {
+    case l:NotesListFragment=>l.addNote()
+    case _=>
   }
 }
 
@@ -85,7 +124,14 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
       if(index<total)toast(getString(R.string.more_notes_loaded).format(index))
       else toast(R.string.more_loaded_finished)
       getThisActivity.finishedLoading()
+      if(0==total){
+        getFragmentManager.beginTransaction().replace(R.id.notes_container,new Note2AddFragment().addArguments(DBundle().put(Constant.BOOK_PAGE,bookPage))).commit()
+      }
     }
+  }
+
+  def addNote(){
+    getThisActivity.startActivity(SIntent[AddNoteActivity].putExtra(Constant.BOOK_ID, getThisActivity.bookId).putExtra(Constant.BOOK_PAGE,bookPage))
   }
 
   def search(v: View) {
@@ -96,8 +142,7 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
     val order = Map(R.id.rank -> "rank", R.id.collect -> "collect", R.id.page -> "page")
     v.getId match {
       case id: Int if rank!=order.getOrElse(id,"rank") => {
-        order.keys.foreach(toggleBackGround(true,_,(R.color.black,R.color.black_light)))
-        v.setBackgroundColor(R.color.gray)
+        order.keys.foreach(i=>getThisActivity.toggleBackGround(i !=id,i,(R.color.black,R.color.black_light)))
         currentPage = page
         rank=order(id)
         search()
@@ -108,7 +153,7 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
 
   override def onListItemClick(l: ListView, v: View, position: Int, id: Long){
     getListView.setItemChecked(position, true)
-    getFragmentManager.beginTransaction().replace(R.id.notes_container,new NoteViewFragment().addArguments(DBundle().put(Constant.ARG_POSITION,position))).addToBackStack(null).commit()
+    getFragmentManager.beginTransaction().replace(R.id.notes_container,new NoteViewFragment().addArguments(DBundle().put(Constant.ARG_POSITION,adapter.getItem(position)))).addToBackStack(null).commit()
   }
 
   class NoteItemAdapter(var data: mutable.Buffer[Map[String, String]]) extends BaseAdapter {
@@ -144,11 +189,27 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
 }
 
 class NoteViewFragment extends DoubanFragment[NotesActivity]{
+  lazy val mapping=Map(page_num->("page_no","P%s"),chapter_name->"chapter",note_time->"time",username->"author_user.name",note_content->"content",user_avatar->("author_user.avatar",("author_user.name",getString(R.string.load_img_fail))))
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = inflater.inflate(R.layout.note_view,container,false)
 
   override def onActivityCreated(b: Bundle){
     super.onActivityCreated(b)
-//    batchSetValues(getThisActivity.listFragment.mapping,getThisActivity.getNote(getThisActivity.getIntent.getIntExtra(Constant.ARG_POSITION,0)))
+    getArguments.getSerializable(Constant.ARG_POSITION) match {
+      case m:Map[String,String]=> batchSetValues(mapping,m)
+      case _=>
+    }
+  }
+}
+
+class Note2AddFragment extends DoubanFragment[NotesActivity]{
+  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = inflater.inflate(R.layout.note_to_add,container,false)
+
+  override def onActivityCreated(savedInstanceState: Bundle){
+    super.onActivityCreated(savedInstanceState)
+    getArguments.getString(Constant.BOOK_PAGE) match{
+      case s:String if s.nonEmpty=>getView.find[TextView](R.id.note2add_text).setText(getString(R.string.add_note_no_page,s))
+      case _=>
+    }
   }
 }
 
