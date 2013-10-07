@@ -37,12 +37,11 @@
         <Button    android:onClick="showPopup"
             android:layout_width="wrap_content"
             android:text="跳转至" style="@style/DoubanButton.Note"
-            android:id="@+id/button3"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true" />
     </RelativeLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -54,27 +53,22 @@
             android:layout_height="wrap_content" />
 
         <RelativeLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:gravity="center"
-            android:background="@android:drawable/screen_background_dark_transparent"
+            android:id="@+id/page_num_popup"
             android:visibility="gone"
-            android:id="@+id/page_num_popup">
+            android:layout_alignParentBottom="true"
+            android:background="@android:drawable/screen_background_dark_transparent"
+            android:gravity="bottom">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/header_cancel"
-                android:layout_alignParentBottom="true"    android:clickable="true"
-                android:layout_alignParentLeft="true"    android:onClick="hidePopup"
-                android:layout_margin="@dimen/margin_medium" />
-        <LinearLayout
+            <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:gravity="center"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:background="@color/background_black_light">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -85,21 +79,35 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/bookPage"
                 android:layout_margin="@dimen/margin_medium"
-                android:gravity="center" />
+                android:gravity="center"
+                android:editable="true"
+                android:enabled="true"
+                android:focusableInTouchMode="true" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="页" style="@style/DoubanText.White"/>
           </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/header_cancel"
+                android:layout_alignParentBottom="true"    android:clickable="true"
+                android:layout_alignParentLeft="true"    android:onClick="hidePopup"
+                android:layout_margin="@dimen/margin_medium"
+                android:padding="@dimen/padding_medium" />
+
             <ImageView   android:clickable="true"
                 android:layout_width="wrap_content"  android:onClick="forward"
                 android:layout_height="wrap_content"
                 android:src="@drawable/header_submit"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:layout_margin="@dimen/margin_medium" />
+                android:layout_margin="@dimen/margin_medium"
+                android:padding="@dimen/padding_medium" />
         </RelativeLayout>
-    </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>

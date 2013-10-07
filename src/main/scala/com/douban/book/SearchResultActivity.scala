@@ -100,7 +100,7 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
           adapter.notifyDataSetChanged()
           updateFooter()
         }
-        if (adapter.count == total) toast(getString(R.string.more_books_loaded).format(adapter.count))
+        if (adapter.count < total) toast(getString(R.string.more_books_loaded).format(adapter.count))
         else toast(R.string.more_loaded_finished)
         loading = false
       }

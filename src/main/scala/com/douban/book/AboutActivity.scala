@@ -11,7 +11,7 @@ import android.os.Bundle
  * @version 1.0
  */
 class AboutActivity extends DoubanActivity {
-  protected override def onCreate(b: Bundle) {
+  override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.about)
   }
