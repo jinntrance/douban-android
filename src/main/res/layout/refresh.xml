@@ -2,4 +2,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center|right" android:layout_marginRight="@dimen/margin_medium"
-    android:src="@drawable/ic_action_refresh" />
+    android:src="@drawable/ic_action_refresh"
+    android:clickable="true"
+    android:paddingRight="@dimen/margin_large" />

@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.douban.models.Book
 import android.view._
 import scala.concurrent._
-import android.widget.{ListView, BaseAdapter}
+import android.widget.{EditText, ListView, BaseAdapter}
 import ExecutionContext.Implicits.global
 import scala.collection.mutable
 import com.douban.base.DBundle
@@ -29,6 +29,7 @@ class NotesActivity extends DoubanActivity {
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     if (0 == bookId) finish()
+    waitToLoad()
     setContentView(R.layout.notes)
   }
 
@@ -38,7 +39,15 @@ class NotesActivity extends DoubanActivity {
   }
 
   def search(v: View) = listFragment.search(v)
-  def forward(v: View) = listFragment.search(v)
+  def forward(v: View) = {
+    listFragment.bookPage=find[EditText](R.id.bookPage).getText.toString
+    listFragment.search()
+    hidePopup(v)
+  }
+
+  def hidePopup(v:View)=hideWhen(R.id.page_num_popup,true)
+  def showPopup(v:View)=displayWhen(R.id.page_num_popup,true)
+
   def addNote(m: MenuItem) = {
     startActivity(SIntent[AddNoteActivity].putExtra(Constant.BOOK_ID, bookId))
   }
@@ -50,6 +59,7 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
   var currentPage = 1
   var total = 0
   var rank = "rank"
+  var bookPage = ""
   lazy val adapter:NoteItemAdapter=new NoteItemAdapter(mutable.Buffer[Map[String,String]]())
 
   override def onActivityCreated(b: Bundle){
@@ -60,18 +70,21 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
     search()
   }
 
-  def search(bookId: Long = getThisActivity.bookId, order: String = rank, page: Int = currentPage) = future {
-    Book.annotationsOf(bookId, new AnnotationSearch(order = order, page = page))
+  def search(bookId: Long = getThisActivity.bookId, order: String = rank, page: Int = 1,bookPage:String=bookPage) = future {
+    Book.annotationsOf(bookId, new AnnotationSearch(order, (page-1)*countPerPage,countPerPage,bookPage))
   }onSuccess{
     case a=> getThisActivity.runOnUiThread{
       total=a.total
       val index=a.start + a.annotations.size
+      currentPage=page
       if(1==page) adapter.replaceCollections(a.annotations)
       else adapter.addNewCollections(a.annotations)
-      adapter.notifyDataSetInvalidated()
-      getThisActivity.setTitle(getString(R.string.annotation) + s"($index/${a.total})")
-      toast(getString(R.string.more_books_loaded).format(index))
-      finishedLoading()
+      if(1==page) adapter.notifyDataSetInvalidated()
+      else adapter.notifyDataSetChanged()
+      getThisActivity.setTitle(getString(R.string.annotation) + s"($index/$total)")
+      if(index<total)toast(getString(R.string.more_notes_loaded).format(index))
+      else toast(R.string.more_loaded_finished)
+      getThisActivity.finishedLoading()
     }
   }
 
@@ -82,18 +95,19 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
   def loadData(v: View,page:Int=1) {
     val order = Map(R.id.rank -> "rank", R.id.collect -> "collect", R.id.page -> "page")
     v.getId match {
-      case id: Int if order.contains(id) && rank!=order(id) => {
+      case id: Int if rank!=order.getOrElse(id,"rank") => {
+        order.keys.foreach(toggleBackGround(true,_,(R.color.black,R.color.black_light)))
         v.setBackgroundColor(R.color.black_light)
-        order.keys.filter(_ != id).foreach(rootView.findViewById(_).setBackgroundColor(R.color.black))
         currentPage = page
-        search(order = order(id))
+        rank=order(id)
+        search()
       }
     }
   }
 
   override def onListItemClick(l: ListView, v: View, position: Int, id: Long){
     getListView.setItemChecked(position, true)
-    getFragmentManager.beginTransaction().replace(R.id.notes_container,new NoteViewFragment().addArguments(DBundle().put(Constant.ARG_POSITION,position))).addToBackStack("noteView").commit()
+    getFragmentManager.beginTransaction().replace(R.id.notes_container,new NoteViewFragment().addArguments(DBundle().put(Constant.ARG_POSITION,position))).addToBackStack("viewNote").commit()
   }
 
   class NoteItemAdapter(var data: mutable.Buffer[Map[String, String]]) extends BaseAdapter {
@@ -129,10 +143,10 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
 }
 
 class NoteViewFragment extends DoubanFragment[NotesActivity]{
-  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = inflater.inflate(R.layout.note_view,container)
+  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = inflater.inflate(R.layout.note_view,container,false)
 
   override def onActivityCreated(b: Bundle){
-        batchSetValues(getThisActivity.listFragment.mapping,getThisActivity.getNote(b.getInt(Constant.ARG_POSITION)))
+        batchSetValues(getThisActivity.listFragment.mapping,getThisActivity.getNote(getThisActivity.getIntent.getIntExtra(Constant.ARG_POSITION,0)))
   }
 }
 
