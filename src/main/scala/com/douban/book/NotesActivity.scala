@@ -59,6 +59,7 @@ class NotesActivity extends DoubanActivity {
     if (0 == bookId) finish()
     waitToLoad()
     setContentView(R.layout.notes)
+    slidingMenu
   }
 
   override def onCreateOptionsMenu(menu: Menu) = {
@@ -110,6 +111,7 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
   }
 
   def search(bookId: Long = getThisActivity.bookId, order: String = rank, page: Int = 1,bookPage:String=bookPage) = future {
+    if(1==page) getThisActivity.waitToLoad()
     Book.annotationsOf(bookId, new AnnotationSearch(order, (page-1)*countPerPage,countPerPage,bookPage))
   }onSuccess{
     case a=> getThisActivity.runOnUiThread{

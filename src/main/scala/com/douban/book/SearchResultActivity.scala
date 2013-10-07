@@ -4,18 +4,18 @@ import com.douban.base._
 import android.os.Bundle
 import android.widget._
 import android.view._
-import com.douban.models.{Collection, Book, BookSearchResult}
+import com.douban.models._
 import scala.concurrent._
 import org.scaloid.common._
 import ExecutionContext.Implicits.global
 import java.lang.String
 import Constant._
-import scala.util.Failure
-import scala.util.Success
-import java.util
 import scala.collection
 import scala.collection.mutable
-import com.google.zxing.client.android.Intents.SearchBookContents
+import com.douban.models.BookSearchResult
+import scala.Some
+import com.douban.models.Collection
+import android.content.Context
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -32,6 +32,7 @@ class SearchResultActivity extends DoubanActivity {
     super.onCreate(b)
     setContentView(R.layout.book_list)
     searchText = getIntent.getStringExtra(SEARCH_TEXT_KEY)
+    slidingMenu
   }
 
   def updateTitle() {
@@ -64,7 +65,10 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
 
   def updateFooter() = {
     getThisActivity.find[TextView](R.id.to_load) match {
-      case footer: TextView => footer.setText(getString(R.string.swipe_up_to_load).format(adapter.count, total))
+      case footer: TextView => {
+        footer.setText(getString(R.string.swipe_up_to_load).format(adapter.count, total))
+        footer.setVisibility(View.VISIBLE)
+      }
       case _ =>
     }
   }
@@ -82,20 +86,21 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
       case bf: SearchResultDetail =>
         bf.updateBookView()
       case _ => {
-        getThisActivity.startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY, Some(adapter.getBook(position))))
+        getThisActivity.startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY, Some(adapter.getBean(position))))
       }
     }
   }
 
   def load() = {
     if ((adapter.count < total) && !loading) future {
+      getThisActivity.waitToLoad()
       currentPage += 1
       loading = true
       Book.search(getThisActivity.searchText, "", currentPage, countPerPage)
     } onSuccess {
       case b => {
         total = b.total
-        adapter.addResult(b)
+        adapter.addResult(b.total,b.books.size(),b.books)
         runOnUiThread {
           adapter.notifyDataSetChanged()
           updateFooter()
@@ -103,21 +108,20 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
         if (adapter.count < total) toast(getString(R.string.more_books_loaded).format(adapter.count))
         else toast(R.string.more_loaded_finished)
         loading = false
+        getThisActivity.finishedLoading()
       }
     }
   }
 }
 
-class BookItemAdapter(layoutId: Int, mapping: Map[Int, Any], list: collection.mutable.Buffer[Map[String, String]] = mutable.Buffer[Map[String, String]](), load: => Unit = {})(implicit activity: DoubanActivity) extends BaseAdapter {
-
-  case class ViewHolder(image: ImageView, title: TextView, authors: TextView, publisher: TextView, stars: ImageView)
+class BookItemAdapter(layoutId: Int, mapping: Map[Int, Any], load: => Unit = {})(implicit activity: DoubanActivity) extends
+    ItemAdapter[Book](layoutId,mapping,load=load) {
 
   override def getView(position: Int, view: View, parent: ViewGroup): View = {
     import CollectionActivity._
-    val convertView = if (null != view) view else activity.getLayoutInflater.inflate(layoutId, null)
+    val convertView = super.getView(position,view,parent)
     if (null != convertView) {
-      val b = bookList.get(position)
-      activity.batchSetValues(mapping, list(position), convertView)
+      val b = list.get(position)
       val c: Collection = b.current_user_collection
       activity.displayWhen(R.id.favorite, null == c, convertView)
       if (null != c) {
@@ -133,29 +137,9 @@ class BookItemAdapter(layoutId: Int, mapping: Map[Int, Any], list: collection.mu
         activity.startActivity(SIntent[CollectionActivity].putExtra(Constant.BOOK_KEY, Some(b)))
       })
       activity.loadImageWithTitle(b.image, R.id.book_img, b.title, convertView)
-      if (position + 2 >= count && count < total) load
+
     }
     convertView
-  }
-
-  var total = Long.MaxValue
-  var count = 0
-  val bookList: java.util.List[Book] = new java.util.ArrayList[Book]()
-
-  def getCount: Int = count
-
-  def getItem(index: Int): Map[String, String] = list(index)
-
-  def getBook(index: Int): Book = bookList.get(index)
-
-  def getItemId(position: Int): Long = position
-
-  def addResult(r: BookSearchResult) = {
-    import collection.JavaConverters._
-    bookList.addAll(r.books)
-    total = r.total
-    list ++= r.books.asScala.map(activity.beanToMap(_))
-    count += r.books.size()
   }
 }
 

@@ -80,9 +80,11 @@
                 android:id="@+id/bookPage"
                 android:layout_margin="@dimen/margin_medium"
                 android:gravity="center"
-                android:editable="true"
+                android:editable="false"
                 android:enabled="true"
-                android:focusableInTouchMode="true" />
+                android:focusableInTouchMode="false"
+                android:inputType="number"
+                android:focusable="true" />
 
             <TextView
                 android:layout_width="wrap_content"

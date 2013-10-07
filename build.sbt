@@ -1,10 +1,9 @@
 import sbt._
 
+import Keys._
+
 import android.Keys._
 
-//import AndroidKeys._
-
-android.Plugin.androidBuild
 
 organization := "com.douban"
 
@@ -32,7 +31,6 @@ run <<= run in Android
 install <<= install in Android
 
 libraryDependencies ++= Seq(
-            "org.scala-lang" % "scala-reflect" % "2.10.3",
 			"org.scaloid" % "scaloid_2.10" % "2.4-8" withSources() withJavadoc(),
 			"com.douban" % "scala-api_2.10" % "2.4.2" withSources() withJavadoc(),
 			"com.google.zxing" % "core" % "2.2",
@@ -41,6 +39,16 @@ libraryDependencies ++= Seq(
 			)
 
 useProguard in Android := true
+
+typedResources in Android :=false
+
+proguardCache in Android += ProguardCache("org.scaloid","com.douban.models","com.google")
+
+localProjects in Android += android.Dependencies.LibraryProject(file("library"))
+
+
+//collectResources in Android <<= collectResources in Android dependsOn (compile in Compile in localProjects)
+
 
 proguardOptions in Android :="""
 -verbose
