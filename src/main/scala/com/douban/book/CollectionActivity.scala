@@ -1,6 +1,6 @@
 package com.douban.book
 
-import com.douban.base.{DoubanFragment, Constant, DoubanActivity}
+import com.douban.base.{DBundle, DoubanFragment, Constant, DoubanActivity}
 import android.os.Bundle
 import com.douban.models.{ReviewRating, Book, CollectionPosted, Collection}
 import android.widget._
@@ -54,7 +54,7 @@ class CollectionActivity extends DoubanActivity {
 
   def addTag(v: View) {
     fragment=new TagFragment()
-    fragmentManager.beginTransaction().replace(R.id.collection_container, fragment).addToBackStack("").commit()
+    fragmentManager.beginTransaction().replace(R.id.collection_container, fragment).addToBackStack(null).commit()
   }
 
   def tagsAdded(v:View){
@@ -99,7 +99,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
       case _ =>
     }
     getThisActivity.tags=collection.tags.mkString(" ")
-    collection.tags.foreach(tagsContainer addView string2Button(_))
+    collection.tags.foreach(tagsContainer addView string2TextView(_))
   }
 
   def check(v: View) {
@@ -147,7 +147,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
 
   def updateTags(tags:String)={
     tagsContainer.removeAllViews()
-    tags.split(' ').foreach(tagsContainer addView string2Button(_))
+    tags.split(' ').foreach(tagsContainer addView string2TextView(_))
   }
 }
 
@@ -162,7 +162,7 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
     super.onActivityCreated(bundle)
     getThisActivity.replaceActionBar(R.layout.header_tag, getString(R.string.add_tags))
       future {
-        val r = Book.tagsOf(defaultSharedPreferences.getString(Constant.userIdString, "0").toLong)
+        val r = Book.tagsOf(getThisActivity.currentUserId)
         rootView.find[ListView](R.id.my_tags_list).setAdapter(new TagAdapter(r.tags.map(_.title)))
     }
     val popTagsAdapter = new TagAdapter(getThisActivity.book.get.tags.map(_.title))
@@ -173,6 +173,8 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
     th.setup()
     th.addTab(th.newTabSpec("tab1").setIndicator("热门标签").setContent(R.id.pop_tags))
     th.addTab(th.newTabSpec("tab2").setIndicator("我的标签").setContent(R.id.my_tags))
+
+    tags_input.append(getThisActivity.tags)
   }
 
   class TagAdapter(tags: java.util.List[String]) extends BaseAdapter {
@@ -209,6 +211,6 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
 
   def tagsAdded={
     getThisActivity.tags=rootView.find[MultiAutoCompleteTextView](R.id.tags_multi_text).getText.toString
-    getFragmentManager.beginTransaction().remove(this).commit()
+    getThisActivity.onBackPressed()
   }
 }
