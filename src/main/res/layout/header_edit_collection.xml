@@ -26,14 +26,23 @@
         android:layout_alignParentLeft="false"
         android:layout_alignBaseline="@+id/cancel"
         android:layout_alignParentRight="false"
-        android:layout_centerInParent="true" />
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/cancel" />
 
+    <ImageView
+        android:layout_width="wrap_content"  android:onClick="checkPrivacy"
+        android:layout_height="wrap_content"
+        android:id="@+id/privacy"  android:src="@drawable/public_icon"
+        android:layout_alignParentRight="false"  android:layout_margin="@dimen/margin_medium"
+        android:layout_centerInParent="true"  android:layout_marginRight="@dimen/margin_large"
+        android:layout_alignBaseline="@+id/submit"
+        android:layout_toLeftOf="@+id/submit" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/submit"
-        android:longClickable="false" android:onClick="tagsAdded"
+        android:id="@+id/submit"  android:layout_marginLeft="@dimen/margin_large"
+        android:longClickable="false" android:onClick="submit"
         android:src="@drawable/header_submit"
         android:layout_gravity="center|right"
         android:layout_alignParentRight="true"
