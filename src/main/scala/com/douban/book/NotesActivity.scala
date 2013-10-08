@@ -64,7 +64,6 @@ class NotesActivity extends DoubanActivity {
     super.onCreate(b)
     if (0 == bookId) finish()
     setContentView(R.layout.notes)
-    fragmentManager.beginTransaction().add(R.id.notes_container,new NotesListFragment).commit()
     slidingMenu
   }
 
@@ -76,7 +75,7 @@ class NotesActivity extends DoubanActivity {
   def search(v: View) = listFragment.search(v)
   def forward(v: View) = {
     listFragment.bookPage=find[EditText](R.id.bookPage).getText.toString
-    listFragment.search()
+    listFragment.search(page=1)
     hidePopup(v)
   }
 
@@ -103,7 +102,7 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
   import R.id._
   lazy val mapping=Map(page_num->("page_no","P%s"),chapter_name->"chapter",note_time->"time",username->"author_user.name",note_content->"content",user_avatar->("author_user.avatar",("author_user.name",getString(R.string.load_img_fail))))
   var currentPage = 1
-  var total = 0
+  var total = Int.MaxValue
   var rank = "rank"
   var bookPage = ""
   lazy val adapter:NoteItemAdapter=new NoteItemAdapter(mapping,search())
@@ -118,7 +117,7 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
 
   def search(bookId: Long = getThisActivity.bookId, order: String = rank, page: Int = currentPage,bookPage:String=bookPage) ={
     listLoader(
-    toLoad = adapter.count<total,
+    toLoad = 1==page || adapter.count<total,
     result= Book.annotationsOf(bookId, new AnnotationSearch(order, (page-1)*countPerPage,countPerPage,bookPage)) ,
     success = (a:AnnotationSearchResult)=>{
       val size: Int = a.annotations.size
