@@ -82,6 +82,7 @@
     <style name="DoubanTextTitle.White"  parent="DoubanTextTitle">
         <item name="android:textColor">@color/white</item>
         <item name="android:layout_margin">@dimen/margin_medium</item>
+        <item name="android:background">@drawable/menu_black</item>
     </style>
     <style name="DoubanText.Clickable" parent="DoubanText">
         <item name="android:textColor">@color/text_black</item>

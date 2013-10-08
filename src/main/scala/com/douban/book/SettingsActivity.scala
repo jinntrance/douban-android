@@ -15,17 +15,20 @@ import com.douban.common.AccessTokenResult
  */
 class SettingsActivity extends DoubanActivity{
   override def onCreate(b: Bundle) {
+     super.onCreate(b)
      setContentView(R.layout.settings)
      if(!isAuthenticated) setViewValue(R.id.toggleLoginText,"登录豆瓣")
   }
   def toggleLogin(v:View){
      if(isAuthenticated) {
-        updateToken(new AccessTokenResult(null,0,null,0))
+       defaultSharedPreferences.edit().clear().commit()
+       toast("成功注销")
      } else getAccessToken
   }
   def delCache(v:View){
     getExternalCacheDir.delete()
     getExternalCacheDir.createNewFile()
+    toast("删除缓存")
   }
   def about(v:View){
     startActivity(SIntent[AboutActivity])
