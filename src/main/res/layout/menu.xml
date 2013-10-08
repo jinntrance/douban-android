@@ -7,12 +7,14 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/menu_login">
+        android:id="@+id/menu_login"
+        android:baselineAligned="false"
+        android:background="@color/background_black_darker">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="用豆瓣帐号登录"
+            android:text="用豆瓣帐号登录" android:onClick="login"
             android:id="@+id/login_button"
             android:layout_margin="@dimen/margin_large" />
     </LinearLayout>

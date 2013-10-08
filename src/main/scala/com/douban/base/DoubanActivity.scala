@@ -192,7 +192,7 @@ trait Douban {
 
   private var _sp: ProgressDialog = null
 
-  def waitToLoad(cancel: => Unit = { finishedLoading()})(implicit ctx: Context) = {
+  def waitToLoad(cancel: => Unit = { finishedLoading()})(implicit ctx: Context) = if(isOnline){
     _sp = spinnerDialog("请稍候", "数据加载中…")
     _sp.setCanceledOnTouchOutside(true)
     _sp.setCancelable(true)
@@ -203,6 +203,13 @@ trait Douban {
     })
     _sp.show()
     _sp
+  } else{
+    notifyNetworkState()
+    null
+  }
+
+  @inline def notifyNetworkState() {
+    if (!isOnline) toast(R.string.notify_offline)
   }
 
   def finishedLoading() {
@@ -260,6 +267,13 @@ trait DoubanActivity extends SFragmentActivity with Douban {
       ex.printStackTrace()
     }
   })
+
+
+  def login(v:View){
+      login()
+  }
+
+  def login()=startActivity(SIntent[LoginActivity])
 
   protected override def onCreate(b: Bundle){
     super.onCreate(b)
@@ -343,7 +357,10 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     }
   }
 
-  lazy val currentUserId = get(Constant.userIdString).toLong
+  def currentUserId = {
+    if(! isAuthenticated) login()
+    get(Constant.userIdString).toLong
+  }
 
   def get(key: String): String = defaultSharedPreferences.getString(key,null)
   def getOrElse[T](key: String,alt: =>T): T = defaultSharedPreferences.getAll.get(key) match{
@@ -353,13 +370,9 @@ trait DoubanActivity extends SFragmentActivity with Douban {
 
   @inline def contains(key: String): Boolean = defaultSharedPreferences.contains(key) && get(key).nonEmpty
 
-  @inline def notifyNetworkState() {
-    if (!isOnline) toast(R.string.notify_offline)
-  }
-
  @inline def getAccessToken = {
     if (!contains(Constant.accessTokenString))
-      startActivity(SIntent[LoginActivity])
+      login()
     get(Constant.accessTokenString)
   }
 
@@ -371,9 +384,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     onBackPressed()
   }
 
-  @inline def isAuthenticated = {
-    get(Constant.accessTokenString).nonEmpty
-  }
+  @inline def isAuthenticated = contains(Constant.accessTokenString)
 
   protected def updateToken(t: AccessTokenResult) {
     put(Constant.accessTokenString, t.access_token)
@@ -469,7 +480,7 @@ class ItemAdapter[B <: Any](layoutId: Int, mapping: Map[Int, Any], data: collect
   def getView(position: Int, view: View, parent: ViewGroup): View = if(getCount==0) null else {
     val convertView = if (null != view) view else activity.getLayoutInflater.inflate(layoutId, null)
     activity.batchSetValues(mapping, data(position), convertView)
-    if (position == count && count < total) load
+    if (position +2 >= count && count < total) load
     convertView
   }
 }

@@ -28,7 +28,7 @@ class SettingsActivity extends DoubanActivity{
   def delCache(v:View){
     getExternalCacheDir.delete()
     getExternalCacheDir.createNewFile()
-    toast("删除缓存")
+    toast("删除缓存成功")
   }
   def about(v:View){
     startActivity(SIntent[AboutActivity])
