@@ -31,7 +31,7 @@ import java.util.TreeMap;
  * such code would fail to load on older devices that do not have the new API methods.</p>
  *
  * <p>It is necessary to only load classes that use newer APIs than the device may support after the app
- * has checked the API level. This requires reflection, loading one of several implementations based on the
+ * has checked the API level. This requires reflection, toLoad one of several implementations based on the
  * API level.</p>
  *
  * <p>This class manages that process. Subclasses of this class manage access to implementations of a given interface
@@ -43,13 +43,13 @@ import java.util.TreeMap;
  * @param <T> the interface which managed implementations implement
  */
 public abstract class PlatformSupportManager<T> {
-  
+
   private static final String TAG = PlatformSupportManager.class.getSimpleName();
 
   private final Class<T> managedInterface;
   private final T defaultImplementation;
   private final SortedMap<Integer,String> implementations;
-  
+
   protected PlatformSupportManager(Class<T> managedInterface, T defaultImplementation) {
     if (!managedInterface.isInterface()) {
       throw new IllegalArgumentException();
@@ -61,7 +61,7 @@ public abstract class PlatformSupportManager<T> {
     this.defaultImplementation = defaultImplementation;
     this.implementations = new TreeMap<Integer,String>(Collections.reverseOrder());
   }
-  
+
   protected final void addImplementationClass(int minVersion, String className) {
     implementations.put(minVersion, className);
   }

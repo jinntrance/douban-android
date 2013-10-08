@@ -65,7 +65,7 @@ class CollectionActivity extends DoubanActivity {
 class CollectionFragment extends DoubanFragment[CollectionActivity] {
   var status = "wish"
   var public = true
-  val reverseMapping = CollectionActivity.idsMap.map(_.swap)
+  val reverseMapping = SearchResult.idsMap.map(_.swap)
 
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, b: Bundle): View = inflater.inflate(R.layout.collection, container, false)
 
@@ -91,7 +91,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
   lazy val tagsContainer: LinearLayout = getView.find[LinearLayout](R.id.tags_container)
 
   def updateCollection(collection: Collection) {
-    val currentStatus = getView.find[Button](CollectionActivity.idsMap(collection.status))
+    val currentStatus = getView.find[Button](SearchResult.idsMap(collection.status))
     check(currentStatus)
     getView.find[EditText](R.id.comment).setText(collection.comment)
     collection.rating match {
@@ -116,7 +116,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
             getView.find[Button](id) match {
               case b: Button => {
                 b.setText(b.getText.toString.takeWhile(_ != mark))
-                b.setBackgroundResource(CollectionActivity.colorMap(b.getId))
+                b.setBackgroundResource(SearchResult.colorMap(b.getId))
               }
               case _ =>
             }
@@ -211,8 +211,4 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
     getThisActivity.tags=rootView.find[MultiAutoCompleteTextView](R.id.tags_multi_text).getText.toString
     getFragmentManager.beginTransaction().remove(this).commit()
   }
-}
-object CollectionActivity{
-  val idsMap = Map("read" -> R.id.read, "reading" -> R.id.reading, "wish" -> R.id.wish)
-  val colorMap=Map(R.id.wish->R.drawable.button_pink,R.id.reading->R.drawable.button_green,R.id.read->R.drawable.button_brown)
 }

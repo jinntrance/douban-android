@@ -2,23 +2,18 @@ package com.douban.book
 
 import com.douban.base._
 import android.os.Bundle
-import com.douban.models.Book
+import com.douban.models._
 import android.view._
 import scala.concurrent._
 import android.widget._
 import ExecutionContext.Implicits.global
 import scala.collection.mutable
 import com.douban.base.DBundle
-import com.douban.models.AnnotationSearch
-import com.douban.models.Annotation
 import org.scaloid.common._
 import com.douban.book.R.id._
 import com.douban.base.DBundle
-import com.douban.models.AnnotationSearch
-import com.douban.models.Annotation
 import com.douban.base.DBundle
 import com.douban.book.R.id.page_num
-import com.douban.models.AnnotationSearch
 import com.douban.book.R.id.note_time
 import com.douban.book.R.id.username
 import com.douban.book.R.id.note_content
@@ -28,7 +23,18 @@ import com.douban.book.R.id.user_avatar
 import com.douban.book.R.id.rank
 import com.douban.book.R.id.bookPage
 import com.douban.book.R.id.search
-import com.douban.models.Annotation
+import com.douban.base.DBundle
+import com.douban.book.R.id.page_num
+import com.douban.book.R.id.note_time
+import com.douban.book.R.id.username
+import com.douban.book.R.id.note_content
+import com.douban.book.R.id.chapter_name
+import com.douban.book.R.id.page
+import com.douban.book.R.id.user_avatar
+import com.douban.book.R.id.rank
+import com.douban.book.R.id.bookPage
+import com.douban.book.R.id.search
+import android.app.ProgressDialog
 import com.douban.base.DBundle
 import com.douban.book.R.id.page_num
 import com.douban.models.AnnotationSearch
@@ -57,7 +63,6 @@ class NotesActivity extends DoubanActivity {
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     if (0 == bookId) finish()
-    waitToLoad()
     setContentView(R.layout.notes)
     slidingMenu
   }
@@ -100,7 +105,7 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
   var total = 0
   var rank = "rank"
   var bookPage = ""
-  lazy val adapter:NoteItemAdapter=new NoteItemAdapter(mutable.Buffer[Map[String,String]]())
+  lazy val adapter:NoteItemAdapter=new NoteItemAdapter(mapping,search())
 
   override def onActivityCreated(b: Bundle){
     super.onActivityCreated(b)
@@ -110,26 +115,36 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
     search()
   }
 
-  def search(bookId: Long = getThisActivity.bookId, order: String = rank, page: Int = 1,bookPage:String=bookPage) = future {
-    if(1==page) getThisActivity.waitToLoad()
-    Book.annotationsOf(bookId, new AnnotationSearch(order, (page-1)*countPerPage,countPerPage,bookPage))
-  }onSuccess{
-    case a=> getThisActivity.runOnUiThread{
+  def search(bookId: Long = getThisActivity.bookId, order: String = rank, page: Int = currentPage,bookPage:String=bookPage) ={
+    listLoader(
+    toLoad = adapter.count<total,
+    result= Book.annotationsOf(bookId, new AnnotationSearch(order, (page-1)*countPerPage,countPerPage,bookPage)) ,
+    success = (a:AnnotationSearchResult)=>{
+      val size: Int = a.annotations.size
       total=a.total
-      val index=a.start + a.annotations.size
-      currentPage=page
-      if(1==page) adapter.replaceCollections(a.annotations)
-      else adapter.addNewCollections(a.annotations)
-      if(1==page) adapter.notifyDataSetInvalidated()
-      else adapter.notifyDataSetChanged()
-      getThisActivity.setTitle(getString(R.string.annotation) + s"($index/$total)")
+      val index=a.start + size
+      currentPage+=1
+      if(1==page) {
+        adapter.replaceResult(a.total, size, a.annotations)
+        runOnUiThread(adapter.notifyDataSetInvalidated())
+      } else {
+        adapter.addResult(a.total, size, a.annotations)
+        runOnUiThread(adapter.notifyDataSetChanged())
+      }
+      runOnUiThread{
+        getThisActivity.setTitle(getString(R.string.annotation) + s"($index/$total)")
+        val l=getThisActivity.find[View](R.id.note_to_add)
+        l.setVisibility(if(0==total) View.VISIBLE else View.GONE)
+        if(0==total) {
+          fragmentManager.beginTransaction().hide(this)
+          if(bookPage.isEmpty) l.find[TextView](R.id.note2add_text).setText(getString(R.string.add_note_no_page,bookPage))
+        }
+        else fragmentManager.beginTransaction().show(this)
+      }
       if(index<total)toast(getString(R.string.more_notes_loaded).format(index))
       else toast(R.string.more_loaded_finished)
-      getThisActivity.finishedLoading()
-      if(0==total){
-        getFragmentManager.beginTransaction().replace(R.id.notes_container,new Note2AddFragment().addArguments(DBundle().put(Constant.BOOK_PAGE,bookPage))).commit()
-      }
     }
+    )
   }
 
   def addNote(){
@@ -137,15 +152,11 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
   }
 
   def search(v: View) {
-    loadData(v)
-  }
-
-  def loadData(v: View,page:Int=1) {
     val order = Map(R.id.rank -> "rank", R.id.collect -> "collect", R.id.page -> "page")
     v.getId match {
       case id: Int if rank!=order.getOrElse(id,"rank") => {
         order.keys.foreach(i=>getThisActivity.toggleBackGround(i !=id,i,(R.color.black,R.color.black_light)))
-        currentPage = page
+        currentPage = 1
         rank=order(id)
         search()
       }
@@ -158,34 +169,14 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
     getFragmentManager.beginTransaction().replace(R.id.notes_container,new NoteViewFragment().addArguments(DBundle().put(Constant.ARG_POSITION,adapter.getItem(position)))).addToBackStack(null).commit()
   }
 
-  class NoteItemAdapter(var data: mutable.Buffer[Map[String, String]]) extends BaseAdapter {
-    private var count=0
-    override def getView(position: Int, view: View, parent: ViewGroup): View = if(getCount==0) null else{
-      val convertView = if(null!=view) view else getThisActivity.getLayoutInflater.inflate(R.layout.notes_item,null)
-      val currentLine: Map[String, String] = data.get(position)
-      data.get(position).getOrElse("page_no","") match {
+  class NoteItemAdapter(mapping:Map[Int,Any],load: => Unit)(implicit ctx: DoubanActivity) extends ItemAdapter[Annotation](R.layout.notes_item,mapping,load=load) {
+    override def getView(position: Int, view: View, parent: ViewGroup): View = {
+      val convertView = super.getView(position,view,parent)
+      getItem(position).getOrElse("page_no","") match {
         case "" =>
         case _=>hideWhen(R.id.chapter_name,true,convertView)
       }
-
-      batchSetValues(mapping,currentLine,convertView)
-      if(position+2>=count&&count<total) search(page=currentPage+1)
       convertView
-    }
-
-    def getCount: Int = count
-
-    def getItem(p1: Int): Map[String,String] =data.get(p1)
-
-    def getItemId(p1: Int): Long = p1
-
-    def addNewCollections(list:java.util.List[Annotation])={
-      data++=list.map(beanToMap(_))
-      count+=list.size()
-    }
-    def replaceCollections(list:java.util.List[Annotation])={
-      data=list.map(beanToMap(_))
-      count=data.size
     }
   }
 }
@@ -198,18 +189,6 @@ class NoteViewFragment extends DoubanFragment[NotesActivity]{
     super.onActivityCreated(b)
     getArguments.getSerializable(Constant.ARG_POSITION) match {
       case m:Map[String,String]=> batchSetValues(mapping,m)
-      case _=>
-    }
-  }
-}
-
-class Note2AddFragment extends DoubanFragment[NotesActivity]{
-  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = inflater.inflate(R.layout.note_to_add,container,false)
-
-  override def onActivityCreated(savedInstanceState: Bundle){
-    super.onActivityCreated(savedInstanceState)
-    getArguments.getString(Constant.BOOK_PAGE) match{
-      case s:String if s.nonEmpty=>getView.find[TextView](R.id.note2add_text).setText(getString(R.string.add_note_no_page,s))
       case _=>
     }
   }

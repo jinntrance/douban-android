@@ -24,19 +24,37 @@
                 android:layout_height="fill_parent">
 
                 <LinearLayout
-                    android:id="@+id/wish"
+                    android:id="@+id/wish_container"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"></LinearLayout>
+                    android:layout_height="fill_parent">
+
+                    <ListView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/wish" />
+                </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/reading"
+                    android:id="@+id/reading_container"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"></LinearLayout>
+                    android:layout_height="fill_parent">
+
+                    <ListView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/read" />
+                </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/read"
+                    android:id="@+id/read_container"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"></LinearLayout>
+                    android:layout_height="fill_parent">
+
+                    <ListView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/read" />
+                </LinearLayout>
             </FrameLayout>
         </LinearLayout>
     </TabHost>

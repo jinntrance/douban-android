@@ -87,7 +87,7 @@
 
     </LinearLayout>
 
-    <TableLayout
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
@@ -95,92 +95,37 @@
         android:layout_marginLeft="@dimen/margin_large"
         android:layout_marginTop="@dimen/margin_medium"
         android:divider="@drawable/divider">
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:clickable="true"  android:onClick="myBooks"
-            android:id="@+id/menu_favbooks"
-            android:layout_margin="@dimen/margin_medium">
-
-            <ImageView
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/menu_favorite"
-                android:layout_gravity="center_vertical" />
+                android:layout_height="wrap_content"   android:drawableLeft="@drawable/menu_favorite"
+                android:text="收藏的书"   style="@style/DoubanTextTitle.White"     android:drawablePadding="@dimen/padding_large"
+                android:layout_margin="@dimen/margin_medium"             android:clickable="true"
+                android:id="@+id/menu_favbooks"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"   android:drawableLeft="@drawable/menu_note"
+                android:layout_height="wrap_content"  style="@style/DoubanTextTitle.White"    android:drawablePadding="@dimen/padding_large"
+                android:text="我的笔记"   android:layout_margin="@dimen/margin_medium"             android:clickable="true"
+                android:id="@+id/menu_mynote"
+                android:gravity="center" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="收藏的书"   style="@style/DoubanTextTitle.White"
-                android:layout_margin="@dimen/margin_medium" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:clickable="true"   android:onClick="myNotes"
-            android:id="@+id/menu_mynote"
-            android:layout_margin="@dimen/margin_medium">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/menu_note"
-                android:layout_gravity="center_vertical" />
+                android:layout_height="wrap_content"  android:drawableLeft="@drawable/menu_search"
+                android:text="搜索"   style="@style/DoubanTextTitle.White"     android:drawablePadding="@dimen/padding_large"
+                android:layout_margin="@dimen/margin_medium"              android:clickable="true"
+                android:id="@+id/menu_search"
+                android:layout_gravity="left|center_vertical"
+                android:gravity="center" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"  style="@style/DoubanTextTitle.White"
-                android:text="我的笔记"   android:layout_margin="@dimen/margin_medium" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:clickable="true"
-            android:id="@+id/menu_search"   android:onClick="search"
-            android:layout_margin="@dimen/margin_medium">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/menu_search"
-                android:layout_gravity="center_vertical" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="搜索"   style="@style/DoubanTextTitle.White"
-                android:layout_margin="@dimen/margin_medium"
-                android:layout_gravity="left|center_vertical" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:clickable="true"
-            android:id="@+id/menu_settings"   android:onClick="setting"
-            android:layout_margin="@dimen/margin_medium">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/menu_setting"   style="@style/DoubanTextTitle.White"
-                android:layout_gravity="center_vertical" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"   style="@style/DoubanTextTitle.White"
-                android:text="设置"    android:layout_margin="@dimen/margin_medium"
-                android:layout_gravity="left|center_vertical" />
-        </TableRow>
-
-    </TableLayout>
+                android:layout_width="wrap_content"    android:drawablePadding="@dimen/padding_large"
+                android:layout_height="wrap_content"   style="@style/DoubanTextTitle.White"  android:drawableLeft="@drawable/menu_setting"
+                android:text="设置"    android:layout_margin="@dimen/margin_medium"           android:clickable="true"
+                android:id="@+id/menu_settings"
+                android:layout_gravity="left|center_vertical"
+                android:gravity="center" />
+    </LinearLayout>
 
 </LinearLayout>

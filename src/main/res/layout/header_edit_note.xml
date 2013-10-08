@@ -48,7 +48,7 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="wrap_content"  android:focusable="true"
         android:id="@+id/submit"  android:layout_marginLeft="@dimen/margin_large"
         android:longClickable="false" android:onClick="submit"
         android:src="@drawable/header_submit"

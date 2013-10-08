@@ -1,9 +1,8 @@
 import sbt._
 
-import Keys._
-
 import android.Keys._
 
+android.Plugin.androidBuild
 
 organization := "com.douban"
 
@@ -47,7 +46,7 @@ proguardCache in Android += ProguardCache("org.scaloid","com.douban.models","com
 localProjects in Android += android.Dependencies.LibraryProject(file("library"))
 
 
-//collectResources in Android <<= collectResources in Android dependsOn (compile in Compile in localProjects)
+//collectResources in Android <<= (collectResources in Android dependsOn (compile in Compile in localProjects))
 
 
 proguardOptions in Android :="""
