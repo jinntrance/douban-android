@@ -69,6 +69,9 @@ class AddNoteActivity extends DoubanActivity {
   def checkPrivacy(v: View) {
     public = toggleBackGround(public, v, (R.drawable.private_icon, R.drawable.public_icon))
   }
+  def tagsAdded(v:View){
+    fragmentManager.beginTransaction().replace(R.id.add_note_container,new AddNoteFragment()).commit()
+  }
 }
 
 class AddChapterFragment extends DoubanFragment[AddNoteActivity]{

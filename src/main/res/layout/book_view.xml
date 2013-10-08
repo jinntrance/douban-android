@@ -6,7 +6,7 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView"   android:layout_margin="@dimen/margin_medium"
+        android:id="@+id/scrollView"
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
         android:layout_weight="9">

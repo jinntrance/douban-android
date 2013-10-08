@@ -64,6 +64,7 @@ class NotesActivity extends DoubanActivity {
     super.onCreate(b)
     if (0 == bookId) finish()
     setContentView(R.layout.notes)
+    fragmentManager.beginTransaction().add(R.id.notes_container,new NotesListFragment).commit()
     slidingMenu
   }
 

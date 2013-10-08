@@ -1,6 +1,6 @@
 package com.douban.book
 
-import com.douban.base.{ItemAdapter, DoubanListFragment, DoubanActivity}
+import com.douban.base._
 import android.view.{View, ViewGroup, LayoutInflater}
 import android.os.Bundle
 import scala.concurrent._
@@ -9,6 +9,11 @@ import scala.util.Success
 import  ExecutionContext.Implicits.global
 import org.scaloid.common._
 import android.widget.{TabHost, ListView, TextView}
+import com.douban.base.DBundle
+import com.douban.models.CollectionSearchResult
+import com.douban.models.CollectionSearch
+import scala.util.Success
+import com.douban.models.Collection
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -21,6 +26,14 @@ class FavoriteBooksActivity extends DoubanActivity{
   override def onCreate(b: Bundle){
     super.onCreate(b)
     setContentView(R.layout.fav_books)
+    val th=find[TabHost](R.id.tabHost)
+    th.setup()
+    th.addTab(th.newTabSpec("wish").setIndicator("想读").setContent(R.id.wish_container))
+    th.addTab(th.newTabSpec("reading").setIndicator("在读").setContent(R.id.reading_container))
+    th.addTab(th.newTabSpec("read").setIndicator("已读").setContent(R.id.read_container))
+    fragmentManager.beginTransaction().replace(R.id.reading_container,new FavoriteBooksListFragment).
+    replace(R.id.wish_container,new FavoriteBooksListFragment().addArguments(DBundle().put(Constant.READING_STATUS,"wish"))).
+    replace(R.id.read_container,new FavoriteBooksListFragment() .addArguments(DBundle().put(Constant.READING_STATUS,"read"))).commit()
   }
 
   def filter(v:View){
@@ -46,18 +59,13 @@ class FavoriteBooksListFragment extends DoubanListFragment[DoubanActivity]{
 
   override def onActivityCreated(b: Bundle){
     super.onActivityCreated(b)
-    val th=rootView.find[TabHost](R.id.tabHost)
-    th.setup()
-    th.addTab(th.newTabSpec("wish").setIndicator("想读").setContent(R.id.wish_container))
-    th.addTab(th.newTabSpec("reading").setIndicator("在读").setContent(R.id.reading_container))
-    th.addTab(th.newTabSpec("read").setIndicator("已读").setContent(R.id.read_container))
     adapters
     load()
   }
   def load(page:Int=currentPage){
     future{
       getThisActivity.getAccessToken
-      Book.collectionsOfUser(getThisActivity.currentUserId,new CollectionSearch(status,tag,rating))
+      Book.collectionsOfUser(getThisActivity.currentUserId,new CollectionSearch(getArguments.getString(Constant.READING_STATUS,status),tag,rating))
     } onComplete{
       case Success(r:CollectionSearchResult)=>{
           currentPage+=1

@@ -26,22 +26,6 @@ class MenuFragment extends DoubanFragment[DoubanActivity]{
 
   override def onActivityCreated(b: Bundle) {
     super.onActivityCreated(b)
-    future {
-       getThisActivity.waitToLoad(getThisActivity.finishedLoading())
-      (User.byId(getThisActivity.currentUserId),Book.collectionsOfUser(getThisActivity.currentUserId),Book.annotationsOfUser(getThisActivity.currentUserId.toString))
-    } onComplete{
-      case Success((u,c,n))=>runOnUiThread{
-        setViewValue(R.id.username,u.name,getView)
-        setViewValue(R.id.collection_num,c.total.toString,getView)
-        setViewValue(R.id.notes_num,n.total.toString,getView)
-        loadImageWithTitle(u.avatar,R.id.user_avatar,u.name,getView)
-      }
-      case _=>
-    }
-   getView.findViewById(R.id.menu_search).onClick(v=>startActivity[SearchActivity])
-   getView.findViewById(R.id.menu_mynote).onClick(v=>startActivity[MyNoteActivity])
-   getView.findViewById(R.id.menu_favbooks).onClick(v=>startActivity[FavoriteBooksActivity])
-   getView.findViewById(R.id.menu_settings).onClick(v=>startActivity[SettingsActivity])
   }
 
 

@@ -10,6 +10,13 @@ import com.douban.common.Auth
  * @version 1.0
  */
 object Constant {
+  val READING_STATUS: String="readingStatus"
+  val AVATAR: String="avatar"
+  val NOTES_NUM: String="notesNum"
+  val COLLE_NUM: String="collectionNum"
+
+  def USERNAME: String="username"
+
   val BOOK_PAGE="bookPage"
   val IMAGE: String="image"
   var UPDATED="updated"
@@ -26,4 +33,6 @@ object Constant {
   val ARG_POSITION = "position"
   val BOOKS_KEY = "books"
   val SEARCH_TEXT_KEY = "searchText"
+
+  val ACTIVITY_SEARCH="search"
 }

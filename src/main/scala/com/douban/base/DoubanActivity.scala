@@ -22,9 +22,10 @@ import scala.language.implicitConversions
 import scala.language.reflectiveCalls
 import android.os.Bundle
 import org.scaloid.support.v4.{SFragment, SListFragment, SFragmentActivity}
-import android.support.v4.app.Fragment
+import android.support.v4.app.{NavUtils, Fragment}
 import android.app.{ProgressDialog, ActionBar}
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu
+import com.douban.models.{Book, User}
 import scala.util.Failure
 import org.scaloid.common.LoggerTag
 import scala.util.Success
@@ -109,7 +110,6 @@ trait Douban {
   def toggleBetween(view1: Int, view2: Int, holder: V = rootView): View = {
     val v1 = holder.findViewById(view1)
     val v2 = holder.findViewById(view2)
-    //    play()
     if (v1.getVisibility == View.GONE) {
       v2.setVisibility(View.GONE)
       v1.setVisibility(View.VISIBLE)
@@ -193,7 +193,7 @@ trait Douban {
   private var _sp: ProgressDialog = null
 
   def waitToLoad(cancel: => Unit = { finishedLoading()})(implicit ctx: Context) = {
-    val _sp = spinnerDialog("请稍候", "数据加载中…")
+    _sp = spinnerDialog("请稍候", "数据加载中…")
     _sp.setCanceledOnTouchOutside(true)
     _sp.setCancelable(true)
     _sp.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -231,6 +231,7 @@ trait Douban {
       }
     }
   }
+
 }
 
 trait DoubanActivity extends SFragmentActivity with Douban {
@@ -259,17 +260,48 @@ trait DoubanActivity extends SFragmentActivity with Douban {
       ex.printStackTrace()
     }
   })
+
+  protected override def onCreate(b: Bundle){
+    super.onCreate(b)
+    getActionBar.setDisplayHomeAsUpEnabled(true)
+  }
+
   lazy val slidingMenu = {
     val sm = new SlidingMenu(this)
     sm.setMode(SlidingMenu.LEFT)
     sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN)
     sm.setShadowWidthRes(R.dimen.sliding_menu_width)
     //    sm.setShadowDrawable(R.drawable.shadow)
-    sm.setBehindOffsetRes(R.dimen.margin_huge) //TODO
+    sm.setBehindOffsetRes(R.dimen.sliding_menu_behind_width)
     sm.setFadeDegree(0.35f)
     sm.attachToActivity(this, SlidingMenu.SLIDING_WINDOW)
     sm.setMenu(R.layout.menu)
-    getActionBar.setDisplayHomeAsUpEnabled(true)
+
+    if(isAuthenticated) {
+      sm.findViewById(R.id.menu_login).setVisibility(View.GONE)
+      val userId: Long = getThisActivity.currentUserId
+      lazy val user=User.byId(userId)
+      future {
+        val u=getOrElse[String](Constant.USERNAME,user.name)
+        val a=getOrElse[String](Constant.AVATAR,user.avatar)
+        val c=getOrElse[Int](Constant.COLLE_NUM,Book.collectionsOfUser(userId).total)
+        val n=getOrElse[Int](Constant.NOTES_NUM,Book.annotationsOfUser(userId.toString).total)
+        (u,a,c,n)
+      } onComplete{
+        case Success((username,a,c,n))=>runOnUiThread{
+          setViewValue(R.id.username,username)
+          setViewValue(R.id.collection_num,c.toString,sm)
+          setViewValue(R.id.notes_num,n.toString,sm)
+          loadImageWithTitle(a,R.id.user_avatar,username,sm)
+          put(Constant.AVATAR,a)
+          put(Constant.USERNAME,username)
+          put(Constant.COLLE_NUM,c)
+          put(Constant.NOTES_NUM,n)
+        }
+        case _=>
+      }
+    }
+    else sm.findViewById(R.id.menu_logoned).setVisibility(View.GONE)
     sm
   }
   override implicit val ctx: DoubanActivity = this
@@ -292,6 +324,17 @@ trait DoubanActivity extends SFragmentActivity with Douban {
 
   def setWindowTitle(title: Int) = setViewValue(R.id.title, title.toString)
 
+  protected override def onOptionsItemSelected(item:MenuItem)= {
+    item.getItemId match {
+      case android.R.id.home=>{
+//        NavUtils.navigateUpFromSameTask(this)
+        slidingMenu.toggle()
+        true
+      }
+      case _=> super.onOptionsItemSelected(item)
+    }
+  }
+
   def put(key: String, value: Any) {
     val edit = defaultSharedPreferences.edit()
     value match {
@@ -300,11 +343,15 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     }
   }
 
-  lazy val currentUserId = get[Long](Constant.userIdString)
+  lazy val currentUserId = get(Constant.userIdString).toLong
 
-  def get[T](key: String): T = defaultSharedPreferences.getAll.get(key).asInstanceOf[T]
+  def get(key: String): String = defaultSharedPreferences.getString(key,null)
+  def getOrElse[T](key: String,alt: =>T): T = defaultSharedPreferences.getAll.get(key) match{
+    case v:T=>v
+    case _=>alt
+  }
 
-  @inline def contains(key: String): Boolean = defaultSharedPreferences.contains(key) && get[String](key).nonEmpty
+  @inline def contains(key: String): Boolean = defaultSharedPreferences.contains(key) && get(key).nonEmpty
 
   @inline def notifyNetworkState() {
     if (!isOnline) toast(R.string.notify_offline)
@@ -325,13 +372,22 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   }
 
   @inline def isAuthenticated = {
-    !get[String](Constant.accessTokenString).isEmpty
+    get(Constant.accessTokenString).nonEmpty
   }
 
   protected def updateToken(t: AccessTokenResult) {
     put(Constant.accessTokenString, t.access_token)
     put(Constant.refreshTokenString, t.refresh_token)
     put(Constant.userIdString, t.douban_user_id)
+  }
+  def sideMenu(v:View)= {
+    v.getId match{
+      case R.id.menu_search=>if(! getThisActivity.isInstanceOf[SearchActivity] ) startActivity(SIntent[SearchActivity]) else slidingMenu.toggle()
+      case R.id.menu_mynote =>if(! getThisActivity.isInstanceOf[MyNoteActivity] )startActivity(SIntent[MyNoteActivity]) else slidingMenu.toggle()
+      case R.id.menu_favbooks =>if(! getThisActivity.isInstanceOf[FavoriteBooksActivity])startActivity(SIntent[FavoriteBooksActivity]) else slidingMenu.toggle()
+      case R.id.menu_settings =>if(! getThisActivity.isInstanceOf[SettingsActivity]) startActivity(SIntent[SettingsActivity]) else slidingMenu.toggle()
+      case _=>
+    }
   }
 
 }
