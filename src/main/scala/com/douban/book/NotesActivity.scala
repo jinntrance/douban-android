@@ -75,7 +75,7 @@ class NotesActivity extends DoubanActivity {
   def search(v: View) = listFragment.search(v)
   def forward(v: View) = {
     listFragment.bookPage=find[EditText](R.id.bookPage).getText.toString
-    listFragment.search(page=1)
+    listFragment.search(findViewById(R.id.rank))
     hidePopup(v)
   }
 

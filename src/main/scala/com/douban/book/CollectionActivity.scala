@@ -42,7 +42,10 @@ class CollectionActivity extends DoubanActivity {
 
   def submit(v: View) = collectionFrag match {
     case Some(cf) => cf.submit(v)
-    case None =>
+    case _ => fragmentManager.findFragmentByTag("tagAdder") match{
+      case t:TagFragment=>t.tagsAdded
+      case _=>
+    }
   }
 
   def checkPrivacy(v: View) = collectionFrag match {
@@ -56,10 +59,6 @@ class CollectionActivity extends DoubanActivity {
     fragment=new TagFragment()
     fragmentManager.beginTransaction().replace(R.id.collection_container, fragment).addToBackStack(null).commit()
   }
-
-  def tagsAdded(v:View){
-     fragment.tagsAdded
-  }
 }
 
 class CollectionFragment extends DoubanFragment[CollectionActivity] {
@@ -71,7 +70,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
 
   override def onActivityCreated(b: Bundle) {
     super.onActivityCreated(b)
-    getThisActivity.replaceActionBar(R.layout.header_edit, getString(R.string.add_collection))
+    getThisActivity.replaceActionBar(R.layout.header_edit_collection, getString(R.string.add_collection))
     getThisActivity.book match {
       case Some(bk:Book) => bk.current_user_collection match {
         case c: Collection => updateCollection(c)
@@ -160,7 +159,7 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
 
   override def onActivityCreated(bundle: Bundle) {
     super.onActivityCreated(bundle)
-    getThisActivity.replaceActionBar(R.layout.header_tag, getString(R.string.add_tags))
+    getThisActivity.replaceActionBar(R.layout.header_edit, getString(R.string.add_tags))
       future {
         val r = Book.tagsOf(getThisActivity.currentUserId)
         rootView.find[ListView](R.id.my_tags_list).setAdapter(new TagAdapter(r.tags.map(_.title)))
@@ -209,7 +208,7 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
     def getCount: Int = tags.size()
   }
 
-  def tagsAdded={
+  def tagsAdded()={
     getThisActivity.tags=rootView.find[MultiAutoCompleteTextView](R.id.tags_multi_text).getText.toString
     getThisActivity.onBackPressed()
   }

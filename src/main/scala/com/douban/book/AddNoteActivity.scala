@@ -69,9 +69,6 @@ class AddNoteActivity extends DoubanActivity {
   def checkPrivacy(v: View) {
     public = toggleBackGround(public, v, (R.drawable.private_icon, R.drawable.public_icon))
   }
-  def tagsAdded(v:View){
-    fragmentManager.beginTransaction().replace(R.id.add_note_container,new AddNoteFragment()).commit()
-  }
 }
 
 class AddChapterFragment extends DoubanFragment[AddNoteActivity]{
@@ -79,7 +76,7 @@ class AddChapterFragment extends DoubanFragment[AddNoteActivity]{
 
   override def onActivityCreated(b: Bundle) {
     super.onActivityCreated(b)
-    getThisActivity.replaceActionBar(R.layout.header_tag,"添加页码/章节名")
+    getThisActivity.replaceActionBar(R.layout.header_edit,"添加页码/章节名")
     setViewValue(R.id.bookPage,getThisActivity.bookPage)
     setViewValue(R.id.chapter_name,getThisActivity.chapter)
   }
