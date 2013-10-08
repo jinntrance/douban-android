@@ -16,6 +16,7 @@ import com.douban.models.BookSearchResult
 import scala.Some
 import com.douban.models.Collection
 import android.content.Context
+import scala.util.Success
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -43,9 +44,9 @@ class SearchResultActivity extends DoubanActivity {
 class SearchResultList extends DoubanListFragment[SearchResultActivity] {
   var loading = false
   var footer: Option[View] = None
-  private var currentPage = 0
+  private var currentPage = 1
   private var total = Long.MaxValue
-  lazy val adapter: BookItemAdapter = new BookItemAdapter(R.layout.book_list_item, SearchResult.mapping, load = load())
+  lazy val adapter: BookItemAdapter = new BookItemAdapter(SearchResult.mapping, load = load())
 
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, bundle: Bundle) = {
     footer = Some(inflater.inflate(R.layout.book_list_loader, null))
@@ -60,7 +61,6 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
     setListAdapter(adapter)
     load()
     getThisActivity.updateTitle()
-    updateFooter()
   }
 
   def updateFooter() = {
@@ -92,15 +92,16 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
   }
 
   def load() = {
-    if ((adapter.count < total) && !loading) future {
-      getThisActivity.waitToLoad()
-      currentPage += 1
-      loading = true
-      Book.search(getThisActivity.searchText, "", currentPage, countPerPage)
-    } onSuccess {
-      case b => {
+    getThisActivity.listLoader(
+      toLoad = (adapter.count < total) && !loading,
+      result = {
+        loading = true
+        Book.search(getThisActivity.searchText, "", currentPage, countPerPage)
+      },
+      success = (b: BookSearchResult) => {
+        currentPage += 1
         total = b.total
-        adapter.addResult(b.total,b.books.size(),b.books)
+        adapter.addResult(b.total, b.books.size(), b.books)
         runOnUiThread {
           adapter.notifyDataSetChanged()
           updateFooter()
@@ -108,17 +109,14 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
         if (adapter.count < total) toast(getString(R.string.more_books_loaded).format(adapter.count))
         else toast(R.string.more_loaded_finished)
         loading = false
-        getThisActivity.finishedLoading()
-      }
-    }
+      })
   }
 }
 
-class BookItemAdapter(layoutId: Int, mapping: Map[Int, Any], load: => Unit = {})(implicit activity: DoubanActivity) extends
-    ItemAdapter[Book](layoutId,mapping,load=load) {
+class BookItemAdapter(mapping: Map[Int, Any], load: => Unit = {})(implicit activity: DoubanActivity) extends
+    ItemAdapter[Book](R.layout.book_list_item,mapping,load=load) {
 
   override def getView(position: Int, view: View, parent: ViewGroup): View = {
-    import CollectionActivity._
     val convertView = super.getView(position,view,parent)
     if (null != convertView) {
       val b = list.get(position)
@@ -129,7 +127,7 @@ class BookItemAdapter(layoutId: Int, mapping: Map[Int, Any], load: => Unit = {})
           case state: TextView => {
             state.setVisibility(View.VISIBLE)
             state.setText(SearchResult.stateMapping(c.status))
-            state.setTextColor(colorMap(idsMap(c.status)))
+            state.setTextColor(SearchResult.colorMap(SearchResult.idsMap(c.status)))
           }
           case _ =>
         }
@@ -146,9 +144,22 @@ class BookItemAdapter(layoutId: Int, mapping: Map[Int, Any], load: => Unit = {})
 object SearchResult {
   val STATE_STRING = "current_user_collection.status"
   val stateMapping = Map("wish" -> "想读", "reading" -> "在读", "read" -> "读过")
+  val idsMap = Map("read" -> R.id.read, "reading" -> R.id.reading, "wish" -> R.id.wish)
+  val colorMap=Map(R.id.wish->R.drawable.button_pink,R.id.reading->R.drawable.button_green,R.id.read->R.drawable.button_brown)
+
   val mapping: Map[Int, Any] = Map(
     R.id.bookTitle -> "title", R.id.bookAuthor -> List("author", "translator"), R.id.bookPublisher -> List("publisher", "pubdate"),
     R.id.ratingNum ->("rating.numRaters", "(%s)"), R.id.ratedStars -> "rating.average",
     R.id.currentState -> STATE_STRING
   )
+  def getStar(rat: ReviewRating):String= {
+    val r = Array("很差", "较差", "还行", "推荐", "力荐")
+    rat match {
+      case rat: ReviewRating => {
+        val rating = rat.value.toInt
+        if (rating > 0 && rating <= 5) rating + "星" + r(rating - 1) else ""
+      }
+      case _ =>""
+    }
+  }
 }

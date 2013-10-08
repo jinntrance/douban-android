@@ -41,6 +41,9 @@ trait Douban {
   type V = {
     def findViewById(id: Int): View
   }
+
+  implicit val loggerTag = LoggerTag("DoubanBook")
+
   protected val countPerPage = 12
 
   implicit def ctx: DoubanActivity = getThisActivity
@@ -130,17 +133,17 @@ trait Douban {
     !firstOneAsBackground
   }
 
-  @inline def isOnline = {
+  def isOnline = {
     val activeNetwork = ctx.getSystemService(content.Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo
     activeNetwork.isConnectedOrConnecting
   }
 
-  @inline def usingWIfi = {
+   def usingWIfi = {
     val activeNetwork = ctx.getSystemService(content.Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo
     activeNetwork.getType == ConnectivityManager.TYPE_WIFI
   }
 
-  @inline def using2G: Boolean = {
+   def using2G: Boolean = {
     import TelephonyManager._
     val t = ctx.getSystemService(Context.TELEPHONY_SERVICE).asInstanceOf[TelephonyManager].getNetworkType match {
       case NETWORK_TYPE_GPRS | NETWORK_TYPE_EDGE | NETWORK_TYPE_CDMA | NETWORK_TYPE_1xRTT | NETWORK_TYPE_IDEN => "2G"
@@ -149,11 +152,11 @@ trait Douban {
     t == "2G"
   }
 
-  def BitmapFromUrl(url: String) = {
+  @inline def BitmapFromUrl(url: String) = {
     BitmapFactory.decodeStream(new URL(url).getContent.asInstanceOf[InputStream])
   }
 
-  def loadImageWithTitle(url: String, resId: Int, title: String, holder: V = rootView, updateCache: Boolean = false): Unit = holder.findViewById(resId) match {
+   def loadImageWithTitle(url: String, resId: Int, title: String, holder: V = rootView, updateCache: Boolean = false): Unit = holder.findViewById(resId) match {
     case img: ImageView => loadImage(url, img, ctx.getString(R.string.load_img_fail, title), updateCache)
     case _ =>
   }
@@ -178,10 +181,59 @@ trait Douban {
       case Failure(b) => toast(notification)
     }
   }
+  def handle[R](result: => R, handler: (R) => Unit) {
+    future {
+      result
+    } onComplete {
+      case Success(t) => handler(t)
+      case Failure(m) => debug(m.getMessage)
+    }
+  }
+
+  private var _sp: ProgressDialog = null
+
+  def waitToLoad(cancel: => Unit = { finishedLoading()})(implicit ctx: Context) = {
+    val _sp = spinnerDialog("请稍候", "数据加载中…")
+    _sp.setCanceledOnTouchOutside(true)
+    _sp.setCancelable(true)
+    _sp.setOnCancelListener(new DialogInterface.OnCancelListener() {
+      def onCancel(p1: DialogInterface) {
+        cancel
+      }
+    })
+    _sp.show()
+    _sp
+  }
+
+  def finishedLoading() {
+    if (null != _sp) {
+      _sp.dismiss()
+    }
+  }
+
+  def listLoader[R](toLoad:Boolean=false,result: => R ={}, success: (R) => Unit = (r:R)=>{},failed: =>Unit={},unfinishable:Boolean=true)= if(toLoad) {
+    val sp:ProgressDialog=if(unfinishable) waitToLoad() else waitToLoad(getThisActivity.finish())
+    future {
+      result
+    } onComplete {
+      case Success(t) =>{
+        success(t)
+        if(null!=sp) sp.dismiss()
+      }
+      case Failure(m) =>{
+        failed
+        debug(m.getMessage)
+        if(null!=sp) sp.dismiss()
+      }
+      case _=>{
+        failed
+        if(null!=sp) sp.dismiss()
+      }
+    }
+  }
 }
 
 trait DoubanActivity extends SFragmentActivity with Douban {
-  implicit val loggerTag = LoggerTag("DoubanBook")
 
   def findFragment[T <: Fragment](fragmentId: Int): T = fragmentManager.findFragmentById(fragmentId) match {
     case f: Fragment => f.asInstanceOf[T]
@@ -211,7 +263,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     val sm = new SlidingMenu(this)
     sm.setMode(SlidingMenu.LEFT)
     sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN)
-    //    sm.setShadowWidthRes(R.dimen.shadow_width)
+    sm.setShadowWidthRes(R.dimen.sliding_menu_width)
     //    sm.setShadowDrawable(R.drawable.shadow)
     sm.setBehindOffsetRes(R.dimen.margin_huge) //TODO
     sm.setFadeDegree(0.35f)
@@ -229,15 +281,6 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   override def getThisActivity = this
 
   override lazy val rootView: V = this
-
-  def handle[R](result: => R, handler: (R) => Unit) {
-    future {
-      result
-    } onComplete {
-      case Success(t) => handler(t)
-      case Failure(m) => debug(m.getMessage)
-    }
-  }
 
   def replaceActionBar(layoutId: Int = R.layout.header, title: String = getString(R.string.app_name)) {
     getActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM)
@@ -259,7 +302,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
 
   lazy val currentUserId = get[Long](Constant.userIdString)
 
-  @inline def get[T](key: String): T = defaultSharedPreferences.getAll.get(key).asInstanceOf[T]
+  def get[T](key: String): T = defaultSharedPreferences.getAll.get(key).asInstanceOf[T]
 
   @inline def contains(key: String): Boolean = defaultSharedPreferences.contains(key) && get[String](key).nonEmpty
 
@@ -291,33 +334,9 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     put(Constant.userIdString, t.douban_user_id)
   }
 
-  private var _sp: ProgressDialog = null
-
-  def waitToLoad(cancel: => Unit = {
-    finishedLoading(); getThisActivity.finish()
-  })(implicit ctx: Context) = {
-
-    _sp = spinnerDialog("请稍候", "数据加载中…")
-    _sp.setCanceledOnTouchOutside(true)
-    _sp.setCancelable(true)
-    _sp.setOnCancelListener(new DialogInterface.OnCancelListener() {
-      def onCancel(p1: DialogInterface) {
-        cancel
-      }
-    })
-    _sp.show()
-    _sp
-  }
-
-  def finishedLoading() {
-    if (null != _sp) {
-      _sp.dismiss()
-    }
-  }
 }
 
 trait DoubanListFragment[T <: DoubanActivity] extends SListFragment with Douban {
-  lazy implicit val loggerTag = getThisActivity.loggerTag
 
   override def getThisActivity: T = getActivity.asInstanceOf[T]
 
@@ -336,7 +355,6 @@ trait DoubanListFragment[T <: DoubanActivity] extends SListFragment with Douban 
 }
 
 trait DoubanFragment[T <: DoubanActivity] extends SFragment with Douban {
-  lazy implicit val loggerTag = getThisActivity.loggerTag
 
   override def getThisActivity: T = getActivity.asInstanceOf[T]
 
@@ -386,10 +404,16 @@ class ItemAdapter[B <: Any](layoutId: Int, mapping: Map[Int, Any], data: collect
     data ++= items.map(beanToMap(_))
   }
 
-  def getView(position: Int, view: View, parent: ViewGroup): View = {
+  def replaceResult(total: Long, loadedSize: Int, items: java.util.List[B]) {
+    list.clear()
+    data.clear()
+    addResult(total,loadedSize,items)
+  }
+
+  def getView(position: Int, view: View, parent: ViewGroup): View = if(getCount==0) null else {
     val convertView = if (null != view) view else activity.getLayoutInflater.inflate(layoutId, null)
     activity.batchSetValues(mapping, data(position), convertView)
-    if (position + 2 >= count && count < total) load
+    if (position == count && count < total) load
     convertView
   }
 }

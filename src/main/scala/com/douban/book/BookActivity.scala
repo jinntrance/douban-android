@@ -134,15 +134,7 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
               case l: java.util.List[String] => rootView.find[LinearLayout](R.id.tags_container).addView(string2TextView(l.mkString(" ")))
               case _ =>
             }
-            val r = Array("很差", "较差", "还行", "推荐", "力荐")
-            c.rating match {
-              case rat: ReviewRating => {
-                val rating = rat.value.toInt
-                val txt = if (rating > 0 && rating <= 5) rating + "星" + r(rating - 1) else ""
-                rootView.find[TextView](R.id.recommend).setText(txt)
-              }
-              case _ =>
-            }
+            rootView.find[TextView](R.id.recommend).setText(SearchResult.getStar(c.rating))
             c.status match {
               case "read" => List(R.id.reading, R.id.wish)
               case "reading" => List(R.id.read, R.id.wish)

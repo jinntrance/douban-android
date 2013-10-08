@@ -30,18 +30,18 @@ class MenuFragment extends DoubanFragment[DoubanActivity]{
        getThisActivity.waitToLoad(getThisActivity.finishedLoading())
       (User.byId(getThisActivity.currentUserId),Book.collectionsOfUser(getThisActivity.currentUserId),Book.annotationsOfUser(getThisActivity.currentUserId.toString))
     } onComplete{
-      case Success((u,c,n))=>runOnUiThread{ //TODO
-        setViewValue(R.id.username,u.name)
-        setViewValue(R.id.collection_num,c.total.toString)
-        setViewValue(R.id.notes_num,n.total.toString)
-        loadImageWithTitle(u.avatar,R.id.user_avatar,u.name)
+      case Success((u,c,n))=>runOnUiThread{
+        setViewValue(R.id.username,u.name,getView)
+        setViewValue(R.id.collection_num,c.total.toString,getView)
+        setViewValue(R.id.notes_num,n.total.toString,getView)
+        loadImageWithTitle(u.avatar,R.id.user_avatar,u.name,getView)
       }
       case _=>
     }
-   getView.find[LinearLayout](R.id.menu_search) onClick(v=>startActivity[SearchActivity])
-   getView.find[LinearLayout](R.id.menu_mynote) onClick(v=>startActivity[MyNoteActivity])
-   getView.find[LinearLayout](R.id.menu_favbooks) onClick(v=>startActivity[FavoriteBooksActivity])
-   getView.find[LinearLayout](R.id.menu_settings) onClick(v=>startActivity[SettingsActivity])
+   getView.findViewById(R.id.menu_search).onClick(v=>startActivity[SearchActivity])
+   getView.findViewById(R.id.menu_mynote).onClick(v=>startActivity[MyNoteActivity])
+   getView.findViewById(R.id.menu_favbooks).onClick(v=>startActivity[FavoriteBooksActivity])
+   getView.findViewById(R.id.menu_settings).onClick(v=>startActivity[SettingsActivity])
   }
 
 
