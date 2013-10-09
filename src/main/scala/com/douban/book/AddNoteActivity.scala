@@ -64,6 +64,18 @@ class AddNoteActivity extends DoubanActivity {
   def checkPrivacy(v: View) {
     public = toggleBackGround(public, v, (R.drawable.private_icon, R.drawable.public_icon))
   }
+
+  def addQuote(v:View){
+    val text=find[EditText](R.id.note_input)
+    val start: Int = text.getSelectionStart
+    val end: Int = text.getSelectionEnd
+    text.getText.replace(start,end,s"<原文开始>${text.getText.toString.substring(start,end)}</原文结束>")
+  }
+
+  @inline def wrap(txt:String,wrapper:String)={
+    s"<$wrapper>$txt</$wrapper>"
+  }
+
 }
 
 class AddChapterFragment extends DoubanFragment[AddNoteActivity]{
