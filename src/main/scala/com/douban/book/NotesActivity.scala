@@ -85,10 +85,14 @@ class NotesActivity extends DoubanActivity {
     super.back(v)
   }
 
-  def hidePopup(v:View)=hideWhen(R.id.page_num_popup,true)
+  def hidePopup(v:View)={
+    hideWhen(R.id.page_num_popup,true)
+    hideKeyboard()
+  }
   def showPopup(v:View)={
     displayWhen(R.id.page_num_popup,true)
     findViewById(R.id.bookPage).requestFocus()
+    displayKeyboard()
   }
 
   def addNote(m: MenuItem) = listFragment match {
