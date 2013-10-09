@@ -41,6 +41,7 @@ class AddNoteActivity extends DoubanActivity {
       case _=> future {
         getIntent.getLongExtra(Constant.BOOK_ID,0) match {
           case bookId:Long if bookId>0 => {
+            toast("正在保存到豆瓣帐号...")
             val a=new AnnotationPosted(find[EditText](R.id.note_input).text.toString,bookPage.toInt,chapter,if(public) "public" else "private")
             Book.postAnnotation(bookId,a)
           }
@@ -59,12 +60,6 @@ class AddNoteActivity extends DoubanActivity {
     fragmentManager.beginTransaction().replace(R.id.add_note_container,new AddChapterFragment()).addToBackStack(null).commit()
   }
 
-  def toggleKeyboard(v:View){
-    val acceptingText: Boolean = getSystemService(Context.INPUT_METHOD_SERVICE).asInstanceOf[InputMethodManager].isAcceptingText
-    toggleBackGround(acceptingText,R.id.key_board,(R.drawable.keyboard_down,R.drawable.keyboard_up))
-    if(acceptingText)     getWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
-    else    getWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-  }
 
   def checkPrivacy(v: View) {
     public = toggleBackGround(public, v, (R.drawable.private_icon, R.drawable.public_icon))

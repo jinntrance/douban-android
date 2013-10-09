@@ -2,7 +2,7 @@ package com.douban.base
 
 import android.content
 import android.net.ConnectivityManager
-import android.view.{ViewGroup, View, MenuItem}
+import android.view.{WindowManager, ViewGroup, View, MenuItem}
 import com.douban.book._
 import com.douban.common._
 import java.lang.Thread.UncaughtExceptionHandler
@@ -30,6 +30,7 @@ import scala.util.Failure
 import org.scaloid.common.LoggerTag
 import scala.util.Success
 import com.douban.common.AccessTokenResult
+import android.view.inputmethod.InputMethodManager
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -71,7 +72,7 @@ trait Douban {
   def batchSetValues[T <: V](m: Map[Int, Any], values: Map[String, String], holder: T = rootView, separator: String = "/") {
     m.par.foreach {
       case (id, key: String) => setViewValue(id, values.getOrElse(key, ""), holder)
-      case (id, (key: String, format: String)) => setViewValue(id, format.format(values.getOrElse(key, "")), holder)
+      case (id, (key: String, format: String)) => setViewValue(id, {val v=values.getOrElse(key, "");if(v.isEmpty) "" else format.format(v)}, holder)
       case (id, l: List[String]) => setViewValue(id, l.map(values.getOrElse(_, "")).filter(_ != "").mkString(separator), holder)
       case (id, (urlKey: String, (notifyField: String, format: String))) => setViewValue(id, values.getOrElse(urlKey, "URL"), holder, format.format(values.getOrElse(notifyField, ""))) //TODO add support
     }
@@ -87,6 +88,13 @@ trait Douban {
       case _ =>
     }
     case _ =>
+  }
+
+  @inline def hideKeyboard() {
+    ctx.getWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+  }
+  @inline def displayKeyboard(){
+    ctx.getWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
   }
 
   def hideWhen(resId: Int, condition: Boolean, holder: V = rootView) = if (condition) {
@@ -273,7 +281,14 @@ trait DoubanActivity extends SFragmentActivity with Douban {
       login()
   }
 
-  def login()=startActivity(SIntent[LoginActivity])
+  def toggleKeyboard(v:View){
+    val acceptingText: Boolean = getSystemService(Context.INPUT_METHOD_SERVICE).asInstanceOf[InputMethodManager].isAcceptingText
+    toggleBackGround(acceptingText,v,(R.drawable.keyboard_up,R.drawable.keyboard_down))
+    if(acceptingText)     hideKeyboard()
+    else   displayKeyboard()
+  }
+
+  @inline def login()=startActivity(SIntent[LoginActivity])
 
   protected override def onCreate(b: Bundle){
     super.onCreate(b)

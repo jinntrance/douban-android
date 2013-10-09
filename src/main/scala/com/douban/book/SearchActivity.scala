@@ -8,6 +8,7 @@ import android.content.Intent
 import com.douban.base.{Constant, DoubanActivity}
 import com.google.zxing.integration.android.{IntentResult, IntentIntegrator}
 import Constant._
+import android.app.Activity
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -49,7 +50,7 @@ class SearchActivity extends DoubanActivity {
   }
 
   def scan(v: View) {
-    new IntentIntegrator(this).initiateScan()
+    new IntentIntegrator(this).initiateScan(IntentIntegrator.ONE_D_CODE_TYPES)
   }
 
   def search(v: View) {
@@ -57,15 +58,15 @@ class SearchActivity extends DoubanActivity {
   }
 
   def search(txt: String) = {
-    if (!txt.isEmpty) {
-      getWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+    if (txt.nonEmpty) {
+      hideKeyboard()
       startActivity(SIntent[SearchResultActivity].putExtra(SEARCH_TEXT_KEY, txt))
     }
     txt.isEmpty
   }
 
   override def onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
-    /*    if (scannerCode == requestCode && resultCode == Activity.RESULT_OK) {
+/*        if (scannerCode == requestCode && resultCode == Activity.RESULT_OK) {
           val contents = intent.getStringExtra("SCAN_RESULT")
           val format = intent.getStringExtra("SCAN_RESULT_FORMAT")
         }*/
