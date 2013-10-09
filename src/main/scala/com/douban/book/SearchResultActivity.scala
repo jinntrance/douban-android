@@ -36,7 +36,7 @@ class SearchResultActivity extends DoubanActivity {
     slidingMenu
   }
 
-  def updateTitle() {
+  def updateTitle(append:String="") {
     setTitle(getString(R.string.search_result, searchText))
   }
 }
@@ -67,6 +67,7 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
     getThisActivity.find[TextView](R.id.to_load) match {
       case footer: TextView => {
         footer.setText(getString(R.string.swipe_up_to_load).format(adapter.count, total))
+        getThisActivity.updateTitle(s"(${adapter.count}/$total)")
         footer.setVisibility(View.VISIBLE)
       }
       case _ =>

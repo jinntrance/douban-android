@@ -26,7 +26,7 @@
         android:background="@color/background_black_darker"
         android:baselineAligned="false"
         android:id="@+id/menu_logoned"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -118,8 +118,7 @@
                 android:text="收藏的书"   style="@style/DoubanTextTitle.White"     android:drawablePadding="@dimen/padding_large"
                 android:layout_margin="@dimen/margin_medium"             android:clickable="true"
                 android:id="@+id/menu_favbooks"  android:onClick="sideMenu"
-                android:gravity="center|left"
-                android:visibility="gone" />
+                android:gravity="center|left" />
 
             <TextView
                 android:layout_width="match_parent"   android:drawableLeft="@drawable/menu_note"
@@ -127,7 +126,7 @@
                 android:text="我的笔记"   android:layout_margin="@dimen/margin_medium"             android:clickable="true"
                 android:id="@+id/menu_mynote"   android:onClick="sideMenu"
                 android:gravity="center|left"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <TextView
                 android:layout_width="match_parent"
