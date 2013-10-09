@@ -130,11 +130,9 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
 
         val toDel = book.current_user_collection match {
           case c: Collection => {
-            c.tags match {
-              case l: java.util.List[String] => rootView.find[LinearLayout](R.id.tags_container).addView(string2TextView(l.mkString(" ")))
-              case _ =>
-            }
-            rootView.find[TextView](R.id.recommend).setText(SearchResult.getStar(c.rating))
+            getView.find[TextView](R.id.tags_txt).setText(c.tags.mkString(" "))
+            setViewValue(R.id.recommend,SearchResult.getStar(c.rating),getView)
+            hideWhenEmpty(R.id.comment_quote,c.comment)
             c.status match {
               case "read" => List(R.id.reading, R.id.wish)
               case "reading" => List(R.id.read, R.id.wish)

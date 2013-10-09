@@ -10,6 +10,7 @@ import com.douban.common.Auth
  * @version 1.0
  */
 object Constant {
+  val ACTIVITY_TAG: String="tagAdder"
   val READING_STATUS: String="readingStatus"
   val AVATAR: String="avatar"
   val NOTES_NUM: String="notesNum"

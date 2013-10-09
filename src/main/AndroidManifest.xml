@@ -36,9 +36,9 @@
         <activity android:label="@string/search" android:name=".SearchResultActivity"/>
         <activity android:label="@string/scan_book" android:name=".ScannerActivity"/>
         <activity android:name=".BookActivity"/>
-        <activity android:label="@string/add_collection" android:name=".CollectionActivity" android:launchMode="singleInstance"/>
-        <activity android:label="@string/annotation" android:name=".NotesActivity" android:launchMode="singleInstance"/>
-        <activity android:label="@string/add_note" android:name=".AddNoteActivity" android:launchMode="singleInstance"/>
+        <activity android:label="@string/add_collection" android:name=".CollectionActivity" />
+        <activity android:label="@string/annotation" android:name=".NotesActivity" />
+        <activity android:label="@string/add_note" android:name=".AddNoteActivity" />
         <activity android:label="@string/menu_settings" android:name=".SettingsActivity" android:launchMode="singleInstance"/>
         <activity android:label="我的笔记" android:name=".MyNoteActivity" android:launchMode="singleInstance"/>
         <activity android:label="我收藏的书" android:name=".FavoriteBooksActivity" android:launchMode="singleInstance"/>
