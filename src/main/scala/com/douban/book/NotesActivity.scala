@@ -107,7 +107,7 @@ class NotesActivity extends DoubanActivity {
 
 class NotesListFragment extends DoubanListFragment[NotesActivity] {
   import R.id._
-  lazy val mapping=Map(page_num->("page_no","P%s"),chapter_name->"chapter",note_time->"time",username->"author_user.name",note_content->"content",user_avatar->("author_user.avatar",("author_user.name",getString(R.string.load_img_fail))))
+  lazy val mapping=NotesActivity.mapping++Map(user_avatar->("author_user.avatar",("author_user.name",getString(R.string.load_img_fail))))
   var currentPage = 1
   var total = Int.MaxValue
   var rank = "rank"
@@ -172,8 +172,8 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
   }
 
   override def onListItemClick(l: ListView, v: View, position: Int, id: Long){
-    getListView.setItemChecked(position, true)
-    getFragmentManager.beginTransaction().replace(R.id.notes_container,new NoteViewFragment().addArguments(DBundle().put(Constant.ARG_POSITION,adapter.getItem(position)))).addToBackStack(null).commit()
+    l.setItemChecked(position, true)
+    fragmentManager.beginTransaction().replace(R.id.notes_container,new NoteViewFragment().addArguments(DBundle().put(Constant.ARG_POSITION,adapter.getBean(position)))).addToBackStack(null).commit()
   }
 
   class NoteItemAdapter(mapping:Map[Int,Any],load: => Unit)(implicit ctx: DoubanActivity) extends ItemAdapter[Annotation](R.layout.notes_item,mapping,load=load) {
@@ -189,15 +189,19 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
 }
 
 class NoteViewFragment extends DoubanFragment[NotesActivity]{
-  lazy val mapping=Map(page_num->("page_no","P%s"),chapter_name->"chapter",note_time->"time",username->"author_user.name",note_content->"content",user_avatar->("author_user.avatar",("author_user.name",getString(R.string.load_img_fail))))
+  lazy val mapping=NotesActivity.mapping++Map(user_avatar->("author_user.avatar",("author_user.name",getString(R.string.load_img_fail))))
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = inflater.inflate(R.layout.note_view,container,false)
 
   override def onActivityCreated(b: Bundle){
     super.onActivityCreated(b)
     getArguments.getSerializable(Constant.ARG_POSITION) match {
-      case m:Map[String,String]=> batchSetValues(mapping,m)
+      case n:Annotation=> batchSetValues(mapping,beanToMap(n),getView)
       case _=>
     }
   }
+}
+
+object NotesActivity{
+  val mapping=Map(page_num->("page_no","P%s"),chapter_name->"chapter",note_time->"time",username->"author_user.name",note_content->"content")
 }
 

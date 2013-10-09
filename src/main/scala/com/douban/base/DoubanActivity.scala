@@ -495,7 +495,7 @@ class ItemAdapter[B <: Any](layoutId: Int, mapping: Map[Int, Any], data: collect
   def getView(position: Int, view: View, parent: ViewGroup): View = if(getCount==0) null else {
     val convertView = if (null != view) view else activity.getLayoutInflater.inflate(layoutId, null)
     activity.batchSetValues(mapping, data(position), convertView)
-    if (position +2 >= count && count < total) load
+    if (position +1 >= count && count < total) load
     convertView
   }
 }
