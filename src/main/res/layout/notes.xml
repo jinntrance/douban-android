@@ -83,7 +83,7 @@
             <EditText
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/bookPage"
+                android:id="@+id/bookPage"    android:focusableInTouchMode="true" android:focusable="true"
                 android:layout_margin="@dimen/margin_medium"
                 android:gravity="center"
                 android:inputType="number"
