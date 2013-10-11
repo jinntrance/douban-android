@@ -4,49 +4,10 @@ import com.douban.base._
 import android.os.Bundle
 import com.douban.models._
 import android.view._
-import scala.concurrent._
 import android.widget._
-import ExecutionContext.Implicits.global
-import scala.collection.mutable
-import com.douban.base.DBundle
 import org.scaloid.common._
-import com.douban.book.R.id._
 import com.douban.base.DBundle
-import com.douban.base.DBundle
-import com.douban.book.R.id.page_num
-import com.douban.book.R.id.note_time
-import com.douban.book.R.id.username
-import com.douban.book.R.id.note_content
-import com.douban.book.R.id.chapter_name
-import com.douban.book.R.id.page
-import com.douban.book.R.id.user_avatar
-import com.douban.book.R.id.rank
-import com.douban.book.R.id.bookPage
-import com.douban.book.R.id.search
-import com.douban.base.DBundle
-import com.douban.book.R.id.page_num
-import com.douban.book.R.id.note_time
-import com.douban.book.R.id.username
-import com.douban.book.R.id.note_content
-import com.douban.book.R.id.chapter_name
-import com.douban.book.R.id.page
-import com.douban.book.R.id.user_avatar
-import com.douban.book.R.id.rank
-import com.douban.book.R.id.bookPage
-import com.douban.book.R.id.search
-import android.app.ProgressDialog
-import com.douban.base.DBundle
-import com.douban.book.R.id.page_num
 import com.douban.models.AnnotationSearch
-import com.douban.book.R.id.note_time
-import com.douban.book.R.id.username
-import com.douban.book.R.id.note_content
-import com.douban.book.R.id.chapter_name
-import com.douban.book.R.id.page
-import com.douban.book.R.id.user_avatar
-import com.douban.book.R.id.rank
-import com.douban.book.R.id.bookPage
-import com.douban.book.R.id.search
 import com.douban.models.Annotation
 
 /**
@@ -57,13 +18,18 @@ import com.douban.models.Annotation
  * @version 1.0
  */
 class NotesActivity extends DoubanActivity {
+  def viewNote(a:Annotation){
+    fragmentManager.beginTransaction().replace(R.id.notes_container,new NoteViewFragment().addArguments(DBundle().put(Constant.ARG_POSITION,a)),Constant.ACTIVITY_NOTE_VIEW).addToBackStack(null).commit()
+  }
+
   lazy val bookId = getIntent.getLongExtra(Constant.BOOK_ID, 0)
-  def listFragment: NotesListFragment = findFragment[NotesListFragment](R.id.notes_list_fragment)
+  def listFragment: NotesListFragment = new NotesListFragment()
 
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     if (0 == bookId) finish()
     setContentView(R.layout.notes)
+    fragmentManager.beginTransaction().replace(R.id.notes_list_container,listFragment).commit()
     slidingMenu
   }
 
@@ -173,7 +139,7 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
 
   override def onListItemClick(l: ListView, v: View, position: Int, id: Long){
     l.setItemChecked(position, true)
-    fragmentManager.beginTransaction().replace(R.id.notes_container,new NoteViewFragment().addArguments(DBundle().put(Constant.ARG_POSITION,adapter.getBean(position)))).addToBackStack(null).commit()
+    getThisActivity.viewNote(adapter.getBean(position))
   }
 
   class NoteItemAdapter(mapping:Map[Int,Any],load: => Unit)(implicit ctx: DoubanActivity) extends ItemAdapter[Annotation](R.layout.notes_item,mapping,load=load) {
@@ -189,7 +155,7 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
 }
 
 class NoteViewFragment extends DoubanFragment[NotesActivity]{
-  lazy val mapping=NotesActivity.mapping++Map(user_avatar->("author_user.avatar",("author_user.name",getString(R.string.load_img_fail))))
+  lazy val mapping=NotesActivity.mapping++Map(R.id.user_avatar->("author_user.avatar",("author_user.name",getString(R.string.load_img_fail))))
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = inflater.inflate(R.layout.note_view,container,false)
 
   override def onActivityCreated(b: Bundle){
@@ -202,6 +168,7 @@ class NoteViewFragment extends DoubanFragment[NotesActivity]{
 }
 
 object NotesActivity{
+  import R.id._
   val mapping=Map(page_num->("page_no","P%s"),chapter_name->"chapter",note_time->"time",username->"author_user.name",note_content->"content")
 }
 

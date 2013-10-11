@@ -22,15 +22,15 @@ import scala.language.implicitConversions
 import scala.language.reflectiveCalls
 import android.os.Bundle
 import org.scaloid.support.v4.{SFragment, SListFragment, SFragmentActivity}
-import android.support.v4.app.{NavUtils, Fragment}
+import android.support.v4.app.Fragment
 import android.app.{ProgressDialog, ActionBar}
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu
 import com.douban.models.{Book, User}
 import scala.util.Failure
 import org.scaloid.common.LoggerTag
 import scala.util.Success
 import com.douban.common.AccessTokenResult
 import android.view.inputmethod.InputMethodManager
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -198,10 +198,9 @@ trait Douban {
     }
   }
 
-  private var _sp: ProgressDialog = null
 
-  def waitToLoad(cancel: => Unit = { finishedLoading()})(implicit ctx: Context) = if(isOnline){
-    _sp = spinnerDialog("请稍候", "数据加载中…")
+  def waitToLoad(cancel: => Unit = {})(implicit ctx: Context) = if(isOnline){
+    val _sp = spinnerDialog("请稍候", "数据加载中…")
     _sp.setCanceledOnTouchOutside(true)
     _sp.setCancelable(true)
     _sp.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -220,11 +219,6 @@ trait Douban {
     if (!isOnline) toast(R.string.notify_offline)
   }
 
-  def finishedLoading() {
-    if (null != _sp) {
-      _sp.dismiss()
-    }
-  }
 
   def listLoader[R](toLoad:Boolean=false,result: => R ={}, success: (R) => Unit = (r:R)=>{},failed: =>Unit={},unfinishable:Boolean=true)= if(toLoad) {
     val sp:ProgressDialog=if(unfinishable) waitToLoad() else waitToLoad(getThisActivity.finish())
@@ -466,10 +460,11 @@ case class DBundle(b: Bundle = new Bundle()) {
   }
 }
 
-class ItemAdapter[B <: Any](layoutId: Int, mapping: Map[Int, Any], data: collection.mutable.Buffer[Map[String, String]] = mutable.Buffer[Map[String, String]](), load: => Unit = {})(implicit activity: DoubanActivity) extends BaseAdapter {
-  var total = Long.MaxValue
-  var count = 0
-  val list: java.util.List[B] = new java.util.ArrayList[B]()
+class ItemAdapter[B <: Any](layoutId: Int, mapping: Map[Int, Any], load: => Unit = {})(implicit activity: DoubanActivity) extends BaseAdapter {
+  private var total = Long.MaxValue
+  private var count = 0
+  private val list: java.util.List[B] = new java.util.ArrayList[B]()
+  private val data: collection.mutable.Buffer[Map[String, String]] = mutable.Buffer[Map[String, String]]()
 
   def getCount: Int = count
 
@@ -486,6 +481,8 @@ class ItemAdapter[B <: Any](layoutId: Int, mapping: Map[Int, Any], data: collect
     data ++= items.map(beanToMap(_))
   }
 
+  protected def selfLoad()=load
+
   def replaceResult(total: Long, loadedSize: Int, items: java.util.List[B]) {
     list.clear()
     data.clear()
@@ -495,7 +492,11 @@ class ItemAdapter[B <: Any](layoutId: Int, mapping: Map[Int, Any], data: collect
   def getView(position: Int, view: View, parent: ViewGroup): View = if(getCount==0) null else {
     val convertView = if (null != view) view else activity.getLayoutInflater.inflate(layoutId, null)
     activity.batchSetValues(mapping, data(position), convertView)
-    if (position +1 >= count && count < total) load
+    if (count < total && position +1 >= count) {
+      selfLoad()
+    }
     convertView
   }
 }
+
+case class ListResult[T](total:Int,list:java.util.List[T])

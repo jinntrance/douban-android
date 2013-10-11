@@ -31,14 +31,41 @@ class FavoriteBooksActivity extends DoubanActivity{
     th.addTab(th.newTabSpec("wish").setIndicator("想读").setContent(R.id.wish_container))
     th.addTab(th.newTabSpec("reading").setIndicator("在读").setContent(R.id.reading_container))
     th.addTab(th.newTabSpec("read").setIndicator("已读").setContent(R.id.read_container))
-    fragmentManager.beginTransaction().replace(R.id.reading_container,new FavoriteBooksListFragment).
-    replace(R.id.wish_container,new FavoriteBooksListFragment().addArguments(DBundle().put(Constant.READING_STATUS,"wish"))).
-    replace(R.id.read_container,new FavoriteBooksListFragment() .addArguments(DBundle().put(Constant.READING_STATUS,"read"))).commit()
+    val readingAdapter: CollectionItemAdapter = new CollectionItemAdapter("reading", load)
+    find[ListView](R.id.reading).setAdapter(readingAdapter)
+    load("reading",readingAdapter)
+    val wishAdapter: CollectionItemAdapter = new CollectionItemAdapter("wish", load)
+    find[ListView](R.id.wish).setAdapter(wishAdapter)
+    load("wish",wishAdapter)
+    val readAdapter: CollectionItemAdapter = new CollectionItemAdapter("read", load)
+    find[ListView](R.id.read).setAdapter(readAdapter)
+    load("read",readAdapter)
   }
 
   def filter(v:View){
-//    findFragment[FavoriteBooksListFragment](R.id.list)
+    fragmentManager.beginTransaction().replace(R.id.fav_books_container,new FavoriteBooksListFragment,Constant.FRAGMENT_FAV_BOOKS).addToBackStack(null).commit()
   }
+
+  def submitFilter(v:View){
+    fragmentManager.findFragmentByTag(Constant.FRAGMENT_FAV_BOOKS) match{
+      case f:FavoriteBooksListFragment=>f.submitFilter()
+      case _=>
+    }
+  }
+
+  def load(status:String,adapter:CollectionItemAdapter)={
+    future{
+      val cs=CollectionSearch(status,start=adapter.count,count=countPerPage)
+      Book.collectionsOfUser(currentUserId,cs)
+    } onComplete{
+      case Success(r:CollectionSearchResult)=>{
+        adapter.addResult(r.total,r.collections.size,r.collections)
+        adapter.notifyDataSetChanged()
+      }
+      case _=>
+    }
+  }
+
 }
 
 
@@ -48,29 +75,31 @@ class FavoriteBooksListFragment extends DoubanListFragment[DoubanActivity]{
   var status="reading"
   var bookTag=""
   var rating=0
-  lazy val adapters=List(R.id.wish,R.id.reading,R.id.read).map(e=> e -> {
-    val a = new CollectionItemAdapter(mapping, load())
-    getView.find[ListView](e).setAdapter(a)
-    a
-  }).toMap
+  var collectionSearch=CollectionSearch()
+  lazy val adapter=new CollectionItemAdapter("reading",load)
+  var header:View=null
 
-  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, b: Bundle): View = inflater.inflate(R.layout.fav_books_item,container,false)
-  val mapping=Map(R.id.time->"updated")++SearchResult.mapping.map{case (k,v)=>(k,"book."+v)}
+  def submitFilter(){
+     //TODO
+  }
+
+  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = {
+    header=inflater.inflate(R.layout.fav_books_result,null)
+    super.onCreateView(inflater, container, savedInstanceState)
+  }
 
   override def onActivityCreated(b: Bundle){
     super.onActivityCreated(b)
-    adapters
-    load()
+    getListView.addHeaderView(header)
+    getListView.setAdapter(adapter)
   }
-  def load(page:Int=currentPage){
+  def load(status:String,adapter:CollectionItemAdapter){
     future{
-      getThisActivity.getAccessToken
-      Book.collectionsOfUser(getThisActivity.currentUserId,new CollectionSearch(getArguments.getString(Constant.READING_STATUS,status),tag,rating))
+      val cs=CollectionSearch(status,bookTag,rating,start=adapter.count,count=countPerPage)
+      Book.collectionsOfUser(getThisActivity.currentUserId,cs)
     } onComplete{
       case Success(r:CollectionSearchResult)=>{
           currentPage+=1
-          val adapter=adapters(SearchResult.idsMap.getOrElse(status,R.id.reading))
-          adapter.addResult(r.total,r.collections.size,r.collections)
           if(1==currentPage) adapter.notifyDataSetInvalidated()
           else adapter.notifyDataSetChanged()
       }
@@ -78,7 +107,9 @@ class FavoriteBooksListFragment extends DoubanListFragment[DoubanActivity]{
     }
   }
   }
-class CollectionItemAdapter(mapping:Map[Int,Any],load: => Unit)(implicit activity: DoubanActivity) extends ItemAdapter[Collection](R.layout.fav_books_item,mapping,load=load) {
+
+class CollectionItemAdapter(status:String,loader: (String,CollectionItemAdapter)=> Unit,mapping:Map[Int,Any]=Map(R.id.time->"updated")++SearchResult.mapping.map{case (k,v)=>(k,"book."+v)})(implicit activity: DoubanActivity) extends ItemAdapter[Collection](R.layout.fav_books_item,mapping) {
+  var currentPage=0
   override def getView(position: Int, view: View, parent: ViewGroup): View = {
     super.getView(position, view, parent) match{
       case  v:View=>{
@@ -90,4 +121,8 @@ class CollectionItemAdapter(mapping:Map[Int,Any],load: => Unit)(implicit activit
       case _=>null
     }
   }
+
+  override protected def selfLoad(): Unit = loader(status,this)
 }
+
+

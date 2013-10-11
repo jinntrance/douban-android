@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_black"
+            android:padding="@dimen/padding_medium"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:baselineAligned="true">
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView  style="@style/DoubanText.White"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="收藏状态" />
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView  style="@style/DoubanText.FavBooks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Reading"
+                        android:id="@+id/textView" />
+
+                    <TextView  style="@style/DoubanText.FavBooks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Read"
+                        android:id="@+id/textView3" />
+                </TableRow>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:visibility="visible">
+
+                <TextView  style="@style/DoubanText.White"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="我的评分" />
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5 star"    style="@style/DoubanText.FavBooks"
+                        android:id="@+id/textView1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="4 stars"   style="@style/DoubanText.FavBooks"
+                        android:id="@+id/textView2" />
+                </TableRow>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:visibility="visible">
+
+                <TextView   style="@style/DoubanText.White"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="我的标签" />
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tag2"  style="@style/DoubanText.FavBooks"
+                        android:id="@+id/textView5" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tag1"  style="@style/DoubanText.FavBooks"
+                        android:id="@+id/textView4" />
+                </TableRow>
+
+            </TableRow>
+
+        </TableLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:src="@drawable/filter_result_display"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="false"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="@dimen/margin_large" />
+    </FrameLayout>
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="0dp"  class="com.douban.book.FavoriteBooksListFragment"
+        android:name="com.douban.book.FavoriteBooksListFragment"
+        android:id="@+id/fragment"
+        android:layout_weight="1" />
+
+</LinearLayout>

@@ -1,126 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
+    android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5">
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/background_black"
-            android:padding="@dimen/padding_medium"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:baselineAligned="true">
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
 
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收藏状态" />
 
-                <TextView  style="@style/DoubanText.White"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="收藏状态" />
+                    android:id="@+id/wish"
+                    android:checked="false"
+                    android:text="想读" />
 
-                <TableRow
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView  style="@style/DoubanText.FavBooks"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Reading"
-                        android:id="@+id/textView" />
-
-                    <TextView  style="@style/DoubanText.FavBooks"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Read"
-                        android:id="@+id/textView3" />
-                </TableRow>
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:visibility="gone">
-
-                <TextView  style="@style/DoubanText.White"
+                <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="我的评分" />
+                    android:text="在读"
+                    android:id="@+id/reading"
+                    android:checked="false" />
 
-                <TableRow
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5 star"    style="@style/DoubanText.FavBooks"
-                        android:id="@+id/textView1" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="4 stars"   style="@style/DoubanText.FavBooks"
-                        android:id="@+id/textView2" />
-                </TableRow>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:visibility="gone">
-
-                <TextView   style="@style/DoubanText.White"
+                <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="我的标签" />
+                    android:text="读过"
+                    android:id="@+id/read"
+                    android:checked="false" />
+            </LinearLayout>
+        </TableRow>
 
-                <TableRow
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的评分" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tag2"  style="@style/DoubanText.FavBooks"
-                        android:id="@+id/textView5" />
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingBar" />
+        </TableRow>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tag1"  style="@style/DoubanText.FavBooks"
-                        android:id="@+id/textView4" />
-                </TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
 
-            </TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收藏时间" />
 
-        </TableLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView"
-            android:src="@drawable/filter_result_display"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentTop="false"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="@dimen/margin_large" />
-    </FrameLayout>
+                <DatePicker
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/from_date"
+                    android:spinnersShown="true" />
 
-    <fragment
-        android:layout_width="match_parent"
-        android:layout_height="0dp"  class="com.douban.book.FavoriteBooksListFragment"
-        android:name="com.douban.book.FavoriteBooksListFragment"
-        android:id="@+id/fragment"
-        android:layout_weight="1" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="到" />
 
+                <DatePicker
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/to_date" />
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的标签" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></LinearLayout>
+        </TableRow>
+    </TableLayout>
 </LinearLayout>
