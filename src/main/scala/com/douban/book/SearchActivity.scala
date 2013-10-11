@@ -74,7 +74,7 @@ class SearchActivity extends DoubanActivity {
         if (scanRequestCode == requestCode && resultCode == Activity.RESULT_OK) {
           val contents = intent.getStringExtra(Scan.RESULT)
           val format = intent.getStringExtra(Scan.RESULT_FORMAT)
-          info(s"scanning result ${contents} and $format")
+          info(s"scanning result $contents and $format")
           startActivity(SIntent[BookActivity].putExtra(Constant.ISBN, contents))
         }
   }

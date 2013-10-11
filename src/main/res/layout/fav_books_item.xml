@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="5星力荐"           android:textColor="@color/text_orange"
-                android:id="@+id/textView"
+                android:id="@+id/recommend"
                 android:layout_margin="@dimen/margin_small" />
 
             <include layout="@layout/tags"
