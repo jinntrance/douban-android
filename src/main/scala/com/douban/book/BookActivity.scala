@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.widget.{TextView, LinearLayout}
 import com.douban.base.{DoubanFragment, DoubanActivity, Constant}
 import com.douban.models.{ReviewRating, Collection, Book}
-import android.app.AlertDialog
+import android.app.{Activity, AlertDialog}
 import android.view._
 import Constant._
 import scala.concurrent._
 import ExecutionContext.Implicits.global
-import android.content.DialogInterface
+import android.content.{Intent, DialogInterface}
 import scala.util.Success
 
 /**
@@ -22,6 +22,7 @@ import scala.util.Success
  * @see http://developers.douban.com/wiki/?title=api_v2
  */
 class BookActivity extends DoubanActivity {
+  val COLLECTION_MODIFICATION_REQUEST=1
   var book: Option[Book] = None
   var contentCollapsed = true
   var authorCollapsed = true
@@ -35,8 +36,8 @@ class BookActivity extends DoubanActivity {
         val isbn = extras.getString(Constant.ISBN)
         val bookId = extras.getLong(Constant.BOOK_ID)
         val bk = extras.getSerializable(Constant.BOOK_KEY)
+        val sp=waitToLoad()
         if (null==bk) future{
-          waitToLoad()
           if (null != isbn && !isbn.isEmpty) Some(Book.byISBN(isbn))
           else if (0 != bookId) Some(Book.byId(bookId.toLong))
           else None
@@ -44,7 +45,7 @@ class BookActivity extends DoubanActivity {
           case Success(Some(bb:Book))=>{
             book=Some(bb)
             fragment.updateBookView()
-            finishedLoading()
+            sp.dismiss()
           }
           case _=>{
             toast(R.string.search_no_result)
@@ -69,7 +70,16 @@ class BookActivity extends DoubanActivity {
 
   def collect(view: View) {
     getIntent.putExtra(STATE_ID, view.getId)
-    startActivity(SIntent[CollectionActivity].putExtras(getIntent))
+    startActivityForResult(SIntent[CollectionActivity].putExtras(getIntent),COLLECTION_MODIFICATION_REQUEST)
+  }
+
+  override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    if(resultCode==Activity.RESULT_OK&&requestCode==COLLECTION_MODIFICATION_REQUEST) {
+      data.getSerializableExtra(Constant.COLLECTION) match{
+        case c:Collection=>book.get.updateCollection(c)
+        case _=>
+      }
+    }
   }
 
   def deCollect(v: View) {

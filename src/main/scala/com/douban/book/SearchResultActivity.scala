@@ -5,18 +5,12 @@ import android.os.Bundle
 import android.widget._
 import android.view._
 import com.douban.models._
-import scala.concurrent._
 import org.scaloid.common._
-import ExecutionContext.Implicits.global
 import java.lang.String
 import Constant._
-import scala.collection
-import scala.collection.mutable
 import com.douban.models.BookSearchResult
 import scala.Some
 import com.douban.models.Collection
-import android.content.Context
-import scala.util.Success
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -120,7 +114,7 @@ class BookItemAdapter(mapping: Map[Int, Any], load: => Unit = {})(implicit activ
   override def getView(position: Int, view: View, parent: ViewGroup): View = {
     val convertView = super.getView(position,view,parent)
     if (null != convertView) {
-      val b = list.get(position)
+      val b = getBean(position)
       val c: Collection = b.current_user_collection
       activity.displayWhen(R.id.favorite, null == c, convertView)
       if (null != c) {

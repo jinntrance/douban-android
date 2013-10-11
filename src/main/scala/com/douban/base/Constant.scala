@@ -10,6 +10,9 @@ import com.douban.common.Auth
  * @version 1.0
  */
 object Constant {
+  val FRAGMENT_FAV_BOOKS: String="fav_books"
+  val COLLECTION="collection"
+  val ACTIVITY_NOTE_VIEW: String="noteView"
   val ACTIVITY_TAG: String="tagAdder"
   val READING_STATUS: String="readingStatus"
   val AVATAR: String="avatar"

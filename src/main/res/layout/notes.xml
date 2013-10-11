@@ -48,15 +48,17 @@
         android:gravity="top"
         android:layout_gravity="top">
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/notes_list_container"></LinearLayout>
+
         <include
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             layout="@layout/note_to_add"
             android:id="@+id/note_to_add" />
-
-        <fragment  class="com.douban.book.NotesListFragment"
-            android:layout_width="fill_parent" android:id="@+id/notes_list_fragment"
-            android:layout_height="wrap_content" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -114,6 +116,7 @@
                 android:layout_margin="@dimen/margin_medium"
                 android:padding="@dimen/padding_medium" />
         </RelativeLayout>
+
     </FrameLayout>
 
 </LinearLayout>
