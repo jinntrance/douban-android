@@ -14,6 +14,7 @@ import com.douban.models.CollectionSearchResult
 import com.douban.models.CollectionSearch
 import scala.util.Success
 import com.douban.models.Collection
+import com.douban.book.R
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -31,6 +32,7 @@ class FavoriteBooksActivity extends DoubanActivity{
     th.addTab(th.newTabSpec("wish").setIndicator("想读").setContent(R.id.wish_container))
     th.addTab(th.newTabSpec("reading").setIndicator("在读").setContent(R.id.reading_container))
     th.addTab(th.newTabSpec("read").setIndicator("已读").setContent(R.id.read_container))
+    th.setCurrentTab(1)
     val readingAdapter: CollectionItemAdapter = new CollectionItemAdapter("reading", load)
     find[ListView](R.id.reading).setAdapter(readingAdapter)
     load("reading",readingAdapter)
@@ -58,7 +60,7 @@ class FavoriteBooksActivity extends DoubanActivity{
       val cs=CollectionSearch(status,start=adapter.count,count=countPerPage)
       Book.collectionsOfUser(currentUserId,cs)
     } onComplete{
-      case Success(r:CollectionSearchResult)=>{
+      case Success(r:CollectionSearchResult)=>runOnUiThread{
         adapter.addResult(r.total,r.collections.size,r.collections)
         adapter.notifyDataSetChanged()
       }
@@ -108,14 +110,16 @@ class FavoriteBooksListFragment extends DoubanListFragment[DoubanActivity]{
   }
   }
 
-class CollectionItemAdapter(status:String,loader: (String,CollectionItemAdapter)=> Unit,mapping:Map[Int,Any]=Map(R.id.time->"updated")++SearchResult.mapping.map{case (k,v)=>(k,"book."+v)})(implicit activity: DoubanActivity) extends ItemAdapter[Collection](R.layout.fav_books_item,mapping) {
+class CollectionItemAdapter(status:String,loader: (String,CollectionItemAdapter)=> Unit,mapping:Map[Int,Any]=Map( R.id.time->"updated",
+  R.id.bookTitle -> "book.title", R.id.bookAuthor -> List("book.author", "book.translator")))(implicit activity: DoubanActivity) extends ItemAdapter[Collection](R.layout.fav_books_item,mapping) {
   var currentPage=0
   override def getView(position: Int, view: View, parent: ViewGroup): View = {
     super.getView(position, view, parent) match{
       case  v:View=>{
         val c: Collection = getBean(position)
-        v.find[TextView](R.id.recommend).setText(SearchResult.getStar(c.rating))
-        v.find[TextView](R.id.tags_txt).setText(c.tags.mkString(" "))
+        activity.loadImageWithTitle(c.book.image, R.id.book_img, c.book.title, v)
+        activity.setViewValue(R.id.recommend,SearchResult.getStar(c.rating))
+        activity.setViewValue(R.id.tags_txt,c.tags.mkString(" "))
         v
       }
       case _=>null
