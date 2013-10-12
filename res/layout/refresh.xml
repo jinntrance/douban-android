@@ -1,7 +1,6 @@
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center|right" android:layout_marginRight="@dimen/margin_medium"
+    android:layout_gravity="center|right" android:paddingRight="@dimen/margin_large"
     android:src="@drawable/ic_action_refresh"
-    android:clickable="true"
-    android:paddingRight="@dimen/margin_large" />
+    android:clickable="true" />

@@ -34,12 +34,12 @@ class BookActivity extends DoubanActivity {
     getIntent.getExtras match {
       case extras: Bundle => {
         val isbn = extras.getString(Constant.ISBN)
-        val bookId = extras.getLong(Constant.BOOK_ID)
+        val bookId = extras.getString(Constant.BOOK_ID)
         val bk = extras.getSerializable(Constant.BOOK_KEY)
         val sp=waitToLoad()
         if (null==bk) future{
           if (null != isbn && !isbn.isEmpty) Some(Book.byISBN(isbn))
-          else if (0 != bookId) Some(Book.byId(bookId.toLong))
+          else if (null!=bookId&&bookId.nonEmpty) Some(Book.byId(bookId.toLong))
           else None
         }onComplete {
           case Success(Some(bb:Book))=>{
@@ -162,7 +162,7 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
           R.id.book_author_abstract -> "author_intro", R.id.book_author_abstract_longtext -> "author_intro",
           R.id.book_content_abstract -> "summary", R.id.book_content_abstract_longtext -> "summary",
           R.id.book_catalog_abstract -> "catalog", R.id.book_catalog_abstract_longtext -> "catalog",
-          R.id.comment -> ("current_user_collection.comment","%s」")), beanToMap(book))
+          R.id.comment -> ("current_user_collection.comment","%s」") ), beanToMap(book))
 //        rootView.find[TextView](R.id.ratingNum).setText(s"(${book.rating.numRaters})")
         getThisActivity.loadImageWithTitle(if (getThisActivity.usingWIfi || !getThisActivity.using2G) book.images.large else book.images.small,R.id.book_img,book.title)
         displayWhen(R.id.content_arrow,rootView.find[TextView](R.id.book_content_abstract).getLineCount>4)

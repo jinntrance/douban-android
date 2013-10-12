@@ -33,7 +33,6 @@ libraryDependencies ++= Seq(
 			"org.scaloid" % "scaloid_2.10" % "2.4-8",
 			"com.douban" % "scala-api_2.10" % "2.4.2" withSources(),
 			"com.google.zxing" % "core" % "2.2",
-			"com.google.zxing" % "android-integration" % "2.2",
 			"com.google.android" % "support-v4" % "r7"
 			)
 
@@ -43,12 +42,12 @@ typedResources in Android :=false
 
 proguardCache in Android += ProguardCache("org.scaloid","com.douban.models","com.google")
 
-localProjects in Android += android.Dependencies.LibraryProject(file("libs/zxing-android")) 
+localProjects in Android += android.Dependencies.LibraryProject(file("libs/zxing-android"))
 
 localProjects in Android += android.Dependencies.LibraryProject(file("libs/slidingMenu"))
 
 
-//collectResources in Android <<= (collectResources in Android dependsOn (compile in Compile in localProjects))
+collectResources in Android dependsOn (compile in Compile in localProjects)
 
 
 proguardOptions in Android :="""
@@ -95,6 +94,8 @@ proguardOptions in Android :="""
 -keep class * implements java.io.Serializable
 -keepclassmembers class **.R$* {public static <fields>;}
 """.split('\n').toSeq
+
+proguardConfig in Android <<= baseDirectory map (b => IO.readLines(b/"proguard.cfg"))
 
 
 
