@@ -1,0 +1,61 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.douban.book"  >
+
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="18"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
+    <uses-feature android:name="android.hardware.camera.front" android:required="false"/>
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/>
+
+    <application android:label="@string/app_name" android:icon="@drawable/logo" android:theme="@style/DoubanTheme"
+        android:name="com.douban.base.DoubanContext" >
+
+        <activity android:label="@string/app_name" android:name=".SearchActivity" android:windowSoftInputMode="adjustUnspecified|stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
+<!--        <activity android:label="@string/app_name" android:name=".ui.UploadFragment">
+            <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+        </activity>-->
+        <activity android:label="@string/login" android:name=".LoginActivity" android:launchMode="singleInstance"/>
+        <activity android:label="@string/search" android:name=".SearchResultActivity"/>
+        <activity android:label="@string/scan_book" android:name=".ScannerActivity"/>
+        <activity android:name=".BookActivity"/>
+        <activity android:label="@string/add_collection" android:name=".CollectionActivity" />
+        <activity android:label="@string/annotation" android:name=".NotesActivity" />
+        <activity android:label="@string/add_note" android:name=".AddNoteActivity" />
+        <activity android:label="@string/menu_settings" android:name=".SettingsActivity" android:launchMode="singleInstance"/>
+        <activity android:label="我的笔记" android:name=".MyNoteActivity" android:launchMode="singleInstance"/>
+        <activity android:label="我收藏的书" android:name=".FavoriteBooksActivity" android:launchMode="singleInstance"/>
+        <activity android:label="关于" android:name=".AboutActivity" android:launchMode="singleInstance"/>
+        <activity android:name="com.google.zxing.client.android.CaptureActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.google.zxing.client.android.SCAN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
