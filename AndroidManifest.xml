@@ -15,6 +15,12 @@
     <uses-feature android:name="android.hardware.camera.front" android:required="false"/>
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/>
 
+    <supports-screens android:xlargeScreens="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:anyDensity="true"/>
+
     <application android:label="@string/app_name" android:icon="@drawable/logo" android:theme="@style/DoubanTheme"
         android:name="com.douban.base.DoubanContext" >
 
@@ -45,6 +51,7 @@
         <activity android:label="关于" android:name=".AboutActivity" android:launchMode="singleInstance"/>
         <activity android:name="com.google.zxing.client.android.CaptureActivity"
             android:screenOrientation="landscape"
+            android:clearTaskOnLaunch="true"
             android:configChanges="orientation|keyboardHidden"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="stateAlwaysHidden">
