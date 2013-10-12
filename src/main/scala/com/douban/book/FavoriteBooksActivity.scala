@@ -68,6 +68,10 @@ class FavoriteBooksActivity extends DoubanActivity{
     }
   }
 
+  def viewBook(v:View){
+    startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_ID,v.find[TextView](R.id.book_id).getText.toString))
+  }
+
 }
 
 
@@ -108,10 +112,15 @@ class FavoriteBooksListFragment extends DoubanListFragment[DoubanActivity]{
       case _=>
     }
   }
-  }
 
-class CollectionItemAdapter(status:String,loader: (String,CollectionItemAdapter)=> Unit,mapping:Map[Int,Any]=Map( R.id.time->"updated",
-  R.id.bookTitle -> "book.title", R.id.bookAuthor -> List("book.author", "book.translator")))(implicit activity: DoubanActivity) extends ItemAdapter[Collection](R.layout.fav_books_item,mapping) {
+  override def onListItemClick(l: ListView, v: View, position: Int, id: Long) {
+    l.setItemChecked(position,true)
+    startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY,Some(adapter.getBean(position))))
+  }
+}
+
+class CollectionItemAdapter(status:String,loader: (String,CollectionItemAdapter)=> Unit,mapping:Map[Int,Any]=Map( R.id.time->"updated",R.id.book_id->"book.id",
+  R.id.bookTitle -> "book.title", R.id.bookAuthor -> List("book.author", "book.translator"),R.id.bookPublisher->"book.publisher"))(implicit activity: DoubanActivity) extends ItemAdapter[Collection](R.layout.fav_books_item,mapping) {
   var currentPage=0
   override def getView(position: Int, view: View, parent: ViewGroup): View = {
     super.getView(position, view, parent) match{
@@ -125,6 +134,8 @@ class CollectionItemAdapter(status:String,loader: (String,CollectionItemAdapter)
       case _=>null
     }
   }
+
+
 
   override protected def selfLoad(): Unit = loader(status,this)
 }
