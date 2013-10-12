@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea_modules/douban-book.iml" filepath="$PROJECT_DIR$/.idea_modules/douban-book.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea_modules/douban-book-build.iml" filepath="$PROJECT_DIR$/.idea_modules/douban-book-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libs/slidingMenu/library.iml" filepath="$PROJECT_DIR$/libs/slidingMenu/library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libs/zxing-android/zxing-android.iml" filepath="$PROJECT_DIR$/libs/zxing-android/zxing-android.iml" />
+    </modules>
+  </component>
+</project>
+

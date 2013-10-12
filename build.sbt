@@ -10,9 +10,9 @@ name := "douban-book"
 
 version := "2.1"
 
-scalaVersion := "2.10.3"
+scalaVersion := "2.10.2"
 
-platformTarget in Android := "android-14"
+platformTarget in Android := "android-18"
 
 //resolvers += "oss repo" at "https://oss.sonatype.org/content/repositories/releases/"
 
@@ -43,7 +43,9 @@ typedResources in Android :=false
 
 proguardCache in Android += ProguardCache("org.scaloid","com.douban.models","com.google")
 
-localProjects in Android += android.Dependencies.LibraryProject(file("library"))
+localProjects in Android += android.Dependencies.LibraryProject(file("libs/zxing-android")) 
+
+localProjects in Android += android.Dependencies.LibraryProject(file("libs/slidingMenu"))
 
 
 //collectResources in Android <<= (collectResources in Android dependsOn (compile in Compile in localProjects))
