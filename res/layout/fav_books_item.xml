@@ -38,7 +38,19 @@
             android:layout_height="match_parent"  >
             <TextView        android:layout_width="wrap_content"  android:gravity="left"
                 android:layout_height="match_parent"  android:visibility="gone" android:id="@+id/book_id"/>
-            <include layout="@layout/book_basic_info" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""  android:singleLine="true"  android:ellipsize="end"
+                style="@style/DoubanTextTitle.Black"
+                android:id="@+id/bookTitle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" android:singleLine="true" android:ellipsize="end"
+                style="@style/DoubanText"
+                android:id="@+id/bookAuthor" />
 
 
             <TextView
@@ -61,7 +73,7 @@
 
            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:maxLength="16"  android:ellipsize="none"
+                android:layout_height="wrap_content" android:maxLength="16"  android:ellipsize="marquee"
                 android:id="@+id/time"  android:text="2012-01-01 13:33:33"
                 android:gravity="center_vertical" />
         </LinearLayout>

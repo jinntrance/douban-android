@@ -36,7 +36,7 @@ package object book{
           val key = keyPre + e.getKey
           if (e.getValue.isJsonPrimitive) a + (key -> e.getValue.getAsString)
           else if (e.getValue.isJsonArray) a + (key -> e.getValue.getAsJsonArray.iterator().asScala.filter(_.isJsonPrimitive).map(_.getAsString).mkString(separator))
-          else if (e.getValue.isJsonObject) a ++ beanToMapHelper(e.getValue, key + "",separator)
+          else if (e.getValue.isJsonObject) a ++ beanToMapHelper(e.getValue, key + ".",separator)
           else a
         }
       }

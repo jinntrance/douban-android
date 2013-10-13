@@ -1,8 +1,11 @@
+import java.io.InputStream
 import sbt._
 
 import android.Keys._
 
-android.Plugin.androidBuild
+import android.Dependencies._
+
+android.Plugin.androidBuild ++ android.Plugin.androidBuildApklib
 
 organization := "com.douban"
 
@@ -11,6 +14,8 @@ name := "douban-book"
 version := "2.1"
 
 scalaVersion := "2.10.2"
+
+minSdkVersion in Android := 14
 
 platformTarget in Android := "android-18"
 
@@ -32,7 +37,6 @@ install <<= install in Android
 libraryDependencies ++= Seq(
 			"org.scaloid" % "scaloid_2.10" % "2.4-8",
 			"com.douban" % "scala-api_2.10" % "2.4.2" withSources(),
-			"com.google.zxing" % "core" % "2.2",
 			"com.google.android" % "support-v4" % "r7"
 			)
 
@@ -40,60 +44,15 @@ useProguard in Android := true
 
 typedResources in Android :=false
 
-proguardCache in Android += ProguardCache("org.scaloid","com.douban.models","com.google")
+proguardCache in Android ++=Seq(
+  ProguardCache("org.scaloid") % "org.scaloid",
+  ProguardCache("com.douban.models") % "com.douban",
+  ProguardCache("com.google") % "com.google",
+  ProguardCache("org.scaloid.support.v4"))
 
-localProjects in Android += android.Dependencies.LibraryProject(file("libs/zxing-android"))
+libraryProjects in Android += android.Dependencies.LibraryProject(file("libs/zxing-android"))
 
-localProjects in Android += android.Dependencies.LibraryProject(file("libs/slidingMenu"))
-
-
-collectResources in Android dependsOn (compile in Compile in localProjects)
-
-
-proguardOptions in Android :="""
--verbose
--printseeds target/keep.log
--printmapping target/obf.log
--optimizationpasses 5
--overloadaggressively
--optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
--repackageclasses
--allowaccessmodification
--mergeinterfacesaggressively
--assumenosideeffects class scala.Console
--assumenosideeffects class org.scaloid.common.WidgetFamily**
--assumenosideeffects class android.util.Log {public static boolean isLoggable(java.lang.String, int);public static int v(...); public static int i(...); public static int w(...); public static int d(...); public static int e(...);}
--dontpreverify
--dontskipnonpubliclibraryclasses
--dontskipnonpubliclibraryclassmembers
--keepclassmembers class * { ** MODULE$; }
--keepattributes *Annotation*
--keep class org.scaloid.common.SContext
--keep class org.scaloid.common.LoggerTag
--keep class android.support.v4.app.Fragment
--keep class scala.reflect.Manifest
--keep class scala.reflect.ClassTag
--keep class scala.collection.mutable.ArrayBuffer
--keep class scala.math.Ordering
--keep public class scala.Option
--keep public class scala.PartialFunction
--keep public class scala.Function0
--keep public class scala.Function1
--keep public class scala.Function2
--keep public class scala.Product
--keep public class scala.Tuple2
--keep public class scala.collection.GenSeq
--keep public class scala.collection.generic.CanBuildFrom
--keep public class scala.collection.SeqLike {public protected *;}
--keepclasseswithmembernames class * {native <methods>;}
--keepclasseswithmembers class * {public <init>(android.content.Context, android.util.AttributeSet);}
--keepclasseswithmembers class * {public <init>(android.content.Context, android.util.AttributeSet, int);}
--keepclassmembers class * extends android.app.Activity {   public void *(android.view.View);}
--keepclassmembers enum * {public static **[] values();public static ** valueOf(java.lang.String);}
--keep class * implements android.os.Parcelable {  public static final android.os.Parcelable$Creator *;}
--keep class * implements java.io.Serializable
--keepclassmembers class **.R$* {public static <fields>;}
-""".split('\n').toSeq
+libraryProjects in Android += android.Dependencies.LibraryProject(file("libs/slidingMenu"))
 
 proguardConfig in Android <<= baseDirectory map (b => IO.readLines(b/"proguard.cfg"))
 
