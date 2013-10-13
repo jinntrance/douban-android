@@ -25,13 +25,13 @@ class NotesActivity extends DoubanActivity {
   }
 
   lazy val bookId = getIntent.getLongExtra(Constant.BOOK_ID, 0)
-  def listFragment: NotesListFragment = new NotesListFragment()
+  lazy val listFragment: NotesListFragment = new NotesListFragment()
 
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     if (0 == bookId) finish()
     setContentView(R.layout.notes)
-    fragmentManager.beginTransaction().replace(R.id.notes_container,listFragment).commit()
+    fragmentManager.beginTransaction().replace(R.id.notes_container,listFragment)p8.commit()
   }
 
   override def onCreateOptionsMenu(menu: Menu) = {
@@ -142,7 +142,7 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
     val order = Map(R.id.rank -> "rank", R.id.collect -> "collect", R.id.page -> "page")
     v.getId match {
       case id: Int if rank!=order.getOrElse(id,"rank") => {
-        order.keys.foreach(i=>getThisActivity.toggleBackGround(i !=id,i,(R.color.black,R.color.black_light)))
+        runOnUiThread(order.keys.foreach(i=>getThisActivity.toggleBackGround(i !=id,i,(R.color.black,R.color.black_light))))
         currentPage = 1
         rank=order(id)
         search()
@@ -178,7 +178,8 @@ class NoteViewFragment extends DoubanFragment[NotesActivity]{
     val container: LinearLayout = getView.find[LinearLayout](R.id.note_content)
     container.addView(parse(a.content))
     a.photos.values().iterator().foreach(url=>container+=new SLinearLayout{
-//      SImageView().id()//TODO
+      val img=SImageView()
+      loadImage(url,img)
     })
   }
 
@@ -191,8 +192,8 @@ class NoteViewFragment extends DoubanFragment[NotesActivity]{
      val end=c.indexOf("</原文结束>")
      if(0!=start) layout+= new SLinearLayout{STextView(c.substring(0,start))}
      layout+= new SLinearLayout {
-       SImageView(R.drawable.add_note_context)
-       STextView(c.substring(start + 6, end))
+       SImageView(R.drawable.add_note_context).<<.wrap.>>
+       STextView(c.substring(start + 6, end)).<<.wrap.Weight(1.0f).>>
      }
      parse(c.substring(end+7),layout)
    }

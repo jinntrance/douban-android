@@ -55,8 +55,6 @@
             android:layout_margin="@dimen/margin_medium"
             android:textStyle="bold"
             android:textColor="@color/text_green" />
-
-
 </LinearLayout>
     </ScrollView>
 
