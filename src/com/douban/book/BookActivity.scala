@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.{TextView, LinearLayout}
 import com.douban.base.{DoubanFragment, DoubanActivity, Constant}
 import com.douban.models.{ReviewRating, Collection, Book}
-import android.app.{Activity, AlertDialog}
+import android.app.{ProgressDialog, Activity, AlertDialog}
 import android.view._
 import Constant._
 import scala.concurrent._
@@ -36,8 +36,9 @@ class BookActivity extends DoubanActivity {
         val isbn = extras.getString(Constant.ISBN)
         val bookId = extras.getString(Constant.BOOK_ID)
         val bk = extras.getSerializable(Constant.BOOK_KEY)
-        val sp=waitToLoad()
+        var sp:ProgressDialog=null
         if (null==bk) future{
+          sp=waitToLoad()
           if (null != isbn && !isbn.isEmpty) Some(Book.byISBN(isbn))
           else if (null!=bookId&&bookId.nonEmpty) Some(Book.byId(bookId.toLong))
           else None

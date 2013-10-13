@@ -12,6 +12,7 @@ import com.douban.common.Req
 import android.content.Context
 import android.view.View
 import android.widget.{Button, TextView}
+import scala.util
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -21,6 +22,10 @@ import android.widget.{Button, TextView}
  * @version 1.0
  */
 package object book{
+
+  implicit class Regex(sc: StringContext) {
+    def r = new util.matching.Regex(sc.parts.mkString, sc.parts.tail.map(_ => "x"): _*)
+  }
 
   implicit def javaList2Scala[T](l: java.util.List[T]): mutable.Buffer[T] = l.asScala
 
