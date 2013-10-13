@@ -32,9 +32,14 @@ class FavoriteBooksActivity extends DoubanActivity{
     th.addTab(th.newTabSpec("read").setIndicator("已读").setContent(R.id.read_container))
     th.setCurrentTab(1)
     val  listener= (parent: AdapterView[_], view: View, position: Int, id: Long)=> {
-      val c = parent.getAdapter.asInstanceOf[CollectionItemAdapter].getBean(position)
-      c.book.updateCollection(c)
-      startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY,Some(c.book)))
+      parent.getAdapter.asInstanceOf[CollectionItemAdapter].getBean(position) match {
+        case c:Collection=>{
+          val book=c.book
+          c.updateBook(null)
+          book.updateCollection(c)
+          startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY,Some(book)))
+        }
+      }
     }
     val readingAdapter = new CollectionItemAdapter("reading", load)
     find[ListView](R.id.reading) onItemClick listener setAdapter readingAdapter

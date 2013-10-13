@@ -18,8 +18,9 @@ import com.douban.models.Annotation
  * @version 1.0
  */
 class NotesActivity extends DoubanActivity {
-  def viewNote(a:Annotation){
-    fragmentManager.beginTransaction().replace(R.id.notes_container,new NoteViewFragment().addArguments(DBundle().put(Constant.ARG_POSITION,a)),Constant.ACTIVITY_NOTE_VIEW).addToBackStack(null).commit()
+  var listAdapter:NoteItemAdapter=null
+  def viewNote(pos:Int){
+    fragmentManager.beginTransaction().replace(R.id.notes_container,new NoteViewFragment().addArguments(DBundle().put(Constant.ARG_POSITION,pos)),Constant.ACTIVITY_NOTE_VIEW).addToBackStack(null).commit()
   }
 
   lazy val bookId = getIntent.getLongExtra(Constant.BOOK_ID, 0)
@@ -29,7 +30,7 @@ class NotesActivity extends DoubanActivity {
     super.onCreate(b)
     if (0 == bookId) finish()
     setContentView(R.layout.notes)
-    fragmentManager.beginTransaction().replace(R.id.notes_list_container,listFragment).commit()
+    fragmentManager.beginTransaction().replace(R.id.notes_container,listFragment).commit()
     slidingMenu
   }
 
@@ -69,6 +70,12 @@ class NotesActivity extends DoubanActivity {
     case l:NotesListFragment=>l.addNote()
     case _=>
   }
+  def viewPreviousNote(m:MenuItem){
+       //TODO
+  }
+  def viewNextNote(m:MenuItem){
+       //TODO
+  }
 }
 
 class NotesListFragment extends DoubanListFragment[NotesActivity] {
@@ -80,9 +87,15 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
   var bookPage = ""
   lazy val adapter:NoteItemAdapter=new NoteItemAdapter(mapping,search())
 
+
+  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = {
+    inflater.inflate(R.layout.notes_list,container,false)
+  }
+
   override def onActivityCreated(b: Bundle){
     super.onActivityCreated(b)
     setListAdapter(adapter)
+    getThisActivity.listAdapter=adapter
     getListView.setDivider(getResources.getDrawable(R.drawable.divider))
     getListView.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS)
     search()
@@ -139,32 +152,28 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
 
   override def onListItemClick(l: ListView, v: View, position: Int, id: Long){
     l.setItemChecked(position, true)
-    getThisActivity.viewNote(adapter.getBean(position))
-  }
-
-  class NoteItemAdapter(mapping:Map[Int,Any],load: => Unit)(implicit ctx: DoubanActivity) extends ItemAdapter[Annotation](R.layout.notes_item,mapping,load=load) {
-    override def getView(position: Int, view: View, parent: ViewGroup): View = {
-      val convertView = super.getView(position,view,parent)
-      getItem(position).getOrElse("page_no","") match {
-        case "" =>
-        case _=>hideWhen(R.id.chapter_name,true,convertView)
-      }
-      convertView
-    }
+    getThisActivity.viewNote(position)
   }
 }
 
 class NoteViewFragment extends DoubanFragment[NotesActivity]{
+  var currentOffset=0
+  var count=0
   lazy val mapping=NotesActivity.mapping++Map(R.id.user_avatar->("author_user.avatar",("author_user.name",getString(R.string.load_img_fail))))
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = inflater.inflate(R.layout.note_view,container,false)
 
   override def onActivityCreated(b: Bundle){
     super.onActivityCreated(b)
-    getArguments.getSerializable(Constant.ARG_POSITION) match {
-      case n:Annotation=> batchSetValues(mapping,beanToMap(n),getView)
-      case _=>
-    }
+    count=getThisActivity.listAdapter.getCount
+    display(getArguments.getInt(Constant.ARG_POSITION))
   }
+
+  def display(position:Int){
+    currentOffset=position % count
+    batchSetValues(mapping,getThisActivity.listAdapter.getItem(currentOffset),getView)
+  }
+  def displayPrevious()=display(count+currentOffset-1)
+  def displayNext()=display(currentOffset+1)
 }
 
 object NotesActivity{
@@ -172,3 +181,13 @@ object NotesActivity{
   val mapping=Map(page_num->("page_no","P%s"),chapter_name->"chapter",note_time->"time",username->"author_user.name",note_content->"content")
 }
 
+class NoteItemAdapter(mapping:Map[Int,Any],load: => Unit)(implicit ctx: DoubanActivity) extends ItemAdapter[Annotation](R.layout.notes_item,mapping,load=load) {
+  override def getView(position: Int, view: View, parent: ViewGroup): View = {
+    val convertView = super.getView(position,view,parent)
+    getItem(position).getOrElse("page_no","") match {
+      case "" =>
+      case _=>ctx.hideWhen(R.id.chapter_name,true,convertView)
+    }
+    convertView
+  }
+}

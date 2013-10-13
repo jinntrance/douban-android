@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
-    android:layout_width="fill_parent"  android:descendantFocusability="blocksDescendants"   android:clickable="true"
+    android:layout_width="fill_parent"  android:descendantFocusability="blocksDescendants"
     android:layout_height="wrap_content" android:orientation="vertical"  android:layout_margin="@dimen/margin_medium"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -78,6 +78,6 @@
         </RelativeLayout>
 
     </LinearLayout>
-    <include layout="@layout/divider" android:layout_marginTop="@dimen/margin_medium" android:layout_marginBottom="@dimen/margin_medium"/>
+    <!--<include layout="@layout/divider" android:layout_marginTop="@dimen/margin_medium" android:layout_marginBottom="@dimen/margin_medium"/>-->
 
 </LinearLayout>
