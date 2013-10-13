@@ -31,7 +31,6 @@ class NotesActivity extends DoubanActivity {
     if (0 == bookId) finish()
     setContentView(R.layout.notes)
     fragmentManager.beginTransaction().replace(R.id.notes_container,listFragment).commit()
-    slidingMenu
   }
 
   override def onCreateOptionsMenu(menu: Menu) = {
@@ -98,6 +97,7 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
     getThisActivity.listAdapter=adapter
     getListView.setDivider(getResources.getDrawable(R.drawable.divider))
     getListView.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS)
+    getThisActivity.getActionBar.setDisplayShowCustomEnabled(false)
     search()
   }
 
@@ -165,7 +165,9 @@ class NoteViewFragment extends DoubanFragment[NotesActivity]{
   override def onActivityCreated(b: Bundle){
     super.onActivityCreated(b)
     count=getThisActivity.listAdapter.getCount
-    display(getArguments.getInt(Constant.ARG_POSITION))
+    val pos: Int = getArguments.getInt(Constant.ARG_POSITION)
+    getThisActivity.replaceActionBar(R.layout.header_note,getThisActivity.listAdapter.getBean(pos).book.title)
+    display(pos)
   }
 
   def display(position:Int){
