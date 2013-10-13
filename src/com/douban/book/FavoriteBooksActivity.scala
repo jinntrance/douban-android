@@ -4,12 +4,10 @@ import com.douban.base._
 import android.view.{View, ViewGroup, LayoutInflater}
 import android.os.Bundle
 import scala.concurrent._
-import com.douban.models.{Collection, CollectionSearchResult, CollectionSearch, Book}
-import scala.util.Success
+import com.douban.models.Book
 import  ExecutionContext.Implicits.global
 import org.scaloid.common._
 import android.widget.{TabHost, ListView, TextView}
-import com.douban.base.DBundle
 import com.douban.models.CollectionSearchResult
 import com.douban.models.CollectionSearch
 import scala.util.Success
@@ -118,8 +116,7 @@ class FavoriteBooksListFragment extends DoubanListFragment[DoubanActivity]{
   }
 }
 
-class CollectionItemAdapter(status:String,loader: (String,CollectionItemAdapter)=> Unit,mapping:Map[Int,Any]=Map( R.id.time->"updated",R.id.book_id->"book.id",
-  R.id.bookTitle -> "book.title", R.id.bookAuthor -> List("book.author", "book.translator"),R.id.bookPublisher->"book.publisher"))(implicit activity: DoubanActivity) extends ItemAdapter[Collection](R.layout.fav_books_item,mapping) {
+class CollectionItemAdapter(status:String,loader: (String,CollectionItemAdapter)=> Unit,mapping:Map[Int,Any]=Map(R.id.time->"updated", R.id.bookTitle -> "book.title", R.id.bookAuthor -> List("book.author", "book.translator"),R.id.bookPublisher->"book.publisher",R.id.book_id->"book_id"))(implicit activity: DoubanActivity) extends ItemAdapter[Collection](R.layout.fav_books_item,mapping) {
   var currentPage=0
   override def getView(position: Int, view: View, parent: ViewGroup): View = {
     super.getView(position, view, parent) match{
