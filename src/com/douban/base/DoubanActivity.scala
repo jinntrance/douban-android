@@ -31,6 +31,7 @@ import scala.util.Success
 import com.douban.common.AccessTokenResult
 import android.view.inputmethod.InputMethodManager
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu
+import scala.reflect.ClassTag
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -305,10 +306,10 @@ trait DoubanActivity extends SFragmentActivity with Douban {
       val userId: Long = getThisActivity.currentUserId
       lazy val user=User.byId(userId)
       future {
-        val u=getOrElse[String](Constant.USERNAME,user.name)
-        val a=getOrElse[String](Constant.AVATAR,user.avatar)
-        val c=getOrElse[Int](Constant.COLLE_NUM,Book.collectionsOfUser(userId).total)
-        val n=getOrElse[Int](Constant.NOTES_NUM,Book.annotationsOfUser(userId.toString).total)
+        val u=getOrElse(Constant.USERNAME,user.name)
+        val a=getOrElse(Constant.AVATAR,user.large_avatar)
+        val c=getOrElse(Constant.COLLE_NUM,Book.collectionsOfUser(userId).total).toInt
+        val n=getOrElse(Constant.NOTES_NUM,Book.annotationsOfUser(userId.toString).total).toInt
         (u,a,c,n)
       } onComplete{
         case Success((username,a,c,n))=>runOnUiThread{
@@ -320,6 +321,10 @@ trait DoubanActivity extends SFragmentActivity with Douban {
           put(Constant.USERNAME,username)
           put(Constant.COLLE_NUM,c)
           put(Constant.NOTES_NUM,n)
+        }
+        case Failure(e)=>{
+          warn("can not login")
+          e.printStackTrace()
         }
         case _=>
       }
@@ -372,9 +377,9 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   }
 
   def get(key: String): String = defaultSharedPreferences.getString(key,null)
-  def getOrElse[T](key: String,alt: =>T): T = defaultSharedPreferences.getAll.get(key) match{
-    case v:T=>v
-    case _=>alt
+  def getOrElse(key: String,alt: =>Any):String = defaultSharedPreferences.getAll.get(key) match{
+    case v:String=>v
+    case _=>alt.toString
   }
 
   @inline def contains(key: String): Boolean = defaultSharedPreferences.contains(key) && get(key).nonEmpty

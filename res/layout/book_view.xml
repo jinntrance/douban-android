@@ -50,7 +50,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="民主的细节"  android:singleLine="true" android:ellipsize="end"
+                            android:text=""  android:singleLine="true" android:ellipsize="end"
                             style="@style/DoubanTextTitle.Black"
                             android:id="@+id/bookTitle" />
 
@@ -66,7 +66,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="美国当代政治观察随笔"  android:singleLine="true" android:ellipsize="end" style="@style/DoubanText"
+                                android:text=""  android:singleLine="true" android:ellipsize="end" style="@style/DoubanText"
                                 android:id="@+id/bookSubtitle" />
                         </LinearLayout>
 
@@ -78,21 +78,9 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="刘瑜"  android:ellipsize="end"
+                                android:text=""  android:ellipsize="end"
                                 style="@style/DoubanText.Prefix"
                                 android:id="@+id/bookAuthor" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="/"
-                                style="@style/DoubanText.Root"
-                                android:visibility="gone" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"  android:ellipsize="end"
-                                android:text=""   android:id="@+id/bookTranslators"
-                                style="@style/DoubanText.Suffix"/>
-
 
                         </LinearLayout>
 
@@ -109,7 +97,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="上海三联书店"
+                                android:text=""
                                 style="@style/DoubanText"
                                 android:id="@+id/bookPublisher"
                                 android:layout_marginRight="@dimen/margin_medium" />
@@ -128,7 +116,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="500"
+                            android:text=""
                             style="@style/DoubanText.Suffix"
                             android:id="@+id/bookPages" />
                             </LinearLayout>
@@ -145,7 +133,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="$192"
+                            android:text=""
                             style="@style/DoubanText.Suffix"
                             android:id="@+id/bookPrice" />
 
@@ -228,7 +216,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="觉着刘瑜就是把那种大道理讲成生活中的小事儿那种人，也就是她说的民主是融进柴米油盐的。这样的民主，很具体很易吸收。」"
+                        android:text=""
                         android:id="@+id/comment"   android:layout_weight="1"
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/margin_micro" />

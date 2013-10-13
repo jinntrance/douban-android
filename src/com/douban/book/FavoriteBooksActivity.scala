@@ -1,14 +1,25 @@
 package com.douban.book
 
 import com.douban.base._
-import android.view.{View, ViewGroup, LayoutInflater}
+import android.view._
 import android.os.Bundle
 import scala.concurrent._
 import com.douban.models.Book
 import  ExecutionContext.Implicits.global
 import org.scaloid.common._
-import android.widget.{TabHost, ListView, TextView}
+import android.widget._
 import com.douban.models.CollectionSearchResult
+import com.douban.models.CollectionSearch
+import scala.util.Success
+import com.douban.models.Collection
+import com.douban.models.CollectionSearchResult
+import scala.Some
+import com.douban.models.CollectionSearch
+import scala.util.Success
+import com.douban.models.Collection
+import android.content.Context
+import com.douban.models.CollectionSearchResult
+import scala.Some
 import com.douban.models.CollectionSearch
 import scala.util.Success
 import com.douban.models.Collection
@@ -30,14 +41,17 @@ class FavoriteBooksActivity extends DoubanActivity{
     th.addTab(th.newTabSpec("reading").setIndicator("在读").setContent(R.id.reading_container))
     th.addTab(th.newTabSpec("read").setIndicator("已读").setContent(R.id.read_container))
     th.setCurrentTab(1)
-    val readingAdapter: CollectionItemAdapter = new CollectionItemAdapter("reading", load)
-    find[ListView](R.id.reading).setAdapter(readingAdapter)
+    val  listener= (parent: AdapterView[_], view: View, position: Int, id: Long)=> {
+        startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY,Some(parent.getAdapter.asInstanceOf[CollectionItemAdapter].getBean(position).book)))
+    }
+    val readingAdapter = new CollectionItemAdapter("reading", load)
+    find[ListView](R.id.reading) onItemClick listener setAdapter readingAdapter
     load("reading",readingAdapter)
-    val wishAdapter: CollectionItemAdapter = new CollectionItemAdapter("wish", load)
-    find[ListView](R.id.wish).setAdapter(wishAdapter)
+    val wishAdapter = new CollectionItemAdapter("wish", load)
+    find[ListView](R.id.wish) onItemClick listener  setAdapter wishAdapter
     load("wish",wishAdapter)
-    val readAdapter: CollectionItemAdapter = new CollectionItemAdapter("read", load)
-    find[ListView](R.id.read).setAdapter(readAdapter)
+    val readAdapter = new CollectionItemAdapter("read", load)
+    find[ListView](R.id.read) onItemClick listener  setAdapter readAdapter
     load("read",readAdapter)
   }
 
@@ -45,7 +59,7 @@ class FavoriteBooksActivity extends DoubanActivity{
     fragmentManager.beginTransaction().replace(R.id.fav_books_container,new FavoriteBooksListFragment,Constant.FRAGMENT_FAV_BOOKS).addToBackStack(null).commit()
   }
 
-  def submitFilter(v:View){
+  def submitFilter(m:MenuItem){
     fragmentManager.findFragmentByTag(Constant.FRAGMENT_FAV_BOOKS) match{
       case f:FavoriteBooksListFragment=>f.submitFilter()
       case _=>
@@ -67,6 +81,11 @@ class FavoriteBooksActivity extends DoubanActivity{
 
   def viewBook(v:View){
     startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_ID,v.find[TextView](R.id.book_id).getText.toString))
+  }
+
+  override def onCreateOptionsMenu(menu: Menu) = {
+    getMenuInflater.inflate(R.menu.filter, menu)
+    super.onCreateOptionsMenu(menu)
   }
 
 }
@@ -123,8 +142,8 @@ class CollectionItemAdapter(status:String,loader: (String,CollectionItemAdapter)
       case  v:View=>{
         val c: Collection = getBean(position)
         activity.loadImageWithTitle(c.book.image, R.id.book_img, c.book.title, v)
-        activity.setViewValue(R.id.recommend,SearchResult.getStar(c.rating))
-        activity.setViewValue(R.id.tags_txt,c.tags.mkString(" "))
+        activity.setViewValue(R.id.recommend,SearchResult.getStar(c.rating),v)
+        activity.setViewValue(R.id.tags_txt,c.tags.mkString(" "),v)
         v
       }
       case _=>null

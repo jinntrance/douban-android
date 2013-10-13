@@ -9,14 +9,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="不要和鲨鱼接吻,但要和勇敢一起睡觉"  android:singleLine="true"  android:ellipsize="end"
+        android:text="Title"  android:singleLine="true"  android:ellipsize="end"
         style="@style/DoubanTextTitle.Black"
         android:id="@+id/bookTitle" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="诺艾儿·汉考克 ,诺艾儿·汉考克 ,诺艾儿·汉考克" android:singleLine="true" android:ellipsize="end"
+        android:text="Authors" android:singleLine="true" android:ellipsize="end"
         style="@style/DoubanText"
         android:id="@+id/bookAuthor" />
 
