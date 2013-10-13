@@ -9,6 +9,7 @@ import org.scaloid.common._
 import com.douban.base.DBundle
 import com.douban.models.AnnotationSearch
 import com.douban.models.Annotation
+import scala.annotation.tailrec
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -172,8 +173,31 @@ class NoteViewFragment extends DoubanFragment[NotesActivity]{
 
   def display(position:Int){
     currentOffset=position % count
+    val a= getThisActivity.listAdapter.getBean(currentOffset)
     batchSetValues(mapping,getThisActivity.listAdapter.getItem(currentOffset),getView)
+    val container: LinearLayout = getView.find[LinearLayout](R.id.note_content)
+    container.addView(parse(a.content))
+    a.photos.values().iterator().foreach(url=>container+=new SLinearLayout{
+//      SImageView().id()//TODO
+    })
   }
+
+  @tailrec
+  private def parse(c:String,layout:SLinearLayout=new SVerticalLayout{}):SLinearLayout={
+   val start=c.indexOf("<原文开始>")
+   if(-1 ==start) {
+     layout+= new SLinearLayout{STextView(c)}
+   }else{
+     val end=c.indexOf("</原文结束>")
+     if(0!=start) layout+= new SLinearLayout{STextView(c.substring(0,start))}
+     layout+= new SLinearLayout {
+       SImageView(R.drawable.add_note_context)
+       STextView(c.substring(start + 6, end))
+     }
+     parse(c.substring(end+7),layout)
+   }
+  }
+
   def displayPrevious()=display(count+currentOffset-1)
   def displayNext()=display(currentOffset+1)
 }

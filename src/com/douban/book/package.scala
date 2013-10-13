@@ -24,6 +24,8 @@ package object book{
 
   implicit def javaList2Scala[T](l: java.util.List[T]): mutable.Buffer[T] = l.asScala
 
+  implicit def javaIterator2Scala[T](l: java.util.Iterator[T]) = l.asScala
+
   implicit def scalaList2java[T](l: scala.List[T]): java.util.List[T] = l.asJava
 
   implicit def scalaBuffer2java[T](l: mutable.Buffer[T]): java.util.List[T] = l.asJava

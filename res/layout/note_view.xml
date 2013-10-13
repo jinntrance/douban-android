@@ -6,7 +6,7 @@
     android:id="@+id/scrollView"
    >
 <LinearLayout  android:orientation="vertical"
-    android:layout_width="match_parent" android:layout_height="match_parent"  android:layout_margin="@dimen/margin_medium">
+    android:layout_width="match_parent" android:layout_height="match_parent"  android:layout_margin="@dimen/margin_medium" android:id="@+id/note_content">
 
 
         <RelativeLayout
@@ -56,34 +56,7 @@
             android:textStyle="bold"
             android:textColor="@color/text_green" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"  android:textColor="@color/text_black"
-            android:text="其實每每選擇自己不完全知道的，才能進步，也才能有一定的把握做成功。 一個人要追求這樣的生活狀態，就是你永遠做不知道該怎麼做的事情，在努力地去探索着，這個時候你的東西才是真正有活力。"
-            android:id="@+id/note_content"
-            android:layout_marginLeft="@dimen/margin_medium"
-            android:layout_marginRight="@dimen/margin_medium" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_medium">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView"
-                android:layout_gravity="center_vertical|left|top"
-                android:src="@drawable/add_note_context"
-                android:layout_marginLeft="@dimen/margin_medium" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="一個人要追求這樣的生活狀態，就是你永遠做不知道該怎麼做的事情，在努力地去探索着，這個時候你的東西才是真正有活力。"
-                android:id="@+id/text_quotes"
-                android:layout_weight="1" />
-        </LinearLayout>
 </LinearLayout>
     </ScrollView>
 
