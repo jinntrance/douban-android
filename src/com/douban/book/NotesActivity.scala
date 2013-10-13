@@ -10,6 +10,10 @@ import com.douban.base.DBundle
 import com.douban.models.AnnotationSearch
 import com.douban.models.Annotation
 import scala.annotation.tailrec
+import com.douban.base.DBundle
+import com.douban.models.AnnotationSearch
+import com.douban.models.AnnotationSearchResult
+import com.douban.models.Annotation
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -31,7 +35,7 @@ class NotesActivity extends DoubanActivity {
     super.onCreate(b)
     if (0 == bookId) finish()
     setContentView(R.layout.notes)
-    fragmentManager.beginTransaction().replace(R.id.notes_container,listFragment)p8.commit()
+    fragmentManager.beginTransaction().replace(R.id.notes_container,listFragment).commit()
   }
 
   override def onCreateOptionsMenu(menu: Menu) = {
@@ -172,6 +176,7 @@ class NoteViewFragment extends DoubanFragment[NotesActivity]{
   }
 
   def display(position:Int){
+
     currentOffset=position % count
     val a= getThisActivity.listAdapter.getBean(currentOffset)
     batchSetValues(mapping,getThisActivity.listAdapter.getItem(currentOffset),getView)
@@ -181,23 +186,31 @@ class NoteViewFragment extends DoubanFragment[NotesActivity]{
       val img=SImageView()
       loadImage(url,img)
     })
+
+    def parse(c:String,layout:SLinearLayout=new SVerticalLayout{}):SLinearLayout={
+      c match{
+        case r"([\s\S]*?)${pre}<原文开始>([\s\S]+?)${txt}</原文结束>([\s\S]*)${suffix}"=>{
+          parse(pre,layout)
+          layout+= new SLinearLayout {
+            SImageView(R.drawable.add_note_context).<<.wrap.>>
+            STextView(txt).<<.wrap.Weight(1.0f).>>
+          }
+          parse(suffix,layout)
+        }
+        case r"([\s\S]*?)${pre}<图片(\d+)${imgUrl}>([\s\S]*)${suffix}"=>{
+          parse(pre,layout)
+          layout += new SLinearLayout{
+            val img=SImageView()
+            loadImage(a.photos.get(imgUrl),img)
+          }
+          parse(suffix,layout)
+        }
+        case ""=> layout
+        case txt=> layout+= new SLinearLayout{STextView(txt)}
+      }
+    }
   }
 
-  @tailrec
-  private def parse(c:String,layout:SLinearLayout=new SVerticalLayout{}):SLinearLayout={
-   val start=c.indexOf("<原文开始>")
-   if(-1 ==start) {
-     layout+= new SLinearLayout{STextView(c)}
-   }else{
-     val end=c.indexOf("</原文结束>")
-     if(0!=start) layout+= new SLinearLayout{STextView(c.substring(0,start))}
-     layout+= new SLinearLayout {
-       SImageView(R.drawable.add_note_context).<<.wrap.>>
-       STextView(c.substring(start + 6, end)).<<.wrap.Weight(1.0f).>>
-     }
-     parse(c.substring(end+7),layout)
-   }
-  }
 
   def displayPrevious()=display(count+currentOffset-1)
   def displayNext()=display(currentOffset+1)
