@@ -9,16 +9,6 @@ import  ExecutionContext.Implicits.global
 import org.scaloid.common._
 import android.widget._
 import com.douban.models.CollectionSearchResult
-import com.douban.models.CollectionSearch
-import scala.util.Success
-import com.douban.models.Collection
-import com.douban.models.CollectionSearchResult
-import scala.Some
-import com.douban.models.CollectionSearch
-import scala.util.Success
-import com.douban.models.Collection
-import android.content.Context
-import com.douban.models.CollectionSearchResult
 import scala.Some
 import com.douban.models.CollectionSearch
 import scala.util.Success
@@ -42,7 +32,9 @@ class FavoriteBooksActivity extends DoubanActivity{
     th.addTab(th.newTabSpec("read").setIndicator("已读").setContent(R.id.read_container))
     th.setCurrentTab(1)
     val  listener= (parent: AdapterView[_], view: View, position: Int, id: Long)=> {
-        startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY,Some(parent.getAdapter.asInstanceOf[CollectionItemAdapter].getBean(position).book)))
+      val c = parent.getAdapter.asInstanceOf[CollectionItemAdapter].getBean(position)
+      c.book.updateCollection(c)
+      startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY,Some(c.book)))
     }
     val readingAdapter = new CollectionItemAdapter("reading", load)
     find[ListView](R.id.reading) onItemClick listener setAdapter readingAdapter
@@ -77,10 +69,6 @@ class FavoriteBooksActivity extends DoubanActivity{
       }
       case _=>
     }
-  }
-
-  def viewBook(v:View){
-    startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_ID,v.find[TextView](R.id.book_id).getText.toString))
   }
 
   override def onCreateOptionsMenu(menu: Menu) = {
@@ -135,7 +123,8 @@ class FavoriteBooksListFragment extends DoubanListFragment[DoubanActivity]{
   }
 }
 
-class CollectionItemAdapter(status:String,loader: (String,CollectionItemAdapter)=> Unit,mapping:Map[Int,Any]=Map(R.id.time->"updated", R.id.bookTitle -> "book.title", R.id.bookAuthor -> List("book.author", "book.translator"),R.id.bookPublisher->"book.publisher",R.id.book_id->"book_id"))(implicit activity: DoubanActivity) extends ItemAdapter[Collection](R.layout.fav_books_item,mapping) {
+class CollectionItemAdapter(status:String,loader: (String,CollectionItemAdapter)=> Unit,mapping:Map[Int,Any]=Map(R.id.time->"updated", R.id.bookTitle -> "book.title", R.id.bookAuthor -> List("book.author", "book.translator"),R.id.bookPublisher->"book.publisher"))(implicit activity: DoubanActivity)
+  extends ItemAdapter[Collection](R.layout.fav_books_item,mapping) {
   var currentPage=0
   override def getView(position: Int, view: View, parent: ViewGroup): View = {
     super.getView(position, view, parent) match{
