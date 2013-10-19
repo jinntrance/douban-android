@@ -77,4 +77,5 @@
     <string name="more_books_loaded">加载了%1$d本书</string>
     <string name="more_loaded_finished">加载完成</string>
     <string name="more_notes_loaded">加载了%1$d条笔记</string>
+    <string name="cancel">返回</string>
 </resources>

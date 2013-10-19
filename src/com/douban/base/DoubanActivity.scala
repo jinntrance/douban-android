@@ -2,7 +2,7 @@ package com.douban.base
 
 import android.content
 import android.net.ConnectivityManager
-import android.view.{WindowManager, ViewGroup, View, MenuItem}
+import android.view._
 import com.douban.book._
 import com.douban.common._
 import java.lang.Thread.UncaughtExceptionHandler
@@ -23,7 +23,7 @@ import scala.language.reflectiveCalls
 import android.os.Bundle
 import org.scaloid.support.v4.{SFragment, SListFragment, SFragmentActivity}
 import android.support.v4.app.Fragment
-import android.app.{ProgressDialog, ActionBar}
+import android.app.{AlertDialog, ProgressDialog, ActionBar}
 import com.douban.models.{Book, User}
 import scala.util.Failure
 import org.scaloid.common.LoggerTag
@@ -32,6 +32,11 @@ import com.douban.common.AccessTokenResult
 import android.view.inputmethod.InputMethodManager
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu
 import scala.reflect.ClassTag
+import scala.util.Failure
+import org.scaloid.common.LoggerTag
+import scala.util.Success
+import com.douban.common.AccessTokenResult
+import android.R.layout
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -411,6 +416,26 @@ trait DoubanActivity extends SFragmentActivity with Douban {
       case R.id.menu_mynote =>if(! getThisActivity.isInstanceOf[MyNoteActivity] )startActivity(SIntent[MyNoteActivity]) else slidingMenu.toggle()
       case R.id.menu_favbooks =>if(! getThisActivity.isInstanceOf[FavoriteBooksActivity])startActivity(SIntent[FavoriteBooksActivity]) else slidingMenu.toggle()
       case R.id.menu_settings =>if(! getThisActivity.isInstanceOf[SettingsActivity]) startActivity(SIntent[SettingsActivity]) else slidingMenu.toggle()
+      case _=>
+    }
+  }
+
+  def popup(v:View)={
+    v match {
+      case img:ImageView=>{
+        val imageDialog = new AlertDialog.Builder(this)
+        val layout = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE).asInstanceOf[LayoutInflater].inflate(R.layout.image_popup,getWindow.getDecorView.findViewById(android.R.id.content).asInstanceOf[ViewGroup])
+        layout.find[ImageView](R.id.image_popup).setImageDrawable(img.getDrawable)
+        imageDialog.setView(layout)
+
+        imageDialog.setPositiveButton(getString(R.string.cancel), new DialogInterface.OnClickListener(){
+          def onClick( dialog:DialogInterface,which:Int) {
+            dialog.dismiss()
+          }
+        })
+        imageDialog.create()
+        imageDialog.show()
+      }
       case _=>
     }
   }

@@ -5,9 +5,4 @@
     android:id="@+id/add_note_container"
     android:measureWithLargestChild="false">
 
-    <fragment
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:name="com.douban.book.AddChapterFragment"
-        android:id="@+id/fragment" />
 </LinearLayout>
