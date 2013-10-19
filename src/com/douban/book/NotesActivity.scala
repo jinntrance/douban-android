@@ -182,10 +182,6 @@ class NoteViewFragment extends DoubanFragment[NotesActivity]{
     batchSetValues(mapping,getThisActivity.listAdapter.getItem(currentOffset),getView)
     val container: LinearLayout = getView.find[LinearLayout](R.id.note_content)
     container.addView(parse(a.content))
-    a.photos.values().iterator().foreach(url=>container+=new SLinearLayout{
-      val img=SImageView()
-      loadImage(url,img)
-    })
 
     def parse(c:String,layout:SLinearLayout=new SVerticalLayout{}):SLinearLayout={
       c match{

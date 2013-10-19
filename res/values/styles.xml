@@ -119,11 +119,12 @@
     <style name="DoubanActionBar.Title" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/text_white</item>
     </style>
-    <style name="DoubanRatingBar" parent="@android:style/Widget.Holo.Light.RatingBar.Small">
-        <item name="android:minHeight">20dp</item>
-        <item name="android:maxHeight">20dp</item>
+    <style name="DoubanRatingBar" parent="@android:style/Widget.Holo.Light.RatingBar">
+        <item name="android:minHeight">@dimen/ratingbar_height</item>
+        <item name="android:maxHeight">@dimen/ratingbar_height</item>
         <item name="android:progressDrawable">@drawable/rating_bar</item>
         <item name="android:indeterminateDrawable">@drawable/rating_bar</item>
+        <item name="android:isIndicator">false</item>
     </style>
     <style name="DoubanActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:titleTextStyle">@style/DoubanActionBar.Title</item>
