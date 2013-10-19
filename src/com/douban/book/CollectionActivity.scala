@@ -137,7 +137,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
 
   def submit(v: View) {
     val tags = getThisActivity.tags
-    val p = CollectionPosted(status, tags, getView.find[EditText](R.id.comment).getText.toString.trim, getView.find[RatingBar](R.id.rating).getNumStars, privacy = if (public) "public" else "private")
+    val p = CollectionPosted(status, tags, getView.find[EditText](R.id.comment).getText.toString.trim, getView.find[RatingBar](R.id.rating).getRating.toInt, privacy = if (public) "public" else "private")
     future{
       if(updateable)  Book.updateCollection(getThisActivity.book.get.id,p)
       else Book.postCollection(getThisActivity.book.get.id, p)
