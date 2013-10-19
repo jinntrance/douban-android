@@ -29,6 +29,7 @@ class AddNoteActivity extends DoubanActivity {
   override def onCreate(b: Bundle){
     super.onCreate(b)
     setContentView(R.layout.add_note_container)
+    fragmentManager.beginTransaction().replace(R.id.add_note_container,new AddNoteFragment).commit()
   }
 
   def submit(v:View){
