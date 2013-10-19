@@ -29,7 +29,14 @@ class AddNoteActivity extends DoubanActivity {
   override def onCreate(b: Bundle){
     super.onCreate(b)
     setContentView(R.layout.add_note_container)
-    fragmentManager.beginTransaction().replace(R.id.add_note_container,new AddNoteFragment).commit()
+    getIntent.getExtras.getString(Constant.BOOK_PAGE) match{
+      case p:String if p.nonEmpty => {
+        bookPage=p
+        fragmentManager.beginTransaction().replace(R.id.add_note_container,new AddNoteFragment).commit()
+      }
+      case _=> editChapter(null)
+    }
+
   }
 
   def submit(v:View){

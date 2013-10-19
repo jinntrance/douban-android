@@ -149,7 +149,7 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
         runOnUiThread(order.keys.foreach(i=>getThisActivity.toggleBackGround(i !=id,i,(R.color.black,R.color.black_light))))
         currentPage = 1
         rank=order(id)
-        search()
+        search(page=1)
       }
       case _=>
     }
