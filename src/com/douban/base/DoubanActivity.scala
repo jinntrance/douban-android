@@ -23,7 +23,7 @@ import scala.language.reflectiveCalls
 import android.os.Bundle
 import org.scaloid.support.v4.{SFragment, SListFragment, SFragmentActivity}
 import android.support.v4.app.Fragment
-import android.app.{AlertDialog, ProgressDialog, ActionBar}
+import android.app.{Dialog, AlertDialog, ProgressDialog, ActionBar}
 import com.douban.models.{Book, User}
 import scala.util.Failure
 import org.scaloid.common.LoggerTag
@@ -423,17 +423,12 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   def popup(v:View)={
     v match {
       case img:ImageView=>{
-        val imageDialog = new AlertDialog.Builder(this)
-        val layout = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE).asInstanceOf[LayoutInflater].inflate(R.layout.image_popup,getWindow.getDecorView.findViewById(android.R.id.content).asInstanceOf[ViewGroup])
+        val imageDialog = new Dialog(this)
+        imageDialog.getWindow.requestFeature(Window.FEATURE_NO_TITLE)
+        val layout = getLayoutInflater.inflate(R.layout.image_popup,null)
         layout.find[ImageView](R.id.image_popup).setImageDrawable(img.getDrawable)
-        imageDialog.setView(layout)
-
-        imageDialog.setPositiveButton(getString(R.string.cancel), new DialogInterface.OnClickListener(){
-          def onClick( dialog:DialogInterface,which:Int) {
-            dialog.dismiss()
-          }
-        })
-        imageDialog.create()
+        imageDialog.setContentView(layout)
+        imageDialog.setCancelable(true)
         imageDialog.show()
       }
       case _=>
