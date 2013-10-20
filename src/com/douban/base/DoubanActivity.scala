@@ -60,9 +60,9 @@ trait Douban {
 
   def getThisActivity: DoubanActivity
 
-  def setViewValue[T <: V](id: Int, value: String, holder: T = rootView, notification: String = "") {
+  def setViewValue[T <: V](id: Int, value: String, holder: T = rootView, notification: String = "",hideEmpty:Boolean=true) {
     value.trim match {
-      case "" => holder.findViewById(id) match {
+      case "" if hideEmpty => holder.findViewById(id) match {
         case view: View => view.setVisibility(View.GONE)
         case _ =>
       }
@@ -207,7 +207,7 @@ trait Douban {
 
   def waitToLoad(cancel: => Unit = {})(implicit ctx: Context) = if(isOnline){
     val _sp = spinnerDialog("", ctx.getString(R.string.loading))
-    _sp.getWindow.requestFeature(Window.FEATURE_NO_TITLE)
+//    _sp.getWindow.requestFeature(Window.FEATURE_NO_TITLE)
     _sp.setCanceledOnTouchOutside(true)
     _sp.setCancelable(true)
     _sp.setOnCancelListener(new DialogInterface.OnCancelListener() {

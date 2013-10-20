@@ -14,7 +14,7 @@ class MyNoteActivity extends DoubanActivity{
 
 }
 
-class MyNoteItemAdapter(mapping:Map[Int,Any],load: => Unit) extends NoteItemAdapter(mapping,load,R.layout.my_notes_item){
+class MyNoteItemAdapter(mapping:Map[Int,Any],load: => Unit)(implicit ctx: DoubanActivity)  extends NoteItemAdapter(mapping,load,R.layout.my_notes_item){
   override def getView(position: Int, view: View, parent: ViewGroup): View = {
     val convertView=super.getView(position, view, parent)
 
