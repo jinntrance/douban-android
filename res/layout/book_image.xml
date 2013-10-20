@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="65dp"
+    android:layout_height="100dp"
+    android:layout_gravity="center|top"
+     >
+
+    <ImageView
+        android:layout_width="65dp"
+        android:layout_height="100dp"
+        android:clickable="true"
+        android:onClick="popup"
+        android:id="@+id/book_img"
+        android:src="@drawable/default_image"
+        android:layout_gravity="top" />
+
+</LinearLayout>

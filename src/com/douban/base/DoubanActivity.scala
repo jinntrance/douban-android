@@ -353,6 +353,10 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     setWindowTitle(title)
   }
 
+  @inline def restoreDefaultActionBar()={
+    getActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME|ActionBar.DISPLAY_SHOW_TITLE)
+  }
+
   def setWindowTitle(title: CharSequence) = setViewValue(R.id.title, title.toString)
 
   def setWindowTitle(title: Int) = setViewValue(R.id.title, title.toString)
