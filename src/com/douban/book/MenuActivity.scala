@@ -24,10 +24,4 @@ class MenuActivity {
 class MenuFragment extends DoubanFragment[DoubanActivity]{
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = inflater.inflate(R.layout.menu,container,false)
 
-  override def onActivityCreated(b: Bundle) {
-    super.onActivityCreated(b)
-  }
-
-
-
 }
