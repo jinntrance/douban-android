@@ -12,7 +12,7 @@
         android:layout_weight="9">
 
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="vertical"  android:layout_margin="@dimen/margin_medium"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
 
@@ -22,18 +22,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/book_basic"
                 android:baselineAligned="false">
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"  android:layout_gravity="center|top"
-                    android:id="@+id/book_basic_info"  android:layout_weight="0.22">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:clickable="true" android:onClick="popup"
-                        android:id="@+id/book_img" android:src="@drawable/default_image"
-                        android:layout_gravity="top" />
 
-                </LinearLayout>
+                <include layout="@layout/book_image" />
 
                 <RelativeLayout  android:layout_width="0dp"  android:layout_weight="0.78"
                     android:layout_height="wrap_content">

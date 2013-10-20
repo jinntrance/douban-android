@@ -102,7 +102,7 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
     getThisActivity.listAdapter=adapter
     getListView.setDivider(getResources.getDrawable(R.drawable.divider))
     getListView.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS)
-    getThisActivity.getActionBar.setDisplayShowCustomEnabled(false)
+    getThisActivity.restoreDefaultActionBar()
     search()
   }
 
@@ -217,7 +217,7 @@ object NotesActivity{
   val mapping=Map(page_num->("page_no","P%s"),chapter_name->"chapter",note_time->"time",username->"author_user.name",note_content->"content")
 }
 
-class NoteItemAdapter(mapping:Map[Int,Any],load: => Unit)(implicit ctx: DoubanActivity) extends ItemAdapter[Annotation](R.layout.notes_item,mapping,load=load) {
+class NoteItemAdapter(mapping:Map[Int,Any],load: => Unit,layout:Int=R.layout.notes_item)(implicit ctx: DoubanActivity) extends ItemAdapter[Annotation](layout,mapping,load=load) {
   override def getView(position: Int, view: View, parent: ViewGroup): View = {
     val convertView = super.getView(position,view,parent)
     getItem(position).getOrElse("page_no","") match {

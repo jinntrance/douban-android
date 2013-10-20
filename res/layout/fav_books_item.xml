@@ -12,20 +12,7 @@
         android:id="@+id/book_item"
         android:baselineAligned="false">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="130dp"
-            android:layout_marginRight="@dimen/margin_medium"
-            android:layout_weight="0.222">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/book_img"
-                android:contentDescription="@string/book_cover" android:layout_weight="0.17"
-                android:src="@drawable/default_image" />
-        </LinearLayout>
+        <include layout="@layout/book_image" />
 
         <RelativeLayout android:layout_height="match_parent"
             android:layout_width="0dp"  android:layout_weight="0.83"
