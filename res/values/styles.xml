@@ -138,6 +138,10 @@
     <style name="DoubanListView" parent="@android:style/Widget.Holo.Light.ListView">
         <item name="android:layout_margin">@dimen/margin_medium</item>
     </style>
+    <style name="DoubanTabWidget" parent="@android:style/Widget.Holo.TabWidget">
+        <item name="android:background">@drawable/tab_background</item>
+        <item name="android:textColor">@drawable/tab_text</item>
+    </style>
     <style name="DoubanTheme" parent="android:Theme.Holo.Light">
         <item name="android:background">@color/transparent</item>
         <item name="android:itemBackground">@color/transparent</item>
@@ -146,10 +150,11 @@
         <item name="android:listViewStyle">@style/DoubanListView</item>
         <item name="android:windowBackground">@color/background_white</item>
         <item name="android:colorBackground">@color/transparent</item>
-        <item name="android:editTextStyle">@style/DoubanEditText</item>
+        <!--<item name="android:editTextStyle">@style/DoubanEditText</item>-->
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textViewStyle">@style/DoubanText</item>
+        <!--<item name="android:tabWidgetStyle">@style/DoubanTabWidget</item>-->
         <!--<item name="android:autoCompleteTextViewStyle">@style/DoubanAutoCompleteText</item>-->
     </style>
 </resources>

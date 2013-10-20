@@ -19,7 +19,7 @@
             android:orientation="vertical">
 
             <TabWidget
-                android:id="@android:id/tabs"
+                android:id="@android:id/tabs" style="@style/DoubanTabWidget"
                 android:layout_width="fill_parent" android:background="@drawable/tab_background"
                 android:layout_height="wrap_content"/>
 

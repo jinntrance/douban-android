@@ -92,8 +92,8 @@ class AddChapterFragment extends DoubanFragment[AddNoteActivity]{
   override def onActivityCreated(b: Bundle) {
     super.onActivityCreated(b)
     getThisActivity.replaceActionBar(R.layout.header_edit,"添加页码/章节名")
-    setViewValue(R.id.bookPage,getThisActivity.bookPage)
-    setViewValue(R.id.chapter_name,getThisActivity.chapter)
+    setViewValue(R.id.bookPage,getThisActivity.bookPage,hideEmpty = false)
+    setViewValue(R.id.chapter_name,getThisActivity.chapter,hideEmpty = false)
   }
 }
 
@@ -102,7 +102,7 @@ class AddNoteFragment extends DoubanFragment[AddNoteActivity]{
 
   override def onActivityCreated(b: Bundle) {
     super.onActivityCreated(b)
-    getThisActivity.replaceActionBar(R.layout.header_edit_note,if(getThisActivity.bookPage.isEmpty) getThisActivity.chapter else getThisActivity.bookPage)
+    getThisActivity.replaceActionBar(R.layout.header_edit_note,if(getThisActivity.bookPage.isEmpty) getThisActivity.chapter else "P"+getThisActivity.bookPage)
   }
 }
 
