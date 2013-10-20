@@ -206,12 +206,14 @@ trait Douban {
 
 
   def waitToLoad(cancel: => Unit = {})(implicit ctx: Context) = if(isOnline){
-    val _sp = spinnerDialog("请稍候", "数据加载中…")
+    val _sp = spinnerDialog("", ctx.getString(R.string.loading))
+    _sp.getWindow.requestFeature(Window.FEATURE_NO_TITLE)
     _sp.setCanceledOnTouchOutside(true)
     _sp.setCancelable(true)
     _sp.setOnCancelListener(new DialogInterface.OnCancelListener() {
       def onCancel(p1: DialogInterface) {
         cancel
+        _sp.dismiss()
       }
     })
     _sp.show()
@@ -319,8 +321,8 @@ trait DoubanActivity extends SFragmentActivity with Douban {
       } onComplete{
         case Success((username,a,c,n))=>runOnUiThread{
           setViewValue(R.id.username,username)
-          setViewValue(R.id.collection_num,c.toString,sm)
-          setViewValue(R.id.notes_num,n.toString,sm)
+          setViewValue(R.id.menu_favbooks,s"收藏的书($c)",sm)
+          setViewValue(R.id.menu_mynote,s"我的笔记($n)",sm)
           loadImageWithTitle(a,R.id.user_avatar,username,sm)
           put(Constant.AVATAR,a)
           put(Constant.USERNAME,username)
