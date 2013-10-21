@@ -12,6 +12,7 @@ import scala.Some
 import scala.util.Success
 import android.content.Context
 import android.widget.MultiAutoCompleteTextView.CommaTokenizer
+import android.view.WindowManager.LayoutParams
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -27,6 +28,7 @@ class CollectionActivity extends DoubanActivity {
     case _=>None
   }
   var tags=""
+
 
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
@@ -90,7 +92,25 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
       }
       case None =>
     }
+    b match{
+      case bd:Bundle=>{
+        Map(R.id.tags_txt->bd.getString("tags"),R.id.comment->bd.getString("comment"),R.id.rating->bd.getInt("rate")).
+          foreach{case (id,v)=>setViewValue(id,v.toString,getView,hideEmpty = false)}
+        check(getView.findViewById(SearchResult.idsMap.getOrElse(bd.getString("status"),R.id.wish)))
+      }
+      case _=>
+    }
   }
+
+
+  override def onSaveInstanceState(outState: Bundle){
+    outState.putString("status",status)
+    outState.putString("tags",getThisActivity.tags)
+    outState.putString("comment",getView.find[EditText](R.id.comment).getText.toString)
+    outState.putInt("rate",getView.find[RatingBar](R.id.rating).getRating.toInt)
+    super.onSaveInstanceState(outState)
+  }
+
 
   def updateCollection(collection: Collection) {
     val currentStatus = getView.find[Button](SearchResult.idsMap(collection.status))
