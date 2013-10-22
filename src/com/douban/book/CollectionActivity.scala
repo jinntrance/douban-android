@@ -22,7 +22,7 @@ import android.view.WindowManager.LayoutParams
  * @version 1.0
  */
 class CollectionActivity extends DoubanActivity {
-  var collectionFrag: Option[CollectionFragment] = None
+  lazy val  collectionFrag: Option[CollectionFragment] = Some(findFragment[CollectionFragment](R.id.collectionFragment))
   lazy val book: Option[Book] = getIntent.getSerializableExtra(Constant.BOOK_KEY) match{
     case Some(bk:Book)=>Some(bk)
     case _=>None
@@ -33,8 +33,8 @@ class CollectionActivity extends DoubanActivity {
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.collection_container)
-    collectionFrag = Some(new CollectionFragment())
-    fragmentManager.beginTransaction().replace(R.id.collection_container, collectionFrag.get).commit()
+//    collectionFrag = Some(new CollectionFragment()) //TODO
+//    fragmentManager.beginTransaction().replace(R.id.collection_container, collectionFrag.get).commit()
   }
 
   def check(v: View) = collectionFrag match {
@@ -59,7 +59,7 @@ class CollectionActivity extends DoubanActivity {
 
   def addTag(v: View) {
     fragment=new TagFragment()
-    fragmentManager.beginTransaction().replace(R.id.collection_container, fragment,Constant.ACTIVITY_TAG).addToBackStack(null).commit()
+    fragmentManager.beginTransaction().add(R.id.collection_container, fragment,Constant.ACTIVITY_TAG).addToBackStack(null).commit()
   }
 }
 
@@ -92,24 +92,9 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
       }
       case None =>
     }
-    b match{
-      case bd:Bundle=>{
-        Map(R.id.tags_txt->bd.getString("tags"),R.id.comment->bd.getString("comment"),R.id.rating->bd.getInt("rate")).
-          foreach{case (id,v)=>setViewValue(id,v.toString,getView,hideEmpty = false)}
-        check(getView.findViewById(SearchResult.idsMap.getOrElse(bd.getString("status"),R.id.wish)))
-      }
-      case _=>
-    }
   }
 
 
-  override def onSaveInstanceState(outState: Bundle){
-    outState.putString("status",status)
-    outState.putString("tags",getThisActivity.tags)
-    outState.putString("comment",getView.find[EditText](R.id.comment).getText.toString)
-    outState.putInt("rate",getView.find[RatingBar](R.id.rating).getRating.toInt)
-    super.onSaveInstanceState(outState)
-  }
 
 
   def updateCollection(collection: Collection) {
