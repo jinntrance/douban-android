@@ -1,6 +1,6 @@
 package com.douban.book
 
-import com.douban.base.{DBundle, DoubanFragment, Constant, DoubanActivity}
+import com.douban.base.{DoubanFragment, Constant, DoubanActivity}
 import android.os.Bundle
 import com.douban.models.{ReviewRating, Book, CollectionPosted, Collection}
 import android.widget._
@@ -12,7 +12,6 @@ import scala.Some
 import scala.util.Success
 import android.content.Context
 import android.widget.MultiAutoCompleteTextView.CommaTokenizer
-import android.view.WindowManager.LayoutParams
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -22,19 +21,32 @@ import android.view.WindowManager.LayoutParams
  * @version 1.0
  */
 class CollectionActivity extends DoubanActivity {
+  def getTags={
+    getIntent.getStringExtra(Constant.TAGS)
+  }
+
+  def setTags(tags:String)={
+    getIntent.putExtra(Constant.TAGS,tags)
+    tags
+  }
+
+
+  override def onBackPressed(){
+    //restore the action bar of CollectionActivity
+    getThisActivity.replaceActionBar(R.layout.header_edit_collection, getString(R.string.add_collection))
+    super.onBackPressed()
+  }
+
   lazy val  collectionFrag: Option[CollectionFragment] = Some(findFragment[CollectionFragment](R.id.collectionFragment))
   lazy val book: Option[Book] = getIntent.getSerializableExtra(Constant.BOOK_KEY) match{
     case Some(bk:Book)=>Some(bk)
     case _=>None
   }
-  var tags=""
 
 
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.collection_container)
-//    collectionFrag = Some(new CollectionFragment()) //TODO
-//    fragmentManager.beginTransaction().replace(R.id.collection_container, collectionFrag.get).commit()
   }
 
   def check(v: View) = collectionFrag match {
@@ -75,6 +87,8 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
   override def onActivityCreated(b: Bundle) {
     super.onActivityCreated(b)
     getThisActivity.replaceActionBar(R.layout.header_edit_collection, getString(R.string.add_collection))
+    if(getThisActivity.getIntent.getBooleanExtra(Constant.PUBLIC,false))
+      checkPrivacy(rootView.findViewById(R.id.privacy))
     getThisActivity.book match {
       case Some(bk:Book) => bk.current_user_collection match {
         case c: Collection => {
@@ -96,7 +110,6 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
 
 
 
-
   def updateCollection(collection: Collection) {
     val currentStatus = getView.find[Button](SearchResult.idsMap(collection.status))
     check(currentStatus)
@@ -105,9 +118,13 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
       case rat: ReviewRating => getView.find[RatingBar](R.id.rating).setRating(rat.value.toInt)
       case _ =>
     }
-    if(getThisActivity.tags.isEmpty)
-      getThisActivity.tags= collection.tags.mkString(" ")
-    getView.find[TextView](R.id.tags_txt).setText(getThisActivity.tags)
+    getView.find[TextView](R.id.tags_txt).setText(getThisActivity.getTags match{
+      case tags:String=>tags
+      case _=> {
+        getThisActivity.setTags(collection.tags.mkString(" "))
+      }
+    })
+
   }
 
   def check(v: View) {
@@ -118,6 +135,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
         val txt: String = b.getText.toString
         if (!txt.contains(mark)) {
           status = reverseMapping(b.getId)
+          activity.getIntent.putExtra(Constant.STATE_ID,status)
           b.setText(txt + mark.toString)
           b.setBackgroundResource(R.drawable.button_gray)
           List(R.id.read, R.id.reading, R.id.wish).filter(_ != b.getId).foreach(id => {
@@ -137,12 +155,14 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
   }
 
   def checkPrivacy(v: View) {
-    runOnUiThread(public = toggleBackGround(public, v, (R.drawable.private_icon, R.drawable.public_icon)))
+    runOnUiThread({
+      public = toggleBackGround(public, v, (R.drawable.private_icon, R.drawable.public_icon))
+      getThisActivity.getIntent.putExtra(Constant.PUBLIC,public)
+    })
   }
 
   def submit(v: View) {
-    val tags = getThisActivity.tags
-    val p = CollectionPosted(status, tags, getView.find[EditText](R.id.comment).getText.toString.trim, getView.find[RatingBar](R.id.rating).getRating.toInt, privacy = if (public) "public" else "private")
+    val p = CollectionPosted(status, getThisActivity.getTags, getView.find[EditText](R.id.comment).getText.toString.trim, getView.find[RatingBar](R.id.rating).getRating.toInt, privacy = if (public) "public" else "private")
     future{
       if(updateable)  Book.updateCollection(getThisActivity.book.get.id,p)
       else Book.postCollection(getThisActivity.book.get.id, p)
@@ -180,7 +200,7 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
     th.addTab(th.newTabSpec("tab1").setIndicator("热门标签").setContent(R.id.pop_tags))
     th.addTab(th.newTabSpec("tab2").setIndicator("我的标签").setContent(R.id.my_tags))
 
-    tags_input.append(getThisActivity.tags)
+    tags_input.append(getThisActivity.getTags)
   }
 
   class TagAdapter(tags: java.util.List[String]) extends BaseAdapter {
@@ -219,7 +239,7 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
   }
 
   def tagsAdded()={
-    getThisActivity.tags=rootView.find[MultiAutoCompleteTextView](R.id.tags_multi_text).getText.toString
+    getThisActivity.setTags(rootView.find[MultiAutoCompleteTextView](R.id.tags_multi_text).getText.toString)
     getThisActivity.fragmentManager.popBackStack()
   }
 }

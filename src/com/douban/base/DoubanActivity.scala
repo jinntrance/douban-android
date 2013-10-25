@@ -465,6 +465,8 @@ trait DoubanFragment[T <: DoubanActivity] extends SFragment with Douban {
 
   override def getThisActivity: T = getActivity.asInstanceOf[T]
 
+  override lazy val activity:T=getThisActivity
+
   override lazy val rootView: View = getView
 
   def addArguments(args: Bundle): Fragment = {

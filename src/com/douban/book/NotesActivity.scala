@@ -8,10 +8,6 @@ import android.widget._
 import org.scaloid.common._
 import com.douban.base.DBundle
 import com.douban.models.AnnotationSearch
-import com.douban.models.Annotation
-import scala.annotation.tailrec
-import com.douban.base.DBundle
-import com.douban.models.AnnotationSearch
 import com.douban.models.AnnotationSearchResult
 import com.douban.models.Annotation
 
