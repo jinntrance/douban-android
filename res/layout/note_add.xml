@@ -17,7 +17,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:background="@color/background_white">
 
         <TableLayout
             android:layout_width="wrap_content"

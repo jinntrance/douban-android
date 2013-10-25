@@ -21,7 +21,7 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/background_black_darker"
         android:baselineAligned="false"
@@ -33,40 +33,28 @@
             android:layout_height="wrap_content"
             android:gravity="center">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/user_avatar"
-                android:src="@drawable/default_user_img"
-                android:layout_gravity="center_vertical" />
+          <ImageView
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:id="@+id/user_avatar"
+              android:src="@drawable/default_user_img" />
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Jane"
-                    android:id="@+id/username"  style="@style/DoubanTextTitle.White"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:layout_marginBottom="@dimen/margin_large" />
-            </LinearLayout>
-        </LinearLayout>
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Jane"
+          android:id="@+id/username"  style="@style/DoubanTextTitle.White"
+          android:textStyle="bold"
+          android:layout_marginLeft="@dimen/margin_medium"
+          android:layout_marginTop="@dimen/margin_medium"
+          android:layout_marginBottom="@dimen/margin_large" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:measureWithLargestChild="false"
         android:layout_marginLeft="@dimen/margin_large"
