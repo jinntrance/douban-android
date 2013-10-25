@@ -65,7 +65,7 @@ class MyNoteItemAdapter(mapping:Map[Int,Any],load: => Unit)(implicit ctx: Douban
 
 class MyNoteViewFragment(listAdapter:NoteItemAdapter)  extends NoteViewFragment(listAdapter){
 
-  override lazy val mapping= NotesActivity.mapping++Map(R.id.book_img->"book.images.medium",R.id.bookTitle -> "title", R.id.bookAuthor -> List("author", "translator"), R.id.bookPublisher -> List("publisher", "pubdate"))
+  override val mapping= NotesActivity.mapping++Map(R.id.book_img->"book.images.medium",R.id.bookTitle -> "title", R.id.bookAuthor -> List("author", "translator"), R.id.bookPublisher -> List("publisher", "pubdate"))
 
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = inflater.inflate(R.layout.mynote_view,container,false)
 }
