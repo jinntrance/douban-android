@@ -95,14 +95,14 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
   override def onActivityCreated(b: Bundle){
     super.onActivityCreated(b)
     setListAdapter(adapter)
-    getThisActivity.listAdapter=adapter
+    activity.listAdapter=adapter
     getListView.setDivider(getResources.getDrawable(R.drawable.divider))
     getListView.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS)
-    getThisActivity.restoreDefaultActionBar()
+    activity.restoreDefaultActionBar()
     search()
   }
 
-  def search(bookId: Long = getThisActivity.bookId, order: String = rank, page: Int = currentPage,bookPage:String=bookPage) ={
+  def search(bookId: Long = activity.bookId, order: String = rank, page: Int = currentPage,bookPage:String=bookPage) ={
     listLoader(
     toLoad = 1==page || adapter.count<total,
     result= Book.annotationsOf(bookId, new AnnotationSearch(order, (page-1)*countPerPage,countPerPage,bookPage)) ,
@@ -119,8 +119,8 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
         runOnUiThread(adapter.notifyDataSetChanged())
       }
       runOnUiThread{
-        getThisActivity.setTitle(getString(R.string.annotation) + s"($index/$total)")
-        val l=getThisActivity.find[View](R.id.note_to_add)
+        activity.setTitle(getString(R.string.annotation) + s"($index/$total)")
+        val l=activity.find[View](R.id.note_to_add)
         l.setVisibility(if(0==total) View.VISIBLE else View.GONE)
         if(0==total) {
           fragmentManager.beginTransaction().hide(this)
@@ -135,14 +135,14 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
   }
 
   def addNote(){
-    getThisActivity.startActivity(SIntent[AddNoteActivity].putExtra(Constant.BOOK_ID, getThisActivity.bookId).putExtra(Constant.BOOK_PAGE,bookPage))
+    activity.startActivity(SIntent[AddNoteActivity].putExtra(Constant.BOOK_ID, activity.bookId).putExtra(Constant.BOOK_PAGE,bookPage))
   }
 
   def search(v: View) {
     val order = Map(R.id.rank -> "rank", R.id.collect -> "collect", R.id.page -> "page")
     v.getId match {
       case id: Int if rank!=order.getOrElse(id,"rank") => {
-        runOnUiThread(order.keys.foreach(i=>getThisActivity.toggleBackGround(i !=id,i,(R.color.black,R.color.black_light))))
+        runOnUiThread(order.keys.foreach(i=>activity.toggleBackGround(i !=id,i,(R.color.black,R.color.black_light))))
         currentPage = 1
         rank=order(id)
         search(page=1)
@@ -153,7 +153,7 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
 
   override def onListItemClick(l: ListView, v: View, position: Int, id: Long){
     l.setItemChecked(position, true)
-    getThisActivity.viewNote(position)
+    activity.viewNote(position)
   }
 }
 
@@ -165,17 +165,17 @@ class NoteViewFragment extends DoubanFragment[NotesActivity]{
 
   override def onActivityCreated(b: Bundle){
     super.onActivityCreated(b)
-    count=getThisActivity.listAdapter.getCount
+    count=activity.listAdapter.getCount
     val pos: Int = getArguments.getInt(Constant.ARG_POSITION)
-    getThisActivity.replaceActionBar(R.layout.header_note,getThisActivity.listAdapter.getBean(pos).book.title)
+    activity.replaceActionBar(R.layout.header_note,activity.listAdapter.getBean(pos).book.title)
     display(pos)
   }
 
   def display(position:Int){
 
     currentOffset=position % count
-    val a= getThisActivity.listAdapter.getBean(currentOffset)
-    batchSetValues(mapping,getThisActivity.listAdapter.getItem(currentOffset),getView)
+    val a= activity.listAdapter.getBean(currentOffset)
+    batchSetValues(mapping,activity.listAdapter.getItem(currentOffset),getView)
     val container: LinearLayout = getView.find[LinearLayout](R.id.note_content)
     container.addView(parse(a.content))
 

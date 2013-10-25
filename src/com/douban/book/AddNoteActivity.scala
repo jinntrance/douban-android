@@ -39,9 +39,9 @@ class AddNoteActivity extends DoubanActivity {
   def submit(v:View){
     findViewById(R.id.bookPage) match{
       case bp:EditText=>{
-        bookPage=bp.getText.toString
-        chapter=find[EditText](R.id.chapter_name).getText.toString
-        fragmentManager.beginTransaction().replace(R.id.add_note_container,new AddNoteFragment).commit()
+        bookPage=bp.getText.toString.trim
+        chapter=find[EditText](R.id.chapter_name).getText.toString.trim
+        if(bookPage.nonEmpty||chapter.nonEmpty) fragmentManager.beginTransaction().replace(R.id.add_note_container,new AddNoteFragment).commit()
       }
       case _=> future {
         getIntent.getLongExtra(Constant.BOOK_ID,0) match {
@@ -93,9 +93,9 @@ class AddChapterFragment extends DoubanFragment[AddNoteActivity]{
 
   override def onActivityCreated(b: Bundle) {
     super.onActivityCreated(b)
-    getThisActivity.replaceActionBar(R.layout.header_edit,"添加页码/章节名")
-    setViewValue(R.id.bookPage,getThisActivity.bookPage,hideEmpty = false)
-    setViewValue(R.id.chapter_name,getThisActivity.chapter,hideEmpty = false)
+    activity.replaceActionBar(R.layout.header_edit,"添加页码/章节名")
+    setViewValue(R.id.bookPage,activity.bookPage,hideEmpty = false)
+    setViewValue(R.id.chapter_name,activity.chapter,hideEmpty = false)
   }
 }
 
@@ -104,7 +104,7 @@ class AddNoteFragment extends DoubanFragment[AddNoteActivity]{
 
   override def onActivityCreated(b: Bundle) {
     super.onActivityCreated(b)
-    getThisActivity.replaceActionBar(R.layout.header_edit_note,if(getThisActivity.bookPage.isEmpty) getThisActivity.chapter else "P"+getThisActivity.bookPage)
+    activity.replaceActionBar(R.layout.header_edit_note,if(activity.bookPage.isEmpty) activity.chapter else "P"+activity.bookPage)
   }
 }
 

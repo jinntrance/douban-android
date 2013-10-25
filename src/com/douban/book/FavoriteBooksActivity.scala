@@ -111,7 +111,7 @@ class FavoriteBooksListFragment extends DoubanListFragment[DoubanActivity]{
   def load(status:String,adapter:CollectionItemAdapter){
     future{
       val cs=CollectionSearch(status,bookTag,rating,start=adapter.count,count=countPerPage)
-      Book.collectionsOfUser(getThisActivity.currentUserId,cs)
+      Book.collectionsOfUser(activity.currentUserId,cs)
     } onComplete{
       case Success(r:CollectionSearchResult)=>{
           currentPage+=1

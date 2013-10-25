@@ -54,14 +54,14 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
     getListView.addFooterView(footer.get)
     setListAdapter(adapter)
     load()
-    getThisActivity.updateTitle()
+    activity.updateTitle()
   }
 
   def updateFooter() = {
-    getThisActivity.find[TextView](R.id.to_load) match {
+    activity.find[TextView](R.id.to_load) match {
       case footer: TextView => {
         footer.setText(getString(R.string.swipe_up_to_load).format(adapter.count, total))
-        getThisActivity.updateTitle(s"(${adapter.count}/$total)")
+        activity.updateTitle(s"(${adapter.count}/$total)")
         footer.setVisibility(View.VISIBLE)
       }
       case _ =>
@@ -77,21 +77,21 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
 
   override def onListItemClick(l: ListView, v: View, position: Int, id: Long) {
     getListView.setItemChecked(position, true)
-    getThisActivity.fragmentManager.findFragmentById(R.id.book_fragment) match {
+    activity.fragmentManager.findFragmentById(R.id.book_fragment) match {
       case bf: SearchResultDetail =>
         bf.updateBookView()
       case _ => {
-        getThisActivity.startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY, Some(adapter.getBean(position))))
+        activity.startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY, Some(adapter.getBean(position))))
       }
     }
   }
 
   def load() = {
-    getThisActivity.listLoader(
+    activity.listLoader(
       toLoad = (adapter.count < total) && !loading,
       result = {
         loading = true
-        Book.search(getThisActivity.searchText, "", currentPage, countPerPage)
+        Book.search(activity.searchText, "", currentPage, countPerPage)
       },
       success = (b: BookSearchResult) => {
         currentPage += 1
