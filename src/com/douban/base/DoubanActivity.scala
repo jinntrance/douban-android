@@ -447,6 +447,8 @@ trait DoubanListFragment[T <: DoubanActivity] extends SListFragment with Douban 
 
   override def getThisActivity: T = getActivity.asInstanceOf[T]
 
+  override lazy val activity:T=getThisActivity
+
   override lazy val rootView: View = getView
 
   def addArguments(args: Bundle): Fragment = {
@@ -457,6 +459,7 @@ trait DoubanListFragment[T <: DoubanActivity] extends SListFragment with Douban 
   def popup(img: View) {
     img match {
       case image: ImageView => startActivity[ImagePopupActivity]
+      case _=>
     }
   }
 }

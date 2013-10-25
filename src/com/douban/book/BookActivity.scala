@@ -133,7 +133,7 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
   }
 
   def updateBookView() {
-    getThisActivity.book match {
+    activity.book match {
       case Some(book) => {
         getActivity.setTitle(book.title)
         Map(R.id.subtitle_layout -> book.subtitle, R.id.book_author -> book.author_intro, R.id.book_content -> book.summary, R.id.book_catalog -> book.catalog
@@ -164,7 +164,7 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
           R.id.book_content_abstract -> "summary", R.id.book_content_abstract_longtext -> "summary",
           R.id.book_catalog_abstract -> "catalog", R.id.book_catalog_abstract_longtext -> "catalog",
           R.id.comment -> ("current_user_collection.comment","%s」") ), beanToMap(book))
-        getThisActivity.loadImageWithTitle(if (getThisActivity.usingWIfi || !getThisActivity.using2G) book.images.large else book.images.small,R.id.book_img,book.title)
+        activity.loadImageWithTitle(if (activity.usingWIfi || !activity.using2G) book.images.large else book.images.small,R.id.book_img,book.title)
 /*        displayWhen(R.id.content_arrow,rootView.find[TextView](R.id.book_content_abstract).getLineCount>4)
         displayWhen(R.id.author_arrow,rootView.find[TextView](R.id.book_author_abstract).getLineCount>4)
         displayWhen(R.id.catalog_arrow,rootView.rootView.find[TextView](R.id.book_catalog_abstract).getLineCount>4)*/

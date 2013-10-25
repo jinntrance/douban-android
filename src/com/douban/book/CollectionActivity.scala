@@ -33,7 +33,7 @@ class CollectionActivity extends DoubanActivity {
 
   override def onBackPressed(){
     //restore the action bar of CollectionActivity
-    getThisActivity.replaceActionBar(R.layout.header_edit_collection, getString(R.string.add_collection))
+    replaceActionBar(R.layout.header_edit_collection, getString(R.string.add_collection))
     super.onBackPressed()
   }
 
@@ -86,10 +86,10 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
 
   override def onActivityCreated(b: Bundle) {
     super.onActivityCreated(b)
-    getThisActivity.replaceActionBar(R.layout.header_edit_collection, getString(R.string.add_collection))
-    if(getThisActivity.getIntent.getBooleanExtra(Constant.PUBLIC,false))
+    activity.replaceActionBar(R.layout.header_edit_collection, getString(R.string.add_collection))
+    if(activity.getIntent.getBooleanExtra(Constant.PUBLIC,false))
       checkPrivacy(rootView.findViewById(R.id.privacy))
-    getThisActivity.book match {
+    activity.book match {
       case Some(bk:Book) => bk.current_user_collection match {
         case c: Collection => {
           updateable=true
@@ -99,8 +99,8 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
           val id = getActivity.getIntent.getExtras.getInt(Constant.STATE_ID)
           check(getView.find[Button](if (0 == id) R.id.wish else id))
           future {
-            getThisActivity.getAccessToken
-            updateCollection(getThisActivity.book.getOrElse(bk).updateCollection(Book.collectionOf(bk.id)))
+            activity.getAccessToken
+            updateCollection(activity.book.getOrElse(bk).updateCollection(Book.collectionOf(bk.id)))
           }
         }
       }
@@ -118,10 +118,10 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
       case rat: ReviewRating => getView.find[RatingBar](R.id.rating).setRating(rat.value.toInt)
       case _ =>
     }
-    getView.find[TextView](R.id.tags_txt).setText(getThisActivity.getTags match{
+    getView.find[TextView](R.id.tags_txt).setText(activity.getTags match{
       case tags:String=>tags
       case _=> {
-        getThisActivity.setTags(collection.tags.mkString(" "))
+        activity.setTags(collection.tags.mkString(" "))
       }
     })
 
@@ -157,20 +157,20 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
   def checkPrivacy(v: View) {
     runOnUiThread({
       public = toggleBackGround(public, v, (R.drawable.private_icon, R.drawable.public_icon))
-      getThisActivity.getIntent.putExtra(Constant.PUBLIC,public)
+      activity.getIntent.putExtra(Constant.PUBLIC,public)
     })
   }
 
   def submit(v: View) {
-    val p = CollectionPosted(status, getThisActivity.getTags, getView.find[EditText](R.id.comment).getText.toString.trim, getView.find[RatingBar](R.id.rating).getRating.toInt, privacy = if (public) "public" else "private")
+    val p = CollectionPosted(status, activity.getTags, getView.find[EditText](R.id.comment).getText.toString.trim, getView.find[RatingBar](R.id.rating).getRating.toInt, privacy = if (public) "public" else "private")
     future{
-      if(updateable)  Book.updateCollection(getThisActivity.book.get.id,p)
-      else Book.postCollection(getThisActivity.book.get.id, p)
+      if(updateable)  Book.updateCollection(activity.book.get.id,p)
+      else Book.postCollection(activity.book.get.id, p)
     } onComplete {
       case Success(Some(c: Collection)) => {
-        getThisActivity.getIntent.putExtra(Constant.COLLECTION,c)
+        activity.getIntent.putExtra(Constant.COLLECTION,c)
         toast(getString(R.string.collect_successfully))
-        getThisActivity.fragmentManager.popBackStack()
+        activity.fragmentManager.popBackStack()
       }
       case _ => toast(getString(R.string.collect_failed))
     }
@@ -186,12 +186,12 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
 
   override def onActivityCreated(bundle: Bundle) {
     super.onActivityCreated(bundle)
-    getThisActivity.replaceActionBar(R.layout.header_edit, getString(R.string.add_tags))
+    activity.replaceActionBar(R.layout.header_edit, getString(R.string.add_tags))
       future {
-        val r = Book.tagsOf(getThisActivity.currentUserId)
+        val r = Book.tagsOf(activity.currentUserId)
         rootView.find[ListView](R.id.my_tags_list).setAdapter(new TagAdapter(r.tags.map(_.title)))
     }
-    val popTagsAdapter = new TagAdapter(getThisActivity.book.get.tags.map(_.title))
+    val popTagsAdapter = new TagAdapter(activity.book.get.tags.map(_.title))
     rootView.find[ListView](R.id.pop_tags_list).setAdapter(popTagsAdapter)
     tags_input.setTokenizer(new CommaTokenizer())
 
@@ -200,11 +200,11 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
     th.addTab(th.newTabSpec("tab1").setIndicator("热门标签").setContent(R.id.pop_tags))
     th.addTab(th.newTabSpec("tab2").setIndicator("我的标签").setContent(R.id.my_tags))
 
-    tags_input.append(getThisActivity.getTags)
+    tags_input.append(activity.getTags)
   }
 
   class TagAdapter(tags: java.util.List[String]) extends BaseAdapter {
-    lazy val inflater = getThisActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE).asInstanceOf[LayoutInflater]
+    lazy val inflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE).asInstanceOf[LayoutInflater]
 
     override def getView(position: Int, view: View, parent: ViewGroup): View = {
       val convertView = view match {
@@ -239,7 +239,7 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
   }
 
   def tagsAdded()={
-    getThisActivity.setTags(rootView.find[MultiAutoCompleteTextView](R.id.tags_multi_text).getText.toString)
-    getThisActivity.fragmentManager.popBackStack()
+    activity.setTags(rootView.find[MultiAutoCompleteTextView](R.id.tags_multi_text).getText.toString)
+    activity.fragmentManager.popBackStack()
   }
 }
