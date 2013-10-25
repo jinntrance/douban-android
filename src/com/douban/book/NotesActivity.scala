@@ -160,7 +160,7 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
 class NoteViewFragment(listAdapter:NoteItemAdapter) extends DoubanFragment[DoubanActivity]{
   var currentOffset=0
   var count=0
-  lazy val mapping=NotesActivity.mapping++Map(R.id.user_avatar->("author_user.avatar",("author_user.name",getString(R.string.load_img_fail))))
+  val mapping:Map[Int,Any]=NotesActivity.mapping++Map(R.id.user_avatar->"author_user.avatar")
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = inflater.inflate(R.layout.note_view,container,false)
 
   override def onActivityCreated(b: Bundle){
