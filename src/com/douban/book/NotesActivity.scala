@@ -21,11 +21,11 @@ import com.douban.models.Annotation
 class NotesActivity extends DoubanActivity {
   var listAdapter:NoteItemAdapter=null
   def viewNote(pos:Int){
-    fragmentManager.beginTransaction().replace(R.id.notes_container,new NoteViewFragment().addArguments(DBundle().put(Constant.ARG_POSITION,pos)),Constant.ACTIVITY_NOTE_VIEW).addToBackStack(null).commit()
+    fragmentManager.beginTransaction().replace(R.id.notes_container,new NoteViewFragment(listAdapter).addArguments(DBundle().put(Constant.ARG_POSITION,pos)),Constant.ACTIVITY_NOTE_VIEW).addToBackStack(null).commit()
   }
 
   lazy val bookId = getIntent.getLongExtra(Constant.BOOK_ID, 0)
-  lazy val listFragment: NotesListFragment = new NotesListFragment()
+  private lazy val listFragment: NotesListFragment = new NotesListFragment()
 
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
@@ -157,7 +157,7 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
   }
 }
 
-class NoteViewFragment extends DoubanFragment[NotesActivity]{
+class NoteViewFragment(listAdapter:NoteItemAdapter) extends DoubanFragment[DoubanActivity]{
   var currentOffset=0
   var count=0
   lazy val mapping=NotesActivity.mapping++Map(R.id.user_avatar->("author_user.avatar",("author_user.name",getString(R.string.load_img_fail))))
@@ -165,17 +165,17 @@ class NoteViewFragment extends DoubanFragment[NotesActivity]{
 
   override def onActivityCreated(b: Bundle){
     super.onActivityCreated(b)
-    count=activity.listAdapter.getCount
+    count=listAdapter.getCount
     val pos: Int = getArguments.getInt(Constant.ARG_POSITION)
-    activity.replaceActionBar(R.layout.header_note,activity.listAdapter.getBean(pos).book.title)
+    activity.replaceActionBar(R.layout.header_note,listAdapter.getBean(pos).book.title)
     display(pos)
   }
 
   def display(position:Int){
 
     currentOffset=position % count
-    val a= activity.listAdapter.getBean(currentOffset)
-    batchSetValues(mapping,activity.listAdapter.getItem(currentOffset),getView)
+    val a= listAdapter.getBean(currentOffset)
+    batchSetValues(mapping,listAdapter.getItem(currentOffset),getView)
     val container: LinearLayout = getView.find[LinearLayout](R.id.note_content)
     container.addView(parse(a.content))
 
