@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/scrollView"
+   >
+<LinearLayout  android:orientation="vertical"
+    android:layout_width="match_parent" android:layout_height="match_parent"  android:layout_margin="@dimen/margin_medium" android:id="@+id/note_content">
+
+
+  <LinearLayout
+      android:orientation="horizontal"
+      android:layout_width="match_parent"
+      android:layout_height="80dp"
+      android:background="@android:drawable/screen_background_light_transparent"
+      android:baselineAligned="false">
+
+    <include layout="@layout/book_image" />
+    <include layout="@layout/book_basic_info" />
+      </LinearLayout>
+
+  <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_medium">
+
+          <Button
+              android:layout_width="wrap_content"
+              android:layout_height="@dimen/text_double_size"
+              android:text="P123"   style="@style/DoubanButton.Page"  android:padding="0dp"
+              android:id="@+id/page_num"
+              android:layout_alignParentRight="false"
+              android:layout_centerVertical="true"
+              android:layout_margin="@dimen/margin_medium"
+              android:layout_alignParentLeft="true" />
+
+          <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2013-11-08 07:54:36"
+                android:id="@+id/note_time"
+                android:layout_toRightOf="@+id/user_avatar"
+                android:layout_below="@+id/username"
+                android:layout_marginLeft="@dimen/margin_medium"
+              android:layout_alignParentRight="true"
+              android:layout_centerVertical="true" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chanpter one"
+            android:id="@+id/chapter_name"
+            android:layout_margin="@dimen/margin_medium"
+            android:textStyle="bold"
+            android:textColor="@color/text_green" />
+</LinearLayout>
+    </ScrollView>
+
