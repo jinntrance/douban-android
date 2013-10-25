@@ -24,6 +24,7 @@
     <color name="background_green">#99cc99</color>
     <color name="background_green_pressed">#65be65</color>
     <color name="background_green_margin">#8ab88a</color>
+    <color name="background_green_darker">#457878</color>
     <color name="background_brown">#cc9999</color>
     <color name="background_brown_pressed">#cb7b7b</color>
     <color name="background_brown_margin">#b88a8a</color>
@@ -139,12 +140,12 @@
         <item name="android:layout_margin">@dimen/margin_medium</item>
     </style>
     <style name="DoubanTabWidget" parent="@android:style/Widget.Holo.TabWidget">
-        <item name="android:background">@drawable/tab_background</item>
         <item name="android:textColor">@drawable/tab_text</item>
     </style>
     <style name="DoubanTheme" parent="android:Theme.Holo.Light">
         <item name="android:background">@color/transparent</item>
-        <item name="android:itemBackground">@color/transparent</item>
+        <item name="android:itemBackground">@color/background_white</item>
+        <item name="android:panelBackground">@color/background_white</item>
         <item name="android:actionBarStyle">@style/DoubanActionBar</item>
         <item name="android:buttonStyle">@style/DoubanButton.WhiteText</item>
         <item name="android:listViewStyle">@style/DoubanListView</item>

@@ -14,7 +14,8 @@
         <LinearLayout
             android:orientation="vertical"  android:layout_margin="@dimen/margin_medium"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:paddingBottom="@dimen/padding_large">
 
             <LinearLayout
                 android:orientation="horizontal"
