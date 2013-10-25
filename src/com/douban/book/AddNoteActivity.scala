@@ -1,16 +1,13 @@
 package com.douban.book
 
 import com.douban.base.{Constant, DoubanFragment, DoubanActivity}
-import android.view.{WindowManager, View, ViewGroup, LayoutInflater}
+import android.view.{View, ViewGroup, LayoutInflater}
 import android.os.Bundle
 import android.widget.EditText
 
 import org.scaloid.common._
 import scala.concurrent._
-import android.content.Context
-import android.view.inputmethod.InputMethodManager
-import com.douban.models.{AnnotationPosted, Book}
-import scala.util.Success
+import com.douban.models.Book
 import scala.util.Success
 import com.douban.models.AnnotationPosted
 import ExecutionContext.Implicits.global
@@ -77,7 +74,12 @@ class AddNoteActivity extends DoubanActivity {
     val text=find[EditText](R.id.note_input)
     val start: Int = text.getSelectionStart
     val end: Int = text.getSelectionEnd
-    text.getText.replace(start,end,s"<原文开始>${text.getText.toString.substring(start,end)}</原文结束>")
+    val (newString:String,newEnd:Int)=text.getText.toString.substring(start,end) match{
+      case r"<原文开始>([\s\S]+?)${selection}</原文结束>"=>(selection,end-13)
+      case s:String=>(s"<原文开始>$s</原文结束>",end+13)
+    }
+    text.getText.replace(start,end,newString)
+    text.setSelection(start,newEnd)
   }
 
   @inline def wrap(txt:String,wrapper:String)={
