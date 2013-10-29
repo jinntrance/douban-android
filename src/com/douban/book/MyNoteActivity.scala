@@ -20,17 +20,21 @@ class MyNoteActivity extends DoubanActivity{
   private var currentPage = 1
   private var total = Int.MaxValue
   private val mapping=NotesActivity.mapping++Map(R.id.book_img->"book.images.medium")
-  lazy val listAdapter=new MyNoteItemAdapter(mapping,load())
+  lazy val listAdapter=new MyNoteItemAdapter(mapping,firstLoad)
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.mynotes)
     val listView=find[ListView](R.id.my_notes)
-    listView.setAdapter(listAdapter)
     listView.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS)
     listView.onItemClick((l: AdapterView[_], v: View, position: Int, id: Long)=>{
       viewNote(position)
     })
+    listView.setAdapter(listAdapter)
+    firstLoad
   }
+
+  def firstLoad=load()
+
   def load(page:Int=currentPage){
     listLoader(
     toLoad = 1==page || listAdapter.getCount<total,

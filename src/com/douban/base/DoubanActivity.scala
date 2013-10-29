@@ -16,7 +16,7 @@ import android.graphics.drawable.Drawable
 import java.net.URL
 import java.io.{FileOutputStream, File, InputStream}
 import android.graphics.{Bitmap, BitmapFactory}
-import android.content.{DialogInterface, Context}
+import android.content.{Intent, DialogInterface, Context}
 import android.telephony.TelephonyManager
 import scala.language.implicitConversions
 import scala.language.reflectiveCalls
@@ -439,6 +439,11 @@ trait DoubanActivity extends SFragmentActivity with Douban {
       }
       case _=>
     }
+  }
+
+  override def startActivity(intent: Intent){
+    super.startActivity(intent)
+    overridePendingTransition(R.anim.right_to_enter,R.anim.left_to_exit)
   }
 
 }
