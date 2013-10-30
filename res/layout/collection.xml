@@ -43,7 +43,7 @@
         android:lines="7"
         android:longClickable="true"
         android:linksClickable="true"
-        android:gravity="top"
+        android:gravity="top" android:maxLength="350"
         android:layout_gravity="center"
         android:layout_weight="1" />
 

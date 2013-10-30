@@ -22,6 +22,7 @@ import com.douban.models.Collection
  * @version 1.0
  */
 class FavoriteBooksActivity extends DoubanActivity{
+  lazy val waiting=waitToLoad()
   override def onCreate(b: Bundle){
     super.onCreate(b)
     setContentView(R.layout.fav_books)
@@ -50,6 +51,7 @@ class FavoriteBooksActivity extends DoubanActivity{
     val readAdapter = new CollectionItemAdapter("read", load)
     find[ListView](R.id.read) onItemClick listener  setAdapter readAdapter
     load("read",readAdapter)
+    waiting
   }
 
   def filter(v:View){
@@ -71,6 +73,7 @@ class FavoriteBooksActivity extends DoubanActivity{
       case Success(r:CollectionSearchResult)=>runOnUiThread{
         adapter.addResult(r.total,r.collections.size,r.collections)
         adapter.notifyDataSetChanged()
+        if(null!=waiting) waiting.cancel()
       }
       case _=>
     }

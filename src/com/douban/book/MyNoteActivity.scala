@@ -1,13 +1,14 @@
 package com.douban.book
 
-import com.douban.base.{DoubanFragment, Constant, DBundle, DoubanActivity}
+import com.douban.base.{Constant, DBundle, DoubanActivity}
 import android.view.{LayoutInflater, ViewGroup, View}
 import android.os.Bundle
-import com.douban.models.{AnnotationSearchResult, ListSearch, Book}
-import android.widget.{AdapterView, TextView, ListView}
+import com.douban.models.{ListSearch, Book}
+import android.widget.{AdapterView, ListView}
 import org.scaloid.common._
 import com.douban.models.AnnotationSearchResult
-import java.io.Serializable
+import android.content.Intent
+import android.app.Activity
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -20,11 +21,12 @@ class MyNoteActivity extends DoubanActivity{
   private var currentPage = 1
   private var total = Int.MaxValue
   private val mapping=NotesActivity.mapping++Map(R.id.book_img->"book.images.medium")
+  private val REQUEST_CODE=0
   lazy val listAdapter=new MyNoteItemAdapter(mapping,firstLoad)
+  lazy val listView=find[ListView](R.id.my_notes)
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.mynotes)
-    val listView=find[ListView](R.id.my_notes)
     listView.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS)
     listView.onItemClick((l: AdapterView[_], v: View, position: Int, id: Long)=>{
       viewNote(position)
@@ -42,6 +44,7 @@ class MyNoteActivity extends DoubanActivity{
     success= (a:AnnotationSearchResult)=>{
       val size: Int = a.annotations.size
       total=a.total
+      put(Constant.NOTES_NUM,total)
       val index=a.start + size
       currentPage+=1
       if(1==page) {
@@ -60,16 +63,22 @@ class MyNoteActivity extends DoubanActivity{
     )
   }
   def viewNote(pos:Int){
-    fragmentManager.beginTransaction().add(R.id.notes_container,new MyNoteViewFragment(listAdapter).addArguments(DBundle().put(Constant.ARG_POSITION,pos)),Constant.ACTIVITY_NOTE_VIEW).addToBackStack(null).commit()
+    startActivityForResult(SIntent[NotesActivity].putExtra(Constant.ARG_POSITION,pos).putExtra(Constant.LIST_ADAPTER,listAdapter),REQUEST_CODE)
+  }
+
+  override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    if(requestCode==REQUEST_CODE&&resultCode==Activity.RESULT_OK){
+      val p=data.getIntExtra(Constant.ARG_POSITION,-1)
+      if(-1!=p)
+        listView.setSelection(p)
+    }
   }
 }
 
-class MyNoteItemAdapter(mapping:Map[Int,Any],load: => Unit)(implicit ctx: DoubanActivity)  extends NoteItemAdapter(mapping,load,R.layout.my_notes_item){
-}
+class MyNoteItemAdapter(mapping:Map[Int,Any],load: => Unit)(implicit ctx: DoubanActivity) extends NoteItemAdapter(mapping,load,R.layout.my_notes_item)
 
-class MyNoteViewFragment(listAdapter:NoteItemAdapter)  extends NoteViewFragment(listAdapter){
+class MyNoteViewActivity  extends NoteViewActivity(R.layout.mynote_view){
 
   override val mapping= NotesActivity.mapping++Map(R.id.book_img->"book.images.medium",R.id.bookTitle -> "title", R.id.bookAuthor -> List("author", "translator"), R.id.bookPublisher -> List("publisher", "pubdate"))
 
-  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = inflater.inflate(R.layout.mynote_view,container,false)
 }
