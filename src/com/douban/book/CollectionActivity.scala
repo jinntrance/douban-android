@@ -100,7 +100,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
           check(getView.find[Button](if (0 == id) R.id.wish else id))
           future {
             activity.getAccessToken
-            updateCollection(activity.book.getOrElse(bk).updateCollection(Book.collectionOf(bk.id)))
+            updateCollection(activity.book.getOrElse(bk).updateExistCollection(Book.collectionOf(bk.id)))
           }
         }
       }

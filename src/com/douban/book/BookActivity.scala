@@ -77,7 +77,7 @@ class BookActivity extends DoubanActivity {
   override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
     if(resultCode==Activity.RESULT_OK&&requestCode==COLLECTION_MODIFICATION_REQUEST) {
       data.getSerializableExtra(Constant.COLLECTION) match{
-        case c:Collection=>book.get.updateCollection(c)
+        case c:Collection=>book.get.updateExistCollection(c)
         case _=>
       }
     }
@@ -89,7 +89,7 @@ class BookActivity extends DoubanActivity {
             book match {
               case Some(b: Book) if Book.deleteCollection(b.id) => {
                 toast(R.string.decollect_successfully)
-                b.updateCollection(book.get.updateCollection(null))
+                book.get.updateExistCollection(null)
                 fragment.updateBookView()
               }
               case _ => toast(R.string.decollect_unsuccessfully)

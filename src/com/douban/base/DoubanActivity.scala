@@ -316,7 +316,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
         val u=getOrElse(Constant.USERNAME,user.name)
         val a=getOrElse(Constant.AVATAR,user.large_avatar)
         val c=getOrElse(Constant.COLLE_NUM,Book.collectionsOfUser(userId).total).toInt
-        val n=getOrElse(Constant.NOTES_NUM,Book.annotationsOfUser(userId.toString).total).toInt
+        val n=getOrElse(Constant.NOTES_NUM,Book.annotationsOfUser(userId).total).toInt
         (u,a,c,n)
       } onComplete{
         case Success((username,a,c,n))=>runOnUiThread{
@@ -513,6 +513,8 @@ class ItemAdapter[B <: Any](layoutId: Int, mapping: Map[Int, Any], load: => Unit
 
   def getBean(index: Int): B = list.get(index)
 
+  def getList=list
+
   def getItemId(position: Int): Long = position
 
   def addResult(total: Long, loadedSize: Int, items: java.util.List[B]) {
@@ -541,3 +543,30 @@ class ItemAdapter[B <: Any](layoutId: Int, mapping: Map[Int, Any], load: => Unit
 }
 
 case class ListResult[T](total:Int,list:java.util.List[T])
+
+trait SwipeGestureDoubanActivity extends DoubanActivity{
+  lazy val detector = new GestureDetector(this,new GestureDetector.SimpleOnGestureListener() {
+
+    override def onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float)={
+      val offset: Float = e2.getRawX - e1.getRawX
+      val threshold: Int = 80
+      if (offset > threshold) {
+        showNext()
+        true
+      }else if (offset < -threshold) {
+        showPre()
+        true
+      } else super.onFling(e1, e2, velocityX, velocityY)
+    }
+
+  })
+
+  override def onTouchEvent(event: MotionEvent)= {
+    detector.onTouchEvent(event)
+    super.onTouchEvent(event)
+  }
+
+  def showNext()
+
+  def showPre()
+}

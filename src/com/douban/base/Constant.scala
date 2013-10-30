@@ -10,7 +10,7 @@ import com.douban.common.Auth
  * @version 1.0
  */
 object Constant {
-  var LIST_ADAPTER: String="listAdapter"
+  var DATA_LIST: String="dataList"
 
   def PUBLIC="public"
 

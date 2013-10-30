@@ -4,10 +4,12 @@ import com.douban.base._
 import android.view._
 import android.os.Bundle
 import scala.concurrent._
-import com.douban.models.Book
+import com.douban.models._
 import  ExecutionContext.Implicits.global
 import org.scaloid.common._
 import android.widget._
+import scala.Some
+import scala.util.Success
 import com.douban.models.CollectionSearchResult
 import scala.Some
 import com.douban.models.CollectionSearch
@@ -21,23 +23,24 @@ import com.douban.models.Collection
  * @since 10/7/13 1:25 AM
  * @version 1.0
  */
-class FavoriteBooksActivity extends DoubanActivity{
+class FavoriteBooksActivity extends SwipeGestureDoubanActivity{
   lazy val waiting=waitToLoad()
+  lazy val th=find[TabHost](R.id.tabHost)
+  var currentTab=1
   override def onCreate(b: Bundle){
     super.onCreate(b)
     setContentView(R.layout.fav_books)
-    val th=find[TabHost](R.id.tabHost)
     th.setup()
     th.addTab(th.newTabSpec("wish").setIndicator("想读").setContent(R.id.wish_container))
     th.addTab(th.newTabSpec("reading").setIndicator("在读").setContent(R.id.reading_container))
     th.addTab(th.newTabSpec("read").setIndicator("已读").setContent(R.id.read_container))
-    th.setCurrentTab(1)
+    th.setCurrentTab(currentTab)
     val  listener= (parent: AdapterView[_], view: View, position: Int, id: Long)=> {
       parent.getAdapter.asInstanceOf[CollectionItemAdapter].getBean(position) match {
         case c:Collection=>{
           val book=c.book
           c.updateBook(null)
-          book.updateCollection(c)
+          book.updateExistCollection(c)
           startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY,Some(book)))
         }
       }
@@ -84,6 +87,15 @@ class FavoriteBooksActivity extends DoubanActivity{
     super.onCreateOptionsMenu(menu)
   }
 
+  def showNext(): Unit = {
+    currentTab=(currentTab+1)%3
+    th.setCurrentTab(currentTab)
+  }
+
+  def showPre(): Unit = {
+    currentTab=(currentTab-1)%3
+    th.setCurrentTab(currentTab)
+  }
 }
 
 
@@ -150,6 +162,24 @@ class CollectionItemAdapter(status:String,loader: (String,CollectionItemAdapter)
 
 
   override protected def selfLoad(): Unit = loader(status,this)
+}
+
+class FavoriteBooksFilterActivity extends DoubanActivity{
+  protected override def onCreate(b: Bundle): Unit = {
+    super.onCreate(b)
+    setContentView(R.layout.fav_books_filter)
+    future{
+      Book.tagsOf(currentUserId)
+    }onSuccess{
+      case t:TagsResult=>runOnUiThread({
+        val container=find[LinearLayout](R.id.tags_container)
+        t.tags.foreach(tag=>container.addView(new SLinearLayout{
+          SCheckBox(tag.toString)
+        }))
+      })
+      case _=>
+    }
+  }
 }
 
 

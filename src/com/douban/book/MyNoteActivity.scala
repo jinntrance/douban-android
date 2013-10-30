@@ -3,12 +3,14 @@ package com.douban.book
 import com.douban.base.{Constant, DBundle, DoubanActivity}
 import android.view.{LayoutInflater, ViewGroup, View}
 import android.os.Bundle
-import com.douban.models.{ListSearch, Book}
+import com.douban.models._
 import android.widget.{AdapterView, ListView}
 import org.scaloid.common._
-import com.douban.models.AnnotationSearchResult
 import android.content.Intent
 import android.app.Activity
+import java.util
+import com.douban.models.ListSearchPara
+import com.douban.models.AnnotationSearchResult
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -40,7 +42,7 @@ class MyNoteActivity extends DoubanActivity{
   def load(page:Int=currentPage){
     listLoader(
     toLoad = 1==page || listAdapter.getCount<total,
-    result=Book.annotationsOfUser(currentUserId.toString,new ListSearch(listAdapter.getCount,countPerPage)),
+    result=Book.annotationsOfUser(currentUserId,new ListSearchPara(listAdapter.getCount,countPerPage)),
     success= (a:AnnotationSearchResult)=>{
       val size: Int = a.annotations.size
       total=a.total
@@ -63,7 +65,7 @@ class MyNoteActivity extends DoubanActivity{
     )
   }
   def viewNote(pos:Int){
-    startActivityForResult(SIntent[NotesActivity].putExtra(Constant.ARG_POSITION,pos).putExtra(Constant.LIST_ADAPTER,listAdapter),REQUEST_CODE)
+    startActivityForResult(SIntent[NotesActivity].putExtra(Constant.ARG_POSITION,pos).putExtra(Constant.DATA_LIST,new util.ArrayList(listAdapter.getList)),REQUEST_CODE)
   }
 
   override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
