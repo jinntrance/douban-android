@@ -13,7 +13,7 @@ name := "douban-book"
 
 version := "2.1"
 
-scalaVersion := "2.10.2"
+scalaVersion := "2.10.3"
 
 minSdkVersion in Android := 14
 
@@ -36,7 +36,7 @@ install <<= install in Android
 
 libraryDependencies ++= Seq(
 			"org.scaloid" % "scaloid_2.10" % "2.4-8",
-			"com.douban" % "scala-api_2.10" % "2.4.2" withSources(),
+			"com.douban" % "scala-api_2.10" % "2.4.3" withSources(),
 			"com.google.android" % "support-v4" % "r7"
 			)
 

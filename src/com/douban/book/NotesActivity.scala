@@ -10,6 +10,8 @@ import com.douban.base.DBundle
 import com.douban.models.AnnotationSearch
 import com.douban.models.AnnotationSearchResult
 import com.douban.models.Annotation
+import android.content.Intent
+import android.app.Activity
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -20,8 +22,17 @@ import com.douban.models.Annotation
  */
 class NotesActivity extends DoubanActivity {
   var listAdapter:NoteItemAdapter=null
+  private val REQUEST_CODE=0
   def viewNote(pos:Int){
-    fragmentManager.beginTransaction().replace(R.id.notes_container,new NoteViewFragment(listAdapter).addArguments(DBundle().put(Constant.ARG_POSITION,pos)),Constant.ACTIVITY_NOTE_VIEW).addToBackStack(null).commit()
+    startActivityForResult(SIntent[PublicNoteViewActivity].putExtra(Constant.ARG_POSITION,pos).putExtra(Constant.LIST_ADAPTER,listAdapter),REQUEST_CODE)
+  }
+
+  override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    if(requestCode==REQUEST_CODE&&resultCode==Activity.RESULT_OK){
+      val p=data.getIntExtra(Constant.ARG_POSITION,-1)
+      if(-1!=p)
+        listFragment.setSelection(p)
+    }
   }
 
   lazy val bookId = getIntent.getLongExtra(Constant.BOOK_ID, 0)
@@ -69,12 +80,6 @@ class NotesActivity extends DoubanActivity {
   def addNote(v:View) = listFragment match {
     case l:NotesListFragment=>l.addNote()
     case _=>
-  }
-  def viewPreviousNote(m:MenuItem){
-       //TODO
-  }
-  def viewNextNote(m:MenuItem){
-       //TODO
   }
 }
 
@@ -157,63 +162,12 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
   }
 }
 
-class NoteViewFragment(listAdapter:NoteItemAdapter) extends DoubanFragment[DoubanActivity]{
-  var currentOffset=0
-  var count=0
-  val mapping:Map[Int,Any]=NotesActivity.mapping++Map(R.id.user_avatar->"author_user.avatar")
-  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = inflater.inflate(R.layout.note_view,container,false)
-
-  override def onActivityCreated(b: Bundle){
-    super.onActivityCreated(b)
-    count=listAdapter.getCount
-    val pos: Int = getArguments.getInt(Constant.ARG_POSITION)
-    activity.replaceActionBar(R.layout.header_note,listAdapter.getBean(pos).book.title)
-    display(pos)
-  }
-
-  def display(position:Int){
-
-    currentOffset=position % count
-    val a= listAdapter.getBean(currentOffset)
-    batchSetValues(mapping,listAdapter.getItem(currentOffset),getView)
-    val container: LinearLayout = getView.find[LinearLayout](R.id.note_content)
-    container.addView(parse(a.content))
-
-    def parse(c:String,layout:SLinearLayout=new SVerticalLayout{}):SLinearLayout={
-      c match{
-        case r"([\s\S]*?)${pre}<原文开始>([\s\S]+?)${txt}</原文结束>([\s\S]*)${suffix}"=>{
-          parse(pre,layout)
-          layout+= new SLinearLayout {
-            SImageView(R.drawable.add_note_context).<<.wrap.>>
-            STextView(txt).<<.wrap.Weight(1.0f).>>
-          }
-          parse(suffix,layout)
-        }
-        case r"([\s\S]*?)${pre}<图片(\d+)${imgUrl}>([\s\S]*)${suffix}"=>{
-          parse(pre,layout)
-          layout += new SLinearLayout{
-            val img=SImageView()
-            loadImage(a.photos.get(imgUrl),img)
-          }
-          parse(suffix,layout)
-        }
-        case ""=> layout
-        case txt=> layout+= new SLinearLayout{STextView(txt)}
-      }
-    }
-  }
-
-
-  def displayPrevious()=display(count+currentOffset-1)
-  def displayNext()=display(currentOffset+1)
-}
-
 object NotesActivity{
   import R.id._
   val mapping=Map(page_num->("page_no","P%s"),chapter_name->"chapter",note_time->"time",username->"author_user.name",note_content->"content")
 }
 
-class NoteItemAdapter(mapping:Map[Int,Any],load: => Unit,layout:Int=R.layout.notes_item)(implicit ctx: DoubanActivity) extends ItemAdapter[Annotation](layout,mapping,load=load) {
+class NoteItemAdapter(mapping:Map[Int,Any],load: => Unit,layout:Int=R.layout.notes_item)(implicit ctx: DoubanActivity) extends ItemAdapter[Annotation](layout,mapping,load=load) with Serializable{
   override def getView(position: Int, view: View, parent: ViewGroup): View = {
     val convertView = super.getView(position,view,parent)
     getItem(position).getOrElse("page_no","") match {

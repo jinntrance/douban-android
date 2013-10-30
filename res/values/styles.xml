@@ -143,6 +143,8 @@
         <item name="android:textColor">@drawable/tab_text</item>
     </style>
     <style name="DoubanTheme" parent="android:Theme.Holo.Light">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
         <item name="android:background">@color/transparent</item>
         <item name="android:itemBackground">@color/background_white</item>
         <item name="android:panelBackground">@color/background_white</item>

@@ -74,8 +74,8 @@ class AddNoteActivity extends DoubanActivity {
     val text=find[EditText](R.id.note_input)
     val start: Int = text.getSelectionStart
     val end: Int = text.getSelectionEnd
-    val (newString:String,newEnd:Int)=text.getText.toString.substring(start,end) match{
-      case r"<原文开始>([\s\S]+?)${selection}</原文结束>"=>(selection,end-13)
+    val (newString:String,newEnd:Int)=text.getText.toString.substring(start,end).trim match{
+      case r"<原文开始>([\s\S]*)${selection}</原文结束>"=>(selection,end-13)
       case s:String=>(s"<原文开始>$s</原文结束>",end+13)
     }
     text.getText.replace(start,end,newString)
