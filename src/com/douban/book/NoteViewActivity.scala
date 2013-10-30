@@ -1,11 +1,13 @@
 package com.douban.book
 
-import com.douban.base.{Constant, DoubanFragment, DoubanActivity}
+import com.douban.base.{SwipeGestureDoubanActivity, Constant, DoubanFragment, DoubanActivity}
 import android.view.{View, ViewGroup, LayoutInflater}
 import android.os.Bundle
 import android.widget.LinearLayout
 import org.scaloid.common.{STextView, SImageView, SVerticalLayout, SLinearLayout}
 import android.app.Activity
+import com.douban.models.Annotation
+import java.util
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -17,13 +19,13 @@ import android.app.Activity
 
 class PublicNoteViewActivity extends NoteViewActivity(R.layout.note_view)
 
-class NoteViewActivity(layoutId:Int) extends DoubanActivity{
+class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
   var currentOffset=0
   var count=0
   val mapping:Map[Int,Any]=NotesActivity.mapping++Map(R.id.user_avatar->"author_user.avatar")
   var pos = 0
-  lazy val listAdapter:NoteItemAdapter=getIntent.getSerializableExtra(Constant.LIST_ADAPTER) match {
-    case a:NoteItemAdapter=>a
+  lazy val dataList:util.List[Annotation]=getIntent.getSerializableExtra(Constant.DATA_LIST) match {
+    case a:util.ArrayList[Annotation]=>a
     case _=>this.finish();null
   }
 
@@ -31,16 +33,16 @@ class NoteViewActivity(layoutId:Int) extends DoubanActivity{
       super.onCreate(b)
       setContentView(layoutId)
       pos=getIntent.getIntExtra(Constant.ARG_POSITION,0)
-      count=listAdapter.getCount
-      replaceActionBar(R.layout.header_note,listAdapter.getBean(pos).book.title)
+      count=dataList.size()
+      replaceActionBar(R.layout.header_note,dataList.get(pos).book.title)
       display(pos)
     }
 
     def display(position:Int){
       pos=position
       currentOffset=position % count
-      val a= listAdapter.getBean(currentOffset)
-      batchSetValues(mapping,listAdapter.getItem(currentOffset))
+      val a= dataList.get(currentOffset)
+      batchSetValues(mapping,beanToMap(a))
       val container: LinearLayout = find[LinearLayout](R.id.note_content)
       container.addView(parse(a.content))
 
@@ -75,5 +77,15 @@ class NoteViewActivity(layoutId:Int) extends DoubanActivity{
   override def finish(){
     setResult(Activity.RESULT_OK,getIntent.putExtra(Constant.ARG_POSITION,pos))
     super.finish()
+  }
+
+  def showNext(): Unit = {
+    pos=(pos+1)%count
+    display(pos)
+  }
+
+  def showPre(): Unit = {
+    pos=(pos-1)%count
+    display(pos)
   }
 }

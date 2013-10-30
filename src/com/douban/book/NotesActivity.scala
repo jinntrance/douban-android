@@ -12,6 +12,7 @@ import com.douban.models.AnnotationSearchResult
 import com.douban.models.Annotation
 import android.content.Intent
 import android.app.Activity
+import java.util
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -24,7 +25,7 @@ class NotesActivity extends DoubanActivity {
   var listAdapter:NoteItemAdapter=null
   private val REQUEST_CODE=0
   def viewNote(pos:Int){
-    startActivityForResult(SIntent[PublicNoteViewActivity].putExtra(Constant.ARG_POSITION,pos).putExtra(Constant.LIST_ADAPTER,listAdapter),REQUEST_CODE)
+    startActivityForResult(SIntent[PublicNoteViewActivity].putExtra(Constant.ARG_POSITION,pos).putExtra(Constant.DATA_LIST,new util.ArrayList(listAdapter.getList)),REQUEST_CODE)
   }
 
   override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {

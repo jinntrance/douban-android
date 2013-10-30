@@ -14,7 +14,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="收藏状态" />
+                android:text="收藏状态"
+                android:layout_gravity="center_vertical" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -50,7 +51,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="我的评分" />
+                android:text="我的评分"
+                android:layout_gravity="center_vertical" />
 
             <RatingBar
                 android:layout_width="wrap_content"
@@ -65,10 +67,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="收藏时间" />
+                android:text="收藏时间"
+                android:layout_gravity="center_vertical" />
 
             <LinearLayout
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -99,9 +102,8 @@
                 android:text="我的标签" />
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></LinearLayout>
+                android:layout_height="wrap_content" android:id="@+id/tags_container"></LinearLayout>
         </TableRow>
     </TableLayout>
 </LinearLayout>
