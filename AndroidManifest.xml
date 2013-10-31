@@ -47,6 +47,8 @@
         <activity android:label="@string/add_note" android:name=".AddNoteActivity" />
         <activity android:label="@string/menu_settings" android:name=".SettingsActivity" />
         <activity android:label="我的笔记" android:name=".MyNoteActivity" android:launchMode="singleInstance"/>
+        <activity android:label="@string/annotation" android:name=".PublicNoteViewActivity" />
+        <activity android:label="@string/annotation" android:name=".MyNoteViewActivity" />
         <activity android:label="我收藏的书" android:name=".FavoriteBooksActivity" android:launchMode="singleInstance"/>
         <activity android:label="关于" android:name=".AboutActivity" />
         <activity android:name="com.google.zxing.client.android.CaptureActivity"
