@@ -81,6 +81,6 @@ class MyNoteItemAdapter(mapping:Map[Int,Any],load: => Unit)(implicit ctx: Douban
 
 class MyNoteViewActivity  extends NoteViewActivity(R.layout.mynote_view){
 
-  override val mapping= NotesActivity.mapping++Map(R.id.book_img->"book.images.medium",R.id.bookTitle -> "title", R.id.bookAuthor -> List("author", "translator"), R.id.bookPublisher -> List("publisher", "pubdate"))
+  override val mapping= NotesActivity.mapping++Map(R.id.book_img->"book.images.medium",R.id.bookTitle -> "book.title", R.id.bookAuthor -> List("book.author", "book.translator"), R.id.bookPublisher -> List("book.publisher", "book.pubdate"))
 
 }
