@@ -6,24 +6,25 @@
     android:id="@+id/scrollView"
    >
 <LinearLayout  android:orientation="vertical"
-    android:layout_width="match_parent" android:layout_height="match_parent"  android:layout_margin="@dimen/margin_medium" android:id="@+id/note_content">
+    android:layout_width="match_parent" android:layout_height="match_parent"  android:id="@+id/note_content">
 
 
   <LinearLayout
       android:orientation="horizontal"
       android:layout_width="match_parent"
-      android:layout_height="80dp"
-      android:background="@android:drawable/screen_background_light_transparent"
+      android:layout_height="wrap_content"
+      android:background="@color/dark_transparent"
       android:baselineAligned="false">
 
-    <include layout="@layout/book_image" />
-    <include layout="@layout/book_basic_info" />
+    <include layout="@layout/book_image"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
+    <include layout="@layout/book_basic_info" style="@style/DoubanText.White" />
       </LinearLayout>
 
   <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_medium">
+            android:layout_height="wrap_content"  android:padding="@dimen/padding_large">
 
           <Button
               android:layout_width="wrap_content"

@@ -41,7 +41,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text=""  android:singleLine="true" android:ellipsize="end"
+                            android:text=""  android:ellipsize="end"
                             style="@style/DoubanTextTitle.Black"
                             android:id="@+id/bookTitle" />
 
@@ -57,7 +57,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text=""  android:singleLine="true" android:ellipsize="end" style="@style/DoubanText"
+                                android:text=""  android:ellipsize="end" style="@style/DoubanText"
                                 android:id="@+id/bookSubtitle" />
                         </LinearLayout>
 
