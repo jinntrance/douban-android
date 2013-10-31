@@ -25,7 +25,7 @@ class NotesActivity extends DoubanActivity {
   var listAdapter:NoteItemAdapter=null
   private val REQUEST_CODE=0
   def viewNote(pos:Int){
-    startActivityForResult(SIntent[PublicNoteViewActivity].putExtra(Constant.ARG_POSITION,pos).putExtra(Constant.DATA_LIST,new util.ArrayList(listAdapter.getList)),REQUEST_CODE)
+    startActivityForResult(SIntent[PublicNoteViewActivity].putExtra(Constant.ARG_POSITION,pos).putExtra(Constant.DATA_LIST,new util.ArrayList(listAdapter.getData)),REQUEST_CODE)
   }
 
   override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {

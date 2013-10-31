@@ -14,7 +14,7 @@ import scala.collection.mutable
 import android.widget._
 import android.graphics.drawable.Drawable
 import java.net.URL
-import java.io.{FileOutputStream, File, InputStream}
+import java.io.{IOException, FileOutputStream, File, InputStream}
 import android.graphics.{Bitmap, BitmapFactory}
 import android.content.{Intent, DialogInterface, Context}
 import android.telephony.TelephonyManager
@@ -258,27 +258,6 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     case _ => new Fragment().asInstanceOf[T]
   }
 
-  Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-    def uncaughtException(thread: Thread, ex: Throwable) {
-      ex match {
-        case exception: DoubanException if exception.tokenExpired =>
-          handle(Auth.getTokenByFresh(get(Constant.refreshTokenString), Constant.apiKey, Constant.apiSecret)
-            , (t: Option[AccessTokenResult]) => {
-              if (None != t) updateToken(t.get)
-              else {
-                put(Constant.accessTokenString, "")
-                toast(R.string.relogin_needed)
-              }
-            })
-        case e:Exception => e.printStackTrace()
-        case _ =>
-      }
-      toast(ex.getMessage)
-      ex.printStackTrace()
-    }
-  })
-
-
   def login(v:View){
       login()
   }
@@ -295,6 +274,25 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   protected override def onCreate(b: Bundle){
     super.onCreate(b)
     getActionBar.setDisplayHomeAsUpEnabled(true)
+    Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+      def uncaughtException(thread: Thread, ex: Throwable) {
+        ex match {
+          case exception: DoubanException if exception.tokenExpired =>
+            handle(Auth.getTokenByFresh(get(Constant.refreshTokenString), Constant.apiKey, Constant.apiSecret)
+              , (t: Option[AccessTokenResult]) => {
+                if (None != t) updateToken(t.get)
+                else {
+                  put(Constant.accessTokenString, "")
+                  toast(R.string.relogin_needed)
+                }
+              })
+          case e:IOException => toast(R.string.notify_offline)
+          case e:Exception => e.printStackTrace();toast(e.getMessage);DoubanActivity.this.finish()
+          case _ => //TODO
+        }
+        toast(ex.getMessage)
+      }
+    })
   }
 
   lazy val slidingMenu = {
@@ -513,7 +511,7 @@ class ItemAdapter[B <: Any](layoutId: Int, mapping: Map[Int, Any], load: => Unit
 
   def getBean(index: Int): B = list.get(index)
 
-  def getList=list
+  def getData=data
 
   def getItemId(position: Int): Long = position
 

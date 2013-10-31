@@ -30,7 +30,7 @@
     <string name="double_back_to_exit">再次按返回退出</string>
     <string name="button_ok">OK</string>
     <string name="swipe_up_to_load">上划获取更多(%1$s/%2$s)</string>
-    <string name="notify_offline">网络已断开，请连接后重试</string>
+    <string name="notify_offline">未检测到网络链接，请重新链接网络后再试</string>
     <string name="load_img_fail">加载%1$s图片失败</string>
     <string name="menu_share">Share</string>
     <string name="menu_history">History</string>

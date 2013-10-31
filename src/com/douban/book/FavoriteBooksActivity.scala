@@ -23,7 +23,7 @@ import com.douban.models.Collection
  * @since 10/7/13 1:25 AM
  * @version 1.0
  */
-class FavoriteBooksActivity extends SwipeGestureDoubanActivity{
+class FavoriteBooksActivity extends DoubanActivity{
   lazy val waiting=waitToLoad()
   lazy val th=find[TabHost](R.id.tabHost)
   var currentTab=1

@@ -24,8 +24,8 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
   var count=0
   val mapping:Map[Int,Any]=NotesActivity.mapping++Map(R.id.user_avatar->"author_user.avatar")
   var pos = 0
-  lazy val dataList:util.List[Annotation]=getIntent.getSerializableExtra(Constant.DATA_LIST) match {
-    case a:util.ArrayList[Annotation]=>a
+  lazy val dataList:util.List[Map[String,String]]=getIntent.getSerializableExtra(Constant.DATA_LIST) match {
+    case a:util.ArrayList[Map[String,String]]=>a
     case _=>this.finish();null
   }
 
@@ -34,7 +34,7 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
       setContentView(layoutId)
       pos=getIntent.getIntExtra(Constant.ARG_POSITION,0)
       count=dataList.size()
-      replaceActionBar(R.layout.header_note,dataList.get(pos).book.title)
+      replaceActionBar(R.layout.header_note,dataList.get(pos).getOrElse("book.title",getString(R.string.annotation)))
       display(pos)
     }
 
@@ -42,9 +42,9 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
       pos=position
       currentOffset=position % count
       val a= dataList.get(currentOffset)
-      batchSetValues(mapping,beanToMap(a))
+      batchSetValues(mapping,a)
       val container: LinearLayout = find[LinearLayout](R.id.note_content)
-      container.addView(parse(a.content))
+      container.addView(parse(a.getOrElse("content","")))
 
       def parse(c:String,layout:SLinearLayout=new SVerticalLayout{}):SLinearLayout={
         c match{
@@ -60,7 +60,7 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
             parse(pre,layout)
             layout += new SLinearLayout{
               val img=SImageView()
-              loadImage(a.photos.get(imgUrl),img)
+              loadImage(a.getOrElse(s"photos.$imgUrl",""),img)
             }
             parse(suffix,layout)
           }
