@@ -37,7 +37,7 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
       setContentView(layoutId)
       pos=positionFromIntent
       count=dataList.size()
-      replaceActionBar(R.layout.header_note,dataList.get(pos).getOrElse("book.title",getString(R.string.annotation)))
+      replaceActionBar(R.layout.header_note,getString(R.string.annotation))
       display(pos)
     }
 
@@ -45,6 +45,7 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
       pos=position
       currentOffset=position % count
       val a= dataList.get(currentOffset)
+      setWindowTitle(a.getOrElse("book.title",getString(R.string.annotation)))
       batchSetValues(mapping,a)
       val container: LinearLayout = find[LinearLayout](R.id.note_content)
       container.addView(parse(a.getOrElse("content","")))
@@ -55,7 +56,7 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
             parse(pre,layout)
             layout+= new SLinearLayout {
               SImageView(R.drawable.add_note_context).<<.wrap.>>
-              STextView(txt).<<.wrap.Weight(1.0f).>>
+              STextView(txt.trim).<<.wrap.Weight(1.0f).>>
             }
             parse(suffix,layout)
           }
@@ -68,14 +69,10 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
             parse(suffix,layout)
           }
           case ""=> layout
-          case txt=> layout+= new SLinearLayout{STextView(txt)}
+          case txt=> layout+= new SLinearLayout{STextView(txt.trim)}
         }
       }
     }
-
-
-    def displayPrevious()=display(count+currentOffset-1)
-    def displayNext()=display(currentOffset+1)
 
   override def finish(){
     setResult(Activity.RESULT_OK,getIntent.putExtra(Constant.ARG_POSITION,pos))

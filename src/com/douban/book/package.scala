@@ -5,9 +5,6 @@ import scala.collection.mutable
 import scala.language.implicitConversions
 import scala.language.reflectiveCalls
 import collection.JavaConverters._
-import org.scaloid.common._
-import scala.concurrent._
-import ExecutionContext.Implicits.global
 import com.douban.common.Req
 import android.content.Context
 import android.view.View
@@ -27,9 +24,15 @@ package object book{
     def r = new util.matching.Regex(sc.parts.mkString, sc.parts.tail.map(_ => "x"): _*)
   }
 
-  implicit def javaList2Scala[T](l: java.util.List[T]): mutable.Buffer[T] = l.asScala
+  implicit def javaList2Scala[T](l: java.util.List[T]): mutable.Buffer[T] = l match {
+    case list:java.util.List[T]=>l.asScala
+    case _=>mutable.Buffer()
+  }
 
-  implicit def javaIterator2Scala[T](l: java.util.Iterator[T]) = l.asScala
+  implicit def javaIterator2Scala[T](l: java.util.Iterator[T]) = l match {
+    case list:java.util.Iterator[T]=>l.asScala
+    case _=>Nil
+  }
 
   implicit def scalaList2java[T](l: scala.List[T]): java.util.List[T] = l.asJava
 
@@ -56,7 +59,7 @@ package object book{
     t
   }
 
-  implicit def string2Button(s: String)(implicit ctx: Context): View = {
+  @inline def string2Button(s: String)(implicit ctx: Context): View = {
     val t = new Button(ctx)
     t.setText(s)
     t

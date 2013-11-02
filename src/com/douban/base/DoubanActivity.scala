@@ -61,9 +61,12 @@ trait Douban {
         case _ =>
       }
       case value: String => holder.findViewById(id) match {
-        case view: TextView => view.setText(value)
-        case rating: RatingBar => rating.setNumStars(value.toInt)
-        case img: ImageView if value != "URL" => loadImage(value, img, notification)
+        case v: View => v.visibility(View.VISIBLE) match {
+          case view: TextView => view.setText(value)
+          case rating: RatingBar => rating.setNumStars(value.toInt)
+          case img: ImageView if value != "URL" => loadImage(value, img, notification)
+          case _ =>
+        }
         case _ =>
       }
     }
@@ -281,8 +284,10 @@ trait DoubanActivity extends SFragmentActivity with Douban {
                 }
               })
           case e:IOException => toast(R.string.notify_offline)
-          case e:Exception => e.printStackTrace();toast(e.getMessage);DoubanActivity.this.finish()
-          case _ => //TODO
+          case e:Throwable => {
+            e.printStackTrace();longToast(e.getMessage);getThisActivity.finish()
+          }
+          case _ =>
         }
         toast(ex.getMessage)
       }
@@ -556,14 +561,13 @@ trait SwipeGestureDoubanActivity extends DoubanActivity{
       }else if (offset < -threshold) {
         showPre()
         true
-      } else super.onFling(e1, e2, velocityX, velocityY)
+      } else false
     }
 
   })
 
-  override def onTouchEvent(event: MotionEvent)= {
-    detector.onTouchEvent(event)
-    super.onTouchEvent(event)
+  override def dispatchTouchEvent(event: MotionEvent)= {
+    detector.onTouchEvent(event)||super.dispatchTouchEvent(event)
   }
 
   def showNext()
