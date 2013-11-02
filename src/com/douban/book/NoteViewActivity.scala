@@ -48,6 +48,7 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
       setWindowTitle(a.getOrElse("book.title",getString(R.string.annotation)))
       batchSetValues(mapping,a)
       val container: LinearLayout = find[LinearLayout](R.id.note_content)
+      container.removeAllViews()
       container.addView(parse(a.getOrElse("content","")))
 
       def parse(c:String,layout:SLinearLayout=new SVerticalLayout{}):SLinearLayout={
