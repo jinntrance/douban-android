@@ -23,20 +23,14 @@ import scala.language.reflectiveCalls
 import android.os.Bundle
 import org.scaloid.support.v4.{SFragment, SListFragment, SFragmentActivity}
 import android.support.v4.app.Fragment
-import android.app.{Dialog, AlertDialog, ProgressDialog, ActionBar}
+import android.app.{Dialog, ProgressDialog, ActionBar}
 import com.douban.models.{Book, User}
-import scala.util.Failure
-import org.scaloid.common.LoggerTag
-import scala.util.Success
-import com.douban.common.AccessTokenResult
 import android.view.inputmethod.InputMethodManager
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu
-import scala.reflect.ClassTag
 import scala.util.Failure
 import org.scaloid.common.LoggerTag
 import scala.util.Success
 import com.douban.common.AccessTokenResult
-import android.R.layout
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -444,6 +438,14 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     overridePendingTransition(R.anim.right_to_enter,R.anim.left_to_exit)
   }
 
+  override def startActivityForResult(intent: Intent, requestCode: Int, options: Bundle) ={
+    super.startActivityForResult(intent,requestCode,options)
+    overridePendingTransition(R.anim.right_to_enter,R.anim.left_to_exit)
+  }
+  override def startActivityForResult(intent: Intent, requestCode: Int) ={
+    super.startActivityForResult(intent,requestCode)
+    overridePendingTransition(R.anim.right_to_enter,R.anim.left_to_exit)
+  }
 }
 
 trait DoubanListFragment[T <: DoubanActivity] extends SListFragment with Douban {

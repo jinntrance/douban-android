@@ -26,10 +26,11 @@ class AddNoteActivity extends DoubanActivity {
   override def onCreate(b: Bundle){
     super.onCreate(b)
     setContentView(R.layout.add_note_container)
-    getIntent.getExtras.getString(Constant.BOOK_PAGE) match{
-      case p:String if p.nonEmpty => {
+    val bundle: Bundle = getIntent.getExtras
+    bundle.getString(Constant.BOOK_PAGE) match{
+      case p:String if p.nonEmpty||bundle.getString(Constant.ANNOTATION_CHAPTER,"").nonEmpty => {
         bookPage=p
-        fragmentManager.beginTransaction().replace(R.id.add_note_container,new AddNoteFragment).commit()
+        fragmentManager.beginTransaction().replace(R.id.add_note_container, new AddNoteFragment().addArguments(bundle)).commit()
       }
       case _=> editChapter(null)
     }
@@ -44,16 +45,19 @@ class AddNoteActivity extends DoubanActivity {
         if(bookPage.nonEmpty||chapter.nonEmpty) fragmentManager.beginTransaction().replace(R.id.add_note_container,new AddNoteFragment).commit()
       }
       case _=> future {
+        val a=new AnnotationPosted(find[EditText](R.id.note_input).text.toString,bookPage.toInt,chapter,if(public) "public" else "private")
         getIntent.getLongExtra(Constant.BOOK_ID,0) match {
           case bookId:Long if bookId>0 => {
             toast("正在保存到豆瓣帐号...")
-            val a=new AnnotationPosted(find[EditText](R.id.note_input).text.toString,bookPage.toInt,chapter,if(public) "public" else "private")
-            Book.postAnnotation(bookId,a)
+            Book.postAnnotation(bookId,a).isDefined
           }
-          case _=>None
+          case _=>{
+            val id=getIntent.getExtras.getString(Constant.ANNOTATION_ID,"0").toLong
+            id>0&&Book.updateAnnotation(id,a).isDefined
+          }
         }
       }onComplete{
-        case Success(Some(a))=>runOnUiThread{
+        case Success(true)=>runOnUiThread{
           toast(R.string.annotation_added)
           this.onBackPressed()
         }
@@ -102,9 +106,18 @@ class AddChapterFragment extends DoubanFragment[AddNoteActivity]{
 class AddNoteFragment extends DoubanFragment[AddNoteActivity]{
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, b: Bundle): View = inflater.inflate(R.layout.note_add,container,false)
 
-  override def onActivityCreated(b: Bundle) {
-    super.onActivityCreated(b)
-    activity.replaceActionBar(R.layout.header_edit_note,if(activity.bookPage.isEmpty) activity.chapter else "P"+activity.bookPage)
+  override def onActivityCreated(bd: Bundle) {
+    super.onActivityCreated(bd)
+    getArguments match {
+      case b: Bundle => {
+        val page = b.getString(Constant.BOOK_PAGE, activity.bookPage)
+        val chapter = b.getString(Constant.ANNOTATION_CHAPTER, activity.chapter)
+        val content = b.getString(Constant.ANNOTATION_CONTENT, "")
+        activity.replaceActionBar(R.layout.header_edit_note, if (page.isEmpty) chapter else "P" + page)
+        setViewValue(R.id.note_input, content, hideEmpty = false)
+      }
+      case _ => activity.replaceActionBar(R.layout.header_edit_note,if(activity.bookPage.isEmpty) activity.chapter else "P"+activity.bookPage)
+    }
   }
 }
 

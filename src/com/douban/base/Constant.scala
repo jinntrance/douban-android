@@ -10,6 +10,10 @@ import com.douban.common.Auth
  * @version 1.0
  */
 object Constant {
+  var ANNOTATION_ID="noteId"
+  var ANNOTATION_CHAPTER="noteChapter"
+  var ANNOTATION_CONTENT="noteCotent"
+
   var DATA_LIST: String="dataList"
 
   def PUBLIC="public"

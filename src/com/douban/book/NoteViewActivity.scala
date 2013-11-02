@@ -1,12 +1,12 @@
 package com.douban.book
 
-import com.douban.base.{SwipeGestureDoubanActivity, Constant, DoubanFragment, DoubanActivity}
-import android.view.{View, ViewGroup, LayoutInflater}
+import com.douban.base.{SwipeGestureDoubanActivity, Constant}
+import android.view._
 import android.os.Bundle
 import android.widget.LinearLayout
-import org.scaloid.common.{STextView, SImageView, SVerticalLayout, SLinearLayout}
+import org.scaloid.common._
 import android.app.Activity
-import com.douban.models.Annotation
+import com.douban.models.Book
 import java.util
 
 /**
@@ -24,15 +24,18 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
   var count=0
   val mapping:Map[Int,Any]=NotesActivity.mapping++Map(R.id.user_avatar->"author_user.avatar")
   var pos = 0
+
   lazy val dataList:util.List[Map[String,String]]=getIntent.getSerializableExtra(Constant.DATA_LIST) match {
     case a:util.ArrayList[Map[String,String]]=>a
     case _=>this.finish();null
   }
 
+  private def positionFromIntent=getIntent.getIntExtra(Constant.ARG_POSITION,0)
+
     override def onCreate(b: Bundle){
       super.onCreate(b)
       setContentView(layoutId)
-      pos=getIntent.getIntExtra(Constant.ARG_POSITION,0)
+      pos=positionFromIntent
       count=dataList.size()
       replaceActionBar(R.layout.header_note,dataList.get(pos).getOrElse("book.title",getString(R.string.annotation)))
       display(pos)
@@ -77,6 +80,28 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
   override def finish(){
     setResult(Activity.RESULT_OK,getIntent.putExtra(Constant.ARG_POSITION,pos))
     super.finish()
+  }
+
+  override def onCreateOptionsMenu(menu: Menu): Boolean = {
+    if(currentUserId.toString == dataList.get(positionFromIntent).getOrElse("author_id","")){
+      getMenuInflater.inflate(R.menu.edit_note,menu)
+      true
+    }else super.onCreateOptionsMenu(menu)
+  }
+
+  def editNote(m:MenuItem)={
+    val annotation=dataList.get(pos)
+    val page=annotation.getOrElse("page_no","")
+    val chapter=annotation.getOrElse("chapter","")
+    val content=annotation.getOrElse("content","")
+    val id=annotation.getOrElse("id","0")
+    startActivity(SIntent[AddNoteActivity].putExtra(Constant.ANNOTATION_ID,id).putExtra(Constant.BOOK_PAGE,page).putExtra(Constant.ANNOTATION_CHAPTER,chapter).putExtra(Constant.ANNOTATION_CONTENT,content))
+  }
+  def deleteNote(m:MenuItem)={
+    handle(Book.deleteAnnotation(dataList.get(pos).getOrElse("id","0").toLong),
+      (deleted:Boolean)=>{
+      toast(if(deleted) R.string.removed_successfully else R.string.removed_unsuccessfully)
+    })
   }
 
   def showNext(): Unit = {
