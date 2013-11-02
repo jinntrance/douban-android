@@ -8,7 +8,7 @@ import collection.JavaConverters._
 import com.douban.common.Req
 import android.content.Context
 import android.view.View
-import android.widget.{Button, TextView}
+import android.widget.TextView
 import scala.util
 
 /**
@@ -55,12 +55,6 @@ package object book{
 
   @inline def string2TextView(s: String)(implicit ctx: Context): View = {
     val t = new TextView(ctx)
-    t.setText(s)
-    t
-  }
-
-  @inline def string2Button(s: String)(implicit ctx: Context): View = {
-    val t = new Button(ctx)
     t.setText(s)
     t
   }
