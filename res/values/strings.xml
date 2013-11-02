@@ -8,6 +8,8 @@
     <string name="login_successfully">登录成功</string>
     <string name="collect_successfully">收藏成功</string>
     <string name="decollect_successfully">成功删除收藏</string>
+    <string name="removed_successfully">删除成功</string>
+    <string name="removed_unsuccessfully">删除失败</string>
     <string name="decollect_unsuccessfully">删除收藏失败</string>
     <string name="relogin_needed">认证过期，请重新登录</string>
     <string name="waiting_for_auth">等待授权ing，亲操作操作其他先</string>
@@ -42,6 +44,8 @@
     <string name="annotation_added">添加笔记成功</string>
     <string name="annotation_fails_to_add">添加笔记失败</string>
     <string name="add_note">写笔记</string>
+    <string name="edit">编辑</string>
+    <string name="delete">删除</string>
     <string name="add_note_no_page">暂无第%1$s页笔记哦！赶紧添加吧～</string>
     <string name="add_collection">添加收藏</string>
     <string name="add_tags">添加标签</string>

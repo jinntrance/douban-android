@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:baselineAligned="false">
-        <LinearLayout  android:layout_gravity="center"  android:layout_weight="1"
+        <LinearLayout  android:layout_gravity="center_vertical"  android:layout_weight="1"
             android:orientation="vertical"
             android:layout_width="wrap_content"  android:gravity="left"
             android:layout_height="match_parent"  >
@@ -31,11 +31,12 @@
             <include layout="@layout/rating" />
             </LinearLayout>
 
-        <LinearLayout android:layout_height="match_parent"
+        <LinearLayout android:layout_height="fill_parent"
             android:layout_width="wrap_content"  android:clickable="true"
             android:layout_gravity="center"
             android:gravity="center" android:id="@+id/fav_layout"
-            android:layout_marginRight="@dimen/margin_large">
+            android:paddingLeft="@dimen/text_medium" android:paddingRight="@dimen/text_medium"
+            android:paddingTop="@dimen/text_large" android:paddingBottom="@dimen/text_large">
 
             <ImageView
                 android:layout_width="wrap_content"

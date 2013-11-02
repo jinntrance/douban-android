@@ -170,7 +170,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
       case Success(Some(c: Collection)) => {
         activity.getIntent.putExtra(Constant.COLLECTION,c)
         toast(getString(R.string.collect_successfully))
-        activity.fragmentManager.popBackStack()
+        activity.finish()
       }
       case _ => toast(getString(R.string.collect_failed))
     }
