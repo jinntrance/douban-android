@@ -54,7 +54,7 @@ trait Douban {
 
   def getThisActivity: DoubanActivity
 
-  def setViewValue[T <: V](id: Int, value: String, holder: T = rootView, notification: String = "",hideEmpty:Boolean=true) {
+  def setViewValue[T <: V](id: Int, value: String, holder: T = rootView, notification: String = "",hideEmpty:Boolean=true)= runOnUiThread{
     value.trim match {
       case "" if hideEmpty => holder.findViewById(id) match {
         case view: View => view.setVisibility(View.GONE)
@@ -556,10 +556,10 @@ trait SwipeGestureDoubanActivity extends DoubanActivity{
       val offset: Float = e2.getRawX - e1.getRawX
       val threshold: Int = 80
       if (offset > threshold) {
-        showNext()
+        showPre()
         true
       }else if (offset < -threshold) {
-        showPre()
+        showNext()
         true
       } else false
     }
