@@ -46,9 +46,9 @@ class AddNoteActivity extends DoubanActivity {
       }
       case _=> future {
         val a=new AnnotationPosted(find[EditText](R.id.note_input).text.toString,bookPage.toInt,chapter,if(public) "public" else "private")
+        toast("正在保存到豆瓣帐号...")
         getIntent.getLongExtra(Constant.BOOK_ID,0) match {
           case bookId:Long if bookId>0 => {
-            toast("正在保存到豆瓣帐号...")
             Book.postAnnotation(bookId,a).isDefined
           }
           case _=>{

@@ -152,7 +152,7 @@ class CollectionItemAdapter(status:String,loader: (String,CollectionItemAdapter)
         val c: Collection = getBean(position)
         activity.loadImageWithTitle(c.book.image, R.id.book_img, c.book.title, v)
         activity.setViewValue(R.id.recommend,SearchResult.getStar(c.rating),v)
-        activity.setViewValue(R.id.tags_txt,c.tags.mkString(" "),v)
+        activity.setViewValue(R.id.tags_txt,c.tags.mkString(" "),v,hideEmpty = false)
         v
       }
       case _=>null
