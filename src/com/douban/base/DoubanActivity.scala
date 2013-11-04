@@ -54,19 +54,16 @@ trait Douban {
 
   def getThisActivity: DoubanActivity
 
-  def setViewValue[T <: V](id: Int, value: String, holder: T = rootView, notification: String = "",hideEmpty:Boolean=true)= runOnUiThread{
+  def setViewValue[T <: V](id: Int, value: String, holder: T = rootView, notification: String = "",hideEmpty:Boolean=true)= runOnUiThread {
     value.trim match {
       case "" if hideEmpty => holder.findViewById(id) match {
         case view: View => view.setVisibility(View.GONE)
         case _ =>
       }
       case value: String => holder.findViewById(id) match {
-        case v: View => v.visibility(View.VISIBLE) match {
-          case view: TextView => view.setText(value)
-          case rating: RatingBar => rating.setNumStars(value.toInt)
-          case img: ImageView if value != "URL" => loadImage(value, img, notification)
-          case _ =>
-        }
+        case view: TextView => view.setText(value)
+        case rating: RatingBar => rating.setNumStars(value.toInt)
+        case img: ImageView if value != "URL" => loadImage(value, img, notification)
         case _ =>
       }
     }

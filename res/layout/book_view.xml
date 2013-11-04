@@ -5,16 +5,14 @@
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:id="@+id/scrollView"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
         android:layout_weight="9">
 
         <LinearLayout
             android:orientation="vertical"  android:layout_margin="@dimen/margin_medium"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:paddingBottom="@dimen/padding_large">
 
             <LinearLayout
@@ -33,7 +31,7 @@
                         android:layout_width="match_parent"
                         android:orientation="vertical"
                         android:layout_height="wrap_content"
-                        android:id="@+id/book_basic_info"  android:layout_weight="0.8"
+                        android:id="@+id/book_basic_info"
                         android:layout_gravity="center_horizontal|top"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true">
@@ -46,25 +44,8 @@
                             android:id="@+id/bookTitle" />
 
                         <LinearLayout
-                            android:layout_width="fill_parent" android:id="@+id/subtitle_layout"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/bookTitle">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="副标题:"
-                                style="@style/DoubanText.Prefix"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=""  android:ellipsize="end" style="@style/DoubanText"
-                                android:id="@+id/bookSubtitle" />
-                        </LinearLayout>
-
-                        <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/subtitle_layout"
                             android:id="@+id/authors_container">
                             <TextView
                                 android:layout_width="wrap_content"
@@ -74,11 +55,24 @@
                                 android:id="@+id/bookAuthor" />
 
                         </LinearLayout>
+                      <LinearLayout
+                          android:layout_width="fill_parent" android:id="@+id/subtitle_layout"
+                          android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="副标题:"
+                            style="@style/DoubanText.Prefix"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""  android:ellipsize="end" style="@style/DoubanText"
+                            android:id="@+id/bookSubtitle" />
+                      </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/authors_container"
                             android:id="@+id/publisher_container">
                             <TextView
                                 android:layout_width="wrap_content"
@@ -98,8 +92,7 @@
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/page_container"
-                            android:layout_below="@+id/publisher_container">
+                            android:id="@+id/page_container">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -115,8 +108,7 @@
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/price_container"
-                            android:layout_below="@+id/page_container">
+                            android:id="@+id/price_container">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -205,7 +197,7 @@
                         android:layout_gravity="left|top" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text=""
                         android:id="@+id/comment"   android:layout_weight="1"
