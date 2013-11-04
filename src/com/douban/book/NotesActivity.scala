@@ -117,14 +117,14 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
       total=a.total
       val index=a.start + size
       currentPage+=1
-      if(1==page) {
-        adapter.replaceResult(a.total, size, a.annotations)
-        runOnUiThread(adapter.notifyDataSetInvalidated())
-      } else {
-        adapter.addResult(a.total, size, a.annotations)
-        runOnUiThread(adapter.notifyDataSetChanged())
-      }
       runOnUiThread{
+        if(1==page) {
+          adapter.replaceResult(a.total, size, a.annotations)
+          adapter.notifyDataSetInvalidated()
+        } else {
+          adapter.addResult(a.total, size, a.annotations)
+          adapter.notifyDataSetChanged()
+        }
         activity.setTitle(getString(R.string.annotation) + s"($index/$total)")
         val l=activity.find[View](R.id.note_to_add)
         l.setVisibility(if(0==total) View.VISIBLE else View.GONE)

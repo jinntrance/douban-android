@@ -20,7 +20,6 @@ import java.util
 class PublicNoteViewActivity extends NoteViewActivity(R.layout.note_view)
 
 class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
-  var currentOffset=0
   var count=0
   val mapping:Map[Int,Any]=NotesActivity.mapping++Map(R.id.user_avatar->"author_user.avatar")
   var pos = 0
@@ -43,8 +42,7 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
 
     def display(position:Int){
       pos=position
-      currentOffset=position % count
-      val a= dataList.get(currentOffset)
+      val a= dataList.get(pos)
       setWindowTitle(a.getOrElse("book.title",getString(R.string.annotation)))
       batchSetValues(mapping,a)
       val container: LinearLayout = find[LinearLayout](R.id.note_content)
@@ -103,12 +101,12 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
   }
 
   def showNext(): Unit = {
-    pos=(pos+1)%count
+    pos=(pos+1)%count //TODO load new notes
     display(pos)
   }
 
   def showPre(): Unit = {
-    pos=(pos-1)%count
+    pos=(count+pos-1)%count
     display(pos)
   }
 }
