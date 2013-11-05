@@ -7,10 +7,10 @@ object DoubanBuild extends Build {
   lazy val root = Project(id = "douban-book", base = file(".")) settings(
     android.Plugin.androidCommands ++ Seq(
       run   <<= (run in (Android)) map { _ => Unit }): _*
-    ) dependsOn(zxingLib, slidingmenu)
+    ) dependsOn(slidingmenu,zxingLib)
 
 
-  // our project has a weird layout, include guava from another project
+  //
   lazy val zxingLib = Project(
     id = "zxing-android", base = file("libs/zxing-android")) settings(
     Seq(libraryDependencies ++= Seq("com.google.zxing" % "core" % "2.2")) ++

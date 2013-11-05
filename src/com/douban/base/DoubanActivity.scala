@@ -28,7 +28,6 @@ import com.douban.models.{Book, User}
 import android.view.inputmethod.InputMethodManager
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu
 import scala.util.Failure
-import org.scaloid.common.LoggerTag
 import scala.util.Success
 import com.douban.common.AccessTokenResult
 
