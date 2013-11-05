@@ -83,7 +83,6 @@
             android:layout_gravity="bottom"
             android:id="@+id/page_num_popup"
             android:visibility="gone"
-            android:layout_alignParentBottom="true"
             android:background="@android:drawable/screen_background_dark_transparent"
             android:gravity="bottom">
 

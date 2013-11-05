@@ -11,6 +11,16 @@ import com.douban.models.Book
 import scala.util.Success
 import com.douban.models.AnnotationPosted
 import ExecutionContext.Implicits.global
+import android.content.pm.PackageManager
+import android.content.{Context, Intent}
+import android.provider.MediaStore
+import android.app.Activity
+import java.text.SimpleDateFormat
+import java.io.File
+import java.util.Date
+import java.net.URI
+import scala.collection.parallel.mutable
+import android.net.Uri
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -30,11 +40,10 @@ class AddNoteActivity extends DoubanActivity {
     bundle.getString(Constant.BOOK_PAGE) match{
       case p:String if p.nonEmpty||bundle.getString(Constant.ANNOTATION_CHAPTER,"").nonEmpty => {
         bookPage=p
-        fragmentManager.beginTransaction().replace(R.id.add_note_container, new AddNoteFragment().addArguments(bundle)).commit()
+        fragmentManager.beginTransaction().replace(R.id.add_note_container, new AddNoteFragment().addArguments(bundle),Constant.ACTIVITY_NOTE_ADDITION).commit()
       }
       case _=> editChapter(null)
     }
-
   }
 
   def submit(v:View){
@@ -90,6 +99,42 @@ class AddNoteActivity extends DoubanActivity {
     s"<$wrapper>$txt</$wrapper>"
   }
 
+  private def createImageFile(prefix:String)={
+    val timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date())
+    val imageFileName = prefix + timeStamp + "_"
+    File.createTempFile(imageFileName,"jpg", getExternalCacheDir)
+  }
+
+  private val takingPhotos=1
+  private val choosingPhotos=2
+  private var currentPic: Uri
+  var notesImage=collection.mutable.ListBuffer[Uri]()
+  def takePhotos(v:View){
+    currentPic = Uri.fromFile(createImageFile("notes/"))
+    startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT,currentPic), takingPhotos)
+  }
+
+  def choosePhotos(v:View){
+    val photoPickerIntent = new Intent(Intent.ACTION_PICK)
+    photoPickerIntent.setType("image/*")
+    startActivityForResult(photoPickerIntent, choosingPhotos)
+  }
+
+  def addPicture(uri:Uri){
+    notesImage+=uri
+    fragmentManager.findFragmentByTag(Constant.ACTIVITY_NOTE_ADDITION) match{
+      case frg:AddNoteFragment=> frg.appendPicture(notesImage.size)
+      case _=>
+    }
+  }
+
+  override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+     if(resultCode==Activity.RESULT_OK) requestCode match{
+       case `takingPhotos` => addPicture(currentPic)
+       case `choosingPhotos` => addPicture(data.getData)
+       case _=>
+     }
+  }
 }
 
 class AddChapterFragment extends DoubanFragment[AddNoteActivity]{
@@ -104,6 +149,10 @@ class AddChapterFragment extends DoubanFragment[AddNoteActivity]{
 }
 
 class AddNoteFragment extends DoubanFragment[AddNoteActivity]{
+  def appendPicture(i: Int)={
+    getView.find[EditText](R.id.note_input).append(s"<图片$i>")
+  }
+
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, b: Bundle): View = inflater.inflate(R.layout.note_add,container,false)
 
   override def onActivityCreated(bd: Bundle) {
@@ -118,6 +167,16 @@ class AddNoteFragment extends DoubanFragment[AddNoteActivity]{
       }
       case _ => activity.replaceActionBar(R.layout.header_edit_note,if(activity.bookPage.isEmpty) activity.chapter else "P"+activity.bookPage)
     }
+    if(! isCameraAvailable){
+      hideWhen(R.id.note_camera,condition = true)
+      hideWhen(R.id.note_album,condition = true)
+    }
   }
+  private def isCameraAvailable :Boolean= {
+    val packageManager = activity.getPackageManager
+    val intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+    activity.getPackageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA) && packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).nonEmpty
+  }
+
 }
 
