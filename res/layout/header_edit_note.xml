@@ -15,8 +15,8 @@
         android:layout_centerInParent="true" />
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:orientation="horizontal" android:onClick="editChapter" android:clickable="true"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1">
 
@@ -27,13 +27,6 @@
             android:id="@+id/title"  android:layout_margin="@dimen/margin_medium"
             android:layout_gravity="center"
             android:gravity="center" style="@style/DoubanActionBar.Title"
-            android:layout_alignParentBottom="false"
-            android:layout_alignWithParentIfMissing="false"
-            android:layout_alignParentLeft="false"
-            android:layout_alignBaseline="@+id/cancel"
-            android:layout_alignParentRight="false"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/cancel"
             android:background="@drawable/button_green_note_chapter" />
     </LinearLayout>
 
@@ -41,19 +34,14 @@
         android:layout_width="wrap_content"  android:onClick="checkPrivacy"
         android:layout_height="wrap_content"
         android:id="@+id/privacy"  android:src="@drawable/public_icon"
-        android:layout_alignParentRight="false"  android:layout_margin="@dimen/margin_medium"
-        android:layout_centerInParent="true"  android:layout_marginRight="@dimen/margin_large"
-        android:layout_alignBaseline="@+id/submit"
-        android:layout_toLeftOf="@+id/submit" />
+         android:layout_margin="@dimen/margin_medium"
+         android:layout_marginRight="@dimen/margin_large" />
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"  android:focusable="true"
-        android:id="@+id/submit"  android:layout_marginLeft="@dimen/margin_large"
-        android:longClickable="false" android:onClick="submit"
+        android:layout_height="wrap_content"  android:focusable="true" android:clickable="true"
+        android:id="@+id/submit"  android:layout_marginLeft="@dimen/margin_large" android:onClick="submit"
         android:src="@drawable/header_submit"
-        android:layout_gravity="center|right"
-        android:layout_alignParentRight="true"
-        android:layout_centerInParent="true" />
+        android:layout_gravity="center|right" />
 
 </LinearLayout>

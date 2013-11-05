@@ -256,11 +256,11 @@ trait DoubanActivity extends SFragmentActivity with Douban {
       login()
   }
 
+  private var keyboardUp=true
   def toggleKeyboard(v:View){
-    val acceptingText: Boolean = getSystemService(Context.INPUT_METHOD_SERVICE).asInstanceOf[InputMethodManager].isAcceptingText
-    toggleBackGround(acceptingText,v,(R.drawable.keyboard_up,R.drawable.keyboard_down))
-    if(acceptingText)     hideKeyboard()
-    else   displayKeyboard()
+    val manager = getSystemService(Context.INPUT_METHOD_SERVICE).asInstanceOf[InputMethodManager]
+    keyboardUp=toggleBackGround(keyboardUp,v,(R.drawable.keyboard_up,R.drawable.keyboard_down))
+    manager.toggleSoftInput(0,0)
   }
 
   @inline def login()=startActivity(SIntent[LoginActivity])

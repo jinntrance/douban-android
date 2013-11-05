@@ -10,6 +10,8 @@ import com.douban.common.Auth
  * @version 1.0
  */
 object Constant {
+  var ACTIVITY_NOTE_ADDITION: String="noteAddition"
+
   var ANNOTATION_ID="noteId"
   var ANNOTATION_CHAPTER="noteChapter"
   var ANNOTATION_CONTENT="noteCotent"
