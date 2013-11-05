@@ -49,7 +49,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/note_album" android:clickable="true" android:onClick="chooseFromAlbum"
+                    android:id="@+id/note_album" android:clickable="true" android:onClick="choosePhotos"
                     android:src="@drawable/add_note_album"
                     android:layout_margin="@dimen/margin_medium" />
 

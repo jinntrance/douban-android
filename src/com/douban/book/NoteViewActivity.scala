@@ -91,7 +91,9 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
     val chapter=annotation.getOrElse("chapter","")
     val content=annotation.getOrElse("content","")
     val id=annotation.getOrElse("id","0")
-    startActivity(SIntent[AddNoteActivity].putExtra(Constant.ANNOTATION_ID,id).putExtra(Constant.BOOK_PAGE,page).putExtra(Constant.ANNOTATION_CHAPTER,chapter).putExtra(Constant.ANNOTATION_CONTENT,content))
+    startActivity(SIntent[AddNoteActivity].putExtra(Constant.ANNOTATION_ID,id).putExtra(Constant.BOOK_PAGE,page).
+      putExtra(Constant.ANNOTATION_CHAPTER,chapter).putExtra(Constant.ANNOTATION_CONTENT,content).
+      putExtra(Constant.ANNOTATION_IMAGES_NUMBER,annotation.getOrElse("last_photo","0")))
   }
   def deleteNote(m:MenuItem)={
     handle(Book.deleteAnnotation(dataList.get(pos).getOrElse("id","0").toLong),

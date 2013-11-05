@@ -12,14 +12,12 @@ import scala.util.Success
 import com.douban.models.AnnotationPosted
 import ExecutionContext.Implicits.global
 import android.content.pm.PackageManager
-import android.content.{Context, Intent}
+import android.content.Intent
 import android.provider.MediaStore
 import android.app.Activity
 import java.text.SimpleDateFormat
 import java.io.File
 import java.util.Date
-import java.net.URI
-import scala.collection.parallel.mutable
 import android.net.Uri
 
 /**
@@ -51,10 +49,11 @@ class AddNoteActivity extends DoubanActivity {
       case bp:EditText=>{
         bookPage=bp.getText.toString.trim
         chapter=find[EditText](R.id.chapter_name).getText.toString.trim
-        if(bookPage.nonEmpty||chapter.nonEmpty) fragmentManager.beginTransaction().replace(R.id.add_note_container,new AddNoteFragment).commit()
+        if(bookPage.nonEmpty||chapter.nonEmpty) fragmentManager.beginTransaction().replace(R.id.add_note_container,new AddNoteFragment,Constant.ACTIVITY_NOTE_ADDITION).commit()
       }
       case _=> future {
         val a=new AnnotationPosted(find[EditText](R.id.note_input).text.toString,bookPage.toInt,chapter,if(public) "public" else "private")
+        a.files=Range(1,notesImage.size).map(_.toString).zip(notesImage).toMap
         toast("正在保存到豆瓣帐号...")
         getIntent.getLongExtra(Constant.BOOK_ID,0) match {
           case bookId:Long if bookId>0 => {
@@ -104,13 +103,13 @@ class AddNoteActivity extends DoubanActivity {
     val imageFileName = s"${prefix}_${timeStamp}_"
     val folder: File = new File(getExternalCacheDir.getAbsolutePath + "/notes")
     folder.mkdirs()
-    File.createTempFile(imageFileName,"jpg", folder)
+    File.createTempFile(imageFileName,".jpg", folder)
   }
 
   private val takingPhotos=1
   private val choosingPhotos=2
   private var currentPic: Uri=null
-  var notesImage=collection.mutable.ListBuffer[Uri]()
+  var notesImage=collection.mutable.ListBuffer[String]()
   def takePhotos(v:View){
     currentPic = Uri.fromFile(createImageFile())
     startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT,currentPic), takingPhotos)
@@ -122,18 +121,27 @@ class AddNoteActivity extends DoubanActivity {
     startActivityForResult(photoPickerIntent, choosingPhotos)
   }
 
-  def addPicture(uri:Uri){
-    notesImage+=uri
+  def addPicture(path:String){
+    notesImage+=path
     fragmentManager.findFragmentByTag(Constant.ACTIVITY_NOTE_ADDITION) match{
       case frg:AddNoteFragment=> frg.appendPicture(notesImage.size)
       case _=>
     }
   }
 
+
+  def contentUriToFilePath(uri: Uri): String = {
+    val cursor = getContentResolver.query(uri, Array(MediaStore.MediaColumns.DATA), null, null, null)
+    val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
+    cursor.moveToFirst()
+    val t = cursor.getString(columnIndex)
+    t
+  }
+
   override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
      if(resultCode==Activity.RESULT_OK) requestCode match{
-       case `takingPhotos` => addPicture(currentPic)
-       case `choosingPhotos` => addPicture(data.getData)
+       case `takingPhotos` => addPicture(currentPic.getPath)
+       case `choosingPhotos` => addPicture(contentUriToFilePath(data.getData))
        case _=>
      }
   }
@@ -151,8 +159,9 @@ class AddChapterFragment extends DoubanFragment[AddNoteActivity]{
 }
 
 class AddNoteFragment extends DoubanFragment[AddNoteActivity]{
+  private var numOfPics=0
   def appendPicture(i: Int)={
-    getView.find[EditText](R.id.note_input).append(s"<图片$i>")
+    getView.find[EditText](R.id.note_input).append(s"<图片${i+numOfPics}>")
   }
 
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, b: Bundle): View = inflater.inflate(R.layout.note_add,container,false)
@@ -164,6 +173,7 @@ class AddNoteFragment extends DoubanFragment[AddNoteActivity]{
         val page = b.getString(Constant.BOOK_PAGE, activity.bookPage)
         val chapter = b.getString(Constant.ANNOTATION_CHAPTER, activity.chapter)
         val content = b.getString(Constant.ANNOTATION_CONTENT, "")
+        numOfPics = b.getString(Constant.ANNOTATION_IMAGES_NUMBER, "0").toInt
         activity.replaceActionBar(R.layout.header_edit_note, if (page.isEmpty) chapter else "P" + page)
         setViewValue(R.id.note_input, content, hideEmpty = false)
       }
