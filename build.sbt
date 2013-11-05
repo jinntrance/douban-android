@@ -1,4 +1,3 @@
-import java.io.InputStream
 import sbt._
 
 import android.Keys._
@@ -45,14 +44,12 @@ useProguard in Android := true
 typedResources in Android :=false
 
 proguardCache in Android ++=Seq(
-  ProguardCache("org.scaloid") % "org.scaloid",
-  ProguardCache("com.douban.models") % "com.douban",
-  ProguardCache("com.google") % "com.google",
-  ProguardCache("org.scaloid.support.v4"))
+  ProguardCache("org.scaloid.common") % "org.scaloid",
+  ProguardCache("com.douban.models") % "com.douban")
 
-libraryProjects in Android += android.Dependencies.LibraryProject(file("libs/zxing-android"))
+//libraryProjects in Android += android.Dependencies.LibraryProject(file("libs/zxing-android"))
 
-libraryProjects in Android += android.Dependencies.LibraryProject(file("libs/slidingMenu"))
+//libraryProjects in Android += android.Dependencies.LibraryProject(file("libs/slidingMenu"))
 
 proguardConfig in Android <<= baseDirectory map (b => IO.readLines(b/"proguard.cfg"))
 
