@@ -99,18 +99,20 @@ class AddNoteActivity extends DoubanActivity {
     s"<$wrapper>$txt</$wrapper>"
   }
 
-  private def createImageFile(prefix:String)={
+  private def createImageFile(prefix:String="")={
     val timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date())
-    val imageFileName = prefix + timeStamp + "_"
-    File.createTempFile(imageFileName,"jpg", getExternalCacheDir)
+    val imageFileName = s"${prefix}_${timeStamp}_"
+    val folder: File = new File(getExternalCacheDir.getAbsolutePath + "/notes")
+    folder.mkdirs()
+    File.createTempFile(imageFileName,"jpg", folder)
   }
 
   private val takingPhotos=1
   private val choosingPhotos=2
-  private var currentPic: Uri
+  private var currentPic: Uri=null
   var notesImage=collection.mutable.ListBuffer[Uri]()
   def takePhotos(v:View){
-    currentPic = Uri.fromFile(createImageFile("notes/"))
+    currentPic = Uri.fromFile(createImageFile())
     startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT,currentPic), takingPhotos)
   }
 
@@ -167,15 +169,13 @@ class AddNoteFragment extends DoubanFragment[AddNoteActivity]{
       }
       case _ => activity.replaceActionBar(R.layout.header_edit_note,if(activity.bookPage.isEmpty) activity.chapter else "P"+activity.bookPage)
     }
-    if(! isCameraAvailable){
-      hideWhen(R.id.note_camera,condition = true)
-      hideWhen(R.id.note_album,condition = true)
-    }
+    hideWhen(R.id.note_camera,isIntentUnavailable(MediaStore.ACTION_IMAGE_CAPTURE))
+    hideWhen(R.id.note_album,isIntentUnavailable(Intent.ACTION_PICK))
   }
-  private def isCameraAvailable :Boolean= {
+  private def isIntentUnavailable(action:String) :Boolean= {
     val packageManager = activity.getPackageManager
-    val intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-    activity.getPackageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA) && packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).nonEmpty
+    val intent = new Intent(action)
+    packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).isEmpty
   }
 
 }
