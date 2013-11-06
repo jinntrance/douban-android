@@ -303,7 +303,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
 
     if(isAuthenticated) {
       sm.findViewById(R.id.menu_login).setVisibility(View.GONE)
-      val userId: Long = getThisActivity.currentUserId
+      val userId: Long = currentUserId
       lazy val user=User.byId(userId)
       future {
         val u=getOrElse(Constant.USERNAME,user.name)
@@ -377,10 +377,16 @@ trait DoubanActivity extends SFragmentActivity with Douban {
 
   def currentUserId = {
     if(! isAuthenticated) login()
-    get(Constant.userIdString).toLong
+    if(isAuthenticated) get(Constant.userIdString).toLong
+    else finish();0L
   }
 
-  def get(key: String): String = defaultSharedPreferences.getString(key,null)
+  def currentUserIdWithoutLogin = {
+    if(isAuthenticated)  get(Constant.userIdString).toLong
+    else 0L
+  }
+
+  def get(key: String,default:String=""): String = defaultSharedPreferences.getString(key,default)
   def getOrElse(key: String,alt: =>Any):String = defaultSharedPreferences.getAll.get(key) match{
     case v:String=>v
     case _=>alt.toString

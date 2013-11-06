@@ -79,7 +79,7 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
   }
 
   override def onCreateOptionsMenu(menu: Menu): Boolean = {
-    if(currentUserId.toString == dataList.get(positionFromIntent).getOrElse("author_id","")){
+    if(currentUserIdWithoutLogin.toString == dataList.get(positionFromIntent).getOrElse("author_id","")){
       getMenuInflater.inflate(R.menu.edit_note,menu)
       true
     }else super.onCreateOptionsMenu(menu)

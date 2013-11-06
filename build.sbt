@@ -4,7 +4,7 @@ import android.Keys._
 
 import android.Dependencies._
 
-android.Plugin.androidBuild ++ android.Plugin.androidBuildApklib
+android.Plugin.androidBuild
 
 organization := "com.douban"
 
@@ -36,7 +36,8 @@ install <<= install in Android
 libraryDependencies ++= Seq(
 			"org.scaloid" % "scaloid_2.10" % "2.4-8",
 			"com.douban" % "scala-api_2.10" % "2.4.3" withSources(),
-			"com.google.android" % "support-v4" % "r7"
+			"com.google.android" % "support-v4" % "r7",
+      "com.google.zxing" % "core" % "2.2"
 			)
 
 useProguard in Android := true
