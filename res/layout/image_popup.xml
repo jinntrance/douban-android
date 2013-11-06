@@ -7,7 +7,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/image_popup"
+        android:id="@+id/image_popup"  android:adjustViewBounds="true"  android:scaleType="fitCenter"
         android:src="@drawable/default_image"
         android:layout_gravity="center" />
 </FrameLayout>

@@ -23,7 +23,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Jane"
+                android:text=""
                 android:id="@+id/username"
                 android:layout_toRightOf="@+id/user_avatar"
                 android:layout_marginLeft="@dimen/margin_medium" />
@@ -59,8 +59,8 @@
 
   <LinearLayout
       android:orientation="vertical"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"   android:layout_marginLeft="@dimen/margin_large" android:layout_marginRight="@dimen/margin_large"
+      android:layout_width="wrap_content"  android:layout_marginBottom="@dimen/margin_large"
+      android:layout_height="wrap_content"   android:layout_marginLeft="@dimen/margin_medium" android:layout_marginRight="@dimen/margin_medium"
       android:id="@+id/note_content"></LinearLayout>
 </LinearLayout>
     </ScrollView>

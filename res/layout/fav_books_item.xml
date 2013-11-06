@@ -52,9 +52,10 @@
         <LinearLayout android:layout_height="match_parent"
             android:layout_width="wrap_content"  android:clickable="true"
             android:layout_gravity="center"
-            android:gravity="center" android:id="@+id/fav_layout"  android:layout_margin="@dimen/margin_medium"
+            android:gravity="center" android:id="@+id/fav_layout"
             android:layout_marginRight="@dimen/margin_large"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/margin_large">
 
            <TextView
                 android:layout_width="wrap_content"

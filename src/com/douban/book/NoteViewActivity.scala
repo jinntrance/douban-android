@@ -8,6 +8,7 @@ import org.scaloid.common._
 import android.app.Activity
 import com.douban.models.Book
 import java.util
+import android.graphics.Color
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -38,6 +39,7 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
       count=dataList.size()
       replaceActionBar(R.layout.header_note,getString(R.string.annotation))
       display(pos)
+      toast("左右滑动翻看笔记")
     }
 
     def display(position:Int){
@@ -46,15 +48,15 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
       setWindowTitle(a.getOrElse("book.title",getString(R.string.annotation)))
       batchSetValues(mapping,a)
       val container: LinearLayout = find[LinearLayout](R.id.note_content)
+      val black=getResources.getColor(R.color.text_black)
       container.removeAllViews()
       container.addView(parse(a.getOrElse("content","")))
-
       def parse(c:String,layout:SLinearLayout=new SVerticalLayout{}):SLinearLayout={
         c match{
           case r"([\s\S]*?)${pre}<原文开始>([\s\S]+?)${txt}</原文结束>([\s\S]*)${suffix}"=>{
             parse(pre,layout)
             layout+= new SLinearLayout {
-              SImageView(R.drawable.add_note_context).<<.wrap.>>
+              SImageView(R.drawable.add_note_context).<<.wrap.>>.onClick(popup(_))
               STextView(txt.trim).<<.wrap.Weight(1.0f).>>
             }
             parse(suffix,layout)
@@ -68,7 +70,9 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
             parse(suffix,layout)
           }
           case ""=> layout
-          case txt=> layout+= new SLinearLayout{STextView(txt.trim)}
+          case txt=> layout+= new SLinearLayout{
+            STextView(txt).textColor(black)
+          }
         }
       }
     }

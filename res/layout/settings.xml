@@ -6,20 +6,19 @@
     <LinearLayout
         android:layout_width="match_parent"   android:onClick="delCache"
         android:layout_height="wrap_content" android:clickable="true"
-        android:layout_margin="@dimen/margin_large"
+        android:layout_margin="@dimen/margin_medium"
         android:background="@color/white">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="删除缓存"    style="@style/DoubanTextTitle.Black.Setting"
-            android:id="@+id/textView" />
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="删除缓存"    style="@style/DoubanTextTitle.Black.Setting"
+          android:id="@+id/textView" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent" android:clickable="true"    android:onClick="about"
         android:layout_height="wrap_content"   android:background="@color/white"
-        android:layout_margin="@dimen/margin_large">
+        android:layout_margin="@dimen/margin_medium">
 
         <TextView
             android:layout_width="wrap_content"
@@ -30,7 +29,7 @@
     <LinearLayout         android:background="@color/white"
         android:layout_width="match_parent"  android:onClick="toggleLogin"
         android:layout_height="wrap_content"  android:clickable="true"
-        android:layout_margin="@dimen/margin_large"
+        android:layout_margin="@dimen/margin_medium"
         android:id="@+id/toggleLogin">
 
         <TextView

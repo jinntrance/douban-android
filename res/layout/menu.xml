@@ -43,7 +43,7 @@
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="Jane"
+          android:text=""
           android:id="@+id/username"  style="@style/DoubanTextTitle.White"
           android:textStyle="bold"
           android:layout_marginLeft="@dimen/margin_medium"
@@ -62,16 +62,16 @@
         android:divider="@drawable/divider">
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"   android:drawableLeft="@drawable/menu_favorite"
+                android:layout_height="wrap_content"   android:drawableLeft="@drawable/menu_favorite" android:padding="@dimen/padding_large"
                 android:text="收藏的书"   style="@style/DoubanTextTitle.White"     android:drawablePadding="@dimen/padding_large"
-                android:layout_margin="@dimen/margin_medium"             android:clickable="true"
+                android:clickable="true"
                 android:id="@+id/menu_favbooks"  android:onClick="sideMenu"
                 android:gravity="center|left" />
 
             <TextView
-                android:layout_width="match_parent"   android:drawableLeft="@drawable/menu_note"
+                android:layout_width="match_parent"   android:drawableLeft="@drawable/menu_note" android:padding="@dimen/padding_large"
                 android:layout_height="wrap_content"  style="@style/DoubanTextTitle.White"    android:drawablePadding="@dimen/padding_large"
-                android:text="我的笔记"   android:layout_margin="@dimen/margin_medium"             android:clickable="true"
+                android:text="我的笔记"           android:clickable="true"
                 android:id="@+id/menu_mynote"   android:onClick="sideMenu"
                 android:gravity="center|left"
                 android:visibility="visible" />
@@ -80,15 +80,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"  android:drawableLeft="@drawable/menu_search"
                 android:text="搜索"   style="@style/DoubanTextTitle.White"     android:drawablePadding="@dimen/padding_large"
-                android:layout_margin="@dimen/margin_medium"              android:clickable="true"
+                android:clickable="true"   android:padding="@dimen/padding_large"
                 android:id="@+id/menu_search"
                 android:layout_gravity="left|center_vertical"   android:onClick="sideMenu"
                 android:gravity="center|left" />
 
             <TextView
-                android:layout_width="match_parent"    android:drawablePadding="@dimen/padding_large"
+                android:layout_width="match_parent"    android:drawablePadding="@dimen/padding_large"  android:padding="@dimen/padding_large"
                 android:layout_height="wrap_content"   style="@style/DoubanTextTitle.White"  android:drawableLeft="@drawable/menu_setting"
-                android:text="设置"    android:layout_margin="@dimen/margin_medium"           android:clickable="true"
+                android:text="设置"         android:clickable="true"
                 android:id="@+id/menu_settings"   android:onClick="sideMenu"
                 android:layout_gravity="left|center_vertical"
                 android:gravity="center|left" />

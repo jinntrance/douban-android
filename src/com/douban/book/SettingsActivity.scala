@@ -23,7 +23,11 @@ class SettingsActivity extends DoubanActivity{
      if(isAuthenticated) {
        defaultSharedPreferences.edit().clear().commit()
        toast("成功注销")
-     } else getAccessToken
+       setViewValue(R.id.toggleLoginText,"登录豆瓣")
+     } else {
+       currentUserId
+       if(isAuthenticated) setViewValue(R.id.toggleLoginText,"注销")
+     }
   }
   def delCache(v:View){
     getExternalCacheDir.delete()
