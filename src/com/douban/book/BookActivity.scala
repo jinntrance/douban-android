@@ -49,8 +49,7 @@ class BookActivity extends DoubanActivity {
             sp.dismiss()
           }
           case _=>{
-            toast(getString(R.string.search_no_result,isbn))
-            sp.dismiss()
+            longToast(getString(R.string.search_no_result,isbn))
             this.finish()
           }
         }
