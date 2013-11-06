@@ -82,6 +82,11 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
     super.finish()
   }
 
+  def viewBook(v:View) {
+    val bookId: String = dataList.get(pos).getOrElse("book_id", "")
+    startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_ID,bookId))
+  }
+
   override def onCreateOptionsMenu(menu: Menu): Boolean = {
     if(currentUserIdWithoutLogin.toString == dataList.get(positionFromIntent).getOrElse("author_id","")){
       getMenuInflater.inflate(R.menu.edit_note,menu)

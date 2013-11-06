@@ -427,7 +427,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
       case R.id.menu_mynote =>if(! getThisActivity.isInstanceOf[MyNoteActivity] )startActivity(SIntent[MyNoteActivity]) else slidingMenu.toggle()
       case R.id.menu_favbooks =>if(! getThisActivity.isInstanceOf[FavoriteBooksActivity])startActivity(SIntent[FavoriteBooksActivity]) else slidingMenu.toggle()
       case R.id.menu_settings =>if(! getThisActivity.isInstanceOf[SettingsActivity]) startActivity(SIntent[SettingsActivity]) else slidingMenu.toggle()
-      case _=>
+      case _=> slidingMenu
     }
   }
 

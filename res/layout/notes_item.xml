@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"  android:descendantFocusability="blocksDescendants"
-    android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_margin="@dimen/margin_medium">
+    android:layout_width="fill_parent" android:layout_height="wrap_content"  android:layout_margin="@dimen/margin_medium">
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding_medium">
 
@@ -36,9 +36,7 @@
                 android:text=""
                 android:id="@+id/note_time"
                 android:singleLine="true"
-                android:layout_gravity="center_vertical|right"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true" />
+                android:layout_gravity="center_vertical|right"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -58,7 +56,7 @@
             android:gravity="top">
 
             <ImageView
-                android:layout_width="48dp"  android:layout_weight="1"
+                android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:id="@+id/user_avatar"
                 android:src="@drawable/default_user_img"
@@ -68,11 +66,12 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="fill_parent"  android:layout_weight="7"
-            android:layout_height="wrap_content">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"  android:singleLine="true" android:ellipsize="end"
                 android:text="User"   style="@style/DoubanText.Clickable"
                 android:id="@+id/username"
@@ -81,7 +80,7 @@
                 android:gravity="left|top" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=""  android:maxLines="4" android:ellipsize="end"
                 android:id="@+id/note_content"

@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/annotation_icon"  android:layout_marginRight="@dimen/padding_large"
-        android:src="@drawable/header_menu" android:clickable="true" android:onClick="menu"
+        android:src="@drawable/header_menu" android:clickable="true" android:onClick="sideMenu"
         android:layout_gravity="center_vertical" />
 
   <LinearLayout
@@ -20,7 +20,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/annotation"
+        android:text="@string/annotation" android:onClick="viewBook" android:clickable="true"
         android:id="@+id/title"   android:ellipsize="end" android:singleLine="true"  android:drawablePadding="@dimen/padding_medium"
          style="@style/DoubanActionBar.Title" android:drawableRight="@drawable/header_circle"
         android:gravity="center" />

@@ -144,8 +144,7 @@ object SearchResult {
 
   val mapping: Map[Int, Any] = Map(
     R.id.bookTitle -> "title", R.id.bookAuthor -> List("author", "translator"), R.id.bookPublisher -> List("publisher", "pubdate"),
-    R.id.ratingNum ->("rating.numRaters", "(%s)"), R.id.ratedStars -> "rating.average",
-    R.id.currentState -> STATE_STRING
+    R.id.ratingNum ->("rating.numRaters", "(%s)"), R.id.ratedStars -> "rating.average"
   )
   def getStar(rat: ReviewRating):String= {
     val r = Array("很差", "较差", "还行", "推荐", "力荐")
