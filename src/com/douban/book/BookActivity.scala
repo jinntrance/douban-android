@@ -49,8 +49,9 @@ class BookActivity extends DoubanActivity {
             sp.dismiss()
           }
           case _=>{
-            toast(R.string.search_no_result)
-            finish()
+            toast(getString(R.string.search_no_result,isbn))
+            sp.dismiss()
+            this.finish()
           }
         }
         else  book=bk.asInstanceOf[Option[Book]]
