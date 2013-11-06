@@ -2,7 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:descendantFocusability="blocksDescendants"  android:layout_margin="@dimen/margin_medium"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_width="fill_parent" android:layout_height="match_parent"
     android:baselineAligned="false">
 
     <include layout="@layout/book_image" />
@@ -63,7 +63,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="01."  android:maxLines="4" android:ellipsize="end"
+                android:maxLines="4" android:ellipsize="end"
                 android:id="@+id/note_content"
                 android:layout_margin="@dimen/margin_medium"
                 android:layout_gravity="left|top"

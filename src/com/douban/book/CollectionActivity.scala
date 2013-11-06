@@ -27,7 +27,7 @@ class CollectionActivity extends DoubanActivity {
 
   def setTags(tags:String)={
     getIntent.putExtra(Constant.TAGS,tags)
-    tags
+    find[TextView](R.id.tags_txt).setText(tags)
   }
 
 
@@ -118,10 +118,10 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
       case rat: ReviewRating => getView.find[RatingBar](R.id.rating).setRating(rat.value.toInt)
       case _ =>
     }
-    getView.find[TextView](R.id.tags_txt).setText(activity.getTags match{
+    activity.setTags(activity.getTags match{
       case tags:String=>tags
       case _=> {
-        activity.setTags(collection.tags.mkString(" "))
+        collection.tags.mkString(" ")
       }
     })
 
@@ -239,7 +239,7 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
   }
 
   def tagsAdded()={
-    activity.setTags(rootView.find[MultiAutoCompleteTextView](R.id.tags_multi_text).getText.toString)
+    activity.setTags(tags_input.getText.toString)
     activity.fragmentManager.popBackStack()
   }
 }

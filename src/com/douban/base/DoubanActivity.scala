@@ -293,11 +293,13 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   lazy val slidingMenu = {
     val sm = new SlidingMenu(this)
     sm.setMode(SlidingMenu.LEFT)
-    sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN)
+    sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN)
     sm.setShadowWidthRes(R.dimen.sliding_menu_width)
     //    sm.setShadowDrawable(R.drawable.shadow)
-    sm.setBehindOffsetRes(R.dimen.sliding_menu_behind_width)
+    sm.setBehindOffsetRes(R.dimen.sliding_menu_behind_offset)
+    sm.setBehindWidthRes(R.dimen.sliding_menu_width)
     sm.setFadeDegree(0.35f)
+    sm.setAboveOffset(0)
     sm.attachToActivity(this, SlidingMenu.SLIDING_WINDOW)
     sm.setMenu(R.layout.menu)
 
@@ -307,15 +309,15 @@ trait DoubanActivity extends SFragmentActivity with Douban {
       lazy val user=User.byId(userId)
       future {
         val u=getOrElse(Constant.USERNAME,user.name)
-        val a=getOrElse(Constant.AVATAR,user.large_avatar)
+        val a=getOrElse(Constant.AVATAR,user.avatar)
         val c=getOrElse(Constant.COLLE_NUM,Book.collectionsOfUser(userId).total).toInt
         val n=getOrElse(Constant.NOTES_NUM,Book.annotationsOfUser(userId).total).toInt
         (u,a,c,n)
       } onComplete{
         case Success((username,a,c,n))=>runOnUiThread{
           setViewValue(R.id.username,username)
-          setViewValue(R.id.menu_favbooks,s"收藏的书($c)",sm)
-          setViewValue(R.id.menu_mynote,s"我的笔记($n)",sm)
+          setViewValue(R.id.menu_favbooks,s"${getString(R.string.favorite)}($c)",sm)
+          setViewValue(R.id.menu_mynote,s"${getString(R.string.mynote)}($n)",sm)
           loadImageWithTitle(a,R.id.user_avatar,username,sm)
           put(Constant.AVATAR,a)
           put(Constant.USERNAME,username)
@@ -375,18 +377,22 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     }
   }
 
-  def currentUserId = {
+  def currentUserId:Long = {
     if(! isAuthenticated) login()
     if(isAuthenticated) get(Constant.userIdString).toLong
-    else finish();0L
+    else {
+      finish();0L
+    }
   }
 
-  def currentUserIdWithoutLogin = {
-    if(isAuthenticated)  get(Constant.userIdString).toLong
-    else 0L
+  def currentUserIdWithoutLogin:Long = {
+    get(Constant.userIdString) match {
+      case l:String if isAuthenticated && l.nonEmpty=> l.toLong
+      case _=>0l
+    }
   }
 
-  def get(key: String,default:String=""): String = defaultSharedPreferences.getString(key,default)
+  def get(key: String): String = defaultSharedPreferences.getString(key,null)
   def getOrElse(key: String,alt: =>Any):String = defaultSharedPreferences.getAll.get(key) match{
     case v:String=>v
     case _=>alt.toString
@@ -556,7 +562,7 @@ trait SwipeGestureDoubanActivity extends DoubanActivity{
 
     override def onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float)={
       val offset: Float = e2.getRawX - e1.getRawX
-      val threshold: Int = 80
+      val threshold: Int = 100
       if (offset > threshold) {
         showPre()
         true

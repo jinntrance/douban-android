@@ -19,5 +19,6 @@
     <dimen name="text_double_size">32dp</dimen>
     <dimen name="text_triple_size">40dp</dimen>
     <dimen name="sliding_menu_width">240dp</dimen>
-    <dimen name="sliding_menu_behind_width">60dp</dimen>
+    <dimen name="sliding_menu_behind_offset">60dp</dimen>
+    <dimen name="sliding_menu_above_offset">0dp</dimen>
 </resources>
