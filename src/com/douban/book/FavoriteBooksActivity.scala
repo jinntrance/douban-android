@@ -8,13 +8,16 @@ import com.douban.models._
 import  ExecutionContext.Implicits.global
 import org.scaloid.common._
 import android.widget._
-import scala.Some
-import scala.util.Success
 import com.douban.models.CollectionSearchResult
 import scala.Some
 import com.douban.models.CollectionSearch
 import scala.util.Success
 import com.douban.models.Collection
+import android.content.Intent
+import android.app.Activity
+import java.text.SimpleDateFormat
+import java.sql.Timestamp
+import java.util.Date
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -57,16 +60,10 @@ class FavoriteBooksActivity extends DoubanActivity{
     waiting
   }
 
-  def filter(v:View){
-    fragmentManager.beginTransaction().replace(R.id.fav_books_container,new FavoriteBooksListFragment,Constant.FRAGMENT_FAV_BOOKS).addToBackStack(null).commit()
+  def submitFilter(m:MenuItem){
+    startActivity(SIntent[FavoriteBooksListActivity])
   }
 
-  def submitFilter(m:MenuItem){
-    fragmentManager.findFragmentByTag(Constant.FRAGMENT_FAV_BOOKS) match{
-      case f:FavoriteBooksListFragment=>f.submitFilter()
-      case _=>
-    }
-  }
 
   def load(status:String,adapter:CollectionItemAdapter)={
     future{
@@ -100,27 +97,19 @@ class FavoriteBooksActivity extends DoubanActivity{
 
 
 class FavoriteBooksListFragment extends DoubanListFragment[DoubanActivity]{
-
   var currentPage=0
   var status="reading"
   var bookTag=""
   var rating=0
   var collectionSearch=CollectionSearch()
   lazy val adapter=new CollectionItemAdapter("reading",load)
-  var header:View=null
-
-  def submitFilter(){
-     //TODO
-  }
 
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = {
-    header=inflater.inflate(R.layout.fav_books_result,null)
     super.onCreateView(inflater, container, savedInstanceState)
   }
 
   override def onActivityCreated(b: Bundle){
     super.onActivityCreated(b)
-    getListView.addHeaderView(header)
     getListView.setAdapter(adapter)
   }
   def load(status:String,adapter:CollectionItemAdapter){
@@ -164,22 +153,73 @@ class CollectionItemAdapter(status:String,loader: (String,CollectionItemAdapter)
   override protected def selfLoad(): Unit = loader(status,this)
 }
 
+class FavoriteBooksListActivity extends DoubanActivity{
+  val REQUEST_CODE=1
+
+
+  protected override def onCreate(b: Bundle): Unit = {
+    super.onCreate(b)
+    setContentView(R.layout.fav_books_result)
+    startActivityForResult(SIntent[FavoriteBooksFilterActivity],REQUEST_CODE)
+  }
+
+  def updateHeader(b:Bundle){
+    b.keySet().map(key=> key->b.getString(key,"")).toMap
+  }
+
+  override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+     if(requestCode==REQUEST_CODE&& resultCode== Activity.RESULT_OK){
+         updateHeader(data.getExtras)
+         fragmentManager.beginTransaction().replace(R.id.fav_books_fragment,
+           new FavoriteBooksListFragment addArguments data.getExtras,Constant.FRAGMENT_FAV_BOOKS).addToBackStack(null).commit()
+       }
+  }
+  override def onCreateOptionsMenu(menu: Menu) = {
+    getMenuInflater.inflate(R.menu.filter, menu)
+    super.onCreateOptionsMenu(menu)
+  }
+}
+
 class FavoriteBooksFilterActivity extends DoubanActivity{
+  private var state=""
+  private var tags=collection.mutable.Set[String]()
   protected override def onCreate(b: Bundle): Unit = {
     super.onCreate(b)
     setContentView(R.layout.fav_books_filter)
+    replaceActionBar(R.layout.header_edit,getString(R.string.filter_books))
     future{
       Book.tagsOf(currentUserId)
     }onSuccess{
       case t:TagsResult=>runOnUiThread({
         val container=find[LinearLayout](R.id.tags_container)
-        t.tags.foreach(tag=>container.addView(new SLinearLayout{
-          SCheckBox(tag.toString)
-        }))
+        container.addView(new SLinearLayout{
+          t.tags.foreach(tag=>SCheckBox(tag.toString).onClick(_ match{
+            case db:CheckBox=>
+              tags=if(db.isChecked) {tags + db.getText.toString}
+              else tags - db.getText.toString
+            case _=>
+          }))
+        })
       })
       case _=>
     }
   }
+
+  def submit(v:View){
+    val sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ")
+
+    val from=sdf.format(new Date(find[DatePicker](R.id.from_date).getCalendarView.getDate))
+    val to=sdf.format(new Date(find[DatePicker](R.id.to_date).getCalendarView.getDate))
+    //TODO handle the default min and max date problem
+    CollectionSearch(state,tags.mkString(" "),find[RatingBar](R.id.rating).getRating.toInt,from,to)
+//    getIntent.putExtras(???)
+  }
+
+  def checkSate(v:View){
+    state=SearchResult.str2ids.getOrElse(v.getId,"")
+  }
+
+
 }
 
 

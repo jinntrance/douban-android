@@ -116,11 +116,11 @@
             android:layout_margin="@dimen/margin_large" />
     </FrameLayout>
 
-    <fragment
+
+  <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"  class="com.douban.book.FavoriteBooksListFragment"
-        android:name="com.douban.book.FavoriteBooksListFragment"
-        android:id="@+id/fragment"
+        android:layout_height="0dp"
+        android:id="@+id/fav_books_fragment"
         android:layout_weight="1" />
 
 </LinearLayout>

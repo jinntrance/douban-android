@@ -33,6 +33,7 @@ class AddNoteActivity extends DoubanActivity {
   var public=true
   override def onCreate(b: Bundle){
     super.onCreate(b)
+    currentUserId
     setContentView(R.layout.add_note_container)
     val bundle: Bundle = getIntent.getExtras
     bundle.getString(Constant.BOOK_PAGE) match{

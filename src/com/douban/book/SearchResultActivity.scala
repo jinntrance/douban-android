@@ -140,6 +140,7 @@ object SearchResult {
   val STATE_STRING = "current_user_collection.status"
   val stateMapping = Map("wish" -> "想读", "reading" -> "在读", "read" -> "读过")
   val idsMap = Map("read" -> R.id.read, "reading" -> R.id.reading, "wish" -> R.id.wish)
+  val str2ids=idsMap.map(_.swap)
   val colorMap=Map(R.id.wish->R.drawable.button_pink,R.id.reading->R.drawable.button_green,R.id.read->R.drawable.button_brown)
 
   val mapping: Map[Int, Any] = Map(

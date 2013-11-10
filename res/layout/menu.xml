@@ -1,65 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:background="@color/background_black_light" style="@style/DoubanTextTitle.White">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/menu_login"
-        android:baselineAligned="false"
-        android:background="@color/background_black_darker">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="用豆瓣帐号登录" android:onClick="login"
-            android:id="@+id/login_button"
-            android:layout_margin="@dimen/margin_large" />
-    </LinearLayout>
+  <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/upper_menu">
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/background_black_darker"
-        android:baselineAligned="false"
-        android:id="@+id/menu_logoned"
-        android:visibility="visible">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center">
-
-          <ImageView
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:id="@+id/user_avatar"
-              android:src="@drawable/default_user_img" />
-        </LinearLayout>
-
-      <TextView
-          android:layout_width="wrap_content"
+          android:layout_width="fill_parent"
           android:layout_height="wrap_content"
-          android:text=""
-          android:id="@+id/username"  style="@style/DoubanTextTitle.White"
-          android:textStyle="bold"
-          android:layout_marginLeft="@dimen/margin_medium"
-          android:layout_marginTop="@dimen/margin_medium"
-          android:layout_marginBottom="@dimen/margin_large" />
+          android:id="@+id/menu_login"
+          android:baselineAligned="false"
+          android:background="@color/background_black_darker">
 
-    </LinearLayout>
+          <Button
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="用豆瓣帐号登录" android:onClick="login"
+              android:id="@+id/login_button"
+              android:layout_margin="@dimen/margin_large" />
+      </LinearLayout>
 
     <LinearLayout
+          android:orientation="horizontal"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:background="@color/background_black_darker"
+          android:baselineAligned="false"
+          android:id="@+id/menu_logoned"
+          android:visibility="visible">
+
+          <LinearLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="center">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/user_avatar"
+                android:src="@drawable/default_user_img" />
+          </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/username"  style="@style/DoubanTextTitle.White"
+            android:textStyle="bold"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_large" />
+
+      </LinearLayout>
+  </LinearLayout>
+
+  <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:measureWithLargestChild="false"
         android:layout_marginLeft="@dimen/margin_large"
         android:layout_marginTop="@dimen/margin_medium"
-        android:divider="@drawable/divider">
+        android:divider="@drawable/divider"
+      android:layout_below="@+id/upper_menu">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"   android:drawableLeft="@drawable/menu_favorite" android:padding="@dimen/padding_large"
@@ -94,4 +102,4 @@
                 android:gravity="center|left" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

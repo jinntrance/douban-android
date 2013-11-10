@@ -46,6 +46,7 @@ class CollectionActivity extends DoubanActivity {
 
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
+    currentUserId
     setContentView(R.layout.collection_container)
   }
 
