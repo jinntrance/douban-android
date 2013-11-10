@@ -381,6 +381,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     if(! isAuthenticated) login()
     if(isAuthenticated) get(Constant.userIdString).toLong
     else {
+      notifyNetworkState()
       finish();0L
     }
   }

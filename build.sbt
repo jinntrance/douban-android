@@ -10,8 +10,6 @@ organization := "com.douban"
 
 name := "douban-book"
 
-version := "2.1"
-
 scalaVersion := "2.10.3"
 
 minSdkVersion in Android := 14
@@ -52,7 +50,5 @@ proguardCache in Android ++=Seq(
 
 //libraryProjects in Android += android.Dependencies.LibraryProject(file("libs/slidingMenu"))
 
-proguardConfig in Android <<= baseDirectory map (b => IO.readLines(b/"proguard.cfg"))
-
-
+proguardOptions in Android <++= baseDirectory(_/"proguard.cfg").flatMap(f=>task(scala.io.Source.fromFile(f).getLines().toSeq))
 

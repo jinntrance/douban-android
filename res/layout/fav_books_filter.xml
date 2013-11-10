@@ -1,109 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+  <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"  android:layout_margin="@dimen/margin_medium"
+      android:layout_height="wrap_content"
+      android:id="@+id/scrollView">
 
-    <TableLayout
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="wrap_content">
 
-        <TableRow
+
+      <LinearLayout
+          android:layout_width="fill_parent"  android:layout_margin="@dimen/margin_medium"
+          android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="收藏状态"
+            android:layout_gravity="center_vertical" />
+
+        <RadioGroup
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/padding_large">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="收藏状态"
-                android:layout_gravity="center_vertical" />
+          <RadioButton
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/wish"
+              android:checked="false" android:onClick="checkSate"
+              android:text="想读" />
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+          <RadioButton
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="在读"  android:onClick="checkSate"
+              android:id="@+id/reading"
+              android:checked="false" />
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/wish"
-                    android:checked="false"
-                    android:text="想读" />
+          <RadioButton
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="读过"  android:onClick="checkSate"
+              android:id="@+id/read"
+              android:checked="false" />
+        </RadioGroup>
+      </LinearLayout>
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="在读"
-                    android:id="@+id/reading"
-                    android:checked="false" />
+      <LinearLayout
+          android:layout_width="fill_parent"  android:layout_margin="@dimen/margin_medium"
+          android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的评分"
+            android:layout_gravity="center_vertical" />
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="读过"
-                    android:id="@+id/read"
-                    android:checked="false" />
-            </LinearLayout>
-        </TableRow>
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" style="@style/DoubanRatingBar"
+            android:id="@+id/rating"
+            android:numStars="5"
+            android:paddingLeft="@dimen/padding_large" />
+      </LinearLayout>
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="我的评分"
-                android:layout_gravity="center_vertical" />
+      <LinearLayout
+          android:layout_width="fill_parent"    android:layout_margin="@dimen/margin_medium"
+          android:layout_height="wrap_content">
 
-            <RatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ratingBar" />
-        </TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="收藏时间"
+            android:layout_gravity="center_vertical" />
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_large">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="收藏时间"
-                android:layout_gravity="center_vertical" />
+          <DatePicker
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/from_date"
+              android:spinnersShown="true" />
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="到"
+              android:paddingLeft="@dimen/padding_large"
+              android:paddingRight="@dimen/padding_large" />
 
-                <DatePicker
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/from_date"
-                    android:spinnersShown="true" />
+          <DatePicker
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/to_date" />
+        </LinearLayout>
+      </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="到" />
+      <LinearLayout
+          android:layout_width="fill_parent" android:layout_margin="@dimen/margin_medium"
+          android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的标签" />
 
-                <DatePicker
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/to_date" />
-            </LinearLayout>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="我的标签" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/tags_container"></LinearLayout>
-        </TableRow>
-    </TableLayout>
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/tags_container"
+            android:paddingLeft="@dimen/padding_large"></LinearLayout>
+      </LinearLayout>
+        </LinearLayout>
+  </ScrollView>
