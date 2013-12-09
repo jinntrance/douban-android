@@ -110,7 +110,7 @@ trait Douban {
     }
   }
 
-  def displayWhen(resId: Int, condition: Boolean, holder: V = rootView) = {
+  def toggleDisplayWhen(resId: Int, condition: Boolean, holder: V = rootView) = {
     holder.findViewById(resId) match {
       case v: View => runOnUiThread(v.setVisibility(if (condition) View.VISIBLE else View.GONE))
       case _ =>

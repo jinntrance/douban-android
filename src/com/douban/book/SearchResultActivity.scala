@@ -116,7 +116,7 @@ class BookItemAdapter(mapping: Map[Int, Any], load: => Unit = {})(implicit activ
     if (null != convertView) {
       val b = getBean(position)
       val c: Collection = b.current_user_collection
-      activity.displayWhen(R.id.favorite, null == c, convertView)
+      activity.toggleDisplayWhen(R.id.favorite, null == c, convertView)
       if (null != c) {
         convertView.findViewById(R.id.currentState) match {
           case state: TextView => {
