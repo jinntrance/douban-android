@@ -4,14 +4,14 @@ import org.scaloid.common._
 import android.os.Bundle
 import android.widget.{TextView, LinearLayout}
 import com.douban.base.{DoubanFragment, DoubanActivity, Constant}
-import com.douban.models.{ReviewRating, Collection, Book}
-import android.app.{ProgressDialog, Activity, AlertDialog}
+import com.douban.models.{Collection, Book}
+import android.app.{ProgressDialog, Activity}
 import android.view._
 import Constant._
 import scala.concurrent._
 import ExecutionContext.Implicits.global
-import android.content.{Intent, DialogInterface}
-import scala.util.Success
+import android.content.Intent
+import scala.util.{Failure, Success}
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -43,15 +43,16 @@ class BookActivity extends DoubanActivity {
           else if (null!=bookId&&bookId.nonEmpty) Some(Book.byId(bookId.toLong))
           else None
         }onComplete {
-          case Success(Some(bb:Book))=>{
+          case Success(Some(bb:Book))=>
             book=Some(bb)
             fragment.updateBookView()
-            sp.dismiss()
-          }
-          case _=>{
-            longToast(getString(R.string.search_no_result,isbn))
+            sp.cancel()
+          case Failure(m)=>
+            m.printStackTrace()
+            error(m.getMessage)
+            val notification=if(null!=isbn) s",扫描ISBN码为:$isbn" else if (null!=bookId) s",图书名为:${extras.getString(Constant.BOOK_TITLE,"无")}" else ""
+            longToast(getString(R.string.search_no_result) + notification )
             this.finish()
-          }
         }
         else  book=bk.asInstanceOf[Option[Book]]
       }
@@ -87,11 +88,10 @@ class BookActivity extends DoubanActivity {
     new AlertDialogBuilder("删除收藏","之前的短评将会消失，确定要删除收藏么？"){
         positiveButton(onClick={future{
             book match {
-              case Some(b: Book) if Book.deleteCollection(b.id) => {
+              case Some(b: Book) if Book.deleteCollection(b.id) =>
                 toast(R.string.decollect_successfully)
                 book.get.updateExistCollection(null)
                 fragment.updateBookView()
-              }
               case _ => toast(R.string.decollect_unsuccessfully)
             }
           }})
@@ -135,7 +135,7 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
   def updateBookView() {
     activity.book match {
       case Some(book) => {
-        getActivity.setTitle(book.title)
+        runOnUiThread(getActivity.setTitle(book.title))
         Map(R.id.subtitle_layout -> book.subtitle, R.id.book_author -> book.author_intro, R.id.book_content -> book.summary, R.id.book_catalog -> book.catalog
         ).foreach(hideWhenEmpty)
 
@@ -165,9 +165,6 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
           R.id.book_catalog_abstract -> "catalog", R.id.book_catalog_abstract_longtext -> "catalog",
           R.id.comment -> ("current_user_collection.comment","%s」") ), beanToMap(book))
         activity.loadImageWithTitle(if (activity.usingWIfi || !activity.using2G) book.images.large else book.images.small,R.id.book_img,book.title)
-/*        displayWhen(R.id.content_arrow,rootView.find[TextView](R.id.book_content_abstract).getLineCount>4)
-        displayWhen(R.id.author_arrow,rootView.find[TextView](R.id.book_author_abstract).getLineCount>4)
-        displayWhen(R.id.catalog_arrow,rootView.rootView.find[TextView](R.id.book_catalog_abstract).getLineCount>4)*/
       }
       case _ =>
     }

@@ -41,9 +41,10 @@ class FavoriteBooksActivity extends DoubanActivity{
     val  listener= (parent: AdapterView[_], view: View, position: Int, id: Long)=> {
       parent.getAdapter.asInstanceOf[CollectionItemAdapter].getBean(position) match {
         case c:Collection=>{
-          val book=c.book
-          c.updateBook(null)
-          book.updateExistCollection(c)
+          val book=c.book.copy()
+          val col=c.copy()
+          col.updateBook(null)
+          book.updateExistCollection(col)
           startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY,Some(book)))
         }
       }
@@ -164,7 +165,7 @@ class FavoriteBooksListActivity extends DoubanActivity{
   }
 
   def updateHeader(b:Bundle){
-    b.keySet().map(key=> key->b.getString(key,"")).toMap
+//    b.keySet().toScala.map(key=> key->b.getString(key,"")).toMap //TODO
   }
 
   override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {

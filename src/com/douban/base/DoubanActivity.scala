@@ -1,7 +1,7 @@
 package com.douban.base
 
 import android.content
-import android.net.ConnectivityManager
+import android.net.{NetworkInfo, ConnectivityManager}
 import android.view._
 import com.douban.book._
 import com.douban.common._
@@ -141,22 +141,27 @@ trait Douban {
   }
 
   def isOnline = {
-    val activeNetwork = ctx.getSystemService(content.Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo
-    activeNetwork.isConnectedOrConnecting
+    ctx.getSystemService(content.Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo match{
+      case activeNetwork:NetworkInfo=>activeNetwork.isConnectedOrConnecting
+      case _=>false
+    }
+
   }
 
    def usingWIfi = {
-    val activeNetwork = ctx.getSystemService(content.Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo
-    activeNetwork.getType == ConnectivityManager.TYPE_WIFI
+    ctx.getSystemService(content.Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo
+    match{
+      case activeNetwork:NetworkInfo=>activeNetwork.getType == ConnectivityManager.TYPE_WIFI
+      case _=>false
+    }
   }
 
    def using2G: Boolean = {
     import TelephonyManager._
-    val t = ctx.getSystemService(Context.TELEPHONY_SERVICE).asInstanceOf[TelephonyManager].getNetworkType match {
-      case NETWORK_TYPE_GPRS | NETWORK_TYPE_EDGE | NETWORK_TYPE_CDMA | NETWORK_TYPE_1xRTT | NETWORK_TYPE_IDEN => "2G"
-      case _ => "3G"
+    ctx.getSystemService(Context.TELEPHONY_SERVICE).asInstanceOf[TelephonyManager].getNetworkType match {
+      case NETWORK_TYPE_GPRS | NETWORK_TYPE_EDGE | NETWORK_TYPE_CDMA | NETWORK_TYPE_1xRTT | NETWORK_TYPE_IDEN => true
+      case _ => false
     }
-    t == "2G"
   }
 
   @inline def BitmapFromUrl(url: String) = {
@@ -176,7 +181,7 @@ trait Douban {
     } else future {
       BitmapFromUrl(url)
     } onComplete {
-      case Success(b) => {
+      case Success(b) =>
         runOnUiThread(img.setImageBitmap(b))
         if (!cacheFile.exists() && cacheFile.getParentFile.mkdirs) {
           cacheFile.createNewFile()
@@ -184,7 +189,6 @@ trait Douban {
         val out = new FileOutputStream(cacheFile, false)
         b.compress(Bitmap.CompressFormat.JPEG, 100, out)
         out.close()
-      }
       case Failure(b) => toast(notification)
     }
   }
@@ -193,24 +197,28 @@ trait Douban {
       result
     } onComplete {
       case Success(t) => handler(t)
-      case Failure(m) => debug(m.getMessage)
+      case Failure(m) => error(m.getMessage)
     }
   }
 
 
-  def waitToLoad(cancel: => Unit = {})(implicit ctx: Context) = if(isOnline){
-    val _sp = spinnerDialog("", ctx.getString(R.string.loading))
-//    _sp.getWindow.requestFeature(Window.FEATURE_NO_TITLE)
-    _sp.setCanceledOnTouchOutside(true)
-    _sp.setCancelable(true)
-    _sp.setOnCancelListener(new DialogInterface.OnCancelListener() {
-      def onCancel(p1: DialogInterface) {
-        cancel
-        _sp.dismiss()
+  def waitToLoad(cancel: => Unit = {})(implicit ctx: Context):ProgressDialog = if(isOnline){
+    spinnerDialog("", ctx.getString(R.string.loading)) match {
+      case _sp:ProgressDialog =>{
+        //    _sp.getWindow.requestFeature(Window.FEATURE_NO_TITLE)
+        _sp.setCanceledOnTouchOutside(true)
+        _sp.setCancelable(true)
+        _sp.setOnCancelListener(new DialogInterface.OnCancelListener() {
+          def onCancel(p1: DialogInterface) {
+            cancel
+            _sp.dismiss()
+          }
+        })
+        _sp.show()
+        _sp
       }
-    })
-    _sp.show()
-    _sp
+      case _=>null
+    }
   } else{
     notifyNetworkState()
     null
@@ -226,19 +234,16 @@ trait Douban {
     future {
       result
     } onComplete {
-      case Success(t) =>{
+      case Success(t) =>
         success(t)
         if(null!=sp) sp.dismiss()
-      }
-      case Failure(m) =>{
+      case Failure(m) =>
         failed
         debug(m.getMessage)
         if(null!=sp) sp.dismiss()
-      }
-      case _=>{
+      case _=>
         failed
         if(null!=sp) sp.dismiss()
-      }
     }
   }
 
@@ -280,9 +285,10 @@ trait DoubanActivity extends SFragmentActivity with Douban {
                 }
               })
           case e:IOException => toast(R.string.notify_offline)
-          case e:Throwable => {
-            e.printStackTrace();longToast(e.getMessage);getThisActivity.finish()
-          }
+          case e:Throwable =>
+            e.printStackTrace()
+            longToast(e.getMessage)
+            getThisActivity.finish()
           case _ =>
         }
         toast(ex.getMessage)
@@ -309,7 +315,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
       lazy val user=User.byId(userId)
       future {
         val u=getOrElse(Constant.USERNAME,user.name)
-        val a=getOrElse(Constant.AVATAR,user.avatar)
+        val a=getOrElse(Constant.AVATAR,user.large_avatar)
         val c=getOrElse(Constant.COLLE_NUM,Book.collectionsOfUser(userId).total).toInt
         val n=getOrElse(Constant.NOTES_NUM,Book.annotationsOfUser(userId).total).toInt
         (u,a,c,n)
@@ -324,10 +330,9 @@ trait DoubanActivity extends SFragmentActivity with Douban {
           put(Constant.COLLE_NUM,c)
           put(Constant.NOTES_NUM,n)
         }
-        case Failure(e)=>{
+        case Failure(e)=>
           warn("can not login")
           e.printStackTrace()
-        }
         case _=>
       }
     }
@@ -360,11 +365,10 @@ trait DoubanActivity extends SFragmentActivity with Douban {
 
   protected override def onOptionsItemSelected(item:MenuItem)= {
     item.getItemId match {
-      case android.R.id.home=>{
-//        NavUtils.navigateUpFromSameTask(this)
+      case android.R.id.home=>
+        //        NavUtils.navigateUpFromSameTask(this)
         slidingMenu.toggle()
         true
-      }
       case _=> super.onOptionsItemSelected(item)
     }
   }
@@ -434,7 +438,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
 
   def popup(v:View)={
     v match {
-      case img:ImageView=>{
+      case img:ImageView=>
         val imageDialog = new Dialog(this)
         imageDialog.getWindow.requestFeature(Window.FEATURE_NO_TITLE)
         val layout = getLayoutInflater.inflate(R.layout.image_popup,null)
@@ -442,7 +446,6 @@ trait DoubanActivity extends SFragmentActivity with Douban {
         imageDialog.setContentView(layout)
         imageDialog.setCancelable(true)
         imageDialog.show()
-      }
       case _=>
     }
   }
