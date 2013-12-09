@@ -32,7 +32,7 @@ class BookActivity extends DoubanActivity {
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     getIntent.getExtras match {
-      case extras: Bundle => {
+      case extras: Bundle =>
         val isbn = extras.getString(Constant.ISBN)
         val bookId = extras.getString(Constant.BOOK_ID)
         val bk = extras.getSerializable(Constant.BOOK_KEY)
@@ -55,7 +55,6 @@ class BookActivity extends DoubanActivity {
             this.finish()
         }
         else  book=bk.asInstanceOf[Option[Book]]
-      }
       case _ =>
     }
     setContentView(R.layout.book_view_container)
@@ -134,14 +133,14 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
 
   def updateBookView() {
     activity.book match {
-      case Some(book) => {
-        runOnUiThread(getActivity.setTitle(book.title))
+      case Some(book) =>
+        getThisActivity.setTitle(book.title)
         Map(R.id.subtitle_layout -> book.subtitle, R.id.book_author -> book.author_intro, R.id.book_content -> book.summary, R.id.book_catalog -> book.catalog
         ).foreach(hideWhenEmpty)
 
         val toDel = book.current_user_collection match {
-          case c: Collection => {
-            getView.find[TextView](R.id.tags_txt).setText(c.tags.mkString(" "))
+          case c: Collection =>
+            runOnUiThread(getView.find[TextView](R.id.tags_txt).setText(c.tags.mkString(" ")))
             setViewValue(R.id.recommend,SearchResult.getStar(c.rating),getView)
             hideWhenEmpty(R.id.comment_quote,c.comment)
             c.status match {
@@ -150,11 +149,9 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
               case "wish" => List(R.id.reading, R.id.read)
               case _ => List(R.id.delete)
             }
-          }
-          case _ => {
+          case _ =>
             hideWhen(R.id.book_layout_tags,condition = true)
             List(R.id.delete)
-          }
         }
         val l = rootView.find[LinearLayout](R.id.status_layout)
         toDel.foreach(id => l.removeView(rootView.findViewById(id)))
@@ -165,7 +162,6 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
           R.id.book_catalog_abstract -> "catalog", R.id.book_catalog_abstract_longtext -> "catalog",
           R.id.comment -> ("current_user_collection.comment","%s」") ), beanToMap(book))
         activity.loadImageWithTitle(if (activity.usingWIfi || !activity.using2G) book.images.large else book.images.small,R.id.book_img,book.title)
-      }
       case _ =>
     }
   }

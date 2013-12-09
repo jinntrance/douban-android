@@ -53,15 +53,15 @@ trait Douban {
 
   def getThisActivity: DoubanActivity
 
-  def setViewValue[T <: V](id: Int, value: String, holder: T = rootView, notification: String = "",hideEmpty:Boolean=true)= runOnUiThread {
+  def setViewValue[T <: V](id: Int, value: String, holder: T = rootView, notification: String = "",hideEmpty:Boolean=true)=  {
     value.trim match {
       case "" if hideEmpty => holder.findViewById(id) match {
-        case view: View => view.setVisibility(View.GONE)
+        case view: View => runOnUiThread(view.setVisibility(View.GONE))
         case _ =>
       }
       case value: String => holder.findViewById(id) match {
-        case view: TextView => view.setText(value)
-        case rating: RatingBar => rating.setNumStars(value.toInt)
+        case view: TextView => runOnUiThread(view.setText(value))
+        case rating: RatingBar => runOnUiThread(rating.setNumStars(value.toInt))
         case img: ImageView if value != "URL" => loadImage(value, img, notification)
         case _ =>
       }
@@ -83,7 +83,7 @@ trait Douban {
 
   def hideWhenEmpty(resId: Int, value: String, holder: V = rootView) = value match {
     case null | "" => holder.findViewById(resId) match {
-      case v: View => v.setVisibility(View.GONE)
+      case v: View => runOnUiThread(v.setVisibility(View.GONE))
       case _ =>
     }
     case _ =>
@@ -98,14 +98,14 @@ trait Douban {
 
   def hideWhen(resId: Int, condition: Boolean, holder: V = rootView) = if (condition) {
     holder.findViewById(resId) match {
-      case v: View => v.setVisibility(View.GONE)
+      case v: View => runOnUiThread(v.setVisibility(View.GONE))
       case _ =>
     }
   }
 
   def displayWhen(resId: Int, condition: Boolean, holder: V = rootView) = {
     holder.findViewById(resId) match {
-      case v: View => v.setVisibility(if (condition) View.VISIBLE else View.GONE)
+      case v: View => runOnUiThread(v.setVisibility(if (condition) View.VISIBLE else View.GONE))
       case _ =>
     }
   }
@@ -133,8 +133,8 @@ trait Douban {
   def toggleBackGround(firstOneAsBackground: Boolean, view: View, res: (Int, Int)): Boolean = {
     val chosen = if (firstOneAsBackground) res._1 else res._2
     view match {
-      case img: ImageView => img.setImageResource(chosen)
-      case txt: TextView => txt.setBackgroundResource(chosen)
+      case img: ImageView => runOnUiThread(img.setImageResource(chosen))
+      case txt: TextView => runOnUiThread(txt.setBackgroundResource(chosen))
       case _ =>
     }
     !firstOneAsBackground
@@ -202,23 +202,19 @@ trait Douban {
   }
 
 
-  def waitToLoad(cancel: => Unit = {})(implicit ctx: Context):ProgressDialog = if(isOnline){
-    spinnerDialog("", ctx.getString(R.string.loading)) match {
-      case _sp:ProgressDialog =>{
-        //    _sp.getWindow.requestFeature(Window.FEATURE_NO_TITLE)
-        _sp.setCanceledOnTouchOutside(true)
-        _sp.setCancelable(true)
-        _sp.setOnCancelListener(new DialogInterface.OnCancelListener() {
-          def onCancel(p1: DialogInterface) {
-            cancel
-            _sp.dismiss()
-          }
-        })
-        _sp.show()
-        _sp
+  def waitToLoad(cancel: => Unit = {})(implicit ctx: Context):ProgressDialog = if(isOnline) runOnUiThread{
+    val _sp=spinnerDialog("", ctx.getString(R.string.loading))
+     //    _sp.getWindow.requestFeature(Window.FEATURE_NO_TITLE)
+    _sp.setCanceledOnTouchOutside(true)
+    _sp.setCancelable(true)
+    _sp.setOnCancelListener(new DialogInterface.OnCancelListener() {
+      def onCancel(p1: DialogInterface) {
+        cancel
+        _sp.dismiss()
       }
-      case _=>null
-    }
+    })
+    _sp.show()
+    _sp
   } else{
     notifyNetworkState()
     null
@@ -259,6 +255,9 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   def login(v:View){
       login()
   }
+
+
+  override def setTitle(title: CharSequence): Unit = runOnUiThread(super.setTitle(title))
 
   private var keyboardUp=true
   def toggleKeyboard(v:View){
@@ -320,7 +319,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
         val n=getOrElse(Constant.NOTES_NUM,Book.annotationsOfUser(userId).total).toInt
         (u,a,c,n)
       } onComplete{
-        case Success((username,a,c,n))=>runOnUiThread{
+        case Success((username,a,c,n))=>{
           setViewValue(R.id.username,username)
           setViewValue(R.id.menu_favbooks,s"${getString(R.string.favorite)}($c)",sm)
           setViewValue(R.id.menu_mynote,s"${getString(R.string.mynote)}($n)",sm)

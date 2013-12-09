@@ -67,7 +67,7 @@ class AddNoteActivity extends DoubanActivity {
           }
         }
       }onComplete{
-        case Success(true)=>runOnUiThread{
+        case Success(true)=>{
           toast(R.string.annotation_added)
           this.onBackPressed()
         }

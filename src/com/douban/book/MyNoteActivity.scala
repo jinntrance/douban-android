@@ -56,9 +56,7 @@ class MyNoteActivity extends DoubanActivity{
         listAdapter.addResult(a.total, size, a.annotations)
         runOnUiThread(listAdapter.notifyDataSetChanged())
       }
-      runOnUiThread{
-        setTitle(getString(R.string.annotation) + s"($index/$total)")
-      }
+      setTitle(getString(R.string.annotation) + s"($index/$total)")
       if(index<total)toast(getString(R.string.more_notes_loaded).format(index))
       else toast(R.string.more_loaded_finished)
     }

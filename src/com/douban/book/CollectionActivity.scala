@@ -156,10 +156,8 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
   }
 
   def checkPrivacy(v: View) {
-    runOnUiThread({
       public = toggleBackGround(public, v, (R.drawable.private_icon, R.drawable.public_icon))
       activity.getIntent.putExtra(Constant.PUBLIC,public)
-    })
   }
 
   def submit(v: View) {

@@ -6,7 +6,6 @@ import com.douban.models._
 import android.view._
 import android.widget._
 import org.scaloid.common._
-import com.douban.base.DBundle
 import com.douban.models.AnnotationSearch
 import com.douban.models.AnnotationSearchResult
 import com.douban.models.Annotation
@@ -147,12 +146,11 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
   def search(v: View) {
     val order = Map(R.id.rank -> "rank", R.id.collect -> "collect", R.id.page -> "page")
     v.getId match {
-      case id: Int if rank!=order.getOrElse(id,"rank") => {
-        runOnUiThread(order.keys.foreach(i=>activity.toggleBackGround(i !=id,i,(R.color.black,R.color.black_light))))
+      case id: Int if rank!=order.getOrElse(id,"rank") =>
+        order.keys.foreach(i=>activity.toggleBackGround(i !=id,i,(R.color.black,R.color.black_light)))
         currentPage = 1
         rank=order(id)
         search(page=1)
-      }
       case _=>
     }
   }
