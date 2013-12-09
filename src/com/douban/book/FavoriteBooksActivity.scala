@@ -184,13 +184,16 @@ class FavoriteBooksListActivity extends DoubanActivity {
 
   def load(status: String, adapter: CollectionItemAdapter) {
     listLoader(
-      toLoad = 1 == currentPage,
+      toLoad = 1 == currentPage || adapter.getCount< adapter.getTotal,
       result = {
         val search = CollectionSearch(cs.status, cs.tag, cs.rating, cs.from, cs.to, start = adapter.count, count = countPerPage)
         Book.collectionsOfUser(currentUserId, search)
       },
       success =
-        (r: CollectionSearchResult) => runOnUiThread{
+        (r: CollectionSearchResult) =>
+          if(r.total==0)
+            toast("没有找到对应书籍")
+          else runOnUiThread{
           if (1 == currentPage) {
             adapter.replaceResult(r.total, r.collections.size(), r.collections)
             adapter.notifyDataSetInvalidated()

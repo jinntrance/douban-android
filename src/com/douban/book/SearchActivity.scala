@@ -25,10 +25,13 @@ class SearchActivity extends DoubanActivity {
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.search)
-    find[SearchView](R.id.searchBookText) setOnQueryTextListener new SearchView.OnQueryTextListener() {
-      def onQueryTextSubmit(p1: String): Boolean = search(p1)
+    findViewById(R.id.searchBookText) match {
+      case s:SearchView=>s setOnQueryTextListener new SearchView.OnQueryTextListener() {
+        def onQueryTextSubmit(p1: String): Boolean = search(p1)
 
-      def onQueryTextChange(p1: String): Boolean = true
+        def onQueryTextChange(p1: String): Boolean = true
+      }
+      case _=>
     }
     slidingMenu
   }

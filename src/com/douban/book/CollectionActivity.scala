@@ -92,18 +92,16 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
       checkPrivacy(rootView.findViewById(R.id.privacy))
     activity.book match {
       case Some(bk:Book) => bk.current_user_collection match {
-        case c: Collection => {
+        case c: Collection =>
           updateable=true
           updateCollection(c)
-        }
-        case _ => {
+        case _ =>
           val id = getActivity.getIntent.getExtras.getInt(Constant.STATE_ID)
           check(getView.find[Button](if (0 == id) R.id.wish else id))
           future {
             activity.getAccessToken
             updateCollection(activity.book.getOrElse(bk).updateExistCollection(Book.collectionOf(bk.id)))
           }
-        }
       }
       case None =>
     }
@@ -121,9 +119,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
     }
     activity.setTags(activity.getTags match{
       case tags:String=>tags
-      case _=> {
-        collection.tags.mkString(" ")
-      }
+      case _=> collection.tags.mkString(" ")
     })
 
   }
@@ -131,7 +127,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
   def check(v: View) {
 
     v match {
-      case b: Button => {
+      case b: Button =>
         val mark = '✓'
         val txt: String = b.getText.toString
         if (!txt.contains(mark)) {
@@ -141,17 +137,15 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
           b.setBackgroundResource(R.drawable.button_gray)
           List(R.id.read, R.id.reading, R.id.wish).filter(_ != b.getId).foreach(id => {
             getView.find[Button](id) match {
-              case b: Button => {
+              case b: Button =>
                 b.setText(b.getText.toString.takeWhile(_ != mark))
                 b.setBackgroundResource(SearchResult.colorMap(b.getId))
-              }
               case _ =>
             }
           }
           )
         }
         rootView.findViewById(R.id.rating).setVisibility(if (v.getId == R.id.wish) View.GONE else View.VISIBLE)
-      }
     }
   }
 
@@ -166,11 +160,10 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
       if(updateable)  Book.updateCollection(activity.book.get.id,p)
       else Book.postCollection(activity.book.get.id, p)
     } onComplete {
-      case Success(Some(c: Collection)) => {
+      case Success(Some(c: Collection)) =>
         activity.getIntent.putExtra(Constant.COLLECTION,c)
         toast(getString(R.string.collect_successfully))
         activity.finish()
-      }
       case _ => toast(getString(R.string.collect_failed))
     }
   }
@@ -207,10 +200,9 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
 
     override def getView(position: Int, view: View, parent: ViewGroup): View = {
       val convertView = view match {
-        case v: View => {
+        case v: View =>
           toggleDisplayWhen(R.id.checker,tags_input.getText.toString.contains(getItem(position)),view)
           view
-        }
         case _ => inflater.inflate(R.layout.add_tags_item, parent, false)
       }
       convertView.findViewById(R.id.tag_container).onClick(v => {

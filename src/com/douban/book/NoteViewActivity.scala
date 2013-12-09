@@ -61,14 +61,13 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
             }
             parse(suffix,layout)
           }
-          case r"([\s\S]*?)${pre}<图片(\d+)${imgUrl}>([\s\S]*)${suffix}"=>{
+          case r"([\s\S]*?)${pre}<图片(\d+)${imgUrl}>([\s\S]*)${suffix}"=>
             parse(pre,layout)
             layout += new SLinearLayout{
               val img=SImageView()
               loadImage(a.getOrElse(s"photos.$imgUrl",""),img)
             }
             parse(suffix,layout)
-          }
           case ""=> layout
           case txt=> layout+= new SLinearLayout{
             STextView(txt).textColor(black)

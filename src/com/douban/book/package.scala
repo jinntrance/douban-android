@@ -47,13 +47,12 @@ package object book{
 
     def beanToMapHelper(b: Any, keyPre: String = "",separator:String= "/"): mutable.Map[String, String] =
       Req.g.toJsonTree(b).getAsJsonObject.entrySet().asScala.foldLeft(mutable.Map[String, String]()) {
-        case (a, e) => {
+        case (a, e) =>
           val key = keyPre + e.getKey
           if (e.getValue.isJsonPrimitive) a + (key -> e.getValue.getAsString)
           else if (e.getValue.isJsonArray) a + (key -> e.getValue.getAsJsonArray.iterator().asScala.filter(_.isJsonPrimitive).map(_.getAsString).mkString(separator))
           else if (e.getValue.isJsonObject) a ++ beanToMapHelper(e.getValue, key + ".",separator)
           else a
-        }
       }
     Map() ++ beanToMapHelper(b,keyPre,separator)
   }
