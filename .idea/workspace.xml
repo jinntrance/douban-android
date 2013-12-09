@@ -50,12 +50,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f3578ce4-e92d-4a18-b282-ad7e4c9648c2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/douban/book/CollectionActivity.scala" afterPath="$PROJECT_DIR$/src/com/douban/book/CollectionActivity.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/douban/base/DoubanActivity.scala" afterPath="$PROJECT_DIR$/src/com/douban/base/DoubanActivity.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala" afterPath="$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/douban/book/NotesActivity.scala" afterPath="$PROJECT_DIR$/src/com/douban/book/NotesActivity.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/douban/book/SearchResultActivity.scala" afterPath="$PROJECT_DIR$/src/com/douban/book/SearchResultActivity.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/fav_books_filter.xml" afterPath="$PROJECT_DIR$/res/layout/fav_books_filter.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/fav_books_result.xml" afterPath="$PROJECT_DIR$/res/layout/fav_books_result.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -154,21 +149,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
       <breakpoint url="file://$PROJECT_DIR$/src/com/douban/book/AddNoteActivity.scala" line="124" class="com.douban.book.AddNoteActivity" package="com.douban.book">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala" line="119" class="com.douban.book.FavoriteBooksListFragment" package="com.douban.book">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -348,66 +328,6 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala" line="191" class="com.douban.book.FavoriteBooksListActivity" package="com.douban.book">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala" line="115" class="com.douban.book.FavoriteBooksListFragment" package="com.douban.book">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala" line="117" class="com.douban.book.FavoriteBooksListFragment" package="com.douban.book">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala" line="184" class="com.douban.book.FavoriteBooksListActivity" package="com.douban.book">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
     </line_breakpoints>
     <method_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
@@ -457,12 +377,33 @@
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf>
-          <file leaf-file-name="FavoriteBooksActivity.scala" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="FavoriteBooksActivity.scala" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="169" column="0" selection-start="5939" selection-end="5939" vertical-scroll-proportion="0.0" vertical-offset="3042" max-vertical-offset="4932">
+                <state line="159" column="47" selection-start="5703" selection-end="5703" vertical-scroll-proportion="0.20797227" vertical-offset="2418" max-vertical-offset="4464">
                   <folding />
                 </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="filter.xml" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/res/menu/filter.xml">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="4" column="86" selection-start="273" selection-end="273" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="198">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="fav_books.xml" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/res/layout/fav_books.xml">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="52" column="29" selection-start="2042" selection-end="2050" vertical-scroll-proportion="-21.034483" vertical-offset="326" max-vertical-offset="1188">
+                  <folding />
+                </state>
+              </provider>
+              <provider editor-type-id="android-designer">
+                <state />
               </provider>
             </entry>
           </file>
@@ -470,15 +411,6 @@
             <entry file="file://$PROJECT_DIR$/src/com/douban/base/Constant.scala">
               <provider selected="true" editor-type-id="text-editor">
                 <state line="12" column="41" selection-start="346" selection-end="346" vertical-scroll-proportion="0.0" vertical-offset="216" max-vertical-offset="1188">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="GregorianCalendar.java" pinned="false" current="false" current-in-tab="false">
-            <entry file="file:///opt/android-sdk-linux/sources/android-18/java/util/GregorianCalendar.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="183" column="13" selection-start="9015" selection-end="9015" vertical-scroll-proportion="0.0" vertical-offset="3294" max-vertical-offset="22806">
                   <folding />
                 </state>
               </provider>
@@ -493,19 +425,19 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Date.java" pinned="false" current="false" current-in-tab="false">
-            <entry file="file:///opt/android-sdk-linux/sources/android-18/java/util/Date.java">
+          <file leaf-file-name="DoubanActivity.scala" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/com/douban/base/DoubanActivity.scala">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="56" column="11" selection-start="2441" selection-end="2441" vertical-scroll-proportion="0.0" vertical-offset="1008" max-vertical-offset="14580">
+                <state line="535" column="17" selection-start="18087" selection-end="18087" vertical-scroll-proportion="2.5" vertical-offset="9173" max-vertical-offset="10404">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="DoubanActivity.scala" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/com/douban/base/DoubanActivity.scala">
+          <file leaf-file-name="NotesActivity.scala" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/com/douban/book/NotesActivity.scala">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="112" column="6" selection-start="4076" selection-end="4076" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="10404">
+                <state line="96" column="40" selection-start="3046" selection-end="3056" vertical-scroll-proportion="0.0" vertical-offset="1089" max-vertical-offset="3114">
                   <folding />
                 </state>
               </provider>
@@ -535,10 +467,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="fav_books_result.xml" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="fav_books_result.xml" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/res/layout/fav_books_result.xml">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="72" column="59" selection-start="2857" selection-end="2871" vertical-scroll-proportion="0.53497165" vertical-offset="1013" max-vertical-offset="1872">
+                <state line="95" column="41" selection-start="3598" selection-end="3614" vertical-scroll-proportion="-7.109091" vertical-offset="1319" max-vertical-offset="1854">
                   <folding>
                     <element signature="e#561#584#0" expanded="true" />
                     <element signature="e#3426#3447#0" expanded="true" />
@@ -557,10 +489,9 @@
           <file leaf-file-name="FavoriteBooksActivity.scala" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="112" column="12" selection-start="3774" selection-end="3780" vertical-scroll-proportion="0.453211" vertical-offset="1769" max-vertical-offset="4662">
+                <state line="119" column="70" selection-start="4326" selection-end="4326" vertical-scroll-proportion="0.22867514" vertical-offset="2016" max-vertical-offset="4788">
                   <folding>
                     <element signature="e#25#49#0" expanded="true" />
-                    <element signature="e#4757#5326#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -569,7 +500,7 @@
           <file leaf-file-name="SearchResultActivity.scala" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/com/douban/book/SearchResultActivity.scala">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="138" column="7" selection-start="4554" selection-end="4554" vertical-scroll-proportion="0.0" vertical-offset="1917" max-vertical-offset="2808">
+                <state line="54" column="26" selection-start="1743" selection-end="1750" vertical-scroll-proportion="-23.538462" vertical-offset="180" max-vertical-offset="2808">
                   <folding />
                 </state>
               </provider>
@@ -665,8 +596,8 @@
         <option value="$PROJECT_DIR$/src/com/douban/book/DatePicker.java" />
         <option value="$PROJECT_DIR$/src/com/douban/base/Constant.scala" />
         <option value="$PROJECT_DIR$/src/com/douban/base/DoubanActivity.scala" />
-        <option value="$PROJECT_DIR$/res/layout/fav_books_result.xml" />
         <option value="$PROJECT_DIR$/res/layout/fav_books_filter.xml" />
+        <option value="$PROJECT_DIR$/res/layout/fav_books_result.xml" />
         <option value="$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala" />
       </list>
     </option>
@@ -1022,7 +953,7 @@
       <workItem from="1386578255345" duration="2528000" />
       <workItem from="1386580793123" duration="17958000" />
       <workItem from="1386603533298" duration="853000" />
-      <workItem from="1386604924175" duration="5295000" />
+      <workItem from="1386604924175" duration="7795000" />
     </task>
     <task id="LOCAL-00001" summary="relocate the sources">
       <created>1381587397181</created>
@@ -1200,11 +1131,15 @@
       <created>1386606129992</created>
       <updated>1386606129992</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="filter&#10;">
+      <created>1386610244900</created>
+      <updated>1386610244900</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31491000" />
+    <option name="totallyTimeSpent" value="33991000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -1237,15 +1172,15 @@
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24892934" sideWeight="0.6010753" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3295099" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3274244" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3274244" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5370177" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.66836214" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2860215" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33368093" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4316997" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33368093" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.60896766" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32846716" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24946466" sideWeight="0.66451615" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32976446" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -1277,7 +1212,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="the fav part finished" />
     <MESSAGE value="fixed few bugs" />
     <MESSAGE value="note View finished" />
     <MESSAGE value="image in note view" />
@@ -1302,7 +1236,8 @@
     <MESSAGE value="added filter for the fav books and fixed some bugs" />
     <MESSAGE value="improv performance" />
     <MESSAGE value="filter" />
-    <option name="LAST_COMMIT_MESSAGE" value="filter" />
+    <MESSAGE value="filter&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="filter&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1312,11 +1247,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/dependencies/zxing-android/src/com/google/zxing/client/android/CaptureActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="710" column="24" selection-start="26749" selection-end="26763" vertical-scroll-proportion="0.0" vertical-offset="11092" max-vertical-offset="11682" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dependencies/zxing-android/src/com/google/zxing/client/android/CaptureActivityHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="52" column="42" selection-start="1735" selection-end="1735" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2502" />
@@ -1393,11 +1323,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/douban/book/NotesActivity.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="110" column="9" selection-start="3546" selection-end="3546" vertical-scroll-proportion="-53.807693" vertical-offset="581" max-vertical-offset="3312" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="18" selection-start="806" selection-end="806" vertical-scroll-proportion="0.32938644" vertical-offset="0" max-vertical-offset="1188">
@@ -1451,13 +1376,6 @@
             <element signature="e#3093#3111#0" expanded="false" />
             <element signature="e#3185#3203#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/menu/filter.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="55" selection-start="242" selection-end="242" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="198">
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1583,13 +1501,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/douban/base/DoubanActivity.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="112" column="6" selection-start="4076" selection-end="4076" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="10404">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/drawable/rating_bar.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="515">
@@ -1640,9 +1551,47 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/douban/book/NotesActivity.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="96" column="40" selection-start="3046" selection-end="3056" vertical-scroll-proportion="0.0" vertical-offset="1089" max-vertical-offset="3114">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/douban/book/SearchResultActivity.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="54" column="26" selection-start="1743" selection-end="1750" vertical-scroll-proportion="-23.538462" vertical-offset="180" max-vertical-offset="2808">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/fav_books.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="29" selection-start="2042" selection-end="2050" vertical-scroll-proportion="-21.034483" vertical-offset="326" max-vertical-offset="1188">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/douban/base/DoubanActivity.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="535" column="17" selection-start="18087" selection-end="18087" vertical-scroll-proportion="2.5" vertical-offset="9173" max-vertical-offset="10404">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/menu/filter.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="86" selection-start="273" selection-end="273" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="198">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/fav_books_result.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="59" selection-start="2857" selection-end="2871" vertical-scroll-proportion="0.53497165" vertical-offset="1013" max-vertical-offset="1872">
+        <state line="95" column="41" selection-start="3598" selection-end="3614" vertical-scroll-proportion="-7.109091" vertical-offset="1319" max-vertical-offset="1854">
           <folding>
             <element signature="e#561#584#0" expanded="true" />
             <element signature="e#3426#3447#0" expanded="true" />
@@ -1653,19 +1602,11 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/douban/book/SearchResultActivity.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="138" column="7" selection-start="4554" selection-end="4554" vertical-scroll-proportion="0.0" vertical-offset="1917" max-vertical-offset="2808">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="112" column="12" selection-start="3774" selection-end="3780" vertical-scroll-proportion="0.453211" vertical-offset="1769" max-vertical-offset="4662">
+        <state line="119" column="70" selection-start="4326" selection-end="4326" vertical-scroll-proportion="0.22867514" vertical-offset="2016" max-vertical-offset="4788">
           <folding>
             <element signature="e#25#49#0" expanded="true" />
-            <element signature="e#4757#5326#0" expanded="false" />
           </folding>
         </state>
       </provider>

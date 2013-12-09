@@ -95,42 +95,6 @@ class FavoriteBooksActivity extends DoubanActivity{
   }
 }
 
-
-class FavoriteBooksListFragment extends DoubanListFragment[DoubanActivity]{
-  var currentPage=1
-  var cs=CollectionSearch()
-  lazy val adapter=new CollectionItemAdapter("",load)
-
-  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = {
-    super.onCreateView(inflater, container, savedInstanceState)
-  }
-
-  override def onActivityCreated(b: Bundle){
-    super.onActivityCreated(b)
-    getListView.setAdapter(adapter)
-  }
-
-  def reload = load("",adapter)
-
-  def load(status:String,adapter:CollectionItemAdapter){
-    future{
-      val search=CollectionSearch(cs.status,cs.tag,cs.rating,cs.from,cs.to,start=adapter.count,count=countPerPage)
-      Book.collectionsOfUser(activity.currentUserId,search)
-    } onComplete{
-      case Success(r:CollectionSearchResult)=>
-        currentPage+=1
-        if(1==currentPage) adapter.notifyDataSetInvalidated()
-        else adapter.notifyDataSetChanged()
-      case _=>
-    }
-  }
-
-  override def onListItemClick(l: ListView, v: View, position: Int, id: Long) {
-    l.setItemChecked(position,true)
-    startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY,Some(adapter.getBean(position))))
-  }
-}
-
 class CollectionItemAdapter(status:String,loader: (String,CollectionItemAdapter)=> Unit,
                             mapping:Map[Int,Any]= CollectionItemAdapter.map)(implicit activity: DoubanActivity)
   extends ItemAdapter[Collection](R.layout.fav_books_item,mapping) {
@@ -158,8 +122,6 @@ object CollectionItemAdapter{
 class FavoriteBooksListActivity extends DoubanActivity{
   val REQUEST_CODE=1
 
-  lazy val listFrag=findFragment[FavoriteBooksListFragment](R.id.fav_books_fragment)
-
   protected override def onCreate(b: Bundle): Unit = {
     super.onCreate(b)
     setContentView(R.layout.fav_books_result)
@@ -168,7 +130,8 @@ class FavoriteBooksListActivity extends DoubanActivity{
 
   def updateHeader(s:CollectionSearch){
     setViewValue(R.id.currentState,SearchResult.stateMapping.getOrElse(s.status,""))
-    setViewValue(R.id.ratedStars,s.rating+"星")
+    if(s.rating>0)
+      setViewValue(R.id.ratedStars,s.rating+"星")
     val container=find[TableRow](R.id.tags_container)
     container.addView(new SVerticalLayout{
       s.tag.split(' ').foreach(tag=>STextView(tag))
@@ -187,14 +150,15 @@ class FavoriteBooksListActivity extends DoubanActivity{
     hide=toggleBackGround(hide,R.id.filter_indicator,(R.drawable.filter_result_hide,R.drawable.filter_result_display))
   }
 
-
   override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
      if(requestCode==REQUEST_CODE&& resultCode== Activity.RESULT_OK){
        data.getSerializableExtra(Constant.COLLECTION_SEARCH) match {
          case s:CollectionSearch=>
            updateHeader(s)
-           listFrag.cs=s
-           listFrag.reload
+           cs=s
+           currentPage=1
+           find[ListView](R.id.fav_books_result).setAdapter(adapter)
+           reload
          case _=>
        }
   }
@@ -204,6 +168,34 @@ class FavoriteBooksListActivity extends DoubanActivity{
     getMenuInflater.inflate(R.menu.filter, menu)
     super.onCreateOptionsMenu(menu)
   }
+
+  var currentPage=1
+  var cs=CollectionSearch()
+  lazy val adapter=new CollectionItemAdapter("",load)
+
+
+  def reload = load("",adapter)
+
+  def load(status:String,adapter:CollectionItemAdapter){
+    listLoader(
+    toLoad = 1==currentPage,
+    result = {
+      val search=CollectionSearch(cs.status,cs.tag,cs.rating,cs.from,cs.to,start=adapter.count,count=countPerPage)
+      Book.collectionsOfUser(currentUserId,search)
+    },
+    success = {
+      (r:CollectionSearchResult)=>
+        if(1==currentPage) {
+          adapter.replaceResult(r.total,r.collections.size(),r.collections)
+          adapter.notifyDataSetInvalidated()
+        }
+        else {
+          adapter.addResult(r.total,r.collections.size(),r.collections)
+          adapter.notifyDataSetChanged()
+        }
+        currentPage+=1
+    }
+    )
 }
 
 class FavoriteBooksFilterActivity extends DoubanActivity{

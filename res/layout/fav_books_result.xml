@@ -90,10 +90,9 @@
     </FrameLayout>
 
 
-  <fragment
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:name="com.douban.book.FavoriteBooksListFragment"
-        android:id="@+id/fav_books_fragment"
-        android:layout_weight="1" />
+  <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fav_books_result" />
 
 </LinearLayout>
