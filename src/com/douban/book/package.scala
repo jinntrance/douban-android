@@ -29,7 +29,12 @@ package object book{
     case _=>mutable.Buffer()
   }
 
-  implicit def javaIterator2Scala[T](l: java.util.Iterator[T]) = l match {
+  implicit def javaIterator2Scala[T](l: java.lang.Iterable[T]) = l match {
+    case list:java.lang.Iterable[T]=>l.asScala
+    case _=>Nil
+  }
+
+  implicit def javaUtilIterator2Scala[T](l: java.util.Iterator[T]) = l match {
     case list:java.util.Iterator[T]=>l.asScala
     case _=>Nil
   }

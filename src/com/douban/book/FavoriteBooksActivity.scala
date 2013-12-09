@@ -14,10 +14,11 @@ import com.douban.models.CollectionSearch
 import scala.util.Success
 import com.douban.models.Collection
 import android.content.Intent
-import android.app.Activity
+import android.app.{Dialog, DatePickerDialog, Activity}
 import java.text.SimpleDateFormat
-import java.sql.Timestamp
-import java.util.Date
+import java.util.{GregorianCalendar, Calendar}
+import android.support.v4.app.DialogFragment
+import android.widget
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -40,13 +41,12 @@ class FavoriteBooksActivity extends DoubanActivity{
     th.setCurrentTab(currentTab)
     val  listener= (parent: AdapterView[_], view: View, position: Int, id: Long)=> {
       parent.getAdapter.asInstanceOf[CollectionItemAdapter].getBean(position) match {
-        case c:Collection=>{
+        case c:Collection=>
           val book=c.book.copy()
           val col=c.copy()
           col.updateBook(null)
           book.updateExistCollection(col)
           startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY,Some(book)))
-        }
       }
     }
     val readingAdapter = new CollectionItemAdapter("reading", load)
@@ -64,7 +64,6 @@ class FavoriteBooksActivity extends DoubanActivity{
   def submitFilter(m:MenuItem){
     startActivity(SIntent[FavoriteBooksListActivity])
   }
-
 
   def load(status:String,adapter:CollectionItemAdapter)={
     future{
@@ -99,11 +98,8 @@ class FavoriteBooksActivity extends DoubanActivity{
 
 class FavoriteBooksListFragment extends DoubanListFragment[DoubanActivity]{
   var currentPage=0
-  var status="reading"
-  var bookTag=""
-  var rating=0
-  var collectionSearch=CollectionSearch()
-  lazy val adapter=new CollectionItemAdapter("reading",load)
+  var cs=CollectionSearch()
+  lazy val adapter=new CollectionItemAdapter("",load)
 
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = {
     super.onCreateView(inflater, container, savedInstanceState)
@@ -112,17 +108,17 @@ class FavoriteBooksListFragment extends DoubanListFragment[DoubanActivity]{
   override def onActivityCreated(b: Bundle){
     super.onActivityCreated(b)
     getListView.setAdapter(adapter)
+    cs=getArguments.getSerializable(Constant.COLLECTION_SEARCH).asInstanceOf[CollectionSearch]
   }
   def load(status:String,adapter:CollectionItemAdapter){
     future{
-      val cs=CollectionSearch(status,bookTag,rating,start=adapter.count,count=countPerPage)
-      Book.collectionsOfUser(activity.currentUserId,cs)
+      val search=CollectionSearch(cs.status,cs.tag,cs.rating,cs.from,cs.to,start=adapter.count,count=countPerPage)
+      Book.collectionsOfUser(activity.currentUserId,search)
     } onComplete{
-      case Success(r:CollectionSearchResult)=>{
-          currentPage+=1
-          if(1==currentPage) adapter.notifyDataSetInvalidated()
-          else adapter.notifyDataSetChanged()
-      }
+      case Success(r:CollectionSearchResult)=>
+        currentPage+=1
+        if(1==currentPage) adapter.notifyDataSetInvalidated()
+        else adapter.notifyDataSetChanged()
       case _=>
     }
   }
@@ -133,30 +129,32 @@ class FavoriteBooksListFragment extends DoubanListFragment[DoubanActivity]{
   }
 }
 
-class CollectionItemAdapter(status:String,loader: (String,CollectionItemAdapter)=> Unit,mapping:Map[Int,Any]=Map(R.id.time->"updated", R.id.bookTitle -> "book.title", R.id.bookAuthor -> List("book.author", "book.translator"),R.id.bookPublisher->"book.publisher"))(implicit activity: DoubanActivity)
+class CollectionItemAdapter(status:String,loader: (String,CollectionItemAdapter)=> Unit,
+                            mapping:Map[Int,Any]= CollectionItemAdapter.map)(implicit activity: DoubanActivity)
   extends ItemAdapter[Collection](R.layout.fav_books_item,mapping) {
   var currentPage=0
   override def getView(position: Int, view: View, parent: ViewGroup): View = {
     super.getView(position, view, parent) match{
-      case  v:View=>{
+      case  v:View=>
         val c: Collection = getBean(position)
         activity.loadImageWithTitle(c.book.image, R.id.book_img, c.book.title, v)
         activity.setViewValue(R.id.recommend,SearchResult.getStar(c.rating),v)
         activity.setViewValue(R.id.tags_txt,c.tags.mkString(" "),v,hideEmpty = false)
         v
-      }
       case _=>null
     }
   }
 
-
-
   override protected def selfLoad(): Unit = loader(status,this)
+}
+
+object CollectionItemAdapter{
+  val map=Map(R.id.time->"updated", R.id.bookTitle -> "book.title", R.id.bookAuthor -> List("book.author",
+    "book.translator"),R.id.bookPublisher->"book.publisher")
 }
 
 class FavoriteBooksListActivity extends DoubanActivity{
   val REQUEST_CODE=1
-
 
   protected override def onCreate(b: Bundle): Unit = {
     super.onCreate(b)
@@ -164,17 +162,31 @@ class FavoriteBooksListActivity extends DoubanActivity{
     startActivityForResult(SIntent[FavoriteBooksFilterActivity],REQUEST_CODE)
   }
 
-  def updateHeader(b:Bundle){
-//    b.keySet().toScala.map(key=> key->b.getString(key,"")).toMap //TODO
+  def updateHeader(s:CollectionSearch){
+    setViewValue(R.id.currentState,s.status)
+    setViewValue(R.id.ratedStars,s.rating+"星")
+    val container=find[TableRow](R.id.tags_container)
+    container.addView(new SLinearLayout{
+      s.tag.split(' ').foreach(tag=>STextView(tag))
+    })
+  }
+
+  def submitFilter(m:MenuItem){
+    startActivity(SIntent[FavoriteBooksListActivity])
   }
 
   override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
      if(requestCode==REQUEST_CODE&& resultCode== Activity.RESULT_OK){
-         updateHeader(data.getExtras)
-         fragmentManager.beginTransaction().replace(R.id.fav_books_fragment,
-           new FavoriteBooksListFragment addArguments data.getExtras,Constant.FRAGMENT_FAV_BOOKS).addToBackStack(null).commit()
+       data.getSerializableExtra(Constant.COLLECTION_SEARCH) match {
+         case s:CollectionSearch=>
+           updateHeader(s)
+           fragmentManager.beginTransaction().replace(R.id.fav_books_fragment,
+             new FavoriteBooksListFragment addArguments data.getExtras,Constant.FRAGMENT_FAV_BOOKS).addToBackStack(null).commit()
+         case _=>
        }
   }
+  }
+
   override def onCreateOptionsMenu(menu: Menu) = {
     getMenuInflater.inflate(R.menu.filter, menu)
     super.onCreateOptionsMenu(menu)
@@ -194,7 +206,7 @@ class FavoriteBooksFilterActivity extends DoubanActivity{
       case t:TagsResult=>runOnUiThread({
         val container=find[LinearLayout](R.id.tags_container)
         container.addView(new SLinearLayout{
-          t.tags.foreach(tag=>SCheckBox(tag.toString).onClick(_ match{
+          t.tags.foreach(tag=>SCheckBox(tag.title.toString).onClick(_ match{
             case db:CheckBox=>
               tags=if(db.isChecked) {tags + db.getText.toString}
               else tags - db.getText.toString
@@ -207,20 +219,36 @@ class FavoriteBooksFilterActivity extends DoubanActivity{
   }
 
   def submit(v:View){
-    val sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ")
+    val from=find[EditText](R.id.from_date).getText.toString
+    val to=find[EditText](R.id.to_date).getText.toString
+    val s=CollectionSearch(state,tags.mkString(" "),find[RatingBar](R.id.rating).getRating.toInt,from,to)
+    getIntent.putExtra(Constant.COLLECTION_SEARCH,s)
+  }
 
-    val from=sdf.format(new Date(find[DatePicker](R.id.from_date).getCalendarView.getDate))
-    val to=sdf.format(new Date(find[DatePicker](R.id.to_date).getCalendarView.getDate))
-    //TODO handle the default min and max date problem
-    CollectionSearch(state,tags.mkString(" "),find[RatingBar](R.id.rating).getRating.toInt,from,to)
-//    getIntent.putExtras(???)
+  def showDatePickerDialog(v: View) {
+    val newFragment: DialogFragment = new DatePickerFragment(v:View)
+    newFragment.show(getSupportFragmentManager, "datePicker")
   }
 
   def checkSate(v:View){
     state=SearchResult.str2ids.getOrElse(v.getId,"")
   }
 
+  class DatePickerFragment(anchor:View) extends DialogFragment with DatePickerDialog.OnDateSetListener {
+    override def onCreateDialog(savedInstanceState: Bundle): Dialog = {
+      val c: Calendar = Calendar.getInstance
+      val year: Int = c.get(Calendar.YEAR)
+      val month: Int = c.get(Calendar.MONTH)
+      val day: Int = c.get(Calendar.DAY_OF_MONTH)
+      new DatePickerDialog(getActivity, this, year, month, day)
+    }
 
+    def onDateSet(view: widget.DatePicker, year: Int, month: Int, day: Int): Unit = {
+      val sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ")
+      val dateString=sdf.format(new GregorianCalendar(year,month,day).getTime)
+      setViewValueByView(anchor,dateString)
+    }
+    }
 }
 
 

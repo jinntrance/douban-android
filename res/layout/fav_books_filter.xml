@@ -84,22 +84,22 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/padding_large">
 
-          <DatePicker
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:id="@+id/from_date"
-              android:spinnersShown="true" />
+          <EditText   android:editable="false"   android:maxEms="10"
+              android:layout_width="wrap_content" android:layout_weight="1"
+              android:layout_height="wrap_content" android:onClick="showDatePickerDialog"
+              android:id="@+id/from_date"   />
 
           <TextView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="到"
               android:paddingLeft="@dimen/padding_large"
-              android:paddingRight="@dimen/padding_large" />
+              android:paddingRight="@dimen/padding_large"
+              android:layout_gravity="center_horizontal" />
 
-          <DatePicker
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
+          <EditText android:editable="false"   android:maxEms="10"
+              android:layout_width="wrap_content"   android:onClick="showDatePickerDialog"
+              android:layout_height="wrap_content"  android:layout_weight="1"
               android:id="@+id/to_date" />
         </LinearLayout>
       </LinearLayout>
@@ -112,7 +112,7 @@
             android:layout_height="wrap_content"
             android:text="我的标签" />
 
-        <LinearLayout
+        <LinearLayout  android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/tags_container"
             android:paddingLeft="@dimen/padding_large"></LinearLayout>

@@ -8,7 +8,7 @@ import android.widget.EditText
 import org.scaloid.common._
 import scala.concurrent._
 import com.douban.models.Book
-import scala.util.Success
+import scala.util.{Random, Success}
 import com.douban.models.AnnotationPosted
 import ExecutionContext.Implicits.global
 import android.content.pm.PackageManager
@@ -37,40 +37,33 @@ class AddNoteActivity extends DoubanActivity {
     currentUserId
     setContentView(R.layout.add_note_container)
     val bundle: Bundle = getIntent.getExtras
-    bundle.getString(Constant.BOOK_PAGE) match{
-      case p:String if p.nonEmpty||bundle.getString(Constant.ANNOTATION_CHAPTER,"").nonEmpty => {
-        bookPage=p
-        fragmentManager.beginTransaction().replace(R.id.add_note_container, new AddNoteFragment().addArguments(bundle),Constant.ACTIVITY_NOTE_ADDITION).commit()
-      }
-      case _=> editChapter(null)
-    }
+    bookPage=bundle.getString(Constant.BOOK_PAGE,bookPage)
+    chapter=bundle.getString(Constant.ANNOTATION_CHAPTER,chapter)
+    fragmentManager.beginTransaction().replace(R.id.add_note_container, new AddNoteFragment().addArguments(bundle),Constant.ACTIVITY_NOTE_ADDITION).commit()
+
   }
 
   def submit(v:View){
     findViewById(R.id.bookPage) match{
-      case bp:EditText=>{
+      case bp:EditText=>
         bookPage=bp.getText.toString.trim
         chapter=find[EditText](R.id.chapter_name).getText.toString.trim
         if(bookPage.nonEmpty||chapter.nonEmpty) fragmentManager.popBackStack()
-      }
       case _=> future {
         val a=new AnnotationPosted(find[EditText](R.id.note_input).text.toString,bookPage.toInt,chapter,if(public) "public" else "private")
         a.files=Range(1,notesImage.size).map(_.toString).zip(notesImage).toMap
         toast("正在保存到豆瓣帐号...")
         getIntent.getLongExtra(Constant.BOOK_ID,0) match {
-          case bookId:Long if bookId>0 => {
+          case bookId:Long if bookId>0 =>
             Book.postAnnotation(bookId,a).isDefined
-          }
-          case _=>{
+          case _=>
             val id=getIntent.getExtras.getString(Constant.ANNOTATION_ID,"0").toLong
             id>0&&Book.updateAnnotation(id,a).isDefined
-          }
         }
       }onComplete{
-        case Success(true)=>{
+        case Success(true)=>
           toast(R.string.annotation_added)
-          this.onBackPressed()
-        }
+          runOnUiThread(onBackPressed())
         case _=> toast(R.string.annotation_fails_to_add)
       }
     }
@@ -112,8 +105,8 @@ class AddNoteActivity extends DoubanActivity {
     File.createTempFile(imageFileName,".jpg", folder)
   }
 
-  private val takingPhotos=1
-  private val choosingPhotos=2
+  private val takingPhotos=10
+  private val choosingPhotos=takingPhotos+1
   private var currentPic: Uri=null
   var notesImage=collection.mutable.ListBuffer[String]()
   def takePhotos(v:View){
@@ -175,18 +168,18 @@ class AddNoteFragment extends DoubanFragment[AddNoteActivity]{
   override def onActivityCreated(bd: Bundle) {
     super.onActivityCreated(bd)
     getArguments match {
-      case b: Bundle => {
+      case b: Bundle =>
         val page = b.getString(Constant.BOOK_PAGE, activity.bookPage)
         val chapter = b.getString(Constant.ANNOTATION_CHAPTER, activity.chapter)
         val content = b.getString(Constant.ANNOTATION_CONTENT, activity.noteConent)
         numOfPics = b.getString(Constant.ANNOTATION_IMAGES_NUMBER, "0").toInt
         activity.replaceActionBar(R.layout.header_edit_note, if (page.isEmpty) chapter else "P" + page)
         setViewValue(R.id.note_input, content, hideEmpty = false)
-      }
       case _ => activity.replaceActionBar(R.layout.header_edit_note,if(activity.bookPage.isEmpty) activity.chapter else "P"+activity.bookPage)
     }
     hideWhen(R.id.note_camera,isIntentUnavailable(MediaStore.ACTION_IMAGE_CAPTURE))
     hideWhen(R.id.note_album,isIntentUnavailable(Intent.ACTION_PICK))
+    if(activity.bookPage.isEmpty && activity.chapter.isEmpty) getThisActivity.editChapter(null)
   }
   private def isIntentUnavailable(action:String) :Boolean= {
     val packageManager = activity.getPackageManager
