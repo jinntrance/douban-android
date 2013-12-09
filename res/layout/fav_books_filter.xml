@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="收藏状态"
+            android:text="收藏状态："
             android:layout_gravity="center_vertical" />
 
         <RadioGroup
@@ -57,7 +57,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我的评分"
+            android:text="我的评分："
             android:layout_gravity="center_vertical" />
 
         <RatingBar
@@ -75,7 +75,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="收藏时间"
+            android:text="收藏时间："
             android:layout_gravity="center_vertical" />
 
         <LinearLayout
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/padding_large">
 
-          <EditText   android:editable="false"   android:maxEms="10"
+          <EditText   android:editable="false"   android:maxEms="10"  android:singleLine="true"
               android:layout_width="wrap_content" android:layout_weight="1"
               android:layout_height="wrap_content" android:onClick="showDatePickerDialog"
               android:id="@+id/from_date"   />
@@ -97,7 +97,7 @@
               android:paddingRight="@dimen/padding_large"
               android:layout_gravity="center_horizontal" />
 
-          <EditText android:editable="false"   android:maxEms="10"
+          <EditText android:editable="false"   android:maxEms="10" android:singleLine="true"
               android:layout_width="wrap_content"   android:onClick="showDatePickerDialog"
               android:layout_height="wrap_content"  android:layout_weight="1"
               android:id="@+id/to_date" />
@@ -110,7 +110,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我的标签" />
+            android:text="我的标签：" />
 
         <LinearLayout  android:orientation="horizontal"
             android:layout_width="wrap_content"

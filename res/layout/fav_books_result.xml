@@ -13,8 +13,6 @@
             android:layout_height="wrap_content"
             android:background="@color/background_black"
             android:padding="@dimen/padding_medium"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
             android:baselineAligned="true">
 
             <TableRow   android:id="@+id/reading_state"
@@ -24,7 +22,7 @@
                 <TextView  style="@style/DoubanText.White"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="收藏状态" />
+                    android:text="收藏状态：" />
 
                 <TableRow
                     android:layout_width="fill_parent"
@@ -40,15 +38,15 @@
 
             </TableRow>
 
-            <TableRow
+            <TableRow   android:id="@+id/rating_container"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <TextView  style="@style/DoubanText.White"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="我的评分" />
+                    android:text="我的评分：" />
 
                 <TableRow
                     android:layout_width="fill_parent"
@@ -62,15 +60,15 @@
                 </TableRow>
             </TableRow>
 
-            <TableRow
+            <TableRow  android:id="@+id/tags_layout"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <TextView   style="@style/DoubanText.White"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="我的标签" />
+                    android:text="我的标签：" />
 
                 <TableRow   android:id="@+id/tags_container"
                     android:layout_width="fill_parent"
@@ -85,19 +83,16 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageView"
+            android:id="@+id/filter_indicator" android:clickable="true" android:onClick="toggleHeader"
             android:src="@drawable/filter_result_display"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentTop="false"
             android:layout_gravity="bottom|right"
             android:layout_margin="@dimen/margin_large" />
     </FrameLayout>
 
 
-  <LinearLayout android:orientation="vertical"
+  <fragment
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content" android:name="com.douban.book.FavoriteBooksListFragment"
         android:id="@+id/fav_books_fragment"
         android:layout_weight="1" />
 

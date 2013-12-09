@@ -208,7 +208,7 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
     override def getView(position: Int, view: View, parent: ViewGroup): View = {
       val convertView = view match {
         case v: View => {
-          displayWhen(R.id.checker,tags_input.getText.toString.contains(getItem(position)),view)
+          toggleDisplayWhen(R.id.checker,tags_input.getText.toString.contains(getItem(position)),view)
           view
         }
         case _ => inflater.inflate(R.layout.add_tags_item, parent, false)

@@ -97,7 +97,7 @@ class FavoriteBooksActivity extends DoubanActivity{
 
 
 class FavoriteBooksListFragment extends DoubanListFragment[DoubanActivity]{
-  var currentPage=0
+  var currentPage=1
   var cs=CollectionSearch()
   lazy val adapter=new CollectionItemAdapter("",load)
 
@@ -108,8 +108,10 @@ class FavoriteBooksListFragment extends DoubanListFragment[DoubanActivity]{
   override def onActivityCreated(b: Bundle){
     super.onActivityCreated(b)
     getListView.setAdapter(adapter)
-    cs=getArguments.getSerializable(Constant.COLLECTION_SEARCH).asInstanceOf[CollectionSearch]
   }
+
+  def reload = load("",adapter)
+
   def load(status:String,adapter:CollectionItemAdapter){
     future{
       val search=CollectionSearch(cs.status,cs.tag,cs.rating,cs.from,cs.to,start=adapter.count,count=countPerPage)
@@ -156,6 +158,8 @@ object CollectionItemAdapter{
 class FavoriteBooksListActivity extends DoubanActivity{
   val REQUEST_CODE=1
 
+  lazy val listFrag=findFragment[FavoriteBooksListFragment](R.id.fav_books_fragment)
+
   protected override def onCreate(b: Bundle): Unit = {
     super.onCreate(b)
     setContentView(R.layout.fav_books_result)
@@ -163,10 +167,10 @@ class FavoriteBooksListActivity extends DoubanActivity{
   }
 
   def updateHeader(s:CollectionSearch){
-    setViewValue(R.id.currentState,s.status)
+    setViewValue(R.id.currentState,SearchResult.stateMapping.getOrElse(s.status,""))
     setViewValue(R.id.ratedStars,s.rating+"星")
     val container=find[TableRow](R.id.tags_container)
-    container.addView(new SLinearLayout{
+    container.addView(new SVerticalLayout{
       s.tag.split(' ').foreach(tag=>STextView(tag))
     })
   }
@@ -175,13 +179,22 @@ class FavoriteBooksListActivity extends DoubanActivity{
     startActivity(SIntent[FavoriteBooksListActivity])
   }
 
+  private var hide = true
+
+  def toggleHeader(v:View){
+    toggleDisplayWhen(R.id.rating_container,hide)
+    toggleDisplayWhen(R.id.tags_layout,hide)
+    hide=toggleBackGround(hide,R.id.filter_indicator,(R.drawable.filter_result_hide,R.drawable.filter_result_display))
+  }
+
+
   override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
      if(requestCode==REQUEST_CODE&& resultCode== Activity.RESULT_OK){
        data.getSerializableExtra(Constant.COLLECTION_SEARCH) match {
          case s:CollectionSearch=>
            updateHeader(s)
-           fragmentManager.beginTransaction().replace(R.id.fav_books_fragment,
-             new FavoriteBooksListFragment addArguments data.getExtras,Constant.FRAGMENT_FAV_BOOKS).addToBackStack(null).commit()
+           listFrag.cs=s
+           listFrag.reload
          case _=>
        }
   }
@@ -205,7 +218,7 @@ class FavoriteBooksFilterActivity extends DoubanActivity{
     }onSuccess{
       case t:TagsResult=>runOnUiThread({
         val container=find[LinearLayout](R.id.tags_container)
-        container.addView(new SLinearLayout{
+        container.addView(new SVerticalLayout{
           t.tags.foreach(tag=>SCheckBox(tag.title.toString).onClick(_ match{
             case db:CheckBox=>
               tags=if(db.isChecked) {tags + db.getText.toString}
@@ -222,7 +235,8 @@ class FavoriteBooksFilterActivity extends DoubanActivity{
     val from=find[EditText](R.id.from_date).getText.toString
     val to=find[EditText](R.id.to_date).getText.toString
     val s=CollectionSearch(state,tags.mkString(" "),find[RatingBar](R.id.rating).getRating.toInt,from,to)
-    getIntent.putExtra(Constant.COLLECTION_SEARCH,s)
+    setResult(Activity.RESULT_OK,getIntent.putExtra(Constant.COLLECTION_SEARCH,s))
+    finish()
   }
 
   def showDatePickerDialog(v: View) {
