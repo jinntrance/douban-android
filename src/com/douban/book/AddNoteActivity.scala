@@ -30,6 +30,7 @@ import android.net.Uri
 class AddNoteActivity extends DoubanActivity {
   var bookPage=""
   var chapter=""
+  var noteConent=""
   var public=true
   override def onCreate(b: Bundle){
     super.onCreate(b)
@@ -50,7 +51,7 @@ class AddNoteActivity extends DoubanActivity {
       case bp:EditText=>{
         bookPage=bp.getText.toString.trim
         chapter=find[EditText](R.id.chapter_name).getText.toString.trim
-        if(bookPage.nonEmpty||chapter.nonEmpty) fragmentManager.beginTransaction().replace(R.id.add_note_container,new AddNoteFragment,Constant.ACTIVITY_NOTE_ADDITION).commit()
+        if(bookPage.nonEmpty||chapter.nonEmpty) fragmentManager.popBackStack()
       }
       case _=> future {
         val a=new AnnotationPosted(find[EditText](R.id.note_input).text.toString,bookPage.toInt,chapter,if(public) "public" else "private")
@@ -75,6 +76,10 @@ class AddNoteActivity extends DoubanActivity {
     }
   }
   def editChapter(v:View){
+    findViewById(R.id.note_input) match{
+      case ed:EditText=>noteConent=ed.text.toString
+      case _=>
+    }
     fragmentManager.beginTransaction().replace(R.id.add_note_container,new AddChapterFragment()).addToBackStack(null).commit()
   }
 
@@ -173,7 +178,7 @@ class AddNoteFragment extends DoubanFragment[AddNoteActivity]{
       case b: Bundle => {
         val page = b.getString(Constant.BOOK_PAGE, activity.bookPage)
         val chapter = b.getString(Constant.ANNOTATION_CHAPTER, activity.chapter)
-        val content = b.getString(Constant.ANNOTATION_CONTENT, "")
+        val content = b.getString(Constant.ANNOTATION_CONTENT, activity.noteConent)
         numOfPics = b.getString(Constant.ANNOTATION_IMAGES_NUMBER, "0").toInt
         activity.replaceActionBar(R.layout.header_edit_note, if (page.isEmpty) chapter else "P" + page)
         setViewValue(R.id.note_input, content, hideEmpty = false)

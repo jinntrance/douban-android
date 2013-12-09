@@ -4,8 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea_modules/douban-book.iml" filepath="$PROJECT_DIR$/.idea_modules/douban-book.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea_modules/douban-book-build.iml" filepath="$PROJECT_DIR$/.idea_modules/douban-book-build.iml" />
-      <module fileurl="file://$PROJECT_DIR$/libs/slidingMenu/library.iml" filepath="$PROJECT_DIR$/libs/slidingMenu/library.iml" />
-      <module fileurl="file://$PROJECT_DIR$/libs/zxing-android/zxing-android.iml" filepath="$PROJECT_DIR$/libs/zxing-android/zxing-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dependencies/slidingMenu/slidingmenu.iml" filepath="$PROJECT_DIR$/dependencies/slidingMenu/slidingmenu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dependencies/zxing-android/zxing-android.iml" filepath="$PROJECT_DIR$/dependencies/zxing-android/zxing-android.iml" />
     </modules>
   </component>
 </project>

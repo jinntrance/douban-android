@@ -83,8 +83,10 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
   }
 
   def viewBook(v:View) {
-    val bookId: String = dataList.get(pos).getOrElse("book_id", "")
-    startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_ID,bookId))
+    val bookId: String = dataList.get(pos).getOrElse("book_id", "0")
+    val title: String = dataList.get(pos).getOrElse("book.title", "")
+    if(bookId.toLong>0)
+      startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_ID,bookId).putExtra(Constant.BOOK_TITLE,title))
   }
 
   override def onCreateOptionsMenu(menu: Menu): Boolean = {
