@@ -110,6 +110,7 @@
     </style>
     <style name="DoubanText.FavBooks" parent="DoubanTextTitle.White">
         <item name="android:background">@color/black_light</item>
+        <!--<item name="android:padding">@dimen/padding_large</item>-->
     </style>
     <style name="DoubanEditText" parent="@android:style/Widget.Holo.Light.EditText">
         <item name="android:background">@drawable/edit_text</item>

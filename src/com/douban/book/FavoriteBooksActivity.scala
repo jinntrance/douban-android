@@ -5,7 +5,7 @@ import android.view._
 import android.os.Bundle
 import scala.concurrent._
 import com.douban.models._
-import  ExecutionContext.Implicits.global
+import ExecutionContext.Implicits.global
 import org.scaloid.common._
 import android.widget._
 import com.douban.models.CollectionSearchResult
@@ -27,11 +27,12 @@ import android.widget
  * @since 10/7/13 1:25 AM
  * @version 1.0
  */
-class FavoriteBooksActivity extends DoubanActivity{
-  lazy val waiting=waitToLoad()
-  lazy val th=find[TabHost](R.id.tabHost)
-  var currentTab=1
-  override def onCreate(b: Bundle){
+class FavoriteBooksActivity extends DoubanActivity {
+  lazy val waiting = waitToLoad()
+  lazy val th = find[TabHost](R.id.tabHost)
+  var currentTab = 1
+
+  override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.fav_books)
     th.setup()
@@ -39,43 +40,43 @@ class FavoriteBooksActivity extends DoubanActivity{
     th.addTab(th.newTabSpec("reading").setIndicator("在读").setContent(R.id.reading_container))
     th.addTab(th.newTabSpec("read").setIndicator("读过").setContent(R.id.read_container))
     th.setCurrentTab(currentTab)
-    val  listener= (parent: AdapterView[_], view: View, position: Int, id: Long)=> {
+    val listener = (parent: AdapterView[_], view: View, position: Int, id: Long) => {
       parent.getAdapter.asInstanceOf[CollectionItemAdapter].getBean(position) match {
-        case c:Collection=>
-          val book=c.book.copy()
-          val col=c.copy()
+        case c: Collection =>
+          val book = c.book.copy()
+          val col = c.copy()
           col.updateBook(null)
           book.updateExistCollection(col)
-          startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY,Some(book)))
+          startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY, Some(book)))
       }
     }
     val readingAdapter = new CollectionItemAdapter("reading", load)
     find[ListView](R.id.reading) onItemClick listener setAdapter readingAdapter
-    load("reading",readingAdapter)
+    load("reading", readingAdapter)
     val wishAdapter = new CollectionItemAdapter("wish", load)
-    find[ListView](R.id.wish) onItemClick listener  setAdapter wishAdapter
-    load("wish",wishAdapter)
+    find[ListView](R.id.wish) onItemClick listener setAdapter wishAdapter
+    load("wish", wishAdapter)
     val readAdapter = new CollectionItemAdapter("read", load)
-    find[ListView](R.id.read) onItemClick listener  setAdapter readAdapter
-    load("read",readAdapter)
+    find[ListView](R.id.read) onItemClick listener setAdapter readAdapter
+    load("read", readAdapter)
     waiting
   }
 
-  def submitFilter(m:MenuItem){
+  def submitFilter(m: MenuItem) {
     startActivity(SIntent[FavoriteBooksListActivity])
   }
 
-  def load(status:String,adapter:CollectionItemAdapter)={
-    future{
-      val cs=CollectionSearch(status,start=adapter.count,count=countPerPage)
-      Book.collectionsOfUser(currentUserId,cs)
-    } onComplete{
-      case Success(r:CollectionSearchResult)=>runOnUiThread{
-        adapter.addResult(r.total,r.collections.size,r.collections)
+  def load(status: String, adapter: CollectionItemAdapter) = {
+    future {
+      val cs = CollectionSearch(status, start = adapter.count, count = countPerPage)
+      Book.collectionsOfUser(currentUserId, cs)
+    } onComplete {
+      case Success(r: CollectionSearchResult) => runOnUiThread {
+        adapter.addResult(r.total, r.collections.size, r.collections)
         adapter.notifyDataSetChanged()
-        if(null!=waiting) waiting.cancel()
+        if (null != waiting) waiting.cancel()
       }
-      case _=>
+      case _ =>
     }
   }
 
@@ -85,83 +86,88 @@ class FavoriteBooksActivity extends DoubanActivity{
   }
 
   def showNext(): Unit = {
-    currentTab=(currentTab+1)%3
+    currentTab = (currentTab + 1) % 3
     th.setCurrentTab(currentTab)
   }
 
   def showPre(): Unit = {
-    currentTab=(currentTab-1)%3
+    currentTab = (currentTab - 1) % 3
     th.setCurrentTab(currentTab)
   }
 }
 
-class CollectionItemAdapter(status:String,loader: (String,CollectionItemAdapter)=> Unit,
-                            mapping:Map[Int,Any]= CollectionItemAdapter.map)(implicit activity: DoubanActivity)
-  extends ItemAdapter[Collection](R.layout.fav_books_item,mapping) {
-  var currentPage=0
+class CollectionItemAdapter(status: String, loader: (String, CollectionItemAdapter) => Unit,
+                            mapping: Map[Int, Any] = CollectionItemAdapter.map)(implicit activity: DoubanActivity)
+  extends ItemAdapter[Collection](R.layout.fav_books_item, mapping) {
+  var currentPage = 0
+
   override def getView(position: Int, view: View, parent: ViewGroup): View = {
-    super.getView(position, view, parent) match{
-      case  v:View=>
+    super.getView(position, view, parent) match {
+      case v: View =>
         val c: Collection = getBean(position)
         activity.loadImageWithTitle(c.book.image, R.id.book_img, c.book.title, v)
-        activity.setViewValue(R.id.recommend,SearchResult.getStar(c.rating),v)
-        activity.setViewValue(R.id.tags_txt,c.tags.mkString(" "),v,hideEmpty = false)
+        activity.setViewValue(R.id.recommend, SearchResult.getStar(c.rating), v)
+        activity.setViewValue(R.id.tags_txt, c.tags.mkString(" "), v, hideEmpty = false)
         v
-      case _=>null
+      case _ => null
     }
   }
 
-  override protected def selfLoad(): Unit = loader(status,this)
+  override protected def selfLoad(): Unit = loader(status, this)
 }
 
-object CollectionItemAdapter{
-  val map=Map(R.id.time->"updated", R.id.bookTitle -> "book.title", R.id.bookAuthor -> List("book.author",
-    "book.translator"),R.id.bookPublisher->"book.publisher")
+object CollectionItemAdapter {
+  val map = Map(R.id.time -> "updated", R.id.bookTitle -> "book.title", R.id.bookAuthor -> List("book.author",
+    "book.translator"), R.id.bookPublisher -> "book.publisher")
 }
 
-class FavoriteBooksListActivity extends DoubanActivity{
-  val REQUEST_CODE=1
+class FavoriteBooksListActivity extends DoubanActivity {
+  val REQUEST_CODE = 1
 
   protected override def onCreate(b: Bundle): Unit = {
     super.onCreate(b)
     setContentView(R.layout.fav_books_result)
-    startActivityForResult(SIntent[FavoriteBooksFilterActivity],REQUEST_CODE)
+    startActivityForResult(SIntent[FavoriteBooksFilterActivity], REQUEST_CODE)
   }
 
-  def updateHeader(s:CollectionSearch){
-    setViewValue(R.id.currentState,SearchResult.stateMapping.getOrElse(s.status,""))
-    if(s.rating>0)
-      setViewValue(R.id.ratedStars,s.rating+"星")
-    val container=find[TableRow](R.id.tags_container)
-    container.addView(new SVerticalLayout{
-      s.tag.split(' ').foreach(tag=>STextView(tag))
-    })
+  def updateHeader(s: CollectionSearch) {
+    if(s.status.nonEmpty)
+      setViewValue(R.id.currentState, SearchResult.stateMapping.getOrElse(s.status, ""))
+    if (s.rating > 0)
+      setViewValue(R.id.ratedStars, s.rating + "星")
+    if(s.tag.nonEmpty)
+      setViewValue(R.id.tags_txt,s.tag)
+//    val container = find[TableRow](R.id.tags_container)
+//    val white=getResources.getColor(R.color.white)
+//    container.addView(new SVerticalLayout {
+//      s.tag.split(' ').foreach(tag => STextView(tag).textColor(white))
+//    })
   }
 
-  def submitFilter(m:MenuItem){
+  def submitFilter(m: MenuItem) {
     startActivity(SIntent[FavoriteBooksListActivity])
   }
 
   private var hide = true
 
-  def toggleHeader(v:View){
-    toggleDisplayWhen(R.id.rating_container,hide)
-    toggleDisplayWhen(R.id.tags_layout,hide)
-    hide=toggleBackGround(hide,R.id.filter_indicator,(R.drawable.filter_result_hide,R.drawable.filter_result_display))
+  def toggleHeader(v: View) {
+    toggleDisplayWhen(R.id.rating_container, hide)
+    toggleDisplayWhen(R.id.tags_layout, hide)
+    hide = toggleBackGround(hide, R.id.filter_indicator, (R.drawable.filter_result_hide, R.drawable.filter_result_display))
   }
 
   override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-     if(requestCode==REQUEST_CODE&& resultCode== Activity.RESULT_OK){
-       data.getSerializableExtra(Constant.COLLECTION_SEARCH) match {
-         case s:CollectionSearch=>
-           updateHeader(s)
-           cs=s
-           currentPage=1
-           find[ListView](R.id.fav_books_result).setAdapter(adapter)
-           reload
-         case _=>
-       }
-  }
+    if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+      data.getSerializableExtra(Constant.COLLECTION_SEARCH) match {
+        case s: CollectionSearch =>
+          updateHeader(s)
+          cs = s
+          currentPage = 1
+          find[ListView](R.id.fav_books_result).setAdapter(adapter)
+          reload()
+        case _ =>
+      }
+    }
   }
 
   override def onCreateOptionsMenu(menu: Menu) = {
@@ -169,78 +175,83 @@ class FavoriteBooksListActivity extends DoubanActivity{
     super.onCreateOptionsMenu(menu)
   }
 
-  var currentPage=1
-  var cs=CollectionSearch()
-  lazy val adapter=new CollectionItemAdapter("",load)
+  var currentPage = 1
+  var cs = CollectionSearch()
+  lazy val adapter = new CollectionItemAdapter("", load)
 
 
-  def reload = load("",adapter)
+  def reload() = load("", adapter)
 
-  def load(status:String,adapter:CollectionItemAdapter){
+  def load(status: String, adapter: CollectionItemAdapter) {
     listLoader(
-    toLoad = 1==currentPage,
-    result = {
-      val search=CollectionSearch(cs.status,cs.tag,cs.rating,cs.from,cs.to,start=adapter.count,count=countPerPage)
-      Book.collectionsOfUser(currentUserId,search)
-    },
-    success = {
-      (r:CollectionSearchResult)=>
-        if(1==currentPage) {
-          adapter.replaceResult(r.total,r.collections.size(),r.collections)
-          adapter.notifyDataSetInvalidated()
-        }
-        else {
-          adapter.addResult(r.total,r.collections.size(),r.collections)
-          adapter.notifyDataSetChanged()
-        }
-        currentPage+=1
-    }
+      toLoad = 1 == currentPage,
+      result = {
+        val search = CollectionSearch(cs.status, cs.tag, cs.rating, cs.from, cs.to, start = adapter.count, count = countPerPage)
+        Book.collectionsOfUser(currentUserId, search)
+      },
+      success =
+        (r: CollectionSearchResult) => runOnUiThread{
+          if (1 == currentPage) {
+            adapter.replaceResult(r.total, r.collections.size(), r.collections)
+            adapter.notifyDataSetInvalidated()
+          }
+          else {
+            adapter.addResult(r.total, r.collections.size(), r.collections)
+            adapter.notifyDataSetChanged()
+          }
+          currentPage += 1
+          setTitle(getString(R.string.favorite) + s"(${adapter.getCount}/${r.total})")
+      }
     )
+  }
 }
 
-class FavoriteBooksFilterActivity extends DoubanActivity{
-  private var state=""
-  private var tags=collection.mutable.Set[String]()
+class FavoriteBooksFilterActivity extends DoubanActivity {
+  private var state = ""
+  private var tags = collection.mutable.Set[String]()
+
   protected override def onCreate(b: Bundle): Unit = {
     super.onCreate(b)
     setContentView(R.layout.fav_books_filter)
-    replaceActionBar(R.layout.header_edit,getString(R.string.filter_books))
-    future{
+    replaceActionBar(R.layout.header_edit, getString(R.string.filter_books))
+    future {
       Book.tagsOf(currentUserId)
-    }onSuccess{
-      case t:TagsResult=>runOnUiThread({
-        val container=find[LinearLayout](R.id.tags_container)
-        container.addView(new SVerticalLayout{
-          t.tags.foreach(tag=>SCheckBox(tag.title.toString).onClick(_ match{
-            case db:CheckBox=>
-              tags=if(db.isChecked) {tags + db.getText.toString}
+    } onSuccess {
+      case t: TagsResult => runOnUiThread({
+        val container = find[LinearLayout](R.id.tags_container)
+        container.addView(new SVerticalLayout {
+          t.tags.foreach(tag => SCheckBox(tag.title.toString).onClick(_ match {
+            case db: CheckBox =>
+              tags = if (db.isChecked) {
+                tags + db.getText.toString
+              }
               else tags - db.getText.toString
-            case _=>
+            case _ =>
           }))
         })
       })
-      case _=>
+      case _ =>
     }
   }
 
-  def submit(v:View){
-    val from=find[EditText](R.id.from_date).getText.toString
-    val to=find[EditText](R.id.to_date).getText.toString
-    val s=CollectionSearch(state,tags.mkString(" "),find[RatingBar](R.id.rating).getRating.toInt,from,to)
-    setResult(Activity.RESULT_OK,getIntent.putExtra(Constant.COLLECTION_SEARCH,s))
+  def submit(v: View) {
+    val from = find[EditText](R.id.from_date).getText.toString
+    val to = find[EditText](R.id.to_date).getText.toString
+    val s = CollectionSearch(state, tags.mkString(" "), find[RatingBar](R.id.rating).getRating.toInt, from, to)
+    setResult(Activity.RESULT_OK, getIntent.putExtra(Constant.COLLECTION_SEARCH, s))
     finish()
   }
 
   def showDatePickerDialog(v: View) {
-    val newFragment: DialogFragment = new DatePickerFragment(v:View)
+    val newFragment: DialogFragment = new DatePickerFragment(v: View)
     newFragment.show(getSupportFragmentManager, "datePicker")
   }
 
-  def checkSate(v:View){
-    state=SearchResult.str2ids.getOrElse(v.getId,"")
+  def checkSate(v: View) {
+    state = SearchResult.str2ids.getOrElse(v.getId, "")
   }
 
-  class DatePickerFragment(anchor:View) extends DialogFragment with DatePickerDialog.OnDateSetListener {
+  class DatePickerFragment(anchor: View) extends DialogFragment with DatePickerDialog.OnDateSetListener {
     override def onCreateDialog(savedInstanceState: Bundle): Dialog = {
       val c: Calendar = Calendar.getInstance
       val year: Int = c.get(Calendar.YEAR)
@@ -251,10 +262,13 @@ class FavoriteBooksFilterActivity extends DoubanActivity{
 
     def onDateSet(view: widget.DatePicker, year: Int, month: Int, day: Int): Unit = {
       val sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ")
-      val dateString=sdf.format(new GregorianCalendar(year,month,day).getTime)
-      setViewValueByView(anchor,dateString)
+      val dateString = sdf.format(new GregorianCalendar(year, month, day).getTime)
+      setViewValueByView(anchor, dateString)
     }
-    }
+  }
+
 }
+
+
 
 
