@@ -34,10 +34,10 @@ class MyNoteActivity extends DoubanActivity{
       viewNote(position)
     })
     listView.setAdapter(listAdapter)
-    firstLoad
+    firstLoad()
   }
 
-  def firstLoad=load()
+  def firstLoad()=load()
 
   def load(page:Int=currentPage){
     listLoader(

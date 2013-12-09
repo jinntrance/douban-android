@@ -59,11 +59,10 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
 
   def updateFooter() = {
     activity.find[TextView](R.id.to_load) match {
-      case footer: TextView => {
+      case footer: TextView =>
         footer.setText(getString(R.string.swipe_up_to_load).format(adapter.count, total))
         activity.updateTitle(s"(${adapter.count}/$total)")
         footer.setVisibility(View.VISIBLE)
-      }
       case _ =>
     }
   }
@@ -80,9 +79,8 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
     activity.fragmentManager.findFragmentById(R.id.book_fragment) match {
       case bf: SearchResultDetail =>
         bf.updateBookView()
-      case _ => {
+      case _ =>
         activity.startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY, Some(adapter.getBean(position))))
-      }
     }
   }
 
@@ -119,11 +117,10 @@ class BookItemAdapter(mapping: Map[Int, Any], load: => Unit = {})(implicit activ
       activity.toggleDisplayWhen(R.id.favorite, null == c, convertView)
       if (null != c) {
         convertView.findViewById(R.id.currentState) match {
-          case state: TextView => {
+          case state: TextView =>
             state.setVisibility(View.VISIBLE)
             state.setText(SearchResult.stateMapping(c.status))
             state.setTextColor(SearchResult.colorMap(SearchResult.idsMap(c.status)))
-          }
           case _ =>
         }
       } else convertView.findViewById(R.id.fav_layout) onClick (v => {
@@ -150,10 +147,9 @@ object SearchResult {
   def getStar(rat: ReviewRating):String= {
     val r = Array("很差", "较差", "还行", "推荐", "力荐")
     rat match {
-      case rat: ReviewRating => {
+      case rat: ReviewRating =>
         val rating = rat.value.toInt
         if (rating > 0 && rating <= 5) rating + "星" + r(rating - 1) else ""
-      }
       case _ =>""
     }
   }

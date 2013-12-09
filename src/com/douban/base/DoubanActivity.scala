@@ -334,7 +334,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
         val n=getOrElse(Constant.NOTES_NUM,Book.annotationsOfUser(userId).total).toInt
         (u,a,c,n)
       } onComplete{
-        case Success((username,a,c,n))=>{
+        case Success((username,a,c,n))=>
           setViewValue(R.id.username,username)
           setViewValue(R.id.menu_favbooks,s"${getString(R.string.favorite)}($c)",sm)
           setViewValue(R.id.menu_mynote,s"${getString(R.string.mynote)}($n)",sm)
@@ -343,7 +343,6 @@ trait DoubanActivity extends SFragmentActivity with Douban {
           put(Constant.USERNAME,username)
           put(Constant.COLLE_NUM,c)
           put(Constant.NOTES_NUM,n)
-        }
         case Failure(e)=>
           warn("can not login")
           e.printStackTrace()
@@ -539,6 +538,8 @@ class ItemAdapter[B <: Any](layoutId: Int, mapping: Map[Int, Any], load: => Unit
   private val data: collection.mutable.Buffer[Map[String, String]] = mutable.Buffer[Map[String, String]]()
 
   def getCount: Int = count
+
+  def getTotal = total
 
   def getItem(index: Int): Map[String, String] = data(index)
 
