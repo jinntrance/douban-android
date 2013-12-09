@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.{TextView, LinearLayout}
 import com.douban.base.{DoubanFragment, DoubanActivity, Constant}
 import com.douban.models.{Collection, Book}
-import android.app.{ProgressDialog, Activity}
+import android.app.Activity
 import android.view._
 import Constant._
 import scala.concurrent._
@@ -36,23 +36,25 @@ class BookActivity extends DoubanActivity {
         val isbn = extras.getString(Constant.ISBN)
         val bookId = extras.getString(Constant.BOOK_ID)
         val bk = extras.getSerializable(Constant.BOOK_KEY)
-        var sp:ProgressDialog=null
+//        var sp:ProgressDialog=null
         if (null==bk) future{
-          sp=waitToLoad()
+//          sp=
+            waitToLoad()
           if (null != isbn && !isbn.isEmpty) Some(Book.byISBN(isbn))
           else if (null!=bookId&&bookId.nonEmpty) Some(Book.byId(bookId.toLong))
           else None
-        }onComplete {
+        } onComplete {
           case Success(Some(bb:Book))=>
             book=Some(bb)
             fragment.updateBookView()
-            sp.cancel()
+            stopWaiting()
           case Failure(m)=>
             m.printStackTrace()
             error(m.getMessage)
             val notification=if(null!=isbn) s",扫描ISBN码为:$isbn" else if (null!=bookId) s",图书名为:${extras.getString(Constant.BOOK_TITLE,"无")}" else ""
             longToast(getString(R.string.search_no_result) + notification )
             this.finish()
+          case _=>
         }
         else  book=bk.asInstanceOf[Option[Book]]
       case _ =>
@@ -154,7 +156,7 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
             List(R.id.delete)
         }
         val l = rootView.find[LinearLayout](R.id.status_layout)
-        toDel.foreach(id => l.removeView(rootView.findViewById(id)))
+        runOnUiThread(toDel.foreach(id => l.removeView(rootView.findViewById(id))))
 
         batchSetValues(SearchResult.mapping ++ Map( R.id.bookSubtitle -> "subtitle", R.id.bookPages -> "pages", R.id.bookPrice -> "price",
           R.id.book_author_abstract -> "author_intro", R.id.book_author_abstract_longtext -> "author_intro",

@@ -10,6 +10,8 @@ import com.douban.common.Auth
  * @version 1.0
  */
 object Constant {
+  val COLLECTION_SEARCH="collectionSearch"
+
   val BOOK_TITLE="bookTitle"
 
   var ANNOTATION_IMAGES_NUMBER="noteImageNumber"

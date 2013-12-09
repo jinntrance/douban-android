@@ -41,13 +41,14 @@
         <activity android:name=".BookActivity"/>
         <activity android:label="@string/add_collection" android:name=".CollectionActivity" />
         <activity android:label="@string/annotation" android:name=".NotesActivity" />
-        <activity android:label="@string/add_note" android:name=".AddNoteActivity" android:windowSoftInputMode="adjustResize" android:launchMode="singleInstance"/>
+        <activity android:label="@string/add_note" android:name=".AddNoteActivity" android:windowSoftInputMode="adjustResize"/>
         <activity android:label="@string/menu_settings" android:name=".SettingsActivity" />
         <activity android:label="@string/mynote" android:name=".MyNoteActivity"/>
         <activity android:label="@string/annotation" android:name=".PublicNoteViewActivity" />
-        <activity android:label="@string/annotation" android:name=".MyNoteViewActivity" />
+        <activity android:label="@string/mynote" android:name=".MyNoteViewActivity" />
         <activity android:label="@string/favorite" android:name=".FavoriteBooksActivity" />
         <activity android:label="@string/favorite" android:name=".FavoriteBooksListActivity" />
+        <activity android:label="@string/favorite" android:name=".FavoriteBooksFilterActivity" />
         <activity android:label="关于" android:name=".AboutActivity" />
         <activity android:name="com.google.zxing.client.android.CaptureActivity"
             android:screenOrientation="landscape"

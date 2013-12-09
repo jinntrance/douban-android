@@ -53,13 +53,17 @@ trait Douban {
 
   def getThisActivity: DoubanActivity
 
-  def setViewValue[T <: V](id: Int, value: String, holder: T = rootView, notification: String = "",hideEmpty:Boolean=true)=  {
+  def setViewValue[T <: V](id: Int, value: String, holder: T = rootView, notification: String = "", hideEmpty: Boolean = true):Unit = {
+    setViewValueByView(holder.findViewById(id), value, notification, hideEmpty)
+  }
+
+  def setViewValueByView(v: => View, value: String, notification: String = "", hideEmpty: Boolean = true):Unit = {
     value.trim match {
-      case "" if hideEmpty => holder.findViewById(id) match {
+      case "" if hideEmpty => v match {
         case view: View => runOnUiThread(view.setVisibility(View.GONE))
         case _ =>
       }
-      case value: String => holder.findViewById(id) match {
+      case value: String => v match {
         case view: TextView => runOnUiThread(view.setText(value))
         case rating: RatingBar => runOnUiThread(rating.setNumStars(value.toInt))
         case img: ImageView if value != "URL" => loadImage(value, img, notification)
@@ -71,9 +75,12 @@ trait Douban {
   def batchSetValues[T <: V](m: Map[Int, Any], values: Map[String, String], holder: T = rootView, separator: String = "/") {
     m.par.foreach {
       case (id, key: String) => setViewValue(id, values.getOrElse(key, ""), holder)
-      case (id, (key: String, format: String)) => setViewValue(id, {val v=values.getOrElse(key, "");if(v.isEmpty) "" else format.format(v)}, holder)
-      case (id, l: List[String]) => setViewValue(id, l.map(values.getOrElse(_, "")).filter(_ != "").mkString(separator), holder)
-      case (id, (urlKey: String, (notifyField: String, format: String))) => setViewValue(id, values.getOrElse(urlKey, "URL"), holder, format.format(values.getOrElse(notifyField, ""))) //TODO add support
+      case (id, (key: String, format: String)) =>
+        setViewValue(id, {val v=values.getOrElse(key, "");if(v.isEmpty) "" else format.format(v)}, holder)
+      case (id, l: List[String]) =>
+        setViewValue(id, l.map(values.getOrElse(_, "")).filter(_ != "").mkString(separator), holder)
+      case (id, (urlKey: String, (notifyField: String, format: String))) =>
+        setViewValue(id, values.getOrElse(urlKey, "URL"), holder, format.format(values.getOrElse(notifyField, ""))) //TODO add support
     }
   }
 
@@ -128,7 +135,8 @@ trait Douban {
     }
   }
 
-  def toggleBackGround(firstOneAsBackground: Boolean, viewId: Int, res: (Int, Int), holder: V = rootView): Boolean = toggleBackGround(firstOneAsBackground, holder.findViewById(viewId), res)
+  def toggleBackGround(firstOneAsBackground: Boolean, viewId: Int, res: (Int, Int), holder: V = rootView): Boolean =
+    toggleBackGround(firstOneAsBackground, holder.findViewById(viewId), res)
 
   def toggleBackGround(firstOneAsBackground: Boolean, view: View, res: (Int, Int)): Boolean = {
     val chosen = if (firstOneAsBackground) res._1 else res._2
@@ -168,7 +176,8 @@ trait Douban {
     BitmapFactory.decodeStream(new URL(url).getContent.asInstanceOf[InputStream])
   }
 
-   def loadImageWithTitle(url: String, resId: Int, title: String, holder: V = rootView, updateCache: Boolean = false): Unit = holder.findViewById(resId) match {
+   def loadImageWithTitle(url: String, resId: Int, title: String, holder: V = rootView, updateCache: Boolean = false): Unit
+    = holder.findViewById(resId) match {
     case img: ImageView => loadImage(url, img, ctx.getString(R.string.load_img_fail, title), updateCache)
     case _ =>
   }
@@ -201,9 +210,9 @@ trait Douban {
     }
   }
 
-
+  private var _sp:ProgressDialog=null
   def waitToLoad(cancel: => Unit = {})(implicit ctx: Context):ProgressDialog = if(isOnline) runOnUiThread{
-    val _sp=spinnerDialog("", ctx.getString(R.string.loading))
+    _sp=spinnerDialog("", ctx.getString(R.string.loading))
      //    _sp.getWindow.requestFeature(Window.FEATURE_NO_TITLE)
     _sp.setCanceledOnTouchOutside(true)
     _sp.setCancelable(true)
@@ -220,12 +229,18 @@ trait Douban {
     null
   }
 
+  def stopWaiting(sp:ProgressDialog=null) = runOnUiThread{
+    if(null!=_sp) _sp.cancel()
+    if(null!=sp) sp.cancel()
+  }
+
   @inline def notifyNetworkState() {
     if (!isOnline) toast(R.string.notify_offline)
   }
 
 
-  def listLoader[R](toLoad:Boolean=false,result: => R ={}, success: (R) => Unit = (r:R)=>{},failed: =>Unit={},unfinishable:Boolean=true)= if(toLoad) {
+  def listLoader[R](toLoad:Boolean=false,result: => R ={}, success: (R) => Unit = (r:R)=>{},failed: =>Unit={},
+                    unfinishable:Boolean=true)= if(toLoad) {
     val sp:ProgressDialog=if(unfinishable) waitToLoad() else waitToLoad(getThisActivity.finish())
     future {
       result
@@ -235,7 +250,7 @@ trait Douban {
         if(null!=sp) sp.dismiss()
       case Failure(m) =>
         failed
-        debug(m.getMessage)
+        error(m.getMessage)
         if(null!=sp) sp.dismiss()
       case _=>
         failed
