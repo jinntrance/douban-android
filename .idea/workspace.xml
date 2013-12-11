@@ -53,14 +53,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f3578ce4-e92d-4a18-b282-ad7e4c9648c2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/douban/book/CollectionActivity.scala" afterPath="$PROJECT_DIR$/src/com/douban/book/CollectionActivity.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/douban/base/DoubanActivity.scala" afterPath="$PROJECT_DIR$/src/com/douban/base/DoubanActivity.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala" afterPath="$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/douban/book/MyNoteActivity.scala" afterPath="$PROJECT_DIR$/src/com/douban/book/MyNoteActivity.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/douban/book/NoteViewActivity.scala" afterPath="$PROJECT_DIR$/src/com/douban/book/NoteViewActivity.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/douban/book/SearchActivity.scala" afterPath="$PROJECT_DIR$/src/com/douban/book/SearchActivity.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/douban/book/SearchResultActivity.scala" afterPath="$PROJECT_DIR$/src/com/douban/book/SearchResultActivity.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/douban/book/package.scala" afterPath="$PROJECT_DIR$/src/com/douban/book/package.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/fav_books_item.xml" afterPath="$PROJECT_DIR$/res/layout/fav_books_item.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="2c086e46-fd3c-4fac-b83f-f51ce7966a37" name="ignore" comment="" />
@@ -337,7 +332,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala" line="196" class="com.douban.book.FavoriteBooksListActivity" package="com.douban.book">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala" line="198" class="com.douban.book.FavoriteBooksListActivity" package="com.douban.book">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -352,7 +347,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala" line="165" class="com.douban.book.FavoriteBooksListActivity" package="com.douban.book">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala" line="167" class="com.douban.book.FavoriteBooksListActivity" package="com.douban.book">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -434,7 +429,7 @@
           <file leaf-file-name="FavoriteBooksActivity.scala" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="208" column="4" selection-start="7308" selection-end="7308" vertical-scroll-proportion="0.0" vertical-offset="3192" max-vertical-offset="5094">
+                <state line="108" column="19" selection-start="3822" selection-end="3822" vertical-scroll-proportion="-44.307693" vertical-offset="792" max-vertical-offset="5130">
                   <folding>
                     <element signature="e#25#49#0" expanded="true" />
                   </folding>
@@ -442,72 +437,86 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="fav_books_item.xml" pinned="false" current="true" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/res/layout/fav_books_item.xml">
+          <file leaf-file-name="TraitAdapterView.class" pinned="false" current="false" current-in-tab="false">
+            <entry file="jar://$USER_HOME$/.ivy2/cache/org.scaloid/scaloid_2.10/jars/scaloid_2.10-3.0-8.jar!/org/scaloid/common/TraitAdapterView.class">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="9" column="36" selection-start="422" selection-end="423" vertical-scroll-proportion="0.64285713" vertical-offset="0" max-vertical-offset="1386">
+                <state line="52" column="35" selection-start="2707" selection-end="2720" vertical-scroll-proportion="-21.24" vertical-offset="405" max-vertical-offset="1296">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="fav_books_item.xml" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/res/layout/fav_books_item.xml">
+              <provider editor-type-id="text-editor">
+                <state line="57" column="50" selection-start="2636" selection-end="2636" vertical-scroll-proportion="0.0" vertical-offset="789" max-vertical-offset="1386">
+                  <folding />
+                </state>
+              </provider>
+              <provider selected="true" editor-type-id="android-designer">
+                <state />
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="DoubanActivity.scala" pinned="false" current="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/com/douban/base/DoubanActivity.scala">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="323" column="29" selection-start="11206" selection-end="11206" vertical-scroll-proportion="-0.6727273" vertical-offset="6073" max-vertical-offset="10944">
                   <folding>
-                    <element signature="e#240#262#0" expanded="true" />
+                    <element signature="e#25#47#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
-              <provider editor-type-id="android-designer">
-                <state />
-              </provider>
             </entry>
           </file>
-          <file leaf-file-name="DoubanActivity.scala" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/com/douban/base/DoubanActivity.scala">
+          <file leaf-file-name="image_popup.xml" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/res/layout/image_popup.xml">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="541" column="22" selection-start="18347" selection-end="18347" vertical-scroll-proportion="-18.384615" vertical-offset="8738" max-vertical-offset="10422">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="NotesActivity.scala" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/com/douban/book/NotesActivity.scala">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="66" column="33" selection-start="2119" selection-end="2119" vertical-scroll-proportion="-6.1538463" vertical-offset="830" max-vertical-offset="3114">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="CollectionActivity.scala" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/com/douban/book/CollectionActivity.scala">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="202" column="23" selection-start="7126" selection-end="7126" vertical-scroll-proportion="0.0" vertical-offset="3269" max-vertical-offset="4158">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="AddNoteActivity.scala" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/com/douban/book/AddNoteActivity.scala">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="88" column="29" selection-start="3205" selection-end="3205" vertical-scroll-proportion="0.0" vertical-offset="1091" max-vertical-offset="3222">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="add_tags_item.xml" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/res/layout/add_tags_item.xml">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="6" column="8" selection-start="385" selection-end="385" vertical-scroll-proportion="-3.724138" vertical-offset="0" max-vertical-offset="468">
+                <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="324">
                   <folding />
                 </state>
               </provider>
               <provider editor-type-id="android-designer">
                 <state />
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="SlidingMenu.java" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/dependencies/slidingMenu/src/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="249" column="73" selection-start="7404" selection-end="7430" vertical-scroll-proportion="191.26923" vertical-offset="9455" max-vertical-offset="18288">
+                  <folding>
+                    <element signature="e#16586#16587#0" expanded="false" />
+                    <element signature="e#16672#16673#0" expanded="false" />
+                    <element signature="e#17999#18031#0" expanded="false" />
+                    <element signature="e#24689#24690#0" expanded="false" />
+                    <element signature="e#24764#24765#0" expanded="false" />
+                    <element signature="e#25052#25053#0" expanded="false" />
+                    <element signature="e#25091#25092#0" expanded="false" />
+                    <element signature="e#25361#25362#0" expanded="false" />
+                    <element signature="e#25438#25439#0" expanded="false" />
+                    <element signature="e#26349#26350#0" expanded="false" />
+                    <element signature="e#26370#26371#0" expanded="false" />
+                    <element signature="e#28315#28656#0" expanded="false" />
+                    <element signature="e#28650#28651#0" expanded="false" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="dimens.xml" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/res/values/dimens.xml">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="21" column="43" selection-start="908" selection-end="934" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="522">
+                  <folding />
+                </state>
               </provider>
             </entry>
           </file>
           <file leaf-file-name="notes_item.xml" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/res/layout/notes_item.xml">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="18" column="12" selection-start="804" selection-end="804" vertical-scroll-proportion="-5.4827585" vertical-offset="165" max-vertical-offset="1764">
+                <state line="18" column="12" selection-start="804" selection-end="804" vertical-scroll-proportion="0.0" vertical-offset="324" max-vertical-offset="1764">
                   <folding />
                 </state>
               </provider>
@@ -519,7 +528,7 @@
           <file leaf-file-name="book_image.xml" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/res/layout/book_image.xml">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="13" column="27" selection-start="426" selection-end="426" vertical-scroll-proportion="-8.068966" vertical-offset="0" max-vertical-offset="432">
+                <state line="11" column="32" selection-start="360" selection-end="362" vertical-scroll-proportion="-6.827586" vertical-offset="0" max-vertical-offset="432">
                   <folding />
                 </state>
               </provider>
@@ -531,7 +540,7 @@
           <file leaf-file-name="rating_bar.xml" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/res/drawable/rating_bar.xml">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="2" column="59" selection-start="170" selection-end="170" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="198">
+                <state line="2" column="59" selection-start="170" selection-end="170" vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="198">
                   <folding />
                 </state>
               </provider>
@@ -541,10 +550,10 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="SearchActivity.scala" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="SearchActivity.scala" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/com/douban/book/SearchActivity.scala">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="27" column="11" selection-start="848" selection-end="848" vertical-scroll-proportion="1.2607003" vertical-offset="0" max-vertical-offset="1440">
+                <state line="18" column="48" selection-start="598" selection-end="598" vertical-scroll-proportion="0.44875348" vertical-offset="0" max-vertical-offset="1440">
                   <folding />
                 </state>
               </provider>
@@ -553,7 +562,7 @@
           <file leaf-file-name="Activity.java" pinned="false" current="false" current-in-tab="false">
             <entry file="file:///opt/android-sdk-linux/sources/android-18/android/app/Activity.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="1851" column="16" selection-start="82438" selection-end="82438" vertical-scroll-proportion="0.0" vertical-offset="31398" max-vertical-offset="93924">
+                <state line="1851" column="16" selection-start="82438" selection-end="82438" vertical-scroll-proportion="0.0" vertical-offset="33318" max-vertical-offset="96048">
                   <folding />
                 </state>
               </provider>
@@ -562,7 +571,7 @@
           <file leaf-file-name="NoteViewActivity.scala" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/com/douban/book/NoteViewActivity.scala">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="55" column="83" selection-start="1958" selection-end="1958" vertical-scroll-proportion="0.0" vertical-offset="677" max-vertical-offset="2196">
+                <state line="55" column="83" selection-start="1958" selection-end="1958" vertical-scroll-proportion="0.0" vertical-offset="990" max-vertical-offset="2340">
                   <folding />
                 </state>
               </provider>
@@ -571,7 +580,7 @@
           <file leaf-file-name="MyNoteActivity.scala" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/com/douban/book/MyNoteActivity.scala">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="39" column="6" selection-start="1356" selection-end="1356" vertical-scroll-proportion="0.0" vertical-offset="353" max-vertical-offset="1440">
+                <state line="39" column="6" selection-start="1356" selection-end="1356" vertical-scroll-proportion="0.0" vertical-offset="702" max-vertical-offset="1620">
                   <folding />
                 </state>
               </provider>
@@ -580,10 +589,8 @@
           <file leaf-file-name="R.java" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/dependencies/slidingMenu/gen/com/jeremyfeinstein/slidingmenu/lib/R.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="372" column="5" selection-start="19026" selection-end="19026" vertical-scroll-proportion="0.0" vertical-offset="6242" max-vertical-offset="6750">
-                  <folding>
-                    <element signature="e#0#19030#0" expanded="false" />
-                  </folding>
+                <state line="372" column="5" selection-start="19026" selection-end="19026" vertical-scroll-proportion="0.0" vertical-offset="6696" max-vertical-offset="6840">
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -591,7 +598,7 @@
           <file leaf-file-name="note_to_add.xml" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/res/layout/note_to_add.xml">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="2" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="-1.2413793" vertical-offset="0" max-vertical-offset="558">
+                <state line="2" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="558">
                   <folding />
                 </state>
               </provider>
@@ -603,7 +610,7 @@
           <file leaf-file-name="book_list_item.xml" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/res/layout/book_list_item.xml">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="22" column="65" selection-start="1036" selection-end="1036" vertical-scroll-proportion="-1.7586207" vertical-offset="345" max-vertical-offset="1188">
+                <state line="22" column="65" selection-start="1036" selection-end="1036" vertical-scroll-proportion="0.0" vertical-offset="396" max-vertical-offset="1188">
                   <folding />
                 </state>
               </provider>
@@ -615,7 +622,7 @@
           <file leaf-file-name="ViewfinderView.java" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/dependencies/zxing-android/src/com/google/zxing/client/android/ViewfinderView.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="121" column="31" selection-start="4710" selection-end="4710" vertical-scroll-proportion="0.0" vertical-offset="1495" max-vertical-offset="2970">
+                <state line="121" column="31" selection-start="4710" selection-end="4710" vertical-scroll-proportion="0.0" vertical-offset="2178" max-vertical-offset="3492">
                   <folding />
                 </state>
               </provider>
@@ -625,9 +632,7 @@
             <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
               <provider selected="true" editor-type-id="text-editor">
                 <state line="23" column="5" selection-start="1273" selection-end="1273" vertical-scroll-proportion="0.0" vertical-offset="253" max-vertical-offset="1692">
-                  <folding>
-                    <element signature="e#1299#1317#0" expanded="true" />
-                  </folding>
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -658,7 +663,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/res/layout/book_image.xml" />
         <option value="$PROJECT_DIR$/dependencies/slidingMenu/gen/com/jeremyfeinstein/slidingmenu/lib/BuildConfig.java" />
         <option value="$PROJECT_DIR$/dependencies/slidingMenu/gen/com/jeremyfeinstein/slidingmenu/lib/R.java" />
         <option value="$PROJECT_DIR$/res/layout/menu.xml" />
@@ -683,8 +687,10 @@
         <option value="$PROJECT_DIR$/src/com/douban/book/CollectionActivity.scala" />
         <option value="$PROJECT_DIR$/src/com/douban/book/MyNoteActivity.scala" />
         <option value="$PROJECT_DIR$/src/com/douban/book/SearchActivity.scala" />
-        <option value="$PROJECT_DIR$/src/com/douban/base/DoubanActivity.scala" />
+        <option value="$PROJECT_DIR$/res/layout/book_image.xml" />
         <option value="$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala" />
+        <option value="$PROJECT_DIR$/res/layout/fav_books_item.xml" />
+        <option value="$PROJECT_DIR$/src/com/douban/base/DoubanActivity.scala" />
       </list>
     </option>
   </component>
@@ -692,10 +698,9 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1" />
-    <option name="y" value="-4" />
-    <option name="width" value="1922" />
-    <option name="height" value="1085" />
+    <option name="y" value="24" />
+    <option name="width" value="1920" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -818,7 +823,7 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
-    <property name="AndroidTargetDevices" value="192.168.4.28:5555" />
+    <property name="AndroidTargetDevices" value="0123456789ABCDEF" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
@@ -885,6 +890,19 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java">
       <option name="myFilePath" />
       <option name="GLUE" />
@@ -901,19 +919,6 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="" />
       <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -1039,7 +1044,8 @@
       <workItem from="1386578255345" duration="2528000" />
       <workItem from="1386580793123" duration="17958000" />
       <workItem from="1386603533298" duration="853000" />
-      <workItem from="1386604924175" duration="13266000" />
+      <workItem from="1386604924175" duration="13304000" />
+      <workItem from="1386739630096" duration="3114000" />
     </task>
     <task id="LOCAL-00001" summary="relocate the sources">
       <created>1381587397181</created>
@@ -1229,11 +1235,19 @@
       <created>1386615854923</created>
       <updated>1386615854923</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="remove duplicate codes">
+      <created>1386618232270</created>
+      <updated>1386618232270</updated>
+    </task>
+    <task id="LOCAL-00049" summary="fix few bugs">
+      <created>1386740262369</created>
+      <updated>1386740262369</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39462000" />
+    <option name="totallyTimeSpent" value="42614000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -1256,10 +1270,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="-4" width="1922" height="1085" extended-state="6" />
-    <editor active="false" />
+    <frame x="0" y="24" width="1920" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" x="697" y="707" width="948" height="997" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" x="652" y="504" width="948" height="997" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27301928" sideWeight="0.66451615" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6684046" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2853319" sideWeight="0.66451615" order="2" side_tool="false" content_ui="tabs" />
@@ -1274,13 +1288,12 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2860215" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33368093" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.60896766" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.50052136" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32846716" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24946466" sideWeight="0.66451615" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32976446" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959402" sideWeight="0.66451615" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39937434" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33472368" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
@@ -1290,17 +1303,18 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="SBT Execute" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6688172" sideWeight="0.5" order="13" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39937434" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27301928" sideWeight="0.66451615" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" x="696" y="679" width="948" height="997" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27301928" sideWeight="0.66451615" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6684046" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.66836214" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2860215" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2860215" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32846716" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959402" sideWeight="0.66451615" order="0" side_tool="false" content_ui="combo" />
@@ -1319,9 +1333,9 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33368093" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.60896766" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24946466" sideWeight="0.66451615" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="SBT Execute" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6688172" sideWeight="0.5" order="13" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32976446" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="SBT Execute" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6688172" sideWeight="0.5" order="13" side_tool="true" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -1339,7 +1353,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="fixed few bugs" />
     <MESSAGE value="note View finished" />
     <MESSAGE value="image in note view" />
     <MESSAGE value="rating bar is well adjusted" />
@@ -1358,13 +1371,14 @@
     <MESSAGE value="now it can take photos" />
     <MESSAGE value="finished the notes addition" />
     <MESSAGE value="prepare to release" />
-    <MESSAGE value="fix few bugs" />
     <MESSAGE value="filter for the fav books" />
     <MESSAGE value="added filter for the fav books and fixed some bugs" />
     <MESSAGE value="improv performance" />
     <MESSAGE value="filter" />
     <MESSAGE value="filter&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="filter&#10;" />
+    <MESSAGE value="remove duplicate codes" />
+    <MESSAGE value="fix few bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix few bugs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1374,33 +1388,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/douban/book/BookActivity.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="45" selection-start="899" selection-end="899" vertical-scroll-proportion="8.307693" vertical-offset="702" max-vertical-offset="3186">
-          <folding>
-            <element signature="e#25#52#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file:///opt/android-sdk-linux/sources/android-18/android/os/Bundle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="315" column="13" selection-start="8515" selection-end="8515" vertical-scroll-proportion="0.0" vertical-offset="5013" max-vertical-offset="30294" />
-      </provider>
-    </entry>
-    <entry file="file:///opt/android-sdk-linux/sources/android-18/java/util/Set.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="37" selection-start="975" selection-end="975" vertical-scroll-proportion="0.0" vertical-offset="9" max-vertical-offset="3366" />
-      </provider>
-    </entry>
-    <entry file="file:///opt/android-sdk-linux/sources/android-18/java/util/List.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="36" selection-start="1202" selection-end="1202" vertical-scroll-proportion="0.0" vertical-offset="27" max-vertical-offset="6192" />
-      </provider>
-    </entry>
     <entry file="file:///opt/android-sdk-linux/sources/android-18/java/util/Collection.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="44" column="41" selection-start="2176" selection-end="2176" vertical-scroll-proportion="0.0" vertical-offset="351" max-vertical-offset="5526" />
@@ -1433,16 +1420,12 @@
     </entry>
     <entry file="file:///opt/android-sdk-linux/sources/android-18/java/util/Date.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="11" selection-start="2441" selection-end="2441" vertical-scroll-proportion="0.0" vertical-offset="311" max-vertical-offset="14112">
-          <folding />
-        </state>
+        <state line="56" column="11" selection-start="2441" selection-end="2441" vertical-scroll-proportion="0.0" vertical-offset="311" max-vertical-offset="14112" />
       </provider>
     </entry>
     <entry file="file:///opt/android-sdk-linux/sources/android-18/java/util/GregorianCalendar.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="183" column="13" selection-start="9015" selection-end="9015" vertical-scroll-proportion="0.0" vertical-offset="2829" max-vertical-offset="22500">
-          <folding />
-        </state>
+        <state line="183" column="13" selection-start="9015" selection-end="9015" vertical-scroll-proportion="0.0" vertical-offset="2829" max-vertical-offset="22500" />
       </provider>
     </entry>
     <entry file="file:///opt/android-sdk-linux/sources/android-18/java/text/Format.java">
@@ -1452,16 +1435,12 @@
     </entry>
     <entry file="file:///opt/android-sdk-linux/sources/android-18/java/util/Calendar.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="288" column="22" selection-start="13193" selection-end="13193" vertical-scroll-proportion="0.0" vertical-offset="4467" max-vertical-offset="24570">
-          <folding />
-        </state>
+        <state line="288" column="22" selection-start="13193" selection-end="13193" vertical-scroll-proportion="0.0" vertical-offset="4467" max-vertical-offset="24570" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/douban/base/Constant.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="41" selection-start="346" selection-end="346" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1188">
-          <folding />
-        </state>
+        <state line="12" column="41" selection-start="346" selection-end="346" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1188" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/tags.xml">
@@ -1486,33 +1465,29 @@
     </entry>
     <entry file="file:///opt/android-sdk-linux/sources/android-18/android/widget/BaseAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="16" selection-start="2054" selection-end="2054" vertical-scroll-proportion="0.7514563" vertical-offset="333" max-vertical-offset="1332">
-          <folding />
-        </state>
+        <state line="57" column="16" selection-start="2054" selection-end="2054" vertical-scroll-proportion="0.7514563" vertical-offset="333" max-vertical-offset="1332" />
       </provider>
     </entry>
     <entry file="jar://$USER_HOME$/.ivy2/local/com.douban/scala-api_2.10/2.4.3/jars/scala-api_2.10.jar!/com/douban/models/CollectionSearch.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="11" selection-start="37" selection-end="37" vertical-scroll-proportion="0.039045554" vertical-offset="0" max-vertical-offset="461">
-          <folding />
-        </state>
+        <state line="1" column="11" selection-start="37" selection-end="37" vertical-scroll-proportion="0.039045554" vertical-offset="0" max-vertical-offset="461" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/fav_books_filter.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="112" column="30" selection-start="4389" selection-end="4393" vertical-scroll-proportion="-7.448276" vertical-offset="1800" max-vertical-offset="2286">
           <folding>
-            <element signature="e#178#200#0" expanded="true" />
-            <element signature="e#518#540#0" expanded="true" />
-            <element signature="e#987#1009#0" expanded="true" />
-            <element signature="e#1938#1960#0" expanded="true" />
-            <element signature="e#2463#2485#0" expanded="true" />
-            <element signature="e#2602#2624#0" expanded="true" />
-            <element signature="e#3075#3097#0" expanded="true" />
-            <element signature="e#3596#3618#0" expanded="true" />
-            <element signature="e#3654#3676#0" expanded="true" />
-            <element signature="e#4177#4199#0" expanded="true" />
-            <element signature="e#4618#4640#0" expanded="true" />
+            <element signature="e#178#200#0" expanded="false" />
+            <element signature="e#518#540#0" expanded="false" />
+            <element signature="e#987#1009#0" expanded="false" />
+            <element signature="e#1938#1960#0" expanded="false" />
+            <element signature="e#2463#2485#0" expanded="false" />
+            <element signature="e#2602#2624#0" expanded="false" />
+            <element signature="e#3075#3097#0" expanded="false" />
+            <element signature="e#3596#3618#0" expanded="false" />
+            <element signature="e#3654#3676#0" expanded="false" />
+            <element signature="e#4177#4199#0" expanded="false" />
+            <element signature="e#4618#4640#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1572,8 +1547,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="74" column="108" selection-start="3067" selection-end="3067" vertical-scroll-proportion="-10.2" vertical-offset="771" max-vertical-offset="1836">
           <folding>
-            <element signature="e#534#557#0" expanded="true" />
-            <element signature="e#3509#3530#0" expanded="true" />
+            <element signature="e#534#557#0" expanded="false" />
+            <element signature="e#3509#3530#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1603,7 +1578,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/douban/book/NotesActivity.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="33" selection-start="2119" selection-end="2119" vertical-scroll-proportion="-6.1538463" vertical-offset="830" max-vertical-offset="3114">
+        <state line="66" column="33" selection-start="2119" selection-end="2119" vertical-scroll-proportion="0.0" vertical-offset="1188" max-vertical-offset="3312">
           <folding />
         </state>
       </provider>
@@ -1624,9 +1599,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/douban/book/SearchResultActivity.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="149" column="31" selection-start="5311" selection-end="5311" vertical-scroll-proportion="-9.538462" vertical-offset="2254" max-vertical-offset="2736">
-          <folding />
-        </state>
+        <state line="149" column="31" selection-start="5311" selection-end="5311" vertical-scroll-proportion="-9.538462" vertical-offset="2254" max-vertical-offset="2736" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/douban/book/NoteViewActivity.scala">
@@ -1639,15 +1612,13 @@
     <entry file="file://$PROJECT_DIR$/dependencies/slidingMenu/gen/com/jeremyfeinstein/slidingmenu/lib/R.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="372" column="5" selection-start="19026" selection-end="19026" vertical-scroll-proportion="0.0" vertical-offset="6242" max-vertical-offset="6750">
-          <folding>
-            <element signature="e#0#19030#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/note_to_add.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="-1.2413793" vertical-offset="0" max-vertical-offset="558">
+        <state line="2" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="558">
           <folding />
         </state>
       </provider>
@@ -1657,7 +1628,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/book_list_item.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="65" selection-start="1036" selection-end="1036" vertical-scroll-proportion="-1.7586207" vertical-offset="345" max-vertical-offset="1188">
+        <state line="22" column="65" selection-start="1036" selection-end="1036" vertical-scroll-proportion="0.0" vertical-offset="396" max-vertical-offset="1188">
           <folding />
         </state>
       </provider>
@@ -1681,7 +1652,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/add_tags_item.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="8" selection-start="385" selection-end="385" vertical-scroll-proportion="-3.724138" vertical-offset="0" max-vertical-offset="468">
+        <state line="6" column="8" selection-start="385" selection-end="385" vertical-scroll-proportion="0.0" vertical-offset="108" max-vertical-offset="468">
           <folding />
         </state>
       </provider>
@@ -1691,17 +1662,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/notes_item.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="12" selection-start="804" selection-end="804" vertical-scroll-proportion="-5.4827585" vertical-offset="165" max-vertical-offset="1764">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/book_image.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="27" selection-start="426" selection-end="426" vertical-scroll-proportion="-8.068966" vertical-offset="0" max-vertical-offset="432">
+        <state line="18" column="12" selection-start="804" selection-end="804" vertical-scroll-proportion="0.0" vertical-offset="324" max-vertical-offset="1764">
           <folding />
         </state>
       </provider>
@@ -1719,9 +1680,7 @@
     <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="23" column="5" selection-start="1273" selection-end="1273" vertical-scroll-proportion="0.0" vertical-offset="253" max-vertical-offset="1692">
-          <folding>
-            <element signature="e#1299#1317#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1734,9 +1693,7 @@
     </entry>
     <entry file="file:///opt/android-sdk-linux/sources/android-18/android/app/ActivityThread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2181" column="0" selection-start="91040" selection-end="91040" vertical-scroll-proportion="0.3324468" vertical-offset="36757" max-vertical-offset="89586">
-          <folding />
-        </state>
+        <state line="2181" column="0" selection-start="91040" selection-end="91040" vertical-scroll-proportion="0.3324468" vertical-offset="36757" max-vertical-offset="89586" />
       </provider>
     </entry>
     <entry file="file:///opt/android-sdk-linux/sources/android-18/android/app/Activity.java">
@@ -1746,39 +1703,94 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/douban/book/SearchActivity.scala">
+    <entry file="jar://$USER_HOME$/.ivy2/cache/org.scaloid/scaloid_2.10/jars/scaloid_2.10-3.0-8.jar!/org/scaloid/common/TraitAdapterView.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="11" selection-start="848" selection-end="848" vertical-scroll-proportion="1.2607003" vertical-offset="0" max-vertical-offset="1440">
+        <state line="52" column="35" selection-start="2707" selection-end="2720" vertical-scroll-proportion="-21.24" vertical-offset="405" max-vertical-offset="1296">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/douban/base/DoubanActivity.scala">
+    <entry file="file://$PROJECT_DIR$/res/values/dimens.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="541" column="22" selection-start="18347" selection-end="18347" vertical-scroll-proportion="-18.384615" vertical-offset="8738" max-vertical-offset="10422">
+        <state line="21" column="43" selection-start="908" selection-end="934" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="522">
           <folding />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dependencies/slidingMenu/src/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="249" column="73" selection-start="7404" selection-end="7430" vertical-scroll-proportion="191.26923" vertical-offset="9455" max-vertical-offset="18288">
+          <folding>
+            <element signature="e#16586#16587#0" expanded="false" />
+            <element signature="e#16672#16673#0" expanded="false" />
+            <element signature="e#17999#18031#0" expanded="false" />
+            <element signature="e#24689#24690#0" expanded="false" />
+            <element signature="e#24764#24765#0" expanded="false" />
+            <element signature="e#25052#25053#0" expanded="false" />
+            <element signature="e#25091#25092#0" expanded="false" />
+            <element signature="e#25361#25362#0" expanded="false" />
+            <element signature="e#25438#25439#0" expanded="false" />
+            <element signature="e#26349#26350#0" expanded="false" />
+            <element signature="e#26370#26371#0" expanded="false" />
+            <element signature="e#28315#28656#0" expanded="false" />
+            <element signature="e#28650#28651#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/image_popup.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="395">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/book_image.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="32" selection-start="360" selection-end="362" vertical-scroll-proportion="-6.827586" vertical-offset="0" max-vertical-offset="432">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/fav_books_item.xml">
+      <provider editor-type-id="text-editor">
+        <state line="57" column="50" selection-start="2636" selection-end="2636" vertical-scroll-proportion="0.0" vertical-offset="789" max-vertical-offset="1386">
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="208" column="4" selection-start="7308" selection-end="7308" vertical-scroll-proportion="0.0" vertical-offset="3192" max-vertical-offset="5094">
+        <state line="108" column="19" selection-start="3822" selection-end="3822" vertical-scroll-proportion="-44.307693" vertical-offset="792" max-vertical-offset="5130">
           <folding>
             <element signature="e#25#49#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/fav_books_item.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/douban/base/DoubanActivity.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="36" selection-start="422" selection-end="423" vertical-scroll-proportion="0.64285713" vertical-offset="0" max-vertical-offset="1386">
+        <state line="323" column="29" selection-start="11206" selection-end="11206" vertical-scroll-proportion="-0.6727273" vertical-offset="6073" max-vertical-offset="10944">
           <folding>
-            <element signature="e#240#262#0" expanded="true" />
+            <element signature="e#25#47#0" expanded="true" />
           </folding>
         </state>
       </provider>
-      <provider editor-type-id="android-designer">
-        <state />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/douban/book/SearchActivity.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="48" selection-start="598" selection-end="598" vertical-scroll-proportion="0.44875348" vertical-offset="0" max-vertical-offset="1440">
+          <folding />
+        </state>
       </provider>
     </entry>
   </component>

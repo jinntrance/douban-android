@@ -106,7 +106,7 @@ class CollectionItemAdapter(status: String, loader: (String, CollectionItemAdapt
 
   override protected def selfLoad(): Unit = loader(status, this)
 
-  val listener:Unit = (parent: AdapterView[_], view: View, position: Int, id: Long) => {
+  lazy val listener = (parent: AdapterView[_], view: View, position: Int, id: Long) => {
     parent.getAdapter.asInstanceOf[CollectionItemAdapter].getBean(position) match {
       case c: Collection =>
         val book = c.book.copy()
