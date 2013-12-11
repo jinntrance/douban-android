@@ -46,7 +46,8 @@
                 android:layout_margin="@dimen/margin_small" />
 
             <include layout="@layout/tags"
-                android:layout_margin="@dimen/margin_small" />
+                android:layout_margin="@dimen/margin_small"
+                android:layout_gravity="bottom" />
             </LinearLayout>
 
         <LinearLayout android:layout_height="match_parent"
@@ -54,8 +55,7 @@
             android:layout_gravity="center"
             android:gravity="center" android:id="@+id/fav_layout"
             android:layout_marginRight="@dimen/margin_large"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/margin_large">
+            android:layout_alignParentRight="true">
 
            <TextView
                 android:layout_width="wrap_content"

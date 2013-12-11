@@ -319,8 +319,8 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     sm.setBehindOffsetRes(R.dimen.sliding_menu_behind_offset)
     sm.setBehindWidthRes(R.dimen.sliding_menu_width)
     sm.setFadeDegree(0.35f)
-    sm.setAboveOffset(0)
-    sm.attachToActivity(this, SlidingMenu.SLIDING_WINDOW)
+    sm.setAboveOffsetRes(R.dimen.sliding_menu_above_offset)
+    sm.attachToActivity(this, SlidingMenu.SLIDING_CONTENT)
     sm.setMenu(R.layout.menu)
 
     if(isAuthenticated) {
