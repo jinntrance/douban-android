@@ -27,6 +27,7 @@ import android.widget
  * @since 10/7/13 1:25 AM
  * @version 1.0
  */
+
 class FavoriteBooksActivity extends DoubanActivity {
   lazy val waiting = waitToLoad()
   lazy val th = find[TabHost](R.id.tabHost)
@@ -40,24 +41,14 @@ class FavoriteBooksActivity extends DoubanActivity {
     th.addTab(th.newTabSpec("reading").setIndicator("在读").setContent(R.id.reading_container))
     th.addTab(th.newTabSpec("read").setIndicator("读过").setContent(R.id.read_container))
     th.setCurrentTab(currentTab)
-    val listener = (parent: AdapterView[_], view: View, position: Int, id: Long) => {
-      parent.getAdapter.asInstanceOf[CollectionItemAdapter].getBean(position) match {
-        case c: Collection =>
-          val book = c.book.copy()
-          val col = c.copy()
-          col.updateBook(null)
-          book.updateExistCollection(col)
-          startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY, Some(book)))
-      }
-    }
     val readingAdapter = new CollectionItemAdapter("reading", load)
-    find[ListView](R.id.reading) onItemClick listener setAdapter readingAdapter
+    find[ListView](R.id.reading) onItemClick readingAdapter.listener setAdapter readingAdapter
     load("reading", readingAdapter)
     val wishAdapter = new CollectionItemAdapter("wish", load)
-    find[ListView](R.id.wish) onItemClick listener setAdapter wishAdapter
+    find[ListView](R.id.wish) onItemClick wishAdapter.listener setAdapter wishAdapter
     load("wish", wishAdapter)
     val readAdapter = new CollectionItemAdapter("read", load)
-    find[ListView](R.id.read) onItemClick listener setAdapter readAdapter
+    find[ListView](R.id.read) onItemClick readAdapter.listener setAdapter readAdapter
     load("read", readAdapter)
     waiting
   }
@@ -114,6 +105,17 @@ class CollectionItemAdapter(status: String, loader: (String, CollectionItemAdapt
   }
 
   override protected def selfLoad(): Unit = loader(status, this)
+
+  val listener:Unit = (parent: AdapterView[_], view: View, position: Int, id: Long) => {
+    parent.getAdapter.asInstanceOf[CollectionItemAdapter].getBean(position) match {
+      case c: Collection =>
+        val book = c.book.copy()
+        val col = c.copy()
+        col.updateBook(null)
+        book.updateExistCollection(col)
+        activity.startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY, Some(book)))
+    }
+  }
 }
 
 object CollectionItemAdapter {
@@ -163,7 +165,7 @@ class FavoriteBooksListActivity extends DoubanActivity {
           updateHeader(s)
           cs = s
           currentPage = 1
-          find[ListView](R.id.fav_books_result).setAdapter(adapter)
+          find[ListView](R.id.fav_books_result) onItemClick adapter.listener setAdapter adapter
           reload()
         case _ =>
       }
