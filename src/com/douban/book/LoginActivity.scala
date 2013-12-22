@@ -47,7 +47,7 @@ class LoginActivity extends DoubanActivity {
       if (redirectedUrl.startsWith(redirect_url)) {
         if (redirectedUrl.contains("error=")) toast(R.string.login_failed)
         else {
-          toast(R.string.waiting_for_auth)
+          waitToLoad(msg=R.string.logining)
           handle({
             Auth.getTokenByCode(extractCode(redirectedUrl), Constant.apiKey, Constant.apiSecret)
           }, (t: Option[AccessTokenResult]) => {
@@ -56,7 +56,9 @@ class LoginActivity extends DoubanActivity {
               updateToken(t.get)
               Req.init(t.get.access_token)
               toast(R.string.login_successfully)
+              runOnUiThread(onRestart())
             }
+            stopWaiting()
           })
           view.stopLoading()
           finish()

@@ -22,7 +22,14 @@
                 android:id="@+id/book_basic"
                 android:baselineAligned="false">
 
-                <include layout="@layout/book_image" />
+              <ImageView
+                  android:layout_width="78sp"
+                  android:layout_height="120sp"
+                  android:clickable="true"
+                  android:onClick="popup"
+                  android:id="@+id/book_img"   android:padding="@dimen/padding_medium"
+                  android:src="@drawable/default_image"
+                  android:layout_gravity="top" />
 
                 <RelativeLayout  android:layout_width="0dp"  android:layout_weight="0.78"
                     android:layout_height="wrap_content">
