@@ -211,8 +211,8 @@ trait Douban {
   }
 
   private var _sp:ProgressDialog=null
-  def waitToLoad(cancel: => Unit = {})(implicit ctx: Context):ProgressDialog = if(isOnline) runOnUiThread{
-    _sp=spinnerDialog("", ctx.getString(R.string.loading))
+  def waitToLoad(cancel: => Unit = {},msg:Int=R.string.loading)(implicit ctx: Context):ProgressDialog = if(isOnline) runOnUiThread{
+    _sp=spinnerDialog("", ctx.getString(msg))
      //    _sp.getWindow.requestFeature(Window.FEATURE_NO_TITLE)
     _sp.setCanceledOnTouchOutside(true)
     _sp.setCancelable(true)
@@ -271,7 +271,6 @@ trait DoubanActivity extends SFragmentActivity with Douban {
       login()
   }
 
-
   override def setTitle(title: CharSequence): Unit = runOnUiThread(super.setTitle(title))
 
   private var keyboardUp=true
@@ -319,8 +318,8 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     sm.setBehindOffsetRes(R.dimen.sliding_menu_behind_offset)
     sm.setBehindWidthRes(R.dimen.sliding_menu_width)
     sm.setFadeDegree(0.35f)
-    sm.setAboveOffsetRes(R.dimen.sliding_menu_above_offset)
-    sm.attachToActivity(this, SlidingMenu.SLIDING_CONTENT)
+//    sm.setAboveOffsetRes(R.dimen.sliding_menu_above_offset)
+    sm.attachToActivity(this, SlidingMenu.SLIDING_WINDOW)
     sm.setMenu(R.layout.menu)
 
     if(isAuthenticated) {

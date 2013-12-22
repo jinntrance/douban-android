@@ -25,6 +25,7 @@
         反馈：<a href="mailto:jinntrance@gmail.com">軒轅鍾書</a>
     </string>
     <string name="search">搜书</string>
+    <string name="logining">正在登录</string>
     <string name="searching">搜索中…</string>
     <string name="search_no_result">此书未找到</string>
     <string name="search_result">搜索\"%1$s\"的结果</string>
@@ -34,8 +35,6 @@
     <string name="swipe_up_to_load">上划获取更多(%1$s/%2$s)</string>
     <string name="notify_offline">未检测到网络链接，请重新链接网络后再试</string>
     <string name="load_img_fail">加载%1$s图片失败</string>
-    <string name="menu_share">Share</string>
-    <string name="menu_history">History</string>
     <string name="menu_settings">设置</string>
     <string name="content_intro">内容简介</string>
     <string name="author_intro">作者简介</string>

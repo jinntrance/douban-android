@@ -10,8 +10,6 @@
     <ImageView
         android:layout_width="78sp"
         android:layout_height="120sp"
-        android:clickable="true"
-        android:onClick="popup"
         android:id="@+id/book_img"   android:padding="@dimen/padding_medium"
         android:src="@drawable/default_image"
         android:layout_gravity="top" />
