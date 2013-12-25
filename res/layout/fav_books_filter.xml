@@ -65,7 +65,8 @@
             android:layout_height="wrap_content" style="@style/DoubanRatingBar"
             android:id="@+id/rating"
             android:numStars="5"
-            android:paddingLeft="@dimen/padding_large" />
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:stepSize="1" />
       </LinearLayout>
 
       <LinearLayout
@@ -84,10 +85,10 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/padding_large">
 
-          <EditText   android:editable="false"   android:maxEms="10"  android:singleLine="true"
-              android:layout_width="wrap_content" android:layout_weight="1"
+          <EditText   android:editable="false"   android:maxLength="10"  android:singleLine="true"
+              android:layout_width="0dp" android:layout_weight="1"
               android:layout_height="wrap_content" android:onClick="showDatePickerDialog"
-              android:id="@+id/from_date"   />
+              android:id="@+id/from_date"  android:hint="始" />
 
           <TextView
               android:layout_width="wrap_content"
@@ -97,9 +98,9 @@
               android:paddingRight="@dimen/padding_large"
               android:layout_gravity="center_horizontal" />
 
-          <EditText android:editable="false"   android:maxEms="10" android:singleLine="true"
-              android:layout_width="wrap_content"   android:onClick="showDatePickerDialog"
-              android:layout_height="wrap_content"  android:layout_weight="1"
+          <EditText android:editable="false"   android:maxLength="10" android:singleLine="true"
+              android:layout_width="0dp"   android:onClick="showDatePickerDialog"
+              android:layout_height="wrap_content"  android:layout_weight="1"   android:hint="止"
               android:id="@+id/to_date" />
         </LinearLayout>
       </LinearLayout>

@@ -147,7 +147,7 @@ class FavoriteBooksListActivity extends DoubanActivity {
   }
 
   def submitFilter(m: MenuItem) {
-    startActivity(SIntent[FavoriteBooksListActivity])
+    startActivityForResult(SIntent[FavoriteBooksListActivity],REQUEST_CODE)
   }
 
   private var hide = true
@@ -169,7 +169,7 @@ class FavoriteBooksListActivity extends DoubanActivity {
           reload()
         case _ =>
       }
-    }
+    } else finish()
   }
 
   override def onCreateOptionsMenu(menu: Menu) = {

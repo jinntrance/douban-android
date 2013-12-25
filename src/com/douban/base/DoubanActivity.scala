@@ -23,7 +23,7 @@ import scala.language.reflectiveCalls
 import android.os.Bundle
 import org.scaloid.support.v4.{SFragment, SListFragment, SFragmentActivity}
 import android.support.v4.app.Fragment
-import android.app.{Dialog, ProgressDialog, ActionBar}
+import android.app.{Activity, Dialog, ProgressDialog, ActionBar}
 import com.douban.models.{Book, User}
 import android.view.inputmethod.InputMethodManager
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu
@@ -279,8 +279,8 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     keyboardUp=toggleBackGround(keyboardUp,v,(R.drawable.keyboard_up,R.drawable.keyboard_down))
     manager.toggleSoftInput(0,0)
   }
-
-  @inline def login()=startActivity(SIntent[LoginActivity])
+  val LOGIN_REQUEST=12
+  @inline def login()=startActivityForResult(SIntent[LoginActivity],LOGIN_REQUEST)
 
   protected override def onCreate(b: Bundle){
     super.onCreate(b)
@@ -394,11 +394,21 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   }
 
   def currentUserId:Long = {
-    if(! isAuthenticated) login()
+    if(! isAuthenticated) {
+      login()
+    }
     if(isAuthenticated) get(Constant.userIdString).toLong
     else {
       notifyNetworkState()
-      finish();0L
+      finish()
+      0L
+    }
+  }
+
+  override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    super.onActivityResult(requestCode,resultCode,data)
+    if (requestCode == LOGIN_REQUEST && resultCode == Activity.RESULT_OK && isAuthenticated) {
+        super.onRestart()
     }
   }
 
