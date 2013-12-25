@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:background="@color/background_black_light" style="@style/DoubanTextTitle.White"
-    android:gravity="top">
+    android:gravity="bottom">
 
   <LinearLayout
       android:orientation="vertical"
@@ -64,7 +64,8 @@
         android:layout_marginLeft="@dimen/margin_large"
         android:layout_marginTop="@dimen/margin_medium"
         android:divider="@drawable/divider"
-      android:layout_below="@+id/upper_menu">
+      android:layout_below="@+id/upper_menu"
+      android:layout_weight="1">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"   android:drawableLeft="@drawable/menu_favorite" android:padding="@dimen/padding_large"

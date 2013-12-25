@@ -1,41 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:paddingTop="@dimen/text_huge">
 
-    <LinearLayout
-        android:layout_width="match_parent"   android:onClick="delCache"
-        android:layout_height="wrap_content" android:clickable="true"
-        android:layout_margin="@dimen/margin_medium"
-        android:background="@color/white">
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="删除缓存"    style="@style/DoubanTextTitle.Black.Setting"
-          android:id="@+id/textView" />
+<LinearLayout android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+  <LinearLayout
+      android:layout_width="match_parent"   android:onClick="delCache"
+      android:layout_height="wrap_content" android:clickable="true"
+      android:layout_margin="@dimen/margin_medium"
+      android:background="@color/white">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="删除缓存"    style="@style/DoubanTextTitle.Black.Setting"
+        android:id="@+id/textView" />
+  </LinearLayout>
+
+  <LinearLayout
+      android:layout_width="match_parent" android:clickable="true"    android:onClick="about"
+      android:layout_height="wrap_content"   android:background="@color/white"
+      android:layout_margin="@dimen/margin_medium">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="关于"   style="@style/DoubanTextTitle.Black.Setting"
+        android:id="@+id/textView1" />
+  </LinearLayout>
+  <LinearLayout         android:background="@color/white"
+      android:layout_width="match_parent"  android:onClick="toggleLogin"
+      android:layout_height="wrap_content"  android:clickable="true"
+      android:layout_margin="@dimen/margin_medium"
+      android:id="@+id/toggleLogin">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="注销"   style="@style/DoubanTextTitle.Black.Setting"
+        android:id="@+id/toggleLoginText" />
+  </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent" android:clickable="true"    android:onClick="about"
-        android:layout_height="wrap_content"   android:background="@color/white"
-        android:layout_margin="@dimen/margin_medium">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="关于"   style="@style/DoubanTextTitle.Black.Setting"
-            android:id="@+id/textView1" />
-    </LinearLayout>
-    <LinearLayout         android:background="@color/white"
-        android:layout_width="match_parent"  android:onClick="toggleLogin"
-        android:layout_height="wrap_content"  android:clickable="true"
-        android:layout_margin="@dimen/margin_medium"
-        android:id="@+id/toggleLogin">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="注销"   style="@style/DoubanTextTitle.Black.Setting"
-            android:id="@+id/toggleLoginText" />
-    </LinearLayout>
-</LinearLayout>
+</FrameLayout>
