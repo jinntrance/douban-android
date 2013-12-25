@@ -133,11 +133,16 @@
         <item name="android:titleTextStyle">@style/DoubanActionBar.Title</item>
         <item name="android:background">@color/text_background</item>
         <item name="android:icon">@drawable/header_menu</item>
+        <item name="android:moreIcon">@drawable/header_more</item>
+        <item name="android:actionOverflowButtonStyle">@style/DoubanActionBar.OverFlow</item>
         <item name="android:actionBarItemBackground">@color/text_background</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
         <item name="android:windowTitleBackgroundStyle">@color/text_background</item>
     </style>
+  <style name="DoubanActionBar.OverFlow" parent="@android:style/Widget.Holo.ActionButton.Overflow">
+    <item name="android:src">@drawable/header_more</item>
+  </style>
     <style name="DoubanListView" parent="@android:style/Widget.Holo.Light.ListView">
         <item name="android:layout_margin">@dimen/margin_medium</item>
     </style>
@@ -151,6 +156,7 @@
         <item name="android:itemBackground">@color/background_white</item>
         <item name="android:panelBackground">@color/background_white</item>
         <item name="android:actionBarStyle">@style/DoubanActionBar</item>
+        <item name="android:actionOverflowButtonStyle">@style/DoubanActionBar.OverFlow</item>
         <item name="android:buttonStyle">@style/DoubanButton.WhiteText</item>
         <item name="android:listViewStyle">@style/DoubanListView</item>
         <item name="android:windowBackground">@color/background_white</item>

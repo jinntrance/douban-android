@@ -23,13 +23,14 @@ import scala.language.reflectiveCalls
 import android.os.Bundle
 import org.scaloid.support.v4.{SFragment, SListFragment, SFragmentActivity}
 import android.support.v4.app.Fragment
-import android.app.{Activity, Dialog, ProgressDialog, ActionBar}
+import android.app._
 import com.douban.models.{Book, User}
 import android.view.inputmethod.InputMethodManager
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu
 import scala.util.Failure
-import scala.util.Success
 import com.douban.common.AccessTokenResult
+import org.scaloid.common.LoggerTag
+import scala.util.Success
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -52,6 +53,12 @@ trait Douban {
   protected val rootView: V
 
   def getThisActivity: DoubanActivity
+
+  def toast(message : CharSequence,gravity:Int=Gravity.CENTER)(implicit context : Context) : Unit = runOnUiThread{
+    val toast=Toast.makeText(context, message, Toast.LENGTH_SHORT)
+    toast.setGravity(gravity,0,0)
+    toast.show()
+  }
 
   def setViewValue[T <: V](id: Int, value: String, holder: T = rootView, notification: String = "", hideEmpty: Boolean = true):Unit = {
     setViewValueByView(holder.findViewById(id), value, notification, hideEmpty)
@@ -299,6 +306,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
               })
           case e:IOException => toast(R.string.notify_offline)
           case e:Throwable =>
+            error(e.getStackTrace().map(_.toString).mkString("\n"))
             e.printStackTrace()
             longToast(e.getMessage)
             getThisActivity.finish()
@@ -476,6 +484,15 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     }
   }
 
+  def restartApplication(delay:Int=3000) {
+    val intent = PendingIntent.getActivity(getBaseContext, 0, new Intent(getIntent), getIntent.getFlags)
+    getSystemService(Context.ALARM_SERVICE) match{
+      case manager:AlarmManager=>manager.set(AlarmManager.RTC, System.currentTimeMillis() + delay, intent)
+      case _=>
+    }
+    System.exit(2)
+  }
+
   override def startActivity(intent: Intent){
     super.startActivity(intent)
     overridePendingTransition(R.anim.right_to_enter,R.anim.left_to_exit)
@@ -577,7 +594,7 @@ class ItemAdapter[B <: Any](layoutId: Int, mapping: Map[Int, Any], load: => Unit
     addResult(total,loadedSize,items)
   }
 
-  def getView(position: Int, view: View, parent: ViewGroup): View = if(getCount==0) null else {
+  def getView(position: Int, view: View, parent: ViewGroup): View = if(getCount==0 || position>=getCount) null else {
     val convertView = if (null != view) view else activity.getLayoutInflater.inflate(layoutId, null)
     activity.batchSetValues(mapping, data(position), convertView)
     if (count < total && position +1 >= count) {

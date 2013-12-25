@@ -24,7 +24,7 @@
     <application android:label="@string/app_name" android:icon="@drawable/logo" android:theme="@style/DoubanTheme"
         android:name="com.douban.base.DoubanContext" android:configChanges="orientation|screenSize">
 
-        <activity android:label="@string/app_name" android:name=".SearchActivity" android:windowSoftInputMode="adjustUnspecified|stateHidden" >
+        <activity android:label="@string/app_name" android:name=".SearchActivity" android:windowSoftInputMode="adjustUnspecified|stateHidden" android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -35,21 +35,21 @@
             <meta-data android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
         </activity>
-        <activity android:label="@string/login" android:name=".LoginActivity"/>
-        <activity android:label="@string/search" android:name=".SearchResultActivity" />
+        <activity android:label="@string/login" android:name=".LoginActivity" android:launchMode="singleTask"/>
+      <activity android:label="@string/favorite" android:name=".FavoriteBooksActivity" android:launchMode="singleTask"/>
+      <activity android:label="@string/menu_settings" android:name=".SettingsActivity" android:launchMode="singleTask"/>
+      <activity android:label="@string/mynote" android:name=".MyNoteActivity" android:launchMode="singleTask"/>
+      <activity android:label="关于" android:name=".AboutActivity" android:launchMode="singleTask"/>
         <activity android:label="@string/scan_book" android:name=".ScannerActivity"/>
         <activity android:name=".BookActivity"/>
         <activity android:label="@string/add_collection" android:name=".CollectionActivity" />
         <activity android:label="@string/annotation" android:name=".NotesActivity" />
         <activity android:label="@string/add_note" android:name=".AddNoteActivity" android:windowSoftInputMode="adjustResize"/>
-        <activity android:label="@string/menu_settings" android:name=".SettingsActivity" />
-        <activity android:label="@string/mynote" android:name=".MyNoteActivity"/>
         <activity android:label="@string/annotation" android:name=".PublicNoteViewActivity" />
         <activity android:label="@string/mynote" android:name=".MyNoteViewActivity" />
-        <activity android:label="@string/favorite" android:name=".FavoriteBooksActivity" />
-        <activity android:label="@string/favorite" android:name=".FavoriteBooksListActivity" />
-        <activity android:label="@string/favorite" android:name=".FavoriteBooksFilterActivity" />
-        <activity android:label="关于" android:name=".AboutActivity" />
+        <activity android:label="@string/favorite_search" android:name=".FavoriteBooksListActivity" />
+        <activity android:label="@string/favorite_search" android:name=".FavoriteBooksFilterActivity" />
+        <activity android:label="@string/search" android:name=".SearchResultActivity"/>
         <activity android:name="com.google.zxing.client.android.CaptureActivity"
             android:screenOrientation="landscape"
             android:clearTaskOnLaunch="true"
