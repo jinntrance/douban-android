@@ -313,13 +313,13 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     val sm = new SlidingMenu(this)
     sm.setMode(SlidingMenu.LEFT)
     sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN)
-    sm.setShadowWidthRes(R.dimen.sliding_menu_width)
-    //    sm.setShadowDrawable(R.drawable.shadow)
+//    sm.setShadowWidthRes(R.dimen.sliding_menu_width)
+//        sm.setShadowDrawable(R.drawable.shadow)
     sm.setBehindOffsetRes(R.dimen.sliding_menu_behind_offset)
     sm.setBehindWidthRes(R.dimen.sliding_menu_width)
     sm.setFadeDegree(0.35f)
 //    sm.setAboveOffsetRes(R.dimen.sliding_menu_above_offset)
-    sm.attachToActivity(this, SlidingMenu.SLIDING_WINDOW)
+    sm.attachToActivity(this, SlidingMenu.SLIDING_CONTENT)
     sm.setMenu(R.layout.menu)
 
     if(isAuthenticated) {
@@ -440,12 +440,16 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   }
   def sideMenu(v:View)= {
     v.getId match{
-      case R.id.menu_search=>if(! getThisActivity.isInstanceOf[SearchActivity] ) startActivity(SIntent[SearchActivity]) else slidingMenu.toggle()
-      case R.id.menu_mynote =>if(! getThisActivity.isInstanceOf[MyNoteActivity] )startActivity(SIntent[MyNoteActivity]) else slidingMenu.toggle()
-      case R.id.menu_favbooks =>if(! getThisActivity.isInstanceOf[FavoriteBooksActivity])startActivity(SIntent[FavoriteBooksActivity]) else slidingMenu.toggle()
-      case R.id.menu_settings =>if(! getThisActivity.isInstanceOf[SettingsActivity]) startActivity(SIntent[SettingsActivity]) else slidingMenu.toggle()
-      case _=> slidingMenu
+      case R.id.menu_search if !getThisActivity.isInstanceOf[SearchActivity]=>startActivity(SIntent[SearchActivity])
+      case R.id.menu_mynote if !getThisActivity.isInstanceOf[MyNoteActivity] =>
+        startActivity(SIntent[MyNoteActivity])
+      case R.id.menu_favbooks if !getThisActivity.isInstanceOf[FavoriteBooksActivity] =>
+        startActivity(SIntent[FavoriteBooksActivity])
+      case R.id.menu_settings if !getThisActivity.isInstanceOf[SettingsActivity] =>
+        startActivity(SIntent[SettingsActivity])
+      case _=>
     }
+    slidingMenu.toggle()
   }
 
   def popup(v:View)={
