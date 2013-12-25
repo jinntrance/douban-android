@@ -3,7 +3,7 @@ package com.douban.book
 import com.douban.base.{SwipeGestureDoubanActivity, Constant}
 import android.view._
 import android.os.Bundle
-import android.widget.LinearLayout
+import android.widget.{ScrollView, LinearLayout}
 import org.scaloid.common._
 import android.app.Activity
 import com.douban.models.Book
@@ -32,6 +32,8 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
 
   private def positionFromIntent=getIntent.getIntExtra(Constant.ARG_POSITION,0)
 
+  lazy private val scrollView=find[ScrollView](R.id.scrollView)
+
     override def onCreate(b: Bundle){
       super.onCreate(b)
       setContentView(layoutId)
@@ -43,6 +45,7 @@ class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
     }
 
     def display(position:Int){
+      scrollView.smoothScrollTo(0,0)
       pos=position
       val a= dataList.get(pos)
       setWindowTitle(a.getOrElse("book.title",getString(R.string.annotation)))

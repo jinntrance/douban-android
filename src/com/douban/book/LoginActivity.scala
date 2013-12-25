@@ -19,7 +19,11 @@ class LoginActivity extends DoubanActivity {
   override def onCreate(b: Bundle) {
     super.onCreate(b)
     notifyNetworkState()
-    if(!isOnline) finish()
+    if(!isOnline) {
+      notifyNetworkState()
+      finish()
+    }
+    if(isAuthenticated) finish()
     setContentView(R.layout.login)
     find[WebView](R.id.authView).setWebViewClient(new DoubanWebViewClient)
   }
@@ -56,7 +60,7 @@ class LoginActivity extends DoubanActivity {
               updateToken(t.get)
               Req.init(t.get.access_token)
               toast(R.string.login_successfully)
-              runOnUiThread(finish())
+              restartApplication()
             }
             stopWaiting(sp)
           })

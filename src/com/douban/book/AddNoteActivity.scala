@@ -138,6 +138,7 @@ class AddNoteActivity extends DoubanActivity {
   }
 
   override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    super.onActivityResult(requestCode,resultCode,data)
      if(resultCode==Activity.RESULT_OK) requestCode match{
        case `takingPhotos` => addPicture(currentPic.getPath)
        case `choosingPhotos` => addPicture(contentUriToFilePath(data.getData))

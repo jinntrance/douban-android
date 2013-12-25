@@ -73,10 +73,12 @@ class BookActivity extends DoubanActivity {
 
   def collect(view: View) {
     getIntent.putExtra(STATE_ID, view.getId)
+    getIntent.putExtra(Constant.BOOK_KEY,book)
     startActivityForResult(SIntent[CollectionActivity].putExtras(getIntent),COLLECTION_MODIFICATION_REQUEST)
   }
 
   override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    super.onActivityResult(requestCode,resultCode,data)
     if(resultCode==Activity.RESULT_OK&&requestCode==COLLECTION_MODIFICATION_REQUEST) {
       data.getSerializableExtra(Constant.COLLECTION) match{
         case c:Collection=>book.get.updateExistCollection(c)

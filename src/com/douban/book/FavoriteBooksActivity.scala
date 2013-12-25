@@ -137,6 +137,8 @@ class FavoriteBooksListActivity extends DoubanActivity {
       setViewValue(R.id.currentState, SearchResult.stateMapping.getOrElse(s.status, ""))
     if (s.rating > 0)
       setViewValue(R.id.ratedStars, s.rating + "星")
+    if (s.from.nonEmpty || s.to.nonEmpty)
+      setViewValue(R.id.date_duration,s.from.substring(0,Math.min(s.from.length,10))+"到"+s.to.substring(0,Math.min(s.to.length,10)))
     if(s.tag.nonEmpty)
       setViewValue(R.id.tags_txt,s.tag)
 //    val container = find[TableRow](R.id.tags_container)
@@ -159,6 +161,7 @@ class FavoriteBooksListActivity extends DoubanActivity {
   }
 
   override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    super.onActivityResult(requestCode,resultCode,data)
     if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
       data.getSerializableExtra(Constant.COLLECTION_SEARCH) match {
         case s: CollectionSearch =>
@@ -240,8 +243,17 @@ class FavoriteBooksFilterActivity extends DoubanActivity {
   }
 
   def submit(v: View) {
-    val from = find[EditText](R.id.from_date).getText.toString
-    val to = find[EditText](R.id.to_date).getText.toString
+    val sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ")
+    val textFormat=new SimpleDateFormat("yy-MM-dd")
+
+    val from = find[EditText](R.id.from_date).getText.toString match {
+      case f:String if f.nonEmpty=>sdf.format(textFormat.parse(f))
+      case _=>""
+    }
+    val to = find[EditText](R.id.to_date).getText.toString match {
+      case f:String if f.nonEmpty=>sdf.format(textFormat.parse(f))
+      case _=>""
+    }
     val s = CollectionSearch(state, tags.mkString(" "), find[RatingBar](R.id.rating).getRating.toInt, from, to)
     setResult(Activity.RESULT_OK, getIntent.putExtra(Constant.COLLECTION_SEARCH, s))
     finish()
@@ -266,8 +278,8 @@ class FavoriteBooksFilterActivity extends DoubanActivity {
     }
 
     def onDateSet(view: widget.DatePicker, year: Int, month: Int, day: Int): Unit = {
-      val sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ")
-      val dateString = sdf.format(new GregorianCalendar(year, month, day).getTime)
+      val textFormat = new SimpleDateFormat("yy-MM-dd")
+      val dateString = textFormat.format(new GregorianCalendar(year, month, day).getTime)
       setViewValueByView(anchor, dateString)
     }
   }

@@ -73,6 +73,7 @@ class SearchActivity extends DoubanActivity {
   }
 
   override def onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
+    super.onActivityResult(requestCode,resultCode,intent)
         if (scanRequestCode == requestCode && resultCode == Activity.RESULT_OK) {
           val contents = intent.getStringExtra(Scan.RESULT)
           val format = intent.getStringExtra(Scan.RESULT_FORMAT)

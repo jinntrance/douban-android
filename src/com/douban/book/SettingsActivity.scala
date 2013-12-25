@@ -28,7 +28,7 @@ class SettingsActivity extends DoubanActivity{
        currentUserId
        if(isAuthenticated) setViewValue(R.id.toggleLoginText,"注销")
      }
-    runOnUiThread(onRestart())
+    restartApplication()
   }
   def delCache(v:View){
     getExternalCacheDir.delete()

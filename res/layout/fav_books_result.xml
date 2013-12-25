@@ -58,6 +58,27 @@
                         android:id="@+id/ratedStars" />
                 </TableRow>
             </TableRow>
+          <TableRow   android:id="@+id/duration_container"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:visibility="gone">
+
+            <TextView  style="@style/DoubanText.White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="时间区间：" />
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="全部"    style="@style/DoubanText.FavBooks"
+                  android:id="@+id/date_duration" />
+            </TableRow>
+          </TableRow>
 
             <TableRow  android:id="@+id/tags_layout"
                 android:layout_width="fill_parent"

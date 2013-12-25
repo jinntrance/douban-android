@@ -12,7 +12,7 @@
   <LinearLayout
       android:orientation="horizontal"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="wrap_content" android:clickable="true" android:onClick="viewBook"
       android:background="@color/dark_transparent"
       android:baselineAligned="false">
 

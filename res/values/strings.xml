@@ -57,4 +57,5 @@
   <string name="mynote">我的笔记</string>
   <string name="filter_books">筛选图书</string>
   <string name="filter_result">筛选结果</string>
+  <string name="favorite_search">收藏图书搜索</string>
 </resources>

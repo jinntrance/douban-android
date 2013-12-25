@@ -67,6 +67,7 @@ class MyNoteActivity extends DoubanActivity{
   }
 
   override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    super.onActivityResult(requestCode,resultCode,data)
     if(requestCode==REQUEST_CODE&&resultCode==Activity.RESULT_OK){
       val p=data.getIntExtra(Constant.ARG_POSITION,-1)
       if(-1!=p)
