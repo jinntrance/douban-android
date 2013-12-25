@@ -141,11 +141,6 @@ class FavoriteBooksListActivity extends DoubanActivity {
       setViewValue(R.id.date_duration,s.from.substring(0,Math.min(s.from.length,10))+"到"+s.to.substring(0,Math.min(s.to.length,10)))
     if(s.tag.nonEmpty)
       setViewValue(R.id.tags_txt,s.tag)
-//    val container = find[TableRow](R.id.tags_container)
-//    val white=getResources.getColor(R.color.white)
-//    container.addView(new SVerticalLayout {
-//      s.tag.split(' ').foreach(tag => STextView(tag).textColor(white))
-//    })
   }
 
   def submitFilter(m: MenuItem) {
