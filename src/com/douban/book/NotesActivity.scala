@@ -65,7 +65,7 @@ class NotesActivity extends DoubanActivity {
   }
   def showPopup(v:View)={
     toggleDisplayWhen(R.id.page_num_popup,true)
-    findViewById(R.id.bookPage).requestFocus()
+//    findViewById(R.id.bookPage).requestFocus()
 //    displayKeyboard()
   }
 
