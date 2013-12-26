@@ -591,6 +591,7 @@ class ItemAdapter[B <: Any](layoutId: Int, mapping: Map[Int, Any], load: => Unit
   def replaceResult(total: Long, loadedSize: Int, items: java.util.List[B]) {
     list.clear()
     data.clear()
+    count = 0
     addResult(total,loadedSize,items)
   }
 

@@ -185,8 +185,9 @@ class AddNoteFragment extends DoubanFragment[AddNoteActivity]{
     }
     hideWhen(R.id.note_camera,isIntentUnavailable(MediaStore.ACTION_IMAGE_CAPTURE))
     hideWhen(R.id.note_album,isIntentUnavailable(Intent.ACTION_PICK))
-
-    if(!resuming && activity.bookPage.isEmpty && activity.chapter.isEmpty) getThisActivity.editChapter(null)
+    if(activity.bookPage.isEmpty && activity.chapter.isEmpty)
+      if(!resuming) getThisActivity.editChapter(null)
+      else activity.finish()
     resuming=true
   }
   private def isIntentUnavailable(action:String) :Boolean= {

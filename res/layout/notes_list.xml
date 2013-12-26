@@ -129,7 +129,7 @@
             <ImageView
                 android:clickable="true"
                 android:layout_width="wrap_content"
-                android:onClick="forward"
+                android:id="@+id/forward"
                 android:layout_height="wrap_content"
                 android:src="@drawable/header_submit"
                 android:layout_alignParentBottom="true"
