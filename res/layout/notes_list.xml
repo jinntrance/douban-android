@@ -90,7 +90,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:gravity="center"
+                android:gravity="center" android:focusable="true" android:focusableInTouchMode="true"
                 android:layout_alignParentBottom="true"
                 android:background="@color/background_black_light">
 
@@ -104,11 +104,9 @@
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/bookPage" android:maxLength="6"
-                    android:layout_margin="@dimen/margin_medium"
+                    android:layout_margin="@dimen/margin_medium"   android:focusable="true" android:focusableInTouchMode="true"
                     android:gravity="center"
-                    android:inputType="number">
-                    <requestFocus/>
-                    </EditText>
+                    android:inputType="number" />
 
                 <TextView
                     android:layout_width="wrap_content"
