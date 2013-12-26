@@ -139,7 +139,8 @@ object SearchResult {
   val stateMapping = Map("wish" -> "想读", "reading" -> "在读", "read" -> "读过")
   val idsMap = Map("read" -> R.id.read, "reading" -> R.id.reading, "wish" -> R.id.wish)
   val str2ids=idsMap.map(_.swap)
-  val colorMap=Map(R.id.wish->R.drawable.button_pink,R.id.reading->R.drawable.button_green,R.id.read->R.drawable.button_brown)
+  val drawableMap=Map(R.id.wish->R.drawable.button_pink,R.id.reading->R.drawable.button_green,R.id.read->R.drawable.button_brown)
+  val colorMap=Map(R.id.wish->R.color.background_pink,R.id.reading->R.color.background_green,R.id.read->R.color.background_brown)
 
   val mapping: Map[Int, Any] = Map(
     R.id.bookTitle -> "title", R.id.bookAuthor -> List("author", "translator"), R.id.bookPublisher -> List("publisher", "pubdate"),

@@ -51,12 +51,7 @@ class NotesActivity extends DoubanActivity {
     super.onCreateOptionsMenu(menu)
   }
 
-  def search(v: View) = listFragment.search(v)
-  def forward(v: View) = {
-    listFragment.bookPage=find[EditText](R.id.bookPage).getText.toString
-    listFragment.search(findViewById(R.id.rank))
-    hidePopup(v)
-  }
+  def search(v: View) = listFragment.searchByViewId(v.getId)
 
    override def back(v:View){
     listFragment.bookPage=""
@@ -105,6 +100,12 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
     getListView.setDivider(getResources.getDrawable(R.drawable.divider))
     getListView.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS)
     activity.restoreDefaultActionBar()
+    getView.find[ImageView](R.id.forward).onClick(_=>{
+      bookPage=getView.find[EditText](R.id.bookPage).getText.toString
+      rank=""
+      searchByViewId(R.id.rank)
+      activity.hidePopup(null)
+    })
     search()
   }
 
@@ -144,9 +145,9 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
     activity.startActivity(SIntent[AddNoteActivity].putExtra(Constant.BOOK_ID, activity.bookId).putExtra(Constant.BOOK_PAGE,bookPage))
   }
 
-  def search(v: View) {
+  def searchByViewId(viewId: Int) {
     val order = Map(R.id.rank -> "rank", R.id.collect -> "collect", R.id.page -> "page")
-    v.getId match {
+    viewId match {
       case id: Int if rank!=order.getOrElse(id,"rank") =>
         order.keys.foreach(i=>activity.toggleBackGround(i !=id,i,(R.color.black,R.color.black_light)))
         currentPage = 1

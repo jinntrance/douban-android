@@ -121,7 +121,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
       case _ =>
     }
     activity.setTags(activity.getTags match{
-      case tags:String=>tags
+      case tags:String if tags.nonEmpty=>tags
       case _=> collection.tags.mkString(" ")
     })
 
@@ -142,7 +142,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
             getView.find[Button](id) match {
               case b: Button =>
                 b.setText(b.getText.toString.takeWhile(_ != mark))
-                b.setBackgroundResource(SearchResult.colorMap(b.getId))
+                b.setBackgroundResource(SearchResult.drawableMap(b.getId))
               case _ =>
             }
           }
@@ -234,6 +234,6 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
 
   def tagsAdded()={
     activity.setTags(tags_input.getText.toString)
-    activity.fragmentManager.popBackStack()
+    activity.onBackPressed()
   }
 }
