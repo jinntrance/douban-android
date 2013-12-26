@@ -38,7 +38,7 @@
 
     <EditText
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:id="@+id/comment" android:hint="写简短附注,350字内"
         android:lines="7"
         android:longClickable="true"

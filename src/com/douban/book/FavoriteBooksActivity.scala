@@ -152,6 +152,7 @@ class FavoriteBooksListActivity extends DoubanActivity {
   def toggleHeader(v: View) {
     toggleDisplayWhen(R.id.rating_container, hide)
     toggleDisplayWhen(R.id.tags_layout, hide)
+    toggleDisplayWhen(R.id.duration_container, hide)
     hide = toggleBackGround(hide, R.id.filter_indicator, (R.drawable.filter_result_hide, R.drawable.filter_result_display))
   }
 

@@ -66,8 +66,8 @@
             android:layout_height="match_parent"
             android:id="@+id/notes_list_container">
             <ListView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@android:id/list" />
         </LinearLayout>
 
@@ -102,8 +102,8 @@
 
                 <EditText
                     android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/bookPage" android:maxEms="6"
+                    android:layout_height="wrap_content" android:focusable="true" android:focusableInTouchMode="true"
+                    android:id="@+id/bookPage" android:maxLength="6"
                     android:layout_margin="@dimen/margin_medium"
                     android:gravity="center"
                     android:inputType="number"/>

@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/bookPage"
-            android:hint="页码" android:maxEms="6"
+            android:hint="页码" android:maxLength="6"
             android:layout_margin="@dimen/margin_medium"
             android:inputType="numberSigned"
             android:layout_weight="1" />
@@ -34,7 +34,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/chapter_name"  android:maxEms="100"
+        android:id="@+id/chapter_name"  android:maxLength="100"
         android:layout_margin="@dimen/margin_medium"
         android:hint="章节名" />
 

@@ -49,8 +49,12 @@ class AddNoteActivity extends DoubanActivity {
         bookPage=bp.getText.toString.trim
         chapter=find[EditText](R.id.chapter_name).getText.toString.trim
         if(bookPage.nonEmpty||chapter.nonEmpty) fragmentManager.popBackStack()
-      case _=> future {
-        val a=new AnnotationPosted(find[EditText](R.id.note_input).text.toString,bookPage.toInt,chapter,if(public) "public" else "private")
+        else toast("请填写页码或章节名")
+      case _=>
+        val content=find[EditText](R.id.note_input).text.toString
+        if(content.length<=15) toast("笔记内容需要15字以上哦..")
+        else future {
+        val a=new AnnotationPosted(content,bookPage.toInt,chapter,if(public) "public" else "private")
         a.files=Range(1,notesImage.size).map(_.toString).zip(notesImage).toMap
         toast("正在保存到豆瓣帐号...")
         getIntent.getLongExtra(Constant.BOOK_ID,0) match {
@@ -160,6 +164,7 @@ class AddChapterFragment extends DoubanFragment[AddNoteActivity]{
 
 class AddNoteFragment extends DoubanFragment[AddNoteActivity]{
   private var numOfPics=0
+  private var resuming=false
   def appendPicture(i: Int)={
     getView.find[EditText](R.id.note_input).append(s"<图片${i+numOfPics}>")
   }
@@ -180,7 +185,9 @@ class AddNoteFragment extends DoubanFragment[AddNoteActivity]{
     }
     hideWhen(R.id.note_camera,isIntentUnavailable(MediaStore.ACTION_IMAGE_CAPTURE))
     hideWhen(R.id.note_album,isIntentUnavailable(Intent.ACTION_PICK))
-    if(activity.bookPage.isEmpty && activity.chapter.isEmpty) getThisActivity.editChapter(null)
+
+    if(!resuming && activity.bookPage.isEmpty && activity.chapter.isEmpty) getThisActivity.editChapter(null)
+    resuming=true
   }
   private def isIntentUnavailable(action:String) :Boolean= {
     val packageManager = activity.getPackageManager
