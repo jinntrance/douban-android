@@ -9,9 +9,10 @@ import org.scaloid.common._
 import com.douban.models.AnnotationSearch
 import com.douban.models.AnnotationSearchResult
 import com.douban.models.Annotation
-import android.content.Intent
+import android.content.{Context, Intent}
 import android.app.Activity
 import java.util
+import android.view.inputmethod.InputMethodManager
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -60,15 +61,21 @@ class NotesActivity extends DoubanActivity {
   }
 
   def hidePopup(v:View)={
+    page.clearFocus()
+    getSystemService(Context.INPUT_METHOD_SERVICE) match{
+      case m:InputMethodManager=>m.hideSoftInputFromWindow(page.getWindowToken, 0)
+      case _=>
+    }
     hideWhen(R.id.page_num_popup,true)
-    find[EditText](R.id.bookPage).clearFocus()
-//    hideKeyboard()
   }
+  lazy val page=find[EditText](R.id.bookPage)
   def showPopup(v:View)={
     toggleDisplayWhen(R.id.page_num_popup,true)
-    find[EditText](R.id.bookPage).clearFocus()
-//    findViewById(R.id.bookPage).requestFocus()
-//    displayKeyboard()
+     page.requestFocus()
+    getSystemService(Context.INPUT_METHOD_SERVICE) match{
+      case m:InputMethodManager=>m.showSoftInput(page, InputMethodManager.SHOW_IMPLICIT)
+      case _=>
+    }
   }
 
   def addNote(m: MenuItem) = listFragment match {
