@@ -121,7 +121,7 @@ class BookItemAdapter(mapping: Map[Int, Any], load: => Unit = {})(implicit activ
           case state: TextView =>
             state.setVisibility(View.VISIBLE)
             state.setText(SearchResult.stateMapping(c.status))
-            state.setTextColor(SearchResult.colorMap(SearchResult.idsMap(c.status)))
+            state.setTextColor(activity.getResources.getColor(SearchResult.colorMap(SearchResult.idsMap(c.status))))
           case _ =>
         }
       } else convertView.findViewById(R.id.fav_layout) onClick (v => {

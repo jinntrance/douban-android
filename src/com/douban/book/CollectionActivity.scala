@@ -22,7 +22,7 @@ import android.widget.MultiAutoCompleteTextView.CommaTokenizer
  */
 class CollectionActivity extends DoubanActivity {
   def getTags={
-    getIntent.getStringExtra(Constant.TAGS)
+    getIntent.getExtras.getString(Constant.TAGS,"")
   }
 
   def setTags(tags:String)={
@@ -87,7 +87,6 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
 
   override def onActivityCreated(b: Bundle) {
     super.onActivityCreated(b)
-    activity.replaceActionBar(R.layout.header_edit_collection, getString(R.string.add_collection))
     if(activity.getIntent.getBooleanExtra(Constant.PUBLIC,false))
       checkPrivacy(rootView.findViewById(R.id.privacy))
     activity.book match {
@@ -108,6 +107,10 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
   }
 
 
+  override def onResume(): Unit = {
+    super.onResume()
+    activity.replaceActionBar(R.layout.header_edit_collection, getString(R.string.add_collection))
+  }
 
   def updateCollection(collection: Collection) {
     val currentStatus = getView.find[Button](SearchResult.idsMap(collection.status))

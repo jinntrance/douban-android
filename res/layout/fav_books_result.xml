@@ -4,7 +4,7 @@
     android:layout_width="match_parent" android:layout_height="wrap_content">
 
     <FrameLayout
-        android:layout_width="match_parent"
+        android:layout_width="match_parent"  android:clickable="true" android:onClick="toggleHeader"
         android:layout_height="wrap_content">
 
         <TableLayout
@@ -103,7 +103,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/filter_indicator" android:clickable="true" android:onClick="toggleHeader"
+            android:id="@+id/filter_indicator"
             android:src="@drawable/filter_result_display"
             android:layout_gravity="bottom|right"
             android:layout_margin="@dimen/margin_large" />
