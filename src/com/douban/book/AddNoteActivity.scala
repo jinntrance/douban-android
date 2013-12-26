@@ -3,7 +3,7 @@ package com.douban.book
 import com.douban.base.{Constant, DoubanFragment, DoubanActivity}
 import android.view.{View, ViewGroup, LayoutInflater}
 import android.os.Bundle
-import android.widget.EditText
+import android.widget.{TextView, EditText}
 
 import org.scaloid.common._
 import scala.concurrent._
@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat
 import java.io.File
 import java.util.Date
 import android.net.Uri
+import android.text.{Editable, TextWatcher}
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -40,7 +41,6 @@ class AddNoteActivity extends DoubanActivity {
     bookPage=bundle.getString(Constant.BOOK_PAGE,bookPage)
     chapter=bundle.getString(Constant.ANNOTATION_CHAPTER,chapter)
     fragmentManager.beginTransaction().replace(R.id.add_note_container, new AddNoteFragment().addArguments(bundle),Constant.ACTIVITY_NOTE_ADDITION).commit()
-
   }
 
   def submit(v:View){
@@ -173,6 +173,7 @@ class AddNoteFragment extends DoubanFragment[AddNoteActivity]{
 
   override def onActivityCreated(bd: Bundle) {
     super.onActivityCreated(bd)
+    val counter=getView.find[TextView](R.id.chars_count)
     getArguments match {
       case b: Bundle =>
         val page = b.getString(Constant.BOOK_PAGE, activity.bookPage)
@@ -181,10 +182,18 @@ class AddNoteFragment extends DoubanFragment[AddNoteActivity]{
         numOfPics = b.getString(Constant.ANNOTATION_IMAGES_NUMBER, "0").toInt
         activity.replaceActionBar(R.layout.header_edit_note, if (page.isEmpty) chapter else "P" + page)
         setViewValue(R.id.note_input, content, hideEmpty = false)
+        counter.setText(content.length.toString)
       case _ => activity.replaceActionBar(R.layout.header_edit_note,if(activity.bookPage.isEmpty) activity.chapter else "P"+activity.bookPage)
     }
     hideWhen(R.id.note_camera,isIntentUnavailable(MediaStore.ACTION_IMAGE_CAPTURE))
     hideWhen(R.id.note_album,isIntentUnavailable(Intent.ACTION_PICK))
+    getView.find[EditText](R.id.note_input).addTextChangedListener(new  TextWatcher() {
+      def beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int): Unit = {}
+      def afterTextChanged(s: Editable): Unit = {
+        counter.setText(s.length.toString)
+      }
+      def onTextChanged(s: CharSequence, start: Int, before: Int, count: Int): Unit = {}
+    })
     if(activity.bookPage.isEmpty && activity.chapter.isEmpty)
       if(!resuming) getThisActivity.editChapter(null)
       else activity.finish()

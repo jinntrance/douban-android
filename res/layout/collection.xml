@@ -29,12 +29,22 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content" />
     </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <LinearLayout android:clickable="true" android:onClick="addTag"
         android:layout_width="wrap_content"  android:layout_margin="@dimen/margin_medium"
         android:layout_height="wrap_content" >
         <include layout="@layout/tags"/>
-
     </LinearLayout>
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"  android:layout_gravity="right|center_vertical"
+          android:id="@+id/chars_count" android:text="350"
+          android:layout_marginRight="@dimen/margin_large"
+          android:gravity="center_horizontal"
+          android:layout_alignParentRight="true"
+          android:layout_centerVertical="true" /></RelativeLayout>
 
     <EditText
         android:layout_width="fill_parent"

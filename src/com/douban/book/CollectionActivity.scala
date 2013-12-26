@@ -12,6 +12,7 @@ import scala.Some
 import scala.util.Success
 import android.content.Context
 import android.widget.MultiAutoCompleteTextView.CommaTokenizer
+import android.text.{Editable, TextWatcher}
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -87,6 +88,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
 
   override def onActivityCreated(b: Bundle) {
     super.onActivityCreated(b)
+    val counter=getView.find[TextView](R.id.chars_count)
     if(activity.getIntent.getBooleanExtra(Constant.PUBLIC,false))
       checkPrivacy(rootView.findViewById(R.id.privacy))
     activity.book match {
@@ -94,6 +96,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
         case c: Collection =>
           updateable=true
           updateCollection(c)
+          counter.setText(c.comment.length.toString)
         case _ =>
           val id = getActivity.getIntent.getExtras.getInt(Constant.STATE_ID)
           check(getView.find[Button](if (0 == id) R.id.wish else id))
@@ -104,6 +107,13 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
       }
       case None =>
     }
+    getView.find[EditText](R.id.comment).addTextChangedListener(new  TextWatcher() {
+      def beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int): Unit = { }
+      def afterTextChanged(s: Editable): Unit = {
+        counter.setText(s.toString.length.toString)
+      }
+      def onTextChanged(s: CharSequence, start: Int, before: Int, count: Int): Unit = {}
+    })
   }
 
 

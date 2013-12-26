@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        android:layout_gravity="bottom"
+        android:layout_gravity="bottom"  android:layout_marginRight="@dimen/margin_large"
         android:background="@color/background_white">
 
         <TableLayout
@@ -64,12 +64,22 @@
             android:layout_alignParentRight="true"
             android:layout_alignWithParentIfMissing="false">
 
-            <include layout="@layout/keyboard"
+          <include layout="@layout/keyboard"
                 android:layout_alignParentRight="true"
                 android:layout_margin="@dimen/margin_medium"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content" />
+
         </LinearLayout>
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/chars_count" android:text="0"
+          android:layout_centerVertical="true"
+          android:layout_alignParentRight="true"
+           />
+
     </RelativeLayout>
 
 </LinearLayout>
