@@ -81,7 +81,9 @@ class BookActivity extends DoubanActivity {
     super.onActivityResult(requestCode, resultCode, data)
     if (resultCode == Activity.RESULT_OK && requestCode == COLLECTION_MODIFICATION_REQUEST) {
       data.getSerializableExtra(Constant.COLLECTION) match {
-        case c: Collection => book.get.updateExistCollection(c)
+        case c: Collection =>
+          book.foreach(_.updateExistCollection(c))
+          fragment.updateBookView()
         case _ =>
       }
     }

@@ -181,9 +181,9 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
       else Book.postCollection(activity.book.get.id, p)
     } onComplete {
       case Success(Some(c: Collection)) =>
-        activity.getIntent.putExtra(Constant.COLLECTION, c)
+        val intent=activity.getIntent.putExtra(Constant.COLLECTION, c)
         toast(getString(R.string.collect_successfully))
-        activity.setResult(Activity.RESULT_OK,activity.getIntent)
+        activity.setResult(Activity.RESULT_OK,intent)
         activity.finish()
       case _ => toast(getString(R.string.collect_failed))
     }
