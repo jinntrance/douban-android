@@ -22,26 +22,26 @@ import android.text.{Editable, TextWatcher}
  * @version 1.0
  */
 class CollectionActivity extends DoubanActivity {
-  def getTags={
-    getIntent.getExtras.getString(Constant.TAGS,"")
+  def getTags = {
+    getIntent.getExtras.getString(Constant.TAGS, "")
   }
 
-  def setTags(tags:String)={
-    getIntent.putExtra(Constant.TAGS,tags)
+  def setTags(tags: String) = {
+    getIntent.putExtra(Constant.TAGS, tags)
     find[TextView](R.id.tags_txt).setText(tags)
   }
 
 
-  override def onBackPressed(){
+  override def onBackPressed() {
     //restore the action bar of CollectionActivity
     replaceActionBar(R.layout.header_edit_collection, getString(R.string.add_collection))
     super.onBackPressed()
   }
 
-  lazy val  collectionFrag: Option[CollectionFragment] = Some(findFragment[CollectionFragment](R.id.collectionFragment))
-  lazy val book: Option[Book] = getIntent.getSerializableExtra(Constant.BOOK_KEY) match{
-    case Some(bk:Book)=>Some(bk)
-    case _=>None
+  lazy val collectionFrag: Option[CollectionFragment] = Some(findFragment[CollectionFragment](R.id.collectionFragment))
+  lazy val book: Option[Book] = getIntent.getSerializableExtra(Constant.BOOK_KEY) match {
+    case Some(bk: Book) => Some(bk)
+    case _ => None
   }
 
 
@@ -56,11 +56,11 @@ class CollectionActivity extends DoubanActivity {
     case None =>
   }
 
-  def submit(v: View) =  fragmentManager.findFragmentByTag(Constant.ACTIVITY_TAG) match{
-      case t:TagFragment=>t.tagsAdded()
-      case _=> collectionFrag match {
-        case Some(cf) => cf.submit(v)
-        case _ =>
+  def submit(v: View) = fragmentManager.findFragmentByTag(Constant.ACTIVITY_TAG) match {
+    case t: TagFragment => t.tagsAdded()
+    case _ => collectionFrag match {
+      case Some(cf) => cf.submit(v)
+      case _ =>
     }
   }
 
@@ -72,8 +72,8 @@ class CollectionActivity extends DoubanActivity {
   var fragment: TagFragment = null
 
   def addTag(v: View) {
-    fragment=new TagFragment()
-    fragmentManager.beginTransaction().add(R.id.collection_container, fragment,Constant.ACTIVITY_TAG).addToBackStack(null).commit()
+    fragment = new TagFragment()
+    fragmentManager.beginTransaction().add(R.id.collection_container, fragment, Constant.ACTIVITY_TAG).addToBackStack(null).commit()
   }
 }
 
@@ -81,24 +81,24 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
   var status = "wish"
   var public = true
   val reverseMapping = SearchResult.idsMap.map(_.swap)
-  var updateable=false
+  var updateable = false
 
 
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, b: Bundle): View = inflater.inflate(R.layout.collection, container, false)
 
   override def onActivityCreated(b: Bundle) {
     super.onActivityCreated(b)
-    val counter=getView.find[TextView](R.id.chars_count)
-    if(activity.getIntent.getBooleanExtra(Constant.PUBLIC,false))
+    val counter = getView.find[TextView](R.id.chars_count)
+    if (activity.getIntent.getBooleanExtra(Constant.PUBLIC, false))
       checkPrivacy(rootView.findViewById(R.id.privacy))
     activity.book match {
-      case Some(bk:Book) => bk.current_user_collection match {
+      case Some(bk: Book) => bk.current_user_collection match {
         case c: Collection =>
-          updateable=true
+          updateable = true
           updateCollection(c)
-          c.comment match{
-            case s:String if s.nonEmpty=>counter.setText(s.length.toString)
-            case _=>
+          c.comment match {
+            case s: String if s.nonEmpty => counter.setText(s.length + "/350")
+            case _ =>
           }
 
         case _ =>
@@ -111,11 +111,13 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
       }
       case None =>
     }
-    getView.find[EditText](R.id.comment).addTextChangedListener(new  TextWatcher() {
-      def beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int): Unit = { }
+    getView.find[EditText](R.id.comment).addTextChangedListener(new TextWatcher() {
+      def beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int): Unit = {}
+
       def afterTextChanged(s: Editable): Unit = {
         counter.setText(s.toString.length.toString)
       }
+
       def onTextChanged(s: CharSequence, start: Int, before: Int, count: Int): Unit = {}
     })
   }
@@ -134,9 +136,9 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
       case rat: ReviewRating => getView.find[RatingBar](R.id.rating).setRating(rat.value.toInt)
       case _ =>
     }
-    activity.setTags(activity.getTags match{
-      case tags:String if tags.nonEmpty=>tags
-      case _=> collection.tags.mkString(" ")
+    activity.setTags(activity.getTags match {
+      case tags: String if tags.nonEmpty => tags
+      case _ => collection.tags.mkString(" ")
     })
 
   }
@@ -149,7 +151,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
         val txt: String = b.getText.toString
         if (!txt.contains(mark)) {
           status = reverseMapping(b.getId)
-          activity.getIntent.putExtra(Constant.STATE_ID,status)
+          activity.getIntent.putExtra(Constant.STATE_ID, status)
           b.setText(txt + mark.toString)
           b.setBackgroundResource(R.drawable.button_gray)
           List(R.id.read, R.id.reading, R.id.wish).filter(_ != b.getId).foreach(id => {
@@ -167,18 +169,18 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
   }
 
   def checkPrivacy(v: View) {
-      public = toggleBackGround(public, v, (R.drawable.private_icon, R.drawable.public_icon))
-      activity.getIntent.putExtra(Constant.PUBLIC,public)
+    public = toggleBackGround(public, v, (R.drawable.private_icon, R.drawable.public_icon))
+    activity.getIntent.putExtra(Constant.PUBLIC, public)
   }
 
   def submit(v: View) {
     val p = CollectionPosted(status, activity.getTags, getView.find[EditText](R.id.comment).getText.toString.trim, getView.find[RatingBar](R.id.rating).getRating.toInt, privacy = if (public) "public" else "private")
-    future{
-      if(updateable)  Book.updateCollection(activity.book.get.id,p)
+    future {
+      if (updateable) Book.updateCollection(activity.book.get.id, p)
       else Book.postCollection(activity.book.get.id, p)
     } onComplete {
       case Success(Some(c: Collection)) =>
-        activity.getIntent.putExtra(Constant.COLLECTION,c)
+        activity.getIntent.putExtra(Constant.COLLECTION, c)
         toast(getString(R.string.collect_successfully))
         activity.finish()
       case _ => toast(getString(R.string.collect_failed))
@@ -192,19 +194,18 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, b: Bundle): View = inflater.inflate(R.layout.add_tags, container, false)
 
 
-
   override def onActivityCreated(bundle: Bundle) {
     super.onActivityCreated(bundle)
     activity.replaceActionBar(R.layout.header_edit, getString(R.string.add_tags))
-      future {
-        val r = Book.tagsOf(activity.currentUserId)
-        rootView.find[ListView](R.id.my_tags_list).setAdapter(new TagAdapter(r.tags.map(_.title)))
+    future {
+      val r = Book.tagsOf(activity.currentUserId)
+      rootView.find[ListView](R.id.my_tags_list).setAdapter(new TagAdapter(r.tags.map(_.title)))
     }
     val popTagsAdapter = new TagAdapter(activity.book.get.tags.map(_.title))
     rootView.find[ListView](R.id.pop_tags_list).setAdapter(popTagsAdapter)
     tags_input.setTokenizer(new CommaTokenizer())
 
-    val th=rootView.find[TabHost](R.id.tabHost)
+    val th = rootView.find[TabHost](R.id.tabHost)
     th.setup()
     th.addTab(th.newTabSpec("tab1").setIndicator("热门标签").setContent(R.id.pop_tags))
     th.addTab(th.newTabSpec("tab2").setIndicator("我的标签").setContent(R.id.my_tags))
@@ -218,7 +219,7 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
     override def getView(position: Int, view: View, parent: ViewGroup): View = {
       val convertView = view match {
         case v: View =>
-          toggleDisplayWhen(R.id.checker,tags_input.getText.toString.contains(getItem(position)),view)
+          toggleDisplayWhen(R.id.checker, tags_input.getText.toString.contains(getItem(position)), view)
           view
         case _ => inflater.inflate(R.layout.add_tags_item, parent, false)
       }
@@ -226,9 +227,9 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
         val txt = tags_input.getText.toString
         val tag = getItem(position).toString
         val view = v.findViewById(R.id.checker)
-        if (txt.indexOf(tag)>=0) {
+        if (txt.indexOf(tag) >= 0) {
           view.setVisibility(View.GONE)
-          tags_input.setText(txt.replaceAll(tags.get(position),"").replaceAll("  "," "))
+          tags_input.setText(txt.replaceAll(tags.get(position), "").replaceAll("  ", " "))
         } else {
           view.setVisibility(View.VISIBLE)
           tags_input.append(s" $tag")
@@ -246,7 +247,7 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
     def getCount: Int = tags.size()
   }
 
-  def tagsAdded()={
+  def tagsAdded() = {
     activity.setTags(tags_input.getText.toString)
     activity.onBackPressed()
   }

@@ -1,6 +1,5 @@
 package com.douban.book
 
-import com.douban.base.DoubanFragment
 import org.scaloid.support.v4.SFragment
 
 /**

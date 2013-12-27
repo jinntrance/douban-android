@@ -20,18 +20,18 @@ import com.google.zxing.client.android.Intents.Scan
  */
 class SearchActivity extends DoubanActivity {
   private var doubleBackToExitPressedOnce = false
-  private val scanRequestCode=1
+  private val scanRequestCode = 1
 
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.search)
     findViewById(R.id.searchBookText) match {
-      case s:SearchView=>s setOnQueryTextListener new SearchView.OnQueryTextListener() {
+      case s: SearchView => s setOnQueryTextListener new SearchView.OnQueryTextListener() {
         def onQueryTextSubmit(p1: String): Boolean = search(p1)
 
         def onQueryTextChange(p1: String): Boolean = true
       }
-      case _=>
+      case _ =>
     }
     slidingMenu
   }
@@ -55,7 +55,7 @@ class SearchActivity extends DoubanActivity {
   }
 
   def scan(v: View) {
-      new Intent(Intents.Scan.ACTION).putExtra(Scan.MODE, Scan.ONE_D_MODE)
+    new Intent(Intents.Scan.ACTION).putExtra(Scan.MODE, Scan.ONE_D_MODE)
     startActivityForResult(new Intent(Intents.Scan.ACTION).putExtra(Scan.MODE, Scan.ONE_D_MODE)
       , scanRequestCode)
   }
@@ -73,12 +73,12 @@ class SearchActivity extends DoubanActivity {
   }
 
   override def onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
-    super.onActivityResult(requestCode,resultCode,intent)
-        if (scanRequestCode == requestCode && resultCode == Activity.RESULT_OK) {
-          val contents = intent.getStringExtra(Scan.RESULT)
-          val format = intent.getStringExtra(Scan.RESULT_FORMAT)
-          info(s"scanning result $contents and $format")
-          startActivity(SIntent[BookActivity].putExtra(Constant.ISBN, contents))
-        }
+    super.onActivityResult(requestCode, resultCode, intent)
+    if (scanRequestCode == requestCode && resultCode == Activity.RESULT_OK) {
+      val contents = intent.getStringExtra(Scan.RESULT)
+      val format = intent.getStringExtra(Scan.RESULT_FORMAT)
+      info(s"scanning result $contents and $format")
+      startActivity(SIntent[BookActivity].putExtra(Constant.ISBN, contents))
+    }
   }
 }

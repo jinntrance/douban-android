@@ -10,38 +10,38 @@ import com.douban.common.Auth
  * @version 1.0
  */
 object Constant {
-  val COLLECTION_SEARCH="collectionSearch"
+  val COLLECTION_SEARCH = "collectionSearch"
 
-  val BOOK_TITLE="bookTitle"
+  val BOOK_TITLE = "bookTitle"
 
-  var ANNOTATION_IMAGES_NUMBER="noteImageNumber"
+  var ANNOTATION_IMAGES_NUMBER = "noteImageNumber"
 
-  var ACTIVITY_NOTE_ADDITION: String="noteAddition"
+  var ACTIVITY_NOTE_ADDITION: String = "noteAddition"
 
-  var ANNOTATION_ID="noteId"
-  var ANNOTATION_CHAPTER="noteChapter"
-  var ANNOTATION_CONTENT="noteCotent"
+  var ANNOTATION_ID = "noteId"
+  var ANNOTATION_CHAPTER = "noteChapter"
+  var ANNOTATION_CONTENT = "noteCotent"
 
-  var DATA_LIST: String="dataList"
+  var DATA_LIST: String = "dataList"
 
-  def PUBLIC="public"
+  def PUBLIC = "public"
 
-  var TAGS: String="tags"
+  var TAGS: String = "tags"
 
-  val FRAGMENT_FAV_BOOKS: String="fav_books"
-  val COLLECTION="collection"
-  val ACTIVITY_NOTE_VIEW: String="noteView"
-  val ACTIVITY_TAG: String="tagAdder"
-  val READING_STATUS: String="readingStatus"
-  val AVATAR: String="avatar"
-  val NOTES_NUM: String="notesNum"
-  val COLLE_NUM: String="collectionNum"
+  val FRAGMENT_FAV_BOOKS: String = "fav_books"
+  val COLLECTION = "collection"
+  val ACTIVITY_NOTE_VIEW: String = "noteView"
+  val ACTIVITY_TAG: String = "tagAdder"
+  val READING_STATUS: String = "readingStatus"
+  val AVATAR: String = "avatar"
+  val NOTES_NUM: String = "notesNum"
+  val COLLE_NUM: String = "collectionNum"
 
-  def USERNAME: String="username"
+  def USERNAME: String = "username"
 
-  val BOOK_PAGE="bookPage"
-  val IMAGE: String="image"
-  var UPDATED="updated"
+  val BOOK_PAGE = "bookPage"
+  val IMAGE: String = "image"
+  var UPDATED = "updated"
   val apiKey = Auth.api_key
   val apiSecret = "95125490b60b01ee"
   val scope = Seq("douban_basic_common", "book_basic_r", "book_basic_w").mkString(",")
@@ -56,5 +56,5 @@ object Constant {
   val BOOKS_KEY = "books"
   val SEARCH_TEXT_KEY = "searchText"
 
-  val ACTIVITY_SEARCH="search"
+  val ACTIVITY_SEARCH = "search"
 }

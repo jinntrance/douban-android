@@ -133,18 +133,18 @@ class FavoriteBooksListActivity extends DoubanActivity {
   }
 
   def updateHeader(s: CollectionSearch) {
-    if(s.status.nonEmpty)
+    if (s.status.nonEmpty)
       setViewValue(R.id.currentState, SearchResult.stateMapping.getOrElse(s.status, ""))
     if (s.rating > 0)
       setViewValue(R.id.ratedStars, s.rating + "星")
     if (s.from.nonEmpty || s.to.nonEmpty)
-      setViewValue(R.id.date_duration,s.from.substring(0,Math.min(s.from.length,10))+"到"+s.to.substring(0,Math.min(s.to.length,10)))
-    if(s.tag.nonEmpty)
-      setViewValue(R.id.tags_txt,s.tag)
+      setViewValue(R.id.date_duration, s.from.substring(0, Math.min(s.from.length, 10)) + "到" + s.to.substring(0, Math.min(s.to.length, 10)))
+    if (s.tag.nonEmpty)
+      setViewValue(R.id.tags_txt, s.tag)
   }
 
   def submitFilter(m: MenuItem) {
-    startActivityForResult(SIntent[FavoriteBooksListActivity],REQUEST_CODE)
+    startActivityForResult(SIntent[FavoriteBooksListActivity], REQUEST_CODE)
   }
 
   private var hide = true
@@ -157,7 +157,7 @@ class FavoriteBooksListActivity extends DoubanActivity {
   }
 
   override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-    super.onActivityResult(requestCode,resultCode,data)
+    super.onActivityResult(requestCode, resultCode, data)
     if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
       data.getSerializableExtra(Constant.COLLECTION_SEARCH) match {
         case s: CollectionSearch =>
@@ -185,27 +185,27 @@ class FavoriteBooksListActivity extends DoubanActivity {
 
   def load(status: String, adapter: CollectionItemAdapter) {
     listLoader(
-      toLoad = 1 == currentPage || adapter.getCount< adapter.getTotal,
+      toLoad = 1 == currentPage || adapter.getCount < adapter.getTotal,
       result = {
         val search = CollectionSearch(cs.status, cs.tag, cs.rating, cs.from, cs.to, start = adapter.count, count = countPerPage)
         Book.collectionsOfUser(currentUserId, search)
       },
       success =
         (r: CollectionSearchResult) =>
-          if(r.total==0)
+          if (r.total == 0)
             toast("没有找到对应书籍")
-          else runOnUiThread{
-          if (1 == currentPage) {
-            adapter.replaceResult(r.total, r.collections.size(), r.collections)
-            adapter.notifyDataSetInvalidated()
+          else runOnUiThread {
+            if (1 == currentPage) {
+              adapter.replaceResult(r.total, r.collections.size(), r.collections)
+              adapter.notifyDataSetInvalidated()
+            }
+            else {
+              adapter.addResult(r.total, r.collections.size(), r.collections)
+              adapter.notifyDataSetChanged()
+            }
+            currentPage += 1
+            setTitle(getString(R.string.favorite) + s"(${adapter.getCount}/${r.total})")
           }
-          else {
-            adapter.addResult(r.total, r.collections.size(), r.collections)
-            adapter.notifyDataSetChanged()
-          }
-          currentPage += 1
-          setTitle(getString(R.string.favorite) + s"(${adapter.getCount}/${r.total})")
-      }
     )
   }
 }
@@ -240,15 +240,15 @@ class FavoriteBooksFilterActivity extends DoubanActivity {
 
   def submit(v: View) {
     val sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ")
-    val textFormat=new SimpleDateFormat("yy-MM-dd")
+    val textFormat = new SimpleDateFormat("yy-MM-dd")
 
     val from = find[EditText](R.id.from_date).getText.toString match {
-      case f:String if f.nonEmpty=>sdf.format(textFormat.parse(f))
-      case _=>""
+      case f: String if f.nonEmpty => sdf.format(textFormat.parse(f))
+      case _ => ""
     }
     val to = find[EditText](R.id.to_date).getText.toString match {
-      case f:String if f.nonEmpty=>sdf.format(textFormat.parse(f))
-      case _=>""
+      case f: String if f.nonEmpty => sdf.format(textFormat.parse(f))
+      case _ => ""
     }
     val s = CollectionSearch(state, tags.mkString(" "), find[RatingBar](R.id.rating).getRating.toInt, from, to)
     setResult(Activity.RESULT_OK, getIntent.putExtra(Constant.COLLECTION_SEARCH, s))

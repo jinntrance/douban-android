@@ -20,7 +20,7 @@ platformTarget in Android := "android-18"
 
 javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
 
-scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xcheckinit","#-optimise")
+scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xcheckinit","-optimise")
 
 autoScalaLibrary := false
 
@@ -49,6 +49,8 @@ proguardCache in Android ++=Seq(
 //libraryProjects in Android += android.Dependencies.LibraryProject(file("libs/zxing-android"))
 
 //libraryProjects in Android += android.Dependencies.LibraryProject(file("libs/slidingMenu"))
+
+proguardOptions in Android <++= baseDirectory(_/"proguard-android-optimize.txt").flatMap(f=>task(scala.io.Source.fromFile(f).getLines().toSeq))
 
 proguardOptions in Android <++= baseDirectory(_/"proguard.cfg").flatMap(f=>task(scala.io.Source.fromFile(f).getLines().toSeq))
 

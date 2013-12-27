@@ -54,17 +54,17 @@ trait Douban {
 
   def getThisActivity: DoubanActivity
 
-  def toast(message : CharSequence,gravity:Int=Gravity.CENTER)(implicit context : Context) : Unit = runOnUiThread{
-    val toast=Toast.makeText(context, message, Toast.LENGTH_SHORT)
-    toast.setGravity(gravity,0,0)
+  def toast(message: CharSequence, gravity: Int = Gravity.CENTER)(implicit context: Context): Unit = runOnUiThread {
+    val toast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
+    toast.setGravity(gravity, 0, 0)
     toast.show()
   }
 
-  def setViewValue[T <: V](id: Int, value: String, holder: T = rootView, notification: String = "", hideEmpty: Boolean = true):Unit = {
+  def setViewValue[T <: V](id: Int, value: String, holder: T = rootView, notification: String = "", hideEmpty: Boolean = true): Unit = {
     setViewValueByView(holder.findViewById(id), value, notification, hideEmpty)
   }
 
-  def setViewValueByView(v: => View, value: String, notification: String = "", hideEmpty: Boolean = true):Unit = {
+  def setViewValueByView(v: => View, value: String, notification: String = "", hideEmpty: Boolean = true): Unit = {
     value.trim match {
       case "" if hideEmpty => v match {
         case view: View => runOnUiThread(view.setVisibility(View.GONE))
@@ -83,7 +83,9 @@ trait Douban {
     m.par.foreach {
       case (id, key: String) => setViewValue(id, values.getOrElse(key, ""), holder)
       case (id, (key: String, format: String)) =>
-        setViewValue(id, {val v=values.getOrElse(key, "");if(v.isEmpty) "" else format.format(v)}, holder)
+        setViewValue(id, {
+          val v = values.getOrElse(key, ""); if (v.isEmpty) "" else format.format(v)
+        }, holder)
       case (id, l: List[String]) =>
         setViewValue(id, l.map(values.getOrElse(_, "")).filter(_ != "").mkString(separator), holder)
       case (id, (urlKey: String, (notifyField: String, format: String))) =>
@@ -106,7 +108,8 @@ trait Douban {
   @inline def hideKeyboard() {
     ctx.getWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
   }
-  @inline def displayKeyboard(){
+
+  @inline def displayKeyboard() {
     ctx.getWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
   }
 
@@ -156,22 +159,22 @@ trait Douban {
   }
 
   def isOnline = {
-    ctx.getSystemService(content.Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo match{
-      case activeNetwork:NetworkInfo=>activeNetwork.isConnectedOrConnecting
-      case _=>false
+    ctx.getSystemService(content.Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo match {
+      case activeNetwork: NetworkInfo => activeNetwork.isConnectedOrConnecting
+      case _ => false
     }
 
   }
 
-   def usingWIfi = {
+  def usingWIfi = {
     ctx.getSystemService(content.Context.CONNECTIVITY_SERVICE).asInstanceOf[ConnectivityManager].getActiveNetworkInfo
-    match{
-      case activeNetwork:NetworkInfo=>activeNetwork.getType == ConnectivityManager.TYPE_WIFI
-      case _=>false
+    match {
+      case activeNetwork: NetworkInfo => activeNetwork.getType == ConnectivityManager.TYPE_WIFI
+      case _ => false
     }
   }
 
-   def using2G: Boolean = {
+  def using2G: Boolean = {
     import TelephonyManager._
     ctx.getSystemService(Context.TELEPHONY_SERVICE).asInstanceOf[TelephonyManager].getNetworkType match {
       case NETWORK_TYPE_GPRS | NETWORK_TYPE_EDGE | NETWORK_TYPE_CDMA | NETWORK_TYPE_1xRTT | NETWORK_TYPE_IDEN => true
@@ -183,8 +186,8 @@ trait Douban {
     BitmapFactory.decodeStream(new URL(url).getContent.asInstanceOf[InputStream])
   }
 
-   def loadImageWithTitle(url: String, resId: Int, title: String, holder: V = rootView, updateCache: Boolean = false): Unit
-    = holder.findViewById(resId) match {
+  def loadImageWithTitle(url: String, resId: Int, title: String, holder: V = rootView, updateCache: Boolean = false): Unit
+  = holder.findViewById(resId) match {
     case img: ImageView => loadImage(url, img, ctx.getString(R.string.load_img_fail, title), updateCache)
     case _ =>
   }
@@ -208,6 +211,7 @@ trait Douban {
       case Failure(b) => toast(notification)
     }
   }
+
   def handle[R](result: => R, handler: (R) => Unit) {
     future {
       result
@@ -217,10 +221,11 @@ trait Douban {
     }
   }
 
-  private var _sp:ProgressDialog=null
-  def waitToLoad(cancel: => Unit = {},msg:Int=R.string.loading)(implicit ctx: Context):ProgressDialog = if(isOnline) runOnUiThread{
-    _sp=spinnerDialog("", ctx.getString(msg))
-     //    _sp.getWindow.requestFeature(Window.FEATURE_NO_TITLE)
+  private var _sp: ProgressDialog = null
+
+  def waitToLoad(cancel: => Unit = {}, msg: Int = R.string.loading)(implicit ctx: Context): ProgressDialog = if (isOnline) runOnUiThread {
+    _sp = spinnerDialog("", ctx.getString(msg))
+    //    _sp.getWindow.requestFeature(Window.FEATURE_NO_TITLE)
     _sp.setCanceledOnTouchOutside(true)
     _sp.setCancelable(true)
     _sp.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -231,14 +236,14 @@ trait Douban {
     })
     _sp.show()
     _sp
-  } else{
+  } else {
     notifyNetworkState()
     null
   }
 
-  def stopWaiting(sp:ProgressDialog=null) = runOnUiThread{
-    if(null!=_sp) _sp.cancel()
-    if(null!=sp) sp.cancel()
+  def stopWaiting(sp: ProgressDialog = null) = runOnUiThread {
+    if (null != _sp) _sp.cancel()
+    if (null != sp) sp.cancel()
   }
 
   @inline def notifyNetworkState() {
@@ -246,22 +251,22 @@ trait Douban {
   }
 
 
-  def listLoader[R](toLoad:Boolean=false,result: => R ={}, success: (R) => Unit = (r:R)=>{},failed: =>Unit={},
-                    unfinishable:Boolean=true)= if(toLoad) {
-    val sp:ProgressDialog=if(unfinishable) waitToLoad() else waitToLoad(getThisActivity.finish())
+  def listLoader[R](toLoad: Boolean = false, result: => R = {}, success: (R) => Unit = (r: R) => {}, failed: => Unit = {},
+                    unfinishable: Boolean = true) = if (toLoad) {
+    val sp: ProgressDialog = if (unfinishable) waitToLoad() else waitToLoad(getThisActivity.finish())
     future {
       result
     } onComplete {
       case Success(t) =>
         success(t)
-        if(null!=sp) sp.dismiss()
+        if (null != sp) sp.dismiss()
       case Failure(m) =>
         failed
         error(m.getMessage)
-        if(null!=sp) sp.dismiss()
-      case _=>
+        if (null != sp) sp.dismiss()
+      case _ =>
         failed
-        if(null!=sp) sp.dismiss()
+        if (null != sp) sp.dismiss()
     }
   }
 
@@ -274,22 +279,25 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     case _ => new Fragment().asInstanceOf[T]
   }
 
-  def login(v:View){
-      login()
+  def login(v: View) {
+    login()
   }
 
   override def setTitle(title: CharSequence): Unit = runOnUiThread(super.setTitle(title))
 
-  private var keyboardUp=true
-  def toggleKeyboard(v:View){
-    val manager = getSystemService(Context.INPUT_METHOD_SERVICE).asInstanceOf[InputMethodManager]
-    keyboardUp=toggleBackGround(keyboardUp,v,(R.drawable.keyboard_up,R.drawable.keyboard_down))
-    manager.toggleSoftInput(0,0)
-  }
-  val LOGIN_REQUEST=12
-  @inline def login()=startActivityForResult(SIntent[LoginActivity],LOGIN_REQUEST)
+  private var keyboardUp = true
 
-  protected override def onCreate(b: Bundle){
+  def toggleKeyboard(v: View) {
+    val manager = getSystemService(Context.INPUT_METHOD_SERVICE).asInstanceOf[InputMethodManager]
+    keyboardUp = toggleBackGround(keyboardUp, v, (R.drawable.keyboard_up, R.drawable.keyboard_down))
+    manager.toggleSoftInput(0, 0)
+  }
+
+  val LOGIN_REQUEST = 12
+
+  @inline def login() = startActivityForResult(SIntent[LoginActivity], LOGIN_REQUEST)
+
+  protected override def onCreate(b: Bundle) {
     super.onCreate(b)
     getActionBar.setDisplayHomeAsUpEnabled(true)
     Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
@@ -304,9 +312,9 @@ trait DoubanActivity extends SFragmentActivity with Douban {
                   toast(R.string.relogin_needed)
                 }
               })
-          case e:IOException => toast(R.string.notify_offline)
-          case e:Throwable =>
-            error(e.getStackTrace().map(_.toString).mkString("\n"))
+          case e: IOException => toast(R.string.notify_offline)
+          case e: Throwable =>
+            error(e.getStackTrace.map(_.toString).mkString("\n"))
             e.printStackTrace()
             longToast(e.getMessage)
             getThisActivity.finish()
@@ -321,39 +329,39 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     val sm = new SlidingMenu(this)
     sm.setMode(SlidingMenu.LEFT)
     sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN)
-//    sm.setShadowWidthRes(R.dimen.sliding_menu_width)
-//        sm.setShadowDrawable(R.drawable.shadow)
+    //    sm.setShadowWidthRes(R.dimen.sliding_menu_width)
+    //        sm.setShadowDrawable(R.drawable.shadow)
     sm.setBehindOffsetRes(R.dimen.sliding_menu_behind_offset)
     sm.setBehindWidthRes(R.dimen.sliding_menu_width)
     sm.setFadeDegree(0.35f)
-//    sm.setAboveOffsetRes(R.dimen.sliding_menu_above_offset)
+    //    sm.setAboveOffsetRes(R.dimen.sliding_menu_above_offset)
     sm.attachToActivity(this, SlidingMenu.SLIDING_CONTENT)
     sm.setMenu(R.layout.menu)
 
-    if(isAuthenticated) {
+    if (isAuthenticated) {
       sm.findViewById(R.id.menu_login).setVisibility(View.GONE)
       val userId: Long = currentUserId
-      lazy val user=User.byId(userId)
+      lazy val user = User.byId(userId)
       future {
-        val u=getOrElse(Constant.USERNAME,user.name)
-        val a=getOrElse(Constant.AVATAR,user.large_avatar)
-        val c=getOrElse(Constant.COLLE_NUM,Book.collectionsOfUser(userId).total).toInt
-        val n=getOrElse(Constant.NOTES_NUM,Book.annotationsOfUser(userId).total).toInt
-        (u,a,c,n)
-      } onComplete{
-        case Success((username,a,c,n))=>
-          setViewValue(R.id.username,username)
-          setViewValue(R.id.menu_favbooks,s"${getString(R.string.favorite)}($c)",sm)
-          setViewValue(R.id.menu_mynote,s"${getString(R.string.mynote)}($n)",sm)
-          loadImageWithTitle(a,R.id.user_avatar,username,sm)
-          put(Constant.AVATAR,a)
-          put(Constant.USERNAME,username)
-          put(Constant.COLLE_NUM,c)
-          put(Constant.NOTES_NUM,n)
-        case Failure(e)=>
+        val u = getOrElse(Constant.USERNAME, user.name)
+        val a = getOrElse(Constant.AVATAR, user.large_avatar)
+        val c = getOrElse(Constant.COLLE_NUM, Book.collectionsOfUser(userId).total).toInt
+        val n = getOrElse(Constant.NOTES_NUM, Book.annotationsOfUser(userId).total).toInt
+        (u, a, c, n)
+      } onComplete {
+        case Success((username, a, c, n)) =>
+          setViewValue(R.id.username, username)
+          setViewValue(R.id.menu_favbooks, s"${getString(R.string.favorite)}($c)", sm)
+          setViewValue(R.id.menu_mynote, s"${getString(R.string.mynote)}($n)", sm)
+          loadImageWithTitle(a, R.id.user_avatar, username, sm)
+          put(Constant.AVATAR, a)
+          put(Constant.USERNAME, username)
+          put(Constant.COLLE_NUM, c)
+          put(Constant.NOTES_NUM, n)
+        case Failure(e) =>
           warn("can not login")
           e.printStackTrace()
-        case _=>
+        case _ =>
       }
     }
     else sm.findViewById(R.id.menu_logoned).setVisibility(View.GONE)
@@ -375,21 +383,21 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     setWindowTitle(title)
   }
 
-  @inline def restoreDefaultActionBar()={
-    getActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME|ActionBar.DISPLAY_SHOW_TITLE)
+  @inline def restoreDefaultActionBar() = {
+    getActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE)
   }
 
   def setWindowTitle(title: CharSequence) = setViewValue(R.id.title, title.toString)
 
   def setWindowTitle(title: Int) = setViewValue(R.id.title, title.toString)
 
-  protected override def onOptionsItemSelected(item:MenuItem)= {
+  protected override def onOptionsItemSelected(item: MenuItem) = {
     item.getItemId match {
-      case android.R.id.home=>
+      case android.R.id.home =>
         //        NavUtils.navigateUpFromSameTask(this)
         slidingMenu.toggle()
         true
-      case _=> super.onOptionsItemSelected(item)
+      case _ => super.onOptionsItemSelected(item)
     }
   }
 
@@ -401,11 +409,11 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     }
   }
 
-  def currentUserId:Long = {
-    if(! isAuthenticated) {
+  def currentUserId: Long = {
+    if (!isAuthenticated) {
       login()
     }
-    if(isAuthenticated) get(Constant.userIdString).toLong
+    if (isAuthenticated) get(Constant.userIdString).toLong
     else {
       notifyNetworkState()
       finish()
@@ -414,28 +422,29 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   }
 
   override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-    super.onActivityResult(requestCode,resultCode,data)
+    super.onActivityResult(requestCode, resultCode, data)
     if (requestCode == LOGIN_REQUEST && resultCode == Activity.RESULT_OK && isAuthenticated) {
-        super.onRestart()
+      super.onRestart()
     }
   }
 
-  def currentUserIdWithoutLogin:Long = {
+  def currentUserIdWithoutLogin: Long = {
     get(Constant.userIdString) match {
-      case l:String if isAuthenticated && l.nonEmpty=> l.toLong
-      case _=>0l
+      case l: String if isAuthenticated && l.nonEmpty => l.toLong
+      case _ => 0l
     }
   }
 
-  def get(key: String): String = defaultSharedPreferences.getString(key,null)
-  def getOrElse(key: String,alt: =>Any):String = defaultSharedPreferences.getAll.get(key) match{
-    case v:String=>v
-    case _=>alt.toString
+  def get(key: String): String = defaultSharedPreferences.getString(key, null)
+
+  def getOrElse(key: String, alt: => Any): String = defaultSharedPreferences.getAll.get(key) match {
+    case v: String => v
+    case _ => alt.toString
   }
 
   @inline def contains(key: String): Boolean = defaultSharedPreferences.contains(key) && get(key).nonEmpty
 
- @inline def getAccessToken = {
+  @inline def getAccessToken = {
     if (!contains(Constant.accessTokenString))
       login()
     get(Constant.accessTokenString)
@@ -456,55 +465,57 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     put(Constant.refreshTokenString, t.refresh_token)
     put(Constant.userIdString, t.douban_user_id)
   }
-  def sideMenu(v:View)= {
-    v.getId match{
-      case R.id.menu_search if !getThisActivity.isInstanceOf[SearchActivity]=>startActivity(SIntent[SearchActivity])
+
+  def sideMenu(v: View) = {
+    v.getId match {
+      case R.id.menu_search if !getThisActivity.isInstanceOf[SearchActivity] => startActivity(SIntent[SearchActivity])
       case R.id.menu_mynote if !getThisActivity.isInstanceOf[MyNoteActivity] =>
         startActivity(SIntent[MyNoteActivity])
       case R.id.menu_favbooks if !getThisActivity.isInstanceOf[FavoriteBooksActivity] =>
         startActivity(SIntent[FavoriteBooksActivity])
       case R.id.menu_settings if !getThisActivity.isInstanceOf[SettingsActivity] =>
         startActivity(SIntent[SettingsActivity])
-      case _=>
+      case _ =>
     }
     slidingMenu.toggle()
   }
 
-  def popup(v:View)={
+  def popup(v: View) = {
     v match {
-      case img:ImageView=>
+      case img: ImageView =>
         val imageDialog = new Dialog(this)
         imageDialog.getWindow.requestFeature(Window.FEATURE_NO_TITLE)
-        val layout = getLayoutInflater.inflate(R.layout.image_popup,null)
+        val layout = getLayoutInflater.inflate(R.layout.image_popup, null)
         layout.find[ImageView](R.id.image_popup).setImageDrawable(img.getDrawable)
         imageDialog.setContentView(layout)
         imageDialog.setCancelable(true)
         imageDialog.show()
-      case _=>
+      case _ =>
     }
   }
 
-  def restartApplication(delay:Int=3000) {
+  def restartApplication(delay: Int = 3000) {
     val intent = PendingIntent.getActivity(getBaseContext, 0, new Intent(getIntent), getIntent.getFlags)
-    getSystemService(Context.ALARM_SERVICE) match{
-      case manager:AlarmManager=>manager.set(AlarmManager.RTC, System.currentTimeMillis() + delay, intent)
-      case _=>
+    getSystemService(Context.ALARM_SERVICE) match {
+      case manager: AlarmManager => manager.set(AlarmManager.RTC, System.currentTimeMillis() + delay, intent)
+      case _ =>
     }
     System.exit(2)
   }
 
-  override def startActivity(intent: Intent){
+  override def startActivity(intent: Intent) {
     super.startActivity(intent)
-    overridePendingTransition(R.anim.right_to_enter,R.anim.left_to_exit)
+    overridePendingTransition(R.anim.right_to_enter, R.anim.left_to_exit)
   }
 
-  override def startActivityForResult(intent: Intent, requestCode: Int, options: Bundle) ={
-    super.startActivityForResult(intent,requestCode,options)
-    overridePendingTransition(R.anim.right_to_enter,R.anim.left_to_exit)
+  override def startActivityForResult(intent: Intent, requestCode: Int, options: Bundle) = {
+    super.startActivityForResult(intent, requestCode, options)
+    overridePendingTransition(R.anim.right_to_enter, R.anim.left_to_exit)
   }
-  override def startActivityForResult(intent: Intent, requestCode: Int) ={
-    super.startActivityForResult(intent,requestCode)
-    overridePendingTransition(R.anim.right_to_enter,R.anim.left_to_exit)
+
+  override def startActivityForResult(intent: Intent, requestCode: Int) = {
+    super.startActivityForResult(intent, requestCode)
+    overridePendingTransition(R.anim.right_to_enter, R.anim.left_to_exit)
   }
 }
 
@@ -512,7 +523,7 @@ trait DoubanListFragment[T <: DoubanActivity] extends SListFragment with Douban 
 
   override def getThisActivity: T = getActivity.asInstanceOf[T]
 
-  override lazy val activity:T=getThisActivity
+  override lazy val activity: T = getThisActivity
 
   override lazy val rootView: View = getView
 
@@ -524,7 +535,7 @@ trait DoubanListFragment[T <: DoubanActivity] extends SListFragment with Douban 
   def popup(img: View) {
     img match {
       case image: ImageView => startActivity[ImagePopupActivity]
-      case _=>
+      case _ =>
     }
   }
 }
@@ -533,7 +544,7 @@ trait DoubanFragment[T <: DoubanActivity] extends SFragment with Douban {
 
   override def getThisActivity: T = getActivity.asInstanceOf[T]
 
-  override lazy val activity:T=getThisActivity
+  override lazy val activity: T = getThisActivity
 
   override lazy val rootView: View = getView
 
@@ -555,7 +566,7 @@ case class DBundle(b: Bundle = new Bundle()) {
     b
   }
 
-   def put(bd: Bundle): Bundle = {
+  def put(bd: Bundle): Bundle = {
     b.putAll(bd)
     b
   }
@@ -575,7 +586,7 @@ class ItemAdapter[B <: Any](layoutId: Int, mapping: Map[Int, Any], load: => Unit
 
   def getBean(index: Int): B = list.get(index)
 
-  def getData=data
+  def getData = data
 
   def getItemId(position: Int): Long = position
 
@@ -586,37 +597,38 @@ class ItemAdapter[B <: Any](layoutId: Int, mapping: Map[Int, Any], load: => Unit
     data ++= items.map(beanToMap(_))
   }
 
-  protected def selfLoad()=load
+  protected def selfLoad() = load
 
   def replaceResult(total: Long, loadedSize: Int, items: java.util.List[B]) {
     list.clear()
     data.clear()
     count = 0
-    addResult(total,loadedSize,items)
+    addResult(total, loadedSize, items)
   }
 
-  def getView(position: Int, view: View, parent: ViewGroup): View = if(getCount==0 || position>=getCount) null else {
+  def getView(position: Int, view: View, parent: ViewGroup): View = if (getCount == 0 || position >= getCount) null
+  else {
     val convertView = if (null != view) view else activity.getLayoutInflater.inflate(layoutId, null)
     activity.batchSetValues(mapping, data(position), convertView)
-    if (count < total && position +1 >= count) {
+    if (count < total && position + 1 >= count) {
       selfLoad()
     }
     convertView
   }
 }
 
-case class ListResult[T](total:Int,list:java.util.List[T])
+case class ListResult[T](total: Int, list: java.util.List[T])
 
-trait SwipeGestureDoubanActivity extends DoubanActivity{
-  lazy val detector = new GestureDetector(this,new GestureDetector.SimpleOnGestureListener() {
+trait SwipeGestureDoubanActivity extends DoubanActivity {
+  lazy val detector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
 
-    override def onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float)={
+    override def onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float) = {
       val offset: Float = e2.getRawX - e1.getRawX
       val threshold: Int = 100
       if (offset > threshold) {
         showPre()
         true
-      }else if (offset < -threshold) {
+      } else if (offset < -threshold) {
         showNext()
         true
       } else false
@@ -624,8 +636,8 @@ trait SwipeGestureDoubanActivity extends DoubanActivity{
 
   })
 
-  override def dispatchTouchEvent(event: MotionEvent)= {
-    detector.onTouchEvent(event)||super.dispatchTouchEvent(event)
+  override def dispatchTouchEvent(event: MotionEvent) = {
+    detector.onTouchEvent(event) || super.dispatchTouchEvent(event)
   }
 
   def showNext()

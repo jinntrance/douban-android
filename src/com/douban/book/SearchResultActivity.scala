@@ -30,7 +30,7 @@ class SearchResultActivity extends DoubanActivity {
     slidingMenu
   }
 
-  def updateTitle(append:String="") {
+  def updateTitle(append: String = "") {
     setTitle(getString(R.string.search_result, searchText))
   }
 }
@@ -107,10 +107,10 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
 }
 
 class BookItemAdapter(mapping: Map[Int, Any], load: => Unit = {})(implicit activity: DoubanActivity) extends
-    ItemAdapter[Book](R.layout.book_list_item,mapping,load=load) {
+ItemAdapter[Book](R.layout.book_list_item, mapping, load = load) {
 
   override def getView(position: Int, view: View, parent: ViewGroup): View = {
-    val convertView = super.getView(position,view,parent)
+    val convertView = super.getView(position, view, parent)
     if (null != convertView) {
       val b = getBean(position)
       val c: Collection = b.current_user_collection
@@ -138,21 +138,22 @@ object SearchResult {
   val STATE_STRING = "current_user_collection.status"
   val stateMapping = Map("wish" -> "想读", "reading" -> "在读", "read" -> "读过")
   val idsMap = Map("read" -> R.id.read, "reading" -> R.id.reading, "wish" -> R.id.wish)
-  val str2ids=idsMap.map(_.swap)
-  val drawableMap=Map(R.id.wish->R.drawable.button_pink,R.id.reading->R.drawable.button_green,R.id.read->R.drawable.button_brown)
-  val colorMap=Map(R.id.wish->R.color.background_pink,R.id.reading->R.color.background_green,R.id.read->R.color.background_brown)
+  val str2ids = idsMap.map(_.swap)
+  val drawableMap = Map(R.id.wish -> R.drawable.button_pink, R.id.reading -> R.drawable.button_green, R.id.read -> R.drawable.button_brown)
+  val colorMap = Map(R.id.wish -> R.color.background_pink, R.id.reading -> R.color.background_green, R.id.read -> R.color.background_brown)
 
   val mapping: Map[Int, Any] = Map(
     R.id.bookTitle -> "title", R.id.bookAuthor -> List("author", "translator"), R.id.bookPublisher -> List("publisher", "pubdate"),
     R.id.ratingNum ->("rating.numRaters", "(%s)"), R.id.ratedStars -> "rating.average"
   )
-  def getStar(rat: ReviewRating):String= {
+
+  def getStar(rat: ReviewRating): String = {
     val r = Array("很差", "较差", "还行", "推荐", "力荐")
     rat match {
       case rat: ReviewRating =>
         val rating = rat.value.toInt
         if (rating > 0 && rating <= 5) rating + "星" + r(rating - 1) else ""
-      case _ =>""
+      case _ => ""
     }
   }
 }

@@ -8,7 +8,6 @@ import org.scaloid.common._
 import android.app.Activity
 import com.douban.models.Book
 import java.util
-import android.graphics.Color
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -20,108 +19,108 @@ import android.graphics.Color
 
 class PublicNoteViewActivity extends NoteViewActivity(R.layout.note_view)
 
-class NoteViewActivity(layoutId:Int) extends SwipeGestureDoubanActivity{
-  var count=0
-  val mapping:Map[Int,Any]=NotesActivity.mapping++Map(R.id.user_avatar->"author_user.avatar")
+class NoteViewActivity(layoutId: Int) extends SwipeGestureDoubanActivity {
+  var count = 0
+  val mapping: Map[Int, Any] = NotesActivity.mapping ++ Map(R.id.user_avatar -> "author_user.avatar")
   var pos = 0
 
-  lazy val dataList:util.List[Map[String,String]]=getIntent.getSerializableExtra(Constant.DATA_LIST) match {
-    case a:util.ArrayList[Map[String,String]]=>a
-    case _=>this.finish();null
+  lazy val dataList: util.List[Map[String, String]] = getIntent.getSerializableExtra(Constant.DATA_LIST) match {
+    case a: util.ArrayList[Map[String, String]] => a
+    case _ => this.finish(); null
   }
 
-  private def positionFromIntent=getIntent.getIntExtra(Constant.ARG_POSITION,0)
+  private def positionFromIntent = getIntent.getIntExtra(Constant.ARG_POSITION, 0)
 
-  lazy private val scrollView=find[ScrollView](R.id.scrollView)
+  lazy private val scrollView = find[ScrollView](R.id.scrollView)
 
-    override def onCreate(b: Bundle){
-      super.onCreate(b)
-      setContentView(layoutId)
-      pos=positionFromIntent
-      count=dataList.size()
-      replaceActionBar(R.layout.header_note,getString(R.string.annotation))
-      display(pos)
-      toast("左右滑动翻看笔记")
-    }
+  override def onCreate(b: Bundle) {
+    super.onCreate(b)
+    setContentView(layoutId)
+    pos = positionFromIntent
+    count = dataList.size()
+    replaceActionBar(R.layout.header_note, getString(R.string.annotation))
+    display(pos)
+    toast("左右滑动翻看笔记")
+  }
 
-    def display(position:Int){
-      scrollView.smoothScrollTo(0,0)
-      pos=position
-      val a= dataList.get(pos)
-      setWindowTitle(a.getOrElse("book.title",getString(R.string.annotation)))
-      batchSetValues(mapping,a)
-      val container: LinearLayout = find[LinearLayout](R.id.note_content)
-      val black=getResources.getColor(R.color.text_black)
-      container.removeAllViews()
-      container.addView(parse(a.getOrElse("content","")))
-      def parse(c:String,layout:SLinearLayout=new SVerticalLayout{}):SLinearLayout={
-        c match{
-          case r"([\s\S]*?)${pre}<原文开始>([\s\S]+?)${txt}</原文结束>([\s\S]*)${suffix}"=>{
-            parse(pre,layout)
-            layout+= new SLinearLayout {
-              SImageView(R.drawable.add_note_context).<<.wrap.>>.onClick(popup(_))
-              STextView(txt.trim).<<.wrap.Weight(1.0f).>>
-            }
-            parse(suffix,layout)
+  def display(position: Int) {
+    scrollView.smoothScrollTo(0, 0)
+    pos = position
+    val a = dataList.get(pos)
+    setWindowTitle(a.getOrElse("book.title", getString(R.string.annotation)))
+    batchSetValues(mapping, a)
+    val container: LinearLayout = find[LinearLayout](R.id.note_content)
+    val black = getResources.getColor(R.color.text_black)
+    container.removeAllViews()
+    container.addView(parse(a.getOrElse("content", "")))
+    def parse(c: String, layout: SLinearLayout = new SVerticalLayout {}): SLinearLayout = {
+      c match {
+        case r"([\s\S]*?)${pre}<原文开始>([\s\S]+?)${txt}</原文结束>([\s\S]*)${suffix}" =>
+          parse(pre, layout)
+          layout += new SLinearLayout {
+            SImageView(R.drawable.add_note_context).<<.wrap.>>.onClick(popup(_))
+            STextView(txt.trim).<<.wrap.Weight(1.0f).>>
           }
-          case r"([\s\S]*?)${pre}<图片(\d+)${imgUrl}>([\s\S]*)${suffix}"=>
-            parse(pre,layout)
-            layout += new SLinearLayout{
-              val img=SImageView()
-              loadImage(a.getOrElse(s"photos.$imgUrl",""),img)
-            }
-            parse(suffix,layout)
-          case ""=> layout
-          case txt=> layout+= new SLinearLayout{
-            STextView(txt).textColor(black)
+          parse(suffix, layout)
+        case r"([\s\S]*?)${pre}<图片(\d+)${imgUrl}>([\s\S]*)${suffix}" =>
+          parse(pre, layout)
+          layout += new SLinearLayout {
+            val img = SImageView()
+            loadImage(a.getOrElse(s"photos.$imgUrl", ""), img)
           }
+          parse(suffix, layout)
+        case "" => layout
+        case txt => layout += new SLinearLayout {
+          STextView(txt).textColor(black)
         }
       }
     }
+  }
 
-  override def finish(){
-    setResult(Activity.RESULT_OK,getIntent.putExtra(Constant.ARG_POSITION,pos))
+  override def finish() {
+    setResult(Activity.RESULT_OK, getIntent.putExtra(Constant.ARG_POSITION, pos))
     super.finish()
   }
 
-  def viewBook(v:View) {
+  def viewBook(v: View) {
     val bookId: String = dataList.get(pos).getOrElse("book_id", "0")
     val title: String = dataList.get(pos).getOrElse("book.title", "")
-    if(bookId.toLong>0)
-      startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_ID,bookId).putExtra(Constant.BOOK_TITLE,title))
+    if (bookId.toLong > 0)
+      startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_ID, bookId).putExtra(Constant.BOOK_TITLE, title))
   }
 
   override def onCreateOptionsMenu(menu: Menu): Boolean = {
-    if(currentUserIdWithoutLogin.toString == dataList.get(positionFromIntent).getOrElse("author_id","")){
-      getMenuInflater.inflate(R.menu.edit_note,menu)
+    if (currentUserIdWithoutLogin.toString == dataList.get(positionFromIntent).getOrElse("author_id", "")) {
+      getMenuInflater.inflate(R.menu.edit_note, menu)
       true
-    }else super.onCreateOptionsMenu(menu)
+    } else super.onCreateOptionsMenu(menu)
   }
 
-  def editNote(m:MenuItem)={
-    val annotation=dataList.get(pos)
-    val page=annotation.getOrElse("page_no","")
-    val chapter=annotation.getOrElse("chapter","")
-    val content=annotation.getOrElse("content","")
-    val id=annotation.getOrElse("id","0")
-    startActivity(SIntent[AddNoteActivity].putExtra(Constant.ANNOTATION_ID,id).putExtra(Constant.BOOK_PAGE,page).
-      putExtra(Constant.ANNOTATION_CHAPTER,chapter).putExtra(Constant.ANNOTATION_CONTENT,content).
-      putExtra(Constant.ANNOTATION_IMAGES_NUMBER,annotation.getOrElse("last_photo","0")))
+  def editNote(m: MenuItem) = {
+    val annotation = dataList.get(pos)
+    val page = annotation.getOrElse("page_no", "")
+    val chapter = annotation.getOrElse("chapter", "")
+    val content = annotation.getOrElse("content", "")
+    val id = annotation.getOrElse("id", "0")
+    startActivity(SIntent[AddNoteActivity].putExtra(Constant.ANNOTATION_ID, id).putExtra(Constant.BOOK_PAGE, page).
+      putExtra(Constant.ANNOTATION_CHAPTER, chapter).putExtra(Constant.ANNOTATION_CONTENT, content).
+      putExtra(Constant.ANNOTATION_IMAGES_NUMBER, annotation.getOrElse("last_photo", "0")))
   }
-  def deleteNote(m:MenuItem)={
-    handle(Book.deleteAnnotation(dataList.get(pos).getOrElse("id","0").toLong),
-      (deleted:Boolean)=>{
-      toast(if(deleted) R.string.removed_successfully else R.string.removed_unsuccessfully)
-    })
+
+  def deleteNote(m: MenuItem) = {
+    handle(Book.deleteAnnotation(dataList.get(pos).getOrElse("id", "0").toLong),
+      (deleted: Boolean) => {
+        toast(if (deleted) R.string.removed_successfully else R.string.removed_unsuccessfully)
+      })
   }
 
   def showNext(): Unit = {
-    pos=(pos+1)%count //TODO load new notes
+    pos = (pos + 1) % count //TODO load new notes
     display(pos)
   }
 
   def showPre(): Unit = {
-    pos=(count+pos-1)%count
+    pos = (count + pos - 1) % count
     display(pos)
   }
 }
