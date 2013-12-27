@@ -182,7 +182,11 @@ class AddNoteFragment extends DoubanFragment[AddNoteActivity]{
         numOfPics = b.getString(Constant.ANNOTATION_IMAGES_NUMBER, "0").toInt
         activity.replaceActionBar(R.layout.header_edit_note, if (page.isEmpty) chapter else "P" + page)
         setViewValue(R.id.note_input, content, hideEmpty = false)
-        counter.setText(content.length.toString)
+        content match{
+          case s:String if s.nonEmpty=>counter.setText(s.toString)
+          case _=>
+        }
+
       case _ => activity.replaceActionBar(R.layout.header_edit_note,if(activity.bookPage.isEmpty) activity.chapter else "P"+activity.bookPage)
     }
     hideWhen(R.id.note_camera,isIntentUnavailable(MediaStore.ACTION_IMAGE_CAPTURE))

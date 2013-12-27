@@ -96,7 +96,11 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
         case c: Collection =>
           updateable=true
           updateCollection(c)
-          counter.setText(c.comment.length.toString)
+          c.comment match{
+            case s:String if s.nonEmpty=>counter.setText(s.length.toString)
+            case _=>
+          }
+
         case _ =>
           val id = getActivity.getIntent.getExtras.getInt(Constant.STATE_ID)
           check(getView.find[Button](if (0 == id) R.id.wish else id))
