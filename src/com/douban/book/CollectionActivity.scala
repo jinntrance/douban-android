@@ -1,6 +1,6 @@
 package com.douban.book
 
-import com.douban.base.{DoubanFragment, Constant, DoubanActivity}
+import com.douban.base.{DBundle, DoubanFragment, Constant, DoubanActivity}
 import android.os.Bundle
 import com.douban.models.{ReviewRating, Book, CollectionPosted, Collection}
 import android.widget._
@@ -13,6 +13,7 @@ import scala.util.Success
 import android.content.Context
 import android.widget.MultiAutoCompleteTextView.CommaTokenizer
 import android.text.{Editable, TextWatcher}
+import android.app.Activity
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -115,7 +116,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
       def beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int): Unit = {}
 
       def afterTextChanged(s: Editable): Unit = {
-        counter.setText(s.toString.length.toString)
+        counter.setText(s.toString.length+"/350")
       }
 
       def onTextChanged(s: CharSequence, start: Int, before: Int, count: Int): Unit = {}
@@ -182,6 +183,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
       case Success(Some(c: Collection)) =>
         activity.getIntent.putExtra(Constant.COLLECTION, c)
         toast(getString(R.string.collect_successfully))
+        activity.setResult(Activity.RESULT_OK,activity.getIntent)
         activity.finish()
       case _ => toast(getString(R.string.collect_failed))
     }
@@ -224,12 +226,12 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
         case _ => inflater.inflate(R.layout.add_tags_item, parent, false)
       }
       convertView.findViewById(R.id.tag_container).onClick(v => {
-        val txt = tags_input.getText.toString
+        val txt = tags_input.getText.toString.split(' ').toSet
         val tag = getItem(position).toString
         val view = v.findViewById(R.id.checker)
-        if (txt.indexOf(tag) >= 0) {
+        if (txt.contains(tag)) {
           view.setVisibility(View.GONE)
-          tags_input.setText(txt.replaceAll(tags.get(position), "").replaceAll("  ", " "))
+          tags_input.setText(txt-tag mkString " ")
         } else {
           view.setVisibility(View.VISIBLE)
           tags_input.append(s" $tag")

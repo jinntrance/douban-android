@@ -157,7 +157,8 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
   }
 
   def addNote() {
-    activity.startActivity(SIntent[AddNoteActivity].putExtra(Constant.BOOK_ID, activity.bookId).putExtra(Constant.BOOK_PAGE, bookPage))
+    activity.startActivity(SIntent[AddNoteActivity].putExtra(Constant.BOOK_ID, activity.bookId).
+      putExtra(Constant.BOOK_PAGE, if(bookPage.trim.nonEmpty) bookPage.trim else null))
   }
 
   def searchByViewId(viewId: Int) {
