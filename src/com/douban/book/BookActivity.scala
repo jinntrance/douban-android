@@ -160,7 +160,9 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
             List(R.id.delete)
         }
         val l = rootView.find[LinearLayout](R.id.status_layout)
-        runOnUiThread(toDel.foreach(id => l.removeView(rootView.findViewById(id))))
+        runOnUiThread(List(R.id.reading,R.id.wish,R.id.read,R.id.delete).foreach(id=>{
+          toggleDisplayWhen(id,! toDel.contains(id),l)
+        }))
 
         batchSetValues(SearchResult.mapping ++ Map(R.id.bookSubtitle -> "subtitle", R.id.bookPages -> "pages", R.id.bookPrice -> "price",
           R.id.book_author_abstract -> "author_intro", R.id.book_author_abstract_longtext -> "author_intro",
