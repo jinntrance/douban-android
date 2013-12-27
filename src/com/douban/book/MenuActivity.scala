@@ -3,12 +3,6 @@ package com.douban.book
 import com.douban.base.{DoubanActivity, DoubanFragment}
 import android.view.{View, ViewGroup, LayoutInflater}
 import android.os.Bundle
-import scala.concurrent._
-import com.douban.models.{Book, User}
-import scala.util.Success
-import org.scaloid.common._
-import android.widget.LinearLayout
-import ExecutionContext.Implicits.global
 
 
 /**
@@ -21,7 +15,7 @@ import ExecutionContext.Implicits.global
 class MenuActivity {
 }
 
-class MenuFragment extends DoubanFragment[DoubanActivity]{
-  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = inflater.inflate(R.layout.menu,container,false)
+class MenuFragment extends DoubanFragment[DoubanActivity] {
+  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = inflater.inflate(R.layout.menu, container, false)
 
 }

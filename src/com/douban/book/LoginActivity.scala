@@ -19,11 +19,11 @@ class LoginActivity extends DoubanActivity {
   override def onCreate(b: Bundle) {
     super.onCreate(b)
     notifyNetworkState()
-    if(!isOnline) {
+    if (!isOnline) {
       notifyNetworkState()
       finish()
     }
-    if(isAuthenticated) finish()
+    if (isAuthenticated) finish()
     setContentView(R.layout.login)
     find[WebView](R.id.authView).setWebViewClient(new DoubanWebViewClient)
   }
@@ -51,7 +51,7 @@ class LoginActivity extends DoubanActivity {
       if (redirectedUrl.startsWith(redirect_url)) {
         if (redirectedUrl.contains("error=")) toast(R.string.login_failed)
         else {
-          val sp=waitToLoad(msg=R.string.logining)
+          val sp = waitToLoad(msg = R.string.logining)
           handle({
             Auth.getTokenByCode(extractCode(redirectedUrl), Constant.apiKey, Constant.apiSecret)
           }, (t: Option[AccessTokenResult]) => {
