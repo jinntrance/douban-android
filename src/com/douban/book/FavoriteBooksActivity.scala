@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat
 import java.util.{GregorianCalendar, Calendar}
 import android.support.v4.app.DialogFragment
 import android.widget
+import scala.concurrent._
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -50,6 +51,13 @@ class FavoriteBooksActivity extends DoubanActivity {
     val readAdapter = new CollectionItemAdapter("read", load)
     find[ListView](R.id.read) onItemClick readAdapter.listener setAdapter readAdapter
     load("read", readAdapter)
+    future{
+      Book.collectionsOfUser(currentUserId).total
+    }onSuccess{
+      case (total:Int)=>
+        put(Constant.COLLE_NUM,total)
+        setViewValue(R.id.menu_favbooks, s"${getString(R.string.favorite)}($total)", slidingMenu)
+    }
     waiting
   }
 
