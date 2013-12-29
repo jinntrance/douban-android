@@ -269,7 +269,6 @@ trait Douban {
         if (null != sp) sp.dismiss()
     }
   }
-
 }
 
 trait DoubanActivity extends SFragmentActivity with Douban {
@@ -610,7 +609,7 @@ class ItemAdapter[B <: Any](layoutId: Int, mapping: Map[Int, Any], load: => Unit
   else {
     val convertView = if (null != view) view else activity.getLayoutInflater.inflate(layoutId, null)
     activity.batchSetValues(mapping, data(position), convertView)
-    if (count < total && position + 1 >= count) {
+    if (count < total && position + 1 == count) {
       selfLoad()
     }
     convertView

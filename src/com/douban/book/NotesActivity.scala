@@ -115,12 +115,18 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
     getListView.setDivider(getResources.getDrawable(R.drawable.divider))
     getListView.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS)
     activity.restoreDefaultActionBar()
-    getView.find[ImageView](R.id.forward).onClick(_ => {
-      bookPage = getView.find[EditText](R.id.bookPage).getText.toString
-      rank = ""
-      searchByViewId(R.id.rank)
-      activity.hidePopup(null)
-    })
+    activity.getIntent.getExtras.getString(Constant.BOOK_PAGE) match {
+      case s:String=>
+        bookPage=s
+        getView.findViewById(R.id.notes_list_header).setVisibility(View.GONE)
+      case _=>
+        getView.find[ImageView](R.id.forward).onClick(_ => {
+          val bookPage = getView.find[EditText](R.id.bookPage).getText.toString
+          startActivity(SIntent[NotesActivity].putExtra(Constant.BOOK_ID, activity.bookId).
+            putExtra(Constant.BOOK_PAGE,bookPage))
+          activity.hidePopup(null)
+        })
+    }
     search()
   }
 

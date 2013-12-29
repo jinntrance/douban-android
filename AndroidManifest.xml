@@ -36,9 +36,9 @@
                 android:resource="@xml/searchable"/>
         </activity>
         <activity android:label="@string/login" android:name=".LoginActivity" android:launchMode="singleTask"/>
-      <activity android:label="@string/favorite" android:name=".FavoriteBooksActivity" android:launchMode="singleTask"/>
+      <activity android:label="@string/favorite" android:name=".FavoriteBooksActivity" android:launchMode="singleTop"/>
       <activity android:label="@string/menu_settings" android:name=".SettingsActivity" android:launchMode="singleTask"/>
-      <activity android:label="@string/mynote" android:name=".MyNoteActivity" android:launchMode="singleTask"/>
+      <activity android:label="@string/mynote" android:name=".MyNoteActivity" android:launchMode="singleTop"/>
       <activity android:label="关于" android:name=".AboutActivity" android:launchMode="singleTask"/>
         <activity android:label="@string/scan_book" android:name=".ScannerActivity"/>
         <activity android:name=".BookActivity"/>
