@@ -96,7 +96,7 @@ class BookActivity extends DoubanActivity {
           book match {
             case Some(b: Book) if Book.deleteCollection(b.id) =>
               toast(R.string.decollect_successfully)
-              book.get.updateExistCollection(null)
+              book.foreach(_.updateExistCollection(null))
               fragment.updateBookView()
             case _ => toast(R.string.decollect_unsuccessfully)
           }

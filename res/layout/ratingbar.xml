@@ -6,6 +6,5 @@
     android:layout_height="wrap_content"
     android:id="@+id/rating"
     android:stepSize="1"
-    android:rating="3"
     android:numStars="5" style="@style/DoubanRatingBar"
     android:layout_gravity="center" />
