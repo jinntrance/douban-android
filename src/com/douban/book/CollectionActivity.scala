@@ -203,8 +203,16 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
     activity.replaceActionBar(R.layout.header_edit, getString(R.string.add_tags))
     future {
       val r = Book.tagsOf(activity.currentUserId)
-      rootView.find[ListView](R.id.my_tags_list).setAdapter(new TagAdapter(r.tags.map(_.title)))
+      val tags=r.tags.map(_.title)
+      rootView.find[ListView](R.id.my_tags_list).setAdapter(new TagAdapter(tags))
+      activity.put(Constant.TAGS,tags)
     }
+    activity.get(Constant.TAGS) match {
+      case s:String if s.nonEmpty=>
+        rootView.find[ListView](R.id.my_tags_list).setAdapter(new TagAdapter(s.split(Constant.SEPERATOR).toList))
+      case _ =>
+    }
+
     val popTagsAdapter = new TagAdapter(activity.book.get.tags.map(_.title))
     rootView.find[ListView](R.id.pop_tags_list).setAdapter(popTagsAdapter)
     tags_input.setTokenizer(new CommaTokenizer())
