@@ -96,6 +96,10 @@ class NoteViewActivity(layoutId: Int) extends SwipeGestureDoubanActivity {
     } else super.onCreateOptionsMenu(menu)
   }
 
+  def showOptions(v:View)={
+    openOptionsMenu()
+  }
+
   def editNote(m: MenuItem) = {
     val annotation = dataList.get(pos)
     val page = annotation.getOrElse("page_no", "")
