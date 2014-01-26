@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-  <item android:title="@string/edit"    android:showAsAction="collapseActionView" android:onClick="editNote" android:id="@+id/edit_note" />
-  <item android:title="@string/delete"    android:showAsAction="collapseActionView" android:onClick="deleteNote" android:id="@+id/remove_note"/>
+  <item android:title="@string/edit"    android:showAsAction="always|collapseActionView" android:onClick="editNote" android:id="@+id/edit_note" />
+  <item android:title="@string/delete"    android:showAsAction="always|collapseActionView" android:onClick="deleteNote" android:id="@+id/remove_note"/>
 </menu>
