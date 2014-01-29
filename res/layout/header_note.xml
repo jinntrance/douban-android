@@ -30,5 +30,5 @@
       android:layout_height="wrap_content"
       android:id="@+id/more_icon"  android:layout_marginLeft="@dimen/padding_large"
       android:src="@drawable/header_more" android:clickable="true" android:onClick="showOptions"
-      android:layout_gravity="center_vertical" />
+      android:layout_gravity="center_vertical" android:visibility="gone" />
 </LinearLayout>

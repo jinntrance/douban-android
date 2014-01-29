@@ -92,6 +92,7 @@ class NoteViewActivity(layoutId: Int) extends SwipeGestureDoubanActivity {
   override def onCreateOptionsMenu(menu: Menu): Boolean = {
     if (currentUserIdWithoutLogin.toString == dataList.get(positionFromIntent).getOrElse("author_id", "")) {
       getMenuInflater.inflate(R.menu.edit_note, menu)
+      findViewById(R.id.more_icon).setVisibility(View.VISIBLE)
       true
     } else super.onCreateOptionsMenu(menu)
   }

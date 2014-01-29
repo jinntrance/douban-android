@@ -14,7 +14,7 @@ import ExecutionContext.Implicits.global
 import android.content.pm.PackageManager
 import android.content.Intent
 import android.provider.MediaStore
-import android.app.Activity
+import android.app.{ProgressDialog, Activity}
 import java.text.SimpleDateFormat
 import java.io.File
 import java.util.Date
@@ -53,11 +53,12 @@ class AddNoteActivity extends DoubanActivity {
         else toast("请填写页码或章节名")
       case _ =>
         val content = find[EditText](R.id.note_input).text.toString
+        var proc:ProgressDialog=null
         if (content.length <= 15) toast("笔记内容需要15字以上哦..")
         else future {
           val a = new AnnotationPosted(content, bookPage.toInt, chapter, if (public) "public" else "private")
           a.files = Range(1, notesImage.size).map(_.toString).zip(notesImage).toMap
-          toast("正在保存到豆瓣帐号...")
+          proc=waitToLoad(msg=R.string.saving)
           getIntent.getLongExtra(Constant.BOOK_ID, 0) match {
             case bookId: Long if bookId > 0 =>
               Book.postAnnotation(bookId, a).isDefined
@@ -67,9 +68,11 @@ class AddNoteActivity extends DoubanActivity {
           }
         } onComplete {
           case Success(true) =>
-            toast(R.string.annotation_added)
             runOnUiThread(onBackPressed())
-          case _ => toast(R.string.annotation_fails_to_add)
+            toast(R.string.annotation_added)
+          case _ =>
+            stopWaiting(proc)
+            toast(R.string.annotation_fails_to_add)
         }
     }
   }
