@@ -403,7 +403,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   def put(key: String, value: Any) {
     val edit = defaultSharedPreferences.edit()
     value match {
-      case l: List[String] => edit.putStringSet(key, l.toSet.asJava).commit()
+      case l: List[String] => edit.putString(key, l.mkString(Constant.SEPERATOR)).commit()
       case i: Any => edit.putString(key, value.toString).commit()
     }
   }

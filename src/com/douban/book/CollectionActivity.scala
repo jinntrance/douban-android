@@ -178,6 +178,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
 
   def submit(v: View) {
     val p = CollectionPosted(status, activity.getTags, getView.find[EditText](R.id.comment).getText.toString.trim, getView.find[RatingBar](R.id.rating).getRating.toInt, privacy = if (public) "public" else "private")
+    val proc=activity.waitToLoad(msg = R.string.saving)
     future {
       if (updateable) Book.updateCollection(activity.book.get.id, p)
       else Book.postCollection(activity.book.get.id, p)
@@ -187,7 +188,9 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
         toast(getString(R.string.collect_successfully))
         activity.setResult(Activity.RESULT_OK,intent)
         activity.finish()
-      case _ => toast(getString(R.string.collect_failed))
+      case _ =>
+        activity.stopWaiting(proc)
+        toast(getString(R.string.collect_failed))
     }
   }
 }
@@ -201,10 +204,20 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
   override def onActivityCreated(bundle: Bundle) {
     super.onActivityCreated(bundle)
     activity.replaceActionBar(R.layout.header_edit, getString(R.string.add_tags))
+    tags_input.append(activity.getTags)
+
     future {
       val r = Book.tagsOf(activity.currentUserId)
-      rootView.find[ListView](R.id.my_tags_list).setAdapter(new TagAdapter(r.tags.map(_.title)))
+      val tags=r.tags.map(_.title).toList
+      rootView.find[ListView](R.id.my_tags_list).setAdapter(new TagAdapter(tags))
+      activity.put(Constant.TAGS,tags)
     }
+    activity.get(Constant.TAGS) match {
+      case s:String if s.nonEmpty=>
+        rootView.find[ListView](R.id.my_tags_list).setAdapter(new TagAdapter(s.split(Constant.SEPERATOR).toList))
+      case _ =>
+    }
+
     val popTagsAdapter = new TagAdapter(activity.book.get.tags.map(_.title))
     rootView.find[ListView](R.id.pop_tags_list).setAdapter(popTagsAdapter)
     tags_input.setTokenizer(new CommaTokenizer())
@@ -214,7 +227,6 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
     th.addTab(th.newTabSpec("tab1").setIndicator("热门标签").setContent(R.id.pop_tags))
     th.addTab(th.newTabSpec("tab2").setIndicator("我的标签").setContent(R.id.my_tags))
 
-    tags_input.append(activity.getTags)
   }
 
   class TagAdapter(tags: java.util.List[String]) extends BaseAdapter {

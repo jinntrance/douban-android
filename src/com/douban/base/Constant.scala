@@ -10,23 +10,25 @@ import com.douban.common.Auth
  * @version 1.0
  */
 object Constant {
+  val SEPERATOR: String="`"
+
   val COLLECTION_SEARCH = "collectionSearch"
 
   val BOOK_TITLE = "bookTitle"
 
-  var ANNOTATION_IMAGES_NUMBER = "noteImageNumber"
+  val ANNOTATION_IMAGES_NUMBER = "noteImageNumber"
 
-  var ACTIVITY_NOTE_ADDITION: String = "noteAddition"
+  val ACTIVITY_NOTE_ADDITION: String = "noteAddition"
 
-  var ANNOTATION_ID = "noteId"
-  var ANNOTATION_CHAPTER = "noteChapter"
-  var ANNOTATION_CONTENT = "noteCotent"
+  val ANNOTATION_ID = "noteId"
+  val ANNOTATION_CHAPTER = "noteChapter"
+  val ANNOTATION_CONTENT = "noteCotent"
 
-  var DATA_LIST: String = "dataList"
+  val DATA_LIST: String = "dataList"
 
   def PUBLIC = "public"
 
-  var TAGS: String = "tags"
+  val TAGS: String = "tags"
 
   val FRAGMENT_FAV_BOOKS: String = "fav_books"
   val COLLECTION = "collection"
@@ -41,7 +43,7 @@ object Constant {
 
   val BOOK_PAGE = "bookPage"
   val IMAGE: String = "image"
-  var UPDATED = "updated"
+  val UPDATED = "updated"
   val apiKey = Auth.api_key
   val apiSecret = "95125490b60b01ee"
   val scope = Seq("douban_basic_common", "book_basic_r", "book_basic_w").mkString(",")
