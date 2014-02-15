@@ -56,8 +56,8 @@
             android:gravity="top">
 
             <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="@dimen/user_avatar_size"
+                android:layout_height="@dimen/user_avatar_size"
                 android:id="@+id/user_avatar"
                 android:src="@drawable/default_user_img"
                 android:layout_gravity="top"

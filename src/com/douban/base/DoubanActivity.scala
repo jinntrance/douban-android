@@ -575,21 +575,18 @@ case class DBundle(b: Bundle = new Bundle()) {
   }
 }
 
-class ItemAdapter[B <: Any](layoutId: Int, mapping: Map[Int, Any], load: => Unit = {})(implicit activity: DoubanActivity) extends BaseAdapter {
+class ItemAdapter[B <: AnyRef](layoutId: Int, mapping: Map[Int, Any], load: => Unit = {})(implicit activity: DoubanActivity) extends BaseAdapter {
   private var total = Long.MaxValue
   private var count = 0
-  private val list: java.util.List[B] = new java.util.ArrayList[B]()
-  private val data: collection.mutable.Buffer[Map[String, String]] = mutable.Buffer[Map[String, String]]()
+  private val list: java.util.ArrayList[B] = new java.util.ArrayList[B]()
 
   def getCount: Int = count
 
   def getTotal = total
 
-  def getItem(index: Int): Map[String, String] = data(index)
+  override def getItem(index: Int): B = list.get(index)
 
-  def getBean(index: Int): B = list.get(index)
-
-  def getData = data
+  def getItems = list
 
   def getItemId(position: Int): Long = position
 
@@ -597,22 +594,20 @@ class ItemAdapter[B <: Any](layoutId: Int, mapping: Map[Int, Any], load: => Unit
     this.total = total
     this.count += loadedSize
     list.addAll(items)
-    data ++= items.map(beanToMap(_))
   }
 
   protected def selfLoad() = load
 
   def replaceResult(total: Long, loadedSize: Int, items: java.util.List[B]) {
     list.clear()
-    data.clear()
     count = 0
     addResult(total, loadedSize, items)
   }
 
-  def getView(position: Int, view: View, parent: ViewGroup): View = if (getCount == 0 || position >= getCount) null
+  def getView(position: Int, view: View, parent: ViewGroup): View = if (count == 0 || position >= count) null
   else {
     val convertView = if (null != view) view else activity.getLayoutInflater.inflate(layoutId, null)
-    activity.batchSetValues(mapping, data(position), convertView)
+    activity.batchSetValues(mapping, beanToMap(list(position)), convertView)
     if (count < total && position + 1 == count) {
       selfLoad()
     }

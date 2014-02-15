@@ -86,7 +86,7 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
       case bf: SearchResultDetail =>
         bf.updateBookView()
       case _ =>
-        activity.startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY, Some(adapter.getBean(position))))
+        activity.startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_KEY, Some(adapter.getItem(position))))
     }
   }
 
@@ -118,7 +118,7 @@ ItemAdapter[Book](R.layout.book_list_item, mapping, load = load) {
   override def getView(position: Int, view: View, parent: ViewGroup): View = {
     val convertView = super.getView(position, view, parent)
     if (null != convertView) {
-      val b = getBean(position)
+      val b = getItem(position)
       val c: Collection = b.current_user_collection
       activity.toggleDisplayWhen(R.id.favorite, null == c, convertView)
       activity.toggleDisplayWhen(R.id.currentState, null != c, convertView)

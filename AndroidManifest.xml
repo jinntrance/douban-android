@@ -21,10 +21,10 @@
         android:smallScreens="true"
         android:anyDensity="true"/>
 
-    <application android:label="@string/app_name" android:icon="@drawable/logo" android:theme="@style/DoubanTheme"
-        android:name="com.douban.base.DoubanContext" android:configChanges="orientation|screenSize">
+    <application android:label="@string/app_name" android:icon="@drawable/logo" android:theme="@style/DoubanTheme" android:hardwareAccelerated="true"
+        android:name="com.douban.base.DoubanContext" android:configChanges="orientation|screenSize" >
 
-        <activity android:label="@string/app_name" android:name=".SearchActivity" android:windowSoftInputMode="adjustUnspecified|stateHidden" android:launchMode="singleTask">
+        <activity android:label="@string/app_name" android:name=".SearchActivity" android:windowSoftInputMode="adjustUnspecified|stateHidden"  android:clearTaskOnLaunch="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -35,11 +35,11 @@
             <meta-data android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
         </activity>
-        <activity android:label="@string/login" android:name=".LoginActivity" android:launchMode="singleTask"/>
-      <activity android:label="@string/favorite" android:name=".FavoriteBooksActivity" android:launchMode="singleTop"/>
-      <activity android:label="@string/menu_settings" android:name=".SettingsActivity" android:launchMode="singleTask"/>
-      <activity android:label="@string/mynote" android:name=".MyNoteActivity" android:launchMode="singleTop"/>
-      <activity android:label="关于" android:name=".AboutActivity" android:launchMode="singleTask"/>
+        <activity android:label="@string/login" android:name=".LoginActivity" />
+      <activity android:label="@string/favorite" android:name=".FavoriteBooksActivity" />
+      <activity android:label="@string/menu_settings" android:name=".SettingsActivity"/>
+      <activity android:label="@string/mynote" android:name=".MyNoteActivity" />
+      <activity android:label="关于" android:name=".AboutActivity" />
         <activity android:label="@string/scan_book" android:name=".ScannerActivity"/>
         <activity android:name=".BookActivity"/>
         <activity android:label="@string/add_collection" android:name=".CollectionActivity" android:windowSoftInputMode="adjustPan"/>
