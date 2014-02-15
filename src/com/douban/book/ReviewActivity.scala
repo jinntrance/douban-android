@@ -1,13 +1,14 @@
 package com.douban.book
 
 import com.douban.base.{Constant, DoubanActivity}
-import android.view.{LayoutInflater, Menu, MenuItem}
+import android.view.{Window, LayoutInflater, Menu, MenuItem}
 import android.widget.ImageView
 import android.os.Bundle
-import android.webkit.{WebViewClient, WebView}
+import android.webkit.{WebChromeClient, WebViewClient, WebView}
 import android.view.animation.AnimationUtils
 import android.content.Context
 import android.graphics.Bitmap
+import android.webkit.WebSettings.RenderPriority
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -25,8 +26,10 @@ class ReviewActivity extends DoubanActivity{
 
   private[this] var refreshItem: MenuItem = null
   private[this] var iv: ImageView = null
+  lazy val webView=find[WebView](R.id.reviews)
 
   override def onCreate(b: Bundle) {
+    getWindow.requestFeature(Window.FEATURE_PROGRESS)
     super.onCreate(b)
     getIntent.getStringExtra(Constant.BOOK_ID) match{
       case bookId:String if bookId.nonEmpty=>
@@ -37,12 +40,26 @@ class ReviewActivity extends DoubanActivity{
         this.finish()
     }
     setContentView(R.layout.reviews)
-    find[WebView](R.id.reviews).setWebViewClient(new DoubanWebViewClient)
+    val settings= webView.getSettings
+    settings.setJavaScriptEnabled(true)
+    settings.setJavaScriptCanOpenWindowsAutomatically(true)
+    settings.setSupportMultipleWindows(true)
+    settings.setSupportZoom(true)
+    settings.setDisplayZoomControls(true)
+    settings.setBuiltInZoomControls(true)
+    settings.setRenderPriority(RenderPriority.HIGH)
+    settings.setUserAgentString("Mozilla/5.0 (Linux; U; Android 4.1.2; en-us; XT928 Build/6.7.2_GC-404) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30")
+    webView.setWebViewClient(new DoubanWebViewClient)
+    webView.setWebChromeClient(new WebChromeClient{
+      override def onProgressChanged(view: WebView, newProgress: Int): Unit = {
+        ReviewActivity.this.setProgress(newProgress)
+      }
+    })
   }
 
   def refresh(i: MenuItem) {
     refreshMenuItem()
-    find[WebView](R.id.reviews).loadUrl(reviewsUrl)
+    webView.loadUrl(reviewsUrl)
   }
 
   private def refreshMenuItem() {
@@ -59,6 +76,7 @@ class ReviewActivity extends DoubanActivity{
   }
 
   private class DoubanWebViewClient extends WebViewClient {
+
     override def onPageStarted(view: WebView, redirectedUrl: String, favicon: Bitmap) {
       super.onPageStarted(view, redirectedUrl, favicon)
       refreshMenuItem()

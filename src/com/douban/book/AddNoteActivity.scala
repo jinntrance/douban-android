@@ -57,7 +57,7 @@ class AddNoteActivity extends DoubanActivity {
         if (content.length <= 15) toast("笔记内容需要15字以上哦..")
         else future {
           val a = new AnnotationPosted(content, bookPage.toInt, chapter, if (public) "public" else "private")
-          a.files = Range(1, notesImage.size).map(_.toString).zip(notesImage).toMap
+          a.files = Range(1, notesImage.size+1).map(_.toString).zip(notesImage).toMap
           proc=waitToLoad(msg=R.string.saving)
           getIntent.getLongExtra(Constant.BOOK_ID, 0) match {
             case bookId: Long if bookId > 0 =>
@@ -180,7 +180,7 @@ class AddNoteFragment extends DoubanFragment[AddNoteActivity] {
 
   override def onActivityCreated(bd: Bundle) {
     super.onActivityCreated(bd)
-    val counter = getView.find[TextView](R.id.chars_count)
+    lazy val counter = getView.find[TextView](R.id.chars_count)
     getArguments match {
       case b: Bundle =>
         val page = b.getString(Constant.BOOK_PAGE, activity.bookPage)
