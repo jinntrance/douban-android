@@ -25,7 +25,7 @@ class NoteViewActivity(layoutId: Int) extends SwipeGestureDoubanActivity {
   val mapping: Map[Int, Any] = NotesActivity.mapping ++ Map(R.id.user_avatar -> "author_user.avatar")
   var pos = 0
 
-  lazy val dataList: util.List[Annotation] = getIntent.getSerializableExtra(Constant.DATA_LIST) match {
+  lazy val dataList: util.List[Annotation] = fetchAndClearData match {
     case a: util.ArrayList[Annotation] => a
     case _ => this.finish(); null
   }

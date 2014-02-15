@@ -65,7 +65,8 @@ class MyNoteActivity extends DoubanActivity {
   }
 
   def viewNote(pos: Int) {
-    startActivityForResult(SIntent[MyNoteViewActivity].putExtra(Constant.ARG_POSITION, pos).putExtra(Constant.DATA_LIST, listAdapter.getItems), REQUEST_CODE)
+    storeData(listAdapter.getItems)
+    startActivityForResult(SIntent[MyNoteViewActivity].putExtra(Constant.ARG_POSITION, pos), REQUEST_CODE)
   }
 
   override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
