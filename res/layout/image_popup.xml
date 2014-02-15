@@ -4,10 +4,11 @@
     android:layout_height="match_parent" style="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
     android:background="@android:drawable/screen_background_dark_transparent">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.douban.base.TouchImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/image_popup"  android:adjustViewBounds="true"  android:scaleType="fitCenter"
         android:src="@drawable/default_image"
         android:layout_gravity="center" />
+
 </FrameLayout>

@@ -1,6 +1,6 @@
 package com.douban.book
 
-import com.douban.base.DoubanActivity
+import com.douban.base.{TouchImageView, DoubanActivity}
 import android.os.Bundle
 import android.widget.ImageView
 
@@ -14,6 +14,6 @@ import android.widget.ImageView
 class ImagePopupActivity(img: ImageView) extends DoubanActivity {
   override def onCreate(b: Bundle) {
     setContentView(R.layout.image_popup)
-    find[ImageView](R.id.image_popup).setImageDrawable(img.getDrawable)
+    find[TouchImageView](R.id.image_popup).setImageDrawable(img.getDrawable)
   }
 }
