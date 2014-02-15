@@ -7,9 +7,8 @@ import android.widget.{TextView, EditText}
 
 import org.scaloid.common._
 import scala.concurrent._
-import com.douban.models.Book
+import com.douban.models.{Annotation, Book, AnnotationPosted}
 import scala.util.Success
-import com.douban.models.AnnotationPosted
 import ExecutionContext.Implicits.global
 import android.content.pm.PackageManager
 import android.content.Intent
@@ -33,6 +32,10 @@ class AddNoteActivity extends DoubanActivity {
   var chapter = ""
   var noteConent = ""
   var public = true
+  lazy val annt:Option[Annotation]= getIntent.getSerializableExtra(Constant.ANNOTATION) match {
+    case a:Annotation=>Some(a)
+    case _=> None
+  }
 
   override def onCreate(b: Bundle) {
     super.onCreate(b)
@@ -40,7 +43,12 @@ class AddNoteActivity extends DoubanActivity {
     setContentView(R.layout.add_note_container)
     val bundle: Bundle = getIntent.getExtras
     bookPage = bundle.getString(Constant.BOOK_PAGE, bookPage)
-    chapter = bundle.getString(Constant.ANNOTATION_CHAPTER, chapter)
+    annt foreach  {a=>{
+        bookPage=a.page_no.toString
+        chapter=a.chapter
+        noteConent=a.content
+    }
+    }
     fragmentManager.beginTransaction().replace(R.id.add_note_container, new AddNoteFragment().addArguments(bundle), Constant.ACTIVITY_NOTE_ADDITION).commit()
   }
 
@@ -63,8 +71,7 @@ class AddNoteActivity extends DoubanActivity {
             case bookId: Long if bookId > 0 =>
               Book.postAnnotation(bookId, a).isDefined
             case _ =>
-              val id = getIntent.getExtras.getString(Constant.ANNOTATION_ID, "0").toLong
-              id > 0 && Book.updateAnnotation(id, a).isDefined
+              annt.foreach(at=>Book.updateAnnotation(at.id, a))
           }
         } onComplete {
           case Success(true) =>
@@ -183,13 +190,10 @@ class AddNoteFragment extends DoubanFragment[AddNoteActivity] {
     lazy val counter = getView.find[TextView](R.id.chars_count)
     getArguments match {
       case b: Bundle =>
-        val page = b.getString(Constant.BOOK_PAGE, activity.bookPage)
-        val chapter = b.getString(Constant.ANNOTATION_CHAPTER, activity.chapter)
-        val content = b.getString(Constant.ANNOTATION_CONTENT, activity.noteConent)
-        numOfPics = b.getString(Constant.ANNOTATION_IMAGES_NUMBER, "0").toInt
-        activity.replaceActionBar(R.layout.header_edit_note, if (page.isEmpty) chapter else "P" + page)
-        setViewValue(R.id.note_input, content, hideEmpty = false)
-        content match {
+        activity.annt.foreach(a=> numOfPics=a.last_photo)
+        activity.replaceActionBar(R.layout.header_edit_note, if (activity.bookPage.isEmpty) activity.chapter else "P" + activity.bookPage)
+        setViewValue(R.id.note_input, activity.noteConent, hideEmpty = false)
+        activity.noteConent match {
           case s: String if s.nonEmpty => counter.setText(s.length.toString)
           case _ =>
         }

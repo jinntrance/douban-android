@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.widget.{ScrollView, LinearLayout}
 import org.scaloid.common._
 import android.app.Activity
-import com.douban.models.Book
+import com.douban.models.{Annotation, Book}
 import java.util
 import java.lang.reflect.Field
 
@@ -25,8 +25,8 @@ class NoteViewActivity(layoutId: Int) extends SwipeGestureDoubanActivity {
   val mapping: Map[Int, Any] = NotesActivity.mapping ++ Map(R.id.user_avatar -> "author_user.avatar")
   var pos = 0
 
-  lazy val dataList: util.List[Map[String, String]] = getIntent.getSerializableExtra(Constant.DATA_LIST) match {
-    case a: util.ArrayList[Map[String, String]] => a
+  lazy val dataList: util.List[Annotation] = getIntent.getSerializableExtra(Constant.DATA_LIST) match {
+    case a: util.ArrayList[Annotation] => a
     case _ => this.finish(); null
   }
 
@@ -48,12 +48,12 @@ class NoteViewActivity(layoutId: Int) extends SwipeGestureDoubanActivity {
     scrollView.smoothScrollTo(0, 0)
     pos = position
     val a = dataList.get(pos)
-    setWindowTitle(a.getOrElse("book.title", getString(R.string.annotation)))
-    batchSetValues(mapping, a)
+    setWindowTitle(a.book.title)
+    batchSetValues(mapping, beanToMap(a))
     val container: LinearLayout = find[LinearLayout](R.id.note_content)
     val black = getResources.getColor(R.color.text_black)
     container.removeAllViews()
-    container.addView(parse(a.getOrElse("content", "")))
+    container.addView(parse(a.content))
     def parse(c: String, layout: SLinearLayout = new SVerticalLayout {}): SLinearLayout = {
       c match {
         case r"([\s\S]*?)${pre}<原文开始>([\s\S]+?)${txt}</原文结束>([\s\S]*)${suffix}" =>
@@ -67,7 +67,7 @@ class NoteViewActivity(layoutId: Int) extends SwipeGestureDoubanActivity {
           parse(pre, layout)
           layout += new SLinearLayout {
             val img = SImageView()
-            loadImage(a.getOrElse(s"photos.$imgUrl", ""), img)
+            loadImage(a.photos.get(imgUrl), img)
           }
           parse(suffix, layout)
         case "" => layout
@@ -84,14 +84,14 @@ class NoteViewActivity(layoutId: Int) extends SwipeGestureDoubanActivity {
   }
 
   def viewBook(v: View) {
-    val bookId: String = dataList.get(pos).getOrElse("book_id", "0")
-    val title: String = dataList.get(pos).getOrElse("book.title", "")
+    val bookId: String = dataList.get(pos).book_id
+    val title: String = dataList.get(pos).book.title
     if (bookId.toLong > 0)
       startActivity(SIntent[BookActivity].putExtra(Constant.BOOK_ID, bookId).putExtra(Constant.BOOK_TITLE, title))
   }
 
   override def onCreateOptionsMenu(menu: Menu): Boolean = {
-    if (currentUserIdWithoutLogin.toString == dataList.get(positionFromIntent).getOrElse("author_id", "")) {
+    if (currentUserIdWithoutLogin.toString == dataList.get(positionFromIntent).author_id) {
 
       getMenuInflater.inflate(R.menu.edit_note, menu)
 //      findViewById(R.id.more_icon).setVisibility(View.VISIBLE)
@@ -104,18 +104,12 @@ class NoteViewActivity(layoutId: Int) extends SwipeGestureDoubanActivity {
   }
 
   def editNote(m: MenuItem) = {
-    val annotation = dataList.get(pos)
-    val page = annotation.getOrElse("page_no", "")
-    val chapter = annotation.getOrElse("chapter", "")
-    val content = annotation.getOrElse("content", "")
-    val id = annotation.getOrElse("id", "0")
-    startActivity(SIntent[AddNoteActivity].putExtra(Constant.ANNOTATION_ID, id).putExtra(Constant.BOOK_PAGE, page).
-      putExtra(Constant.ANNOTATION_CHAPTER, chapter).putExtra(Constant.ANNOTATION_CONTENT, content).
-      putExtra(Constant.ANNOTATION_IMAGES_NUMBER, annotation.getOrElse("last_photo", "0")))
+    val annt = dataList.get(pos)
+    startActivity(SIntent[AddNoteActivity].putExtra(Constant.ANNOTATION, annt))
   }
 
   def deleteNote(m: MenuItem) = {
-    handle(Book.deleteAnnotation(dataList.get(pos).getOrElse("id", "0").toLong),
+    handle(Book.deleteAnnotation(dataList.get(pos).id),
       (deleted: Boolean) => {
         toast(if (deleted) R.string.removed_successfully else R.string.removed_unsuccessfully)
       })
