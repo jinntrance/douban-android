@@ -10,19 +10,16 @@ import com.douban.common.Auth
  * @version 1.0
  */
 object Constant {
+  val ANNOTATION="annotation"
+
   val SEPERATOR: String="`"
 
   val COLLECTION_SEARCH = "collectionSearch"
 
   val BOOK_TITLE = "bookTitle"
 
-  val ANNOTATION_IMAGES_NUMBER = "noteImageNumber"
 
   val ACTIVITY_NOTE_ADDITION: String = "noteAddition"
-
-  val ANNOTATION_ID = "noteId"
-  val ANNOTATION_CHAPTER = "noteChapter"
-  val ANNOTATION_CONTENT = "noteCotent"
 
   val DATA_LIST: String = "dataList"
 
