@@ -18,12 +18,14 @@
                 android:layout_width="@dimen/user_avatar_size_small"
                 android:layout_height="@dimen/user_avatar_size_small"
                 android:id="@+id/user_avatar"
-                android:src="@drawable/default_user_img" />
+                android:src="@drawable/default_user_img"
+                android:layout_centerVertical="true"
+                android:adjustViewBounds="false" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="Jane"
                 android:id="@+id/username"
                 android:layout_toRightOf="@+id/user_avatar"
                 android:layout_marginLeft="@dimen/margin_medium" />
