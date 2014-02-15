@@ -20,7 +20,7 @@ platformTarget in Android := "android-18"
 
 javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
 
-scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xcheckinit","-optimise")
+scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xcheckinit")
 
 autoScalaLibrary := false
 
@@ -32,10 +32,10 @@ run <<= run in Android
 install <<= install in Android
 
 libraryDependencies ++= Seq(
-			"org.scaloid" % "scaloid_2.10" % "3.0-8",
-			"com.douban" % "scala-api_2.10" % "2.4.3" withSources(),
+			"org.scaloid" % "scaloid_2.10" % "3.2-8",
+			"com.douban" % "scala-api_2.10" % "2.4.4",
 			"com.google.android" % "support-v4" % "r7",
-      "com.google.zxing" % "core" % "2.2"
+      "com.google.zxing" % "core" % "2.3.0"
 			)
 
 useProguard in Android := true

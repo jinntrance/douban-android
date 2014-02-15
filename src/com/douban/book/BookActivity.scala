@@ -77,7 +77,7 @@ class BookActivity extends DoubanActivity {
     startActivityForResult(SIntent[CollectionActivity].putExtras(getIntent), COLLECTION_MODIFICATION_REQUEST)
   }
 
-  override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+  override protected def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
     super.onActivityResult(requestCode, resultCode, data)
     if (resultCode == Activity.RESULT_OK && requestCode == COLLECTION_MODIFICATION_REQUEST) {
       data.getSerializableExtra(Constant.COLLECTION) match {
@@ -126,6 +126,9 @@ class BookActivity extends DoubanActivity {
 
   def viewNotes(v: View) = {
     startActivity(SIntent[NotesActivity].putExtra(Constant.BOOK_ID, book.get.id))
+  }
+  def viewReviews(v: View) = {
+    startActivity(SIntent[ReviewActivity].putExtra(Constant.BOOK_ID, book.get.id.toString).putExtra(Constant.BOOK_TITLE,book.get.title))
   }
 }
 

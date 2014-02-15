@@ -46,6 +46,7 @@
         <activity android:label="@string/annotation" android:name=".NotesActivity" />
         <activity android:label="@string/add_note" android:name=".AddNoteActivity" android:windowSoftInputMode="adjustResize"/>
         <activity android:label="@string/annotation" android:name=".PublicNoteViewActivity" />
+        <activity android:label="@string/review" android:name=".ReviewActivity" />
         <activity android:label="@string/mynote" android:name=".MyNoteViewActivity" />
         <activity android:label="@string/favorite_search" android:name=".FavoriteBooksListActivity" />
         <activity android:label="@string/favorite_search" android:name=".FavoriteBooksFilterActivity" />
