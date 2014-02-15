@@ -59,14 +59,14 @@ class NoteViewActivity(layoutId: Int) extends SwipeGestureDoubanActivity {
         case r"([\s\S]*?)${pre}<原文开始>([\s\S]+?)${txt}</原文结束>([\s\S]*)${suffix}" =>
           parse(pre, layout)
           layout += new SLinearLayout {
-            SImageView(R.drawable.add_note_context).<<.wrap.>>.onClick(popup(_))
+            SImageView(R.drawable.add_note_context).<<.wrap.>>
             STextView(txt.trim).<<.wrap.Weight(1.0f).>>
           }
           parse(suffix, layout)
         case r"([\s\S]*?)${pre}<图片(\d+)${imgUrl}>([\s\S]*)${suffix}" =>
           parse(pre, layout)
           layout += new SLinearLayout {
-            val img = SImageView()
+            val img = SImageView().onClick(popup(_))
             loadImage(a.photos.get(imgUrl), img)
           }
           parse(suffix, layout)
