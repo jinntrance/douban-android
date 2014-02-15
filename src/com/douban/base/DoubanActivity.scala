@@ -52,6 +52,23 @@ trait Douban {
 
   protected val rootView: V
 
+  def storeData(s:java.io.Serializable)={
+    ctx.getApplication match{
+      case d:DoubanContext=>d.serializableData=s
+      case _=>
+    }
+  }
+
+  def fetchAndClearData:java.io.Serializable={
+    ctx.getApplication match{
+      case d:DoubanContext=>
+        val data=d.serializableData
+        d.serializableData=null
+        data
+      case _=> null
+    }
+  }
+
   def getThisActivity: DoubanActivity
 
   def toast(message: CharSequence, gravity: Int = Gravity.CENTER)(implicit context: Context): Unit = runOnUiThread {
@@ -578,7 +595,7 @@ case class DBundle(b: Bundle = new Bundle()) {
 class ItemAdapter[B <: AnyRef](layoutId: Int, mapping: Map[Int, Any], load: => Unit = {})(implicit activity: DoubanActivity) extends BaseAdapter {
   private var total = Long.MaxValue
   private var count = 0
-  private val list: java.util.ArrayList[B] = new java.util.ArrayList[B]()
+  private val list= new java.util.ArrayList[B]()
 
   def getCount: Int = count
 

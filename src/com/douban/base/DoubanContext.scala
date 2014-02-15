@@ -13,6 +13,7 @@ import java.lang.reflect.Field
  * @version 1.0
  */
 class DoubanContext extends android.app.Application {
+  var serializableData:java.io.Serializable=null
   override def onCreate() {
     val token = PreferenceManager.getDefaultSharedPreferences(this).getString(Constant.accessTokenString, "")
     if (!token.isEmpty) Req.init(token)
