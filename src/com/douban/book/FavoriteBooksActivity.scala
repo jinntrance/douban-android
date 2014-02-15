@@ -103,7 +103,7 @@ class CollectionItemAdapter(status: String, loader: (String, CollectionItemAdapt
   override def getView(position: Int, view: View, parent: ViewGroup): View = {
     super.getView(position, view, parent) match {
       case v: View =>
-        val c: Collection = getBean(position)
+        val c: Collection = getItem(position)
         activity.loadImageWithTitle(c.book.image, R.id.book_img, c.book.title, v)
         activity.setViewValue(R.id.recommend, SearchResult.getStar(c.rating), v)
         activity.setViewValue(R.id.tags_txt, c.tags.mkString(" "), v, hideEmpty = false)
@@ -115,7 +115,7 @@ class CollectionItemAdapter(status: String, loader: (String, CollectionItemAdapt
   override protected def selfLoad(): Unit = loader(status, this)
 
   lazy val listener = (parent: AdapterView[_], view: View, position: Int, id: Long) => {
-    parent.getAdapter.asInstanceOf[CollectionItemAdapter].getBean(position) match {
+    parent.getAdapter.asInstanceOf[CollectionItemAdapter].getItem(position) match {
       case c: Collection =>
         val book = c.book.copy()
         val col = c.copy()

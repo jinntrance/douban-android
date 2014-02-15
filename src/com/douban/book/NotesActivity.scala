@@ -26,7 +26,7 @@ class NotesActivity extends DoubanActivity {
   private val REQUEST_CODE = 0
 
   def viewNote(pos: Int) {
-    startActivityForResult(SIntent[PublicNoteViewActivity].putExtra(Constant.ARG_POSITION, pos).putExtra(Constant.DATA_LIST, new util.ArrayList(listAdapter.getData)), REQUEST_CODE)
+    startActivityForResult(SIntent[PublicNoteViewActivity].putExtra(Constant.ARG_POSITION, pos).putExtra(Constant.DATA_LIST, listAdapter.getItems), REQUEST_CODE)
   }
 
   override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
@@ -195,9 +195,9 @@ object NotesActivity {
 class NoteItemAdapter(mapping: Map[Int, Any], load: => Unit, layout: Int = R.layout.notes_item)(implicit ctx: DoubanActivity) extends ItemAdapter[Annotation](layout, mapping, load = load) with Serializable {
   override def getView(position: Int, view: View, parent: ViewGroup): View = {
     val convertView = super.getView(position, view, parent)
-    getItem(position).getOrElse("page_no", "") match {
-      case "" =>
-      case _ => ctx.hideWhen(R.id.chapter_name, condition = true, convertView)
+    getItem(position).page_no match {
+      case i:Int => ctx.hideWhen(R.id.chapter_name, condition = true, convertView)
+      case _ =>
     }
     convertView
   }
