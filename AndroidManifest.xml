@@ -21,10 +21,10 @@
         android:smallScreens="true"
         android:anyDensity="true"/>
 
-    <application android:label="@string/app_name" android:icon="@drawable/logo" android:theme="@style/DoubanTheme" android:hardwareAccelerated="true"
+    <application android:label="@string/app_name" android:icon="@drawable/logo" android:theme="@style/DoubanTheme" android:hardwareAccelerated="false"
         android:name="com.douban.base.DoubanContext" android:configChanges="orientation|screenSize" >
 
-        <activity android:label="@string/app_name" android:name=".SearchActivity" android:windowSoftInputMode="adjustUnspecified|stateHidden"  android:clearTaskOnLaunch="true">
+        <activity android:label="@string/app_name" android:name=".SearchActivity" android:windowSoftInputMode="adjustUnspecified|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
