@@ -327,41 +327,32 @@
     </ScrollView>
     <RelativeLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"  android:clickable="true"
-        android:layout_height="@dimen/text_triple_size"  android:onClick="viewNotes"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/text_triple_size"
         android:id="@+id/book_annotation"  android:background="@color/white"
         android:layout_alignParentBottom="true"
         android:layout_alignBaseline="@+id/scrollView"
         android:layout_gravity="bottom|center">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/annotation_icon"
-            android:src="@drawable/book_content_notes"
-            android:layout_gravity="left"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true" />
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" android:clickable="true" android:onClick="viewReviews"
+          android:text="@string/review"  android:drawableLeft="@drawable/book_content_left_arrow"
+          android:id="@+id/reviews_guider"    android:drawableRight="@drawable/book_content_notes"
+          android:layout_gravity="center_vertical"  style="@style/DoubanTextTitle.Black"
+          android:layout_alignParentLeft="true"
+          android:layout_centerInParent="true"
+          android:gravity="center_vertical" />
 
-        <TextView
+       <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/annotation"
-            android:id="@+id/annotation_num"
-            android:layout_gravity="center"  style="@style/DoubanTextTitle.Black"
-            android:layout_alignParentBottom="false"
-            android:layout_alignWithParentIfMissing="false"
+            android:layout_height="wrap_content"  android:clickable="true" android:onClick="viewNotes"
+            android:text="@string/annotation"   android:drawableRight="@drawable/book_content_right_arrow"
+            android:id="@+id/annotation_num"    android:drawableLeft="@drawable/book_content_notes"
+            android:layout_gravity="right"  style="@style/DoubanTextTitle.Black"
             android:layout_centerInParent="true"
-            android:layout_toRightOf="@+id/annotation_icon" />
+            android:gravity="center_vertical"
+            android:layout_alignParentRight="true" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/guide_icon"
-            android:src="@drawable/book_content_right_arrow"
-            android:layout_gravity="right|center_vertical|fill_vertical"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="false"
-            android:layout_centerInParent="true" />
     </RelativeLayout>
 </LinearLayout>

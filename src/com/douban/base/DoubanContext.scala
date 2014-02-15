@@ -2,6 +2,8 @@ package com.douban.base
 
 import com.douban.common.Req
 import android.preference.PreferenceManager
+import android.view.ViewConfiguration
+import java.lang.reflect.Field
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -14,5 +16,11 @@ class DoubanContext extends android.app.Application {
   override def onCreate() {
     val token = PreferenceManager.getDefaultSharedPreferences(this).getString(Constant.accessTokenString, "")
     if (!token.isEmpty) Req.init(token)
+    val config: ViewConfiguration = ViewConfiguration.get(this)
+    val menuKeyField: Field = classOf[ViewConfiguration].getDeclaredField("sHasPermanentMenuKey")
+    if (menuKeyField != null) {
+      menuKeyField.setAccessible(true)
+      menuKeyField.setBoolean(config, false)
+    }
   }
 }

@@ -420,7 +420,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     }
   }
 
-  override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+  override protected def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
     super.onActivityResult(requestCode, resultCode, data)
     if (requestCode == LOGIN_REQUEST && resultCode == Activity.RESULT_OK && isAuthenticated) {
       super.onRestart()
@@ -520,9 +520,11 @@ trait DoubanActivity extends SFragmentActivity with Douban {
 
 trait DoubanListFragment[T <: DoubanActivity] extends SListFragment with Douban {
 
-  override def getThisActivity: T = getActivity.asInstanceOf[T]
+  override def getThisActivity: T = super.activity.asInstanceOf[T]
 
   override lazy val activity: T = getThisActivity
+
+  override implicit lazy val ctx: DoubanActivity = activity
 
   override lazy val rootView: View = getView
 
@@ -544,6 +546,8 @@ trait DoubanFragment[T <: DoubanActivity] extends SFragment with Douban {
   override def getThisActivity: T = getActivity.asInstanceOf[T]
 
   override lazy val activity: T = getThisActivity
+
+  override implicit lazy val ctx: DoubanActivity = activity
 
   override lazy val rootView: View = getView
 
