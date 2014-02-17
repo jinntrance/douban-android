@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent"
     android:layout_height="match_parent" style="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
     android:background="@android:drawable/screen_background_dark_transparent">
 
     <com.douban.base.TouchImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/image_popup"  android:adjustViewBounds="true"  android:scaleType="fitCenter"
+        android:id="@+id/image_popup"  android:adjustViewBounds="true"  android:scaleType="fitXY"
         android:src="@drawable/default_image"
         android:layout_gravity="center" />
 
-</FrameLayout>
+</ScrollView>

@@ -211,6 +211,7 @@ trait Douban {
 
   def loadImage(url: String, img: ImageView, notification: String = "", updateCache: Boolean = false): Unit = {
     val cacheFile = new File(ctx.getExternalCacheDir, url.dropWhile(_ != '/'))
+    runOnUiThread(img.setContentDescription(url))
     if (!updateCache && cacheFile.exists()) {
       val b = Drawable.createFromPath(cacheFile.getAbsolutePath)
       runOnUiThread(img.setImageDrawable(b))
@@ -502,7 +503,11 @@ trait DoubanActivity extends SFragmentActivity with Douban {
         val imageDialog = new Dialog(this)
         imageDialog.getWindow.requestFeature(Window.FEATURE_NO_TITLE)
         val layout = getLayoutInflater.inflate(R.layout.image_popup, null)
-        layout.find[ImageView](R.id.image_popup).setImageDrawable(img.getDrawable)
+        val desc=img.getContentDescription.toString
+        if(desc.nonEmpty && desc.startsWith("http"))
+          loadImage(desc,layout.find[ImageView](R.id.image_popup))
+        else
+          layout.find[ImageView](R.id.image_popup).setBackground(img.getDrawable)
         imageDialog.setContentView(layout)
         imageDialog.setCancelable(true)
         imageDialog.show()

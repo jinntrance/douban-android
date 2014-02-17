@@ -5,13 +5,14 @@ import android.os.Bundle
 import android.widget.{TextView, LinearLayout}
 import com.douban.base.{DoubanFragment, DoubanActivity, Constant}
 import com.douban.models.{Collection, Book}
-import android.app.Activity
+import android.app.{ProgressDialog, Activity}
 import android.view._
 import Constant._
 import scala.concurrent._
 import ExecutionContext.Implicits.global
 import android.content.Intent
 import scala.util.{Failure, Success}
+import com.douban.common.DoubanException
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -36,18 +37,25 @@ class BookActivity extends DoubanActivity {
         val isbn = extras.getString(Constant.ISBN)
         val bookId = extras.getString(Constant.BOOK_ID)
         val bk = extras.getSerializable(Constant.BOOK_KEY)
-        //        var sp:ProgressDialog=null
+        var sp:ProgressDialog=null
         if (null == bk) future {
-          //          sp=
+                    sp=
           waitToLoad()
-          if (null != isbn && !isbn.isEmpty) Some(Book.byISBN(isbn))
+          if (null != isbn && !isbn.isEmpty) {
+            val tempBk=Book.byISBN(isbn)
+            import scala.util.control.Exception._
+            catching(classOf[DoubanException]).opt{
+              tempBk.updateExistCollection(Book.collectionOf(tempBk.id))
+            }
+            Some(tempBk)
+          }
           else if (null != bookId && bookId.nonEmpty) Some(Book.byId(bookId.toLong))
           else None
         } onComplete {
           case Success(Some(bb: Book)) =>
             book = Some(bb)
             fragment.updateBookView()
-            stopWaiting()
+            stopWaiting(sp)
           case Failure(m) =>
             m.printStackTrace()
             error(m.getMessage)
