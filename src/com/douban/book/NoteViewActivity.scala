@@ -8,7 +8,6 @@ import org.scaloid.common._
 import android.app.Activity
 import com.douban.models.{Annotation, Book}
 import java.util
-import java.lang.reflect.Field
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -67,7 +66,7 @@ class NoteViewActivity(layoutId: Int) extends SwipeGestureDoubanActivity {
           parse(pre, layout)
           layout += new SLinearLayout {
             val img = SImageView().onClick(popup(_))
-            loadImage(a.photos.get(imgUrl), img)
+            loadImage(a.photos.get(imgUrl), img, fillWidth = true)
           }
           parse(suffix, layout)
         case "" => layout
@@ -94,12 +93,12 @@ class NoteViewActivity(layoutId: Int) extends SwipeGestureDoubanActivity {
     if (currentUserIdWithoutLogin.toString == dataList.get(positionFromIntent).author_id) {
 
       getMenuInflater.inflate(R.menu.edit_note, menu)
-//      findViewById(R.id.more_icon).setVisibility(View.VISIBLE)
+      //      findViewById(R.id.more_icon).setVisibility(View.VISIBLE)
       true
     } else super.onCreateOptionsMenu(menu)
   }
 
-  def showOptions(v:View)={
+  def showOptions(v: View) = {
     openOptionsMenu()
   }
 
