@@ -687,11 +687,12 @@ class ItemAdapter[B <: AnyRef](layoutId: Int, mapping: Map[Int, Any], load: => U
 case class ListResult[T](total: Int, list: java.util.List[T])
 
 trait SwipeGestureDoubanActivity extends DoubanActivity {
+  lazy val screenWidth = getResources.getDisplayMetrics.widthPixels
   lazy val detector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
 
     override def onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float) = {
       val offset: Float = e2.getRawX - e1.getRawX
-      val threshold: Int = 100
+      val threshold: Int = (0.6 * screenWidth).toInt
       if (offset > threshold) {
         showPre()
         true
