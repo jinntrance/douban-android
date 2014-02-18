@@ -15,10 +15,10 @@
     <com.douban.base.TouchImageView
         android:layout_margin="0dp"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:id="@+id/image_popup"  android:adjustViewBounds="true"  android:scaleType="fitXY"
+        android:id="@+id/image_popup"  android:adjustViewBounds="true"  android:scaleType="fitStart"
         android:src="@drawable/default_image"
-        android:layout_gravity="center|fill_horizontal" />
+        android:layout_gravity="center" />
   </LinearLayout>
 </ScrollView>
