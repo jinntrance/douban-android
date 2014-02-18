@@ -9,8 +9,6 @@ import java.lang.Thread.UncaughtExceptionHandler
 import org.scaloid.common._
 import scala.concurrent._
 import ExecutionContext.Implicits.global
-import collection.JavaConverters._
-import scala.collection.mutable
 import android.widget._
 import android.graphics.drawable.Drawable
 import java.net.URL
@@ -31,6 +29,7 @@ import scala.util.Failure
 import com.douban.common.AccessTokenResult
 import org.scaloid.common.LoggerTag
 import scala.util.Success
+import android.view.ViewGroup.LayoutParams
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -52,20 +51,20 @@ trait Douban {
 
   protected val rootView: V
 
-  def storeData(s:java.io.Serializable)={
-    ctx.getApplication match{
-      case d:DoubanContext=>d.serializableData=s
-      case _=>
+  def storeData(s: java.io.Serializable) = {
+    ctx.getApplication match {
+      case d: DoubanContext => d.serializableData = s
+      case _ =>
     }
   }
 
-  def fetchAndClearData:java.io.Serializable={
-    ctx.getApplication match{
-      case d:DoubanContext=>
-        val data=d.serializableData
-        d.serializableData=null
+  def fetchAndClearData: java.io.Serializable = {
+    ctx.getApplication match {
+      case d: DoubanContext =>
+        val data = d.serializableData
+        d.serializableData = null
         data
-      case _=> null
+      case _ => null
     }
   }
 
@@ -101,7 +100,8 @@ trait Douban {
       case (id, key: String) => setViewValue(id, values.getOrElse(key, ""), holder)
       case (id, (key: String, format: String)) =>
         setViewValue(id, {
-          val v = values.getOrElse(key, ""); if (v.isEmpty) "" else format.format(v)
+          val v = values.getOrElse(key, "");
+          if (v.isEmpty) "" else format.format(v)
         }, holder)
       case (id, l: List[String]) =>
         setViewValue(id, l.map(values.getOrElse(_, "")).filter(_ != "").mkString(separator), holder)
@@ -203,29 +203,72 @@ trait Douban {
     BitmapFactory.decodeStream(new URL(url).getContent.asInstanceOf[InputStream])
   }
 
+  private def calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int = {
+    val height: Int = options.outHeight
+    val width: Int = options.outWidth
+    var inSampleSize: Int = 1
+    if (height > reqHeight || width > reqWidth) {
+      val heightRatio: Int = Math.round(height / reqHeight.toFloat)
+      val widthRatio: Int = Math.round(width / reqWidth.toFloat)
+      inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
+    }
+    inSampleSize
+  }
+
+  def BitmapFromLocalFile(filePath: String, width: Int, height: Int, fillWidth: Boolean = false) = {
+    val options: BitmapFactory.Options = new BitmapFactory.Options
+    options.inJustDecodeBounds = true
+    BitmapFactory.decodeFile(filePath, options)
+    // Calculate inSampleSize
+    options.inSampleSize = calculateInSampleSize(options, width, height)
+    // Decode bitmap with inSampleSize set
+    options.inJustDecodeBounds = false
+    val bm = BitmapFactory.decodeFile(filePath, options)
+    if (fillWidth) {
+      Bitmap.createScaledBitmap(bm, width, Math.round(bm.getHeight.toFloat * width / bm.getWidth), true)
+    }
+    else bm
+  }
+
   def loadImageWithTitle(url: String, resId: Int, title: String, holder: V = rootView, updateCache: Boolean = false): Unit
   = holder.findViewById(resId) match {
     case img: ImageView => loadImage(url, img, ctx.getString(R.string.load_img_fail, title), updateCache)
     case _ =>
   }
 
-  def loadImage(url: String, img: ImageView, notification: String = "", updateCache: Boolean = false): Unit = {
+  def loadImage(url: String, img: ImageView, notification: String = "", updateCache: Boolean = false, fillWidth: Boolean = false): Unit = {
+    val width =
+      if (fillWidth) getThisActivity.getResources.getDisplayMetrics.widthPixels
+      else if (img.getWidth > 0) img.getWidth
+      else img.getDrawable match {
+        case w: Drawable => w.getIntrinsicWidth
+        case _ => getThisActivity.getResources.getDisplayMetrics.widthPixels
+      }
+    val height =
+      if (fillWidth) 0
+      else if (img.getHeight > 0) img.getHeight
+      else img.getDrawable match {
+        case w: Drawable => w.getIntrinsicHeight
+        case _ => getThisActivity.getResources.getDisplayMetrics.heightPixels
+      }
     val cacheFile = new File(ctx.getExternalCacheDir, url.dropWhile(_ != '/'))
-    runOnUiThread(img.setContentDescription(url))
-    if (!updateCache && cacheFile.exists()) {
-      val b = Drawable.createFromPath(cacheFile.getAbsolutePath)
-      runOnUiThread(img.setImageDrawable(b))
-    } else future {
-      BitmapFromUrl(url)
-    } onComplete {
-      case Success(b) =>
-        runOnUiThread(img.setImageBitmap(b))
+    runOnUiThread(img.setTag(url))
+
+    future {
+      if (updateCache || !cacheFile.exists()) {
+        val b = BitmapFromUrl(url)
         if (!cacheFile.exists() && cacheFile.getParentFile.mkdirs) {
           cacheFile.createNewFile()
         }
         val out = new FileOutputStream(cacheFile, false)
         b.compress(Bitmap.CompressFormat.JPEG, 100, out)
         out.close()
+      }
+      BitmapFromLocalFile(cacheFile.getAbsolutePath, width, height, fillWidth)
+    } onComplete {
+      case Success(b) =>
+        runOnUiThread(img.setImageBitmap(b))
+
       case Failure(b) => toast(notification)
     }
   }
@@ -503,11 +546,15 @@ trait DoubanActivity extends SFragmentActivity with Douban {
         val imageDialog = new Dialog(this)
         imageDialog.getWindow.requestFeature(Window.FEATURE_NO_TITLE)
         val layout = getLayoutInflater.inflate(R.layout.image_popup, null)
-        val desc=img.getContentDescription.toString
-        if(desc.nonEmpty && desc.startsWith("http"))
-          loadImage(desc,layout.find[ImageView](R.id.image_popup))
+        val window = imageDialog.getWindow
+        window.setLayout(
+          LayoutParams.MATCH_PARENT,
+          LayoutParams.WRAP_CONTENT)
+        val url = img.getTag.toString
+        if (url.nonEmpty && url.startsWith("http"))
+          loadImage(url, layout.find[ImageView](R.id.image_popup), fillWidth = true)
         else
-          layout.find[ImageView](R.id.image_popup).setBackground(img.getDrawable)
+          layout.find[ImageView](R.id.image_popup).setImageDrawable(img.getDrawable)
         imageDialog.setContentView(layout)
         imageDialog.setCancelable(true)
         imageDialog.show()
@@ -600,7 +647,7 @@ case class DBundle(b: Bundle = new Bundle()) {
 class ItemAdapter[B <: AnyRef](layoutId: Int, mapping: Map[Int, Any], load: => Unit = {})(implicit activity: DoubanActivity) extends BaseAdapter {
   private var total = Long.MaxValue
   private var count = 0
-  private val list= new java.util.ArrayList[B]()
+  private val list = new java.util.ArrayList[B]()
 
   def getCount: Int = count
 

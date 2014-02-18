@@ -2,7 +2,6 @@ import sbt._
 
 import android.Keys._
 
-import android.Dependencies._
 
 android.Plugin.androidBuild
 
@@ -32,17 +31,17 @@ run <<= run in Android
 install <<= install in Android
 
 libraryDependencies ++= Seq(
-			"org.scaloid" % "scaloid_2.10" % "3.2-8",
-			"com.douban" % "scala-api_2.10" % "2.4.4",
-			"com.google.android" % "support-v4" % "r7",
-      "com.google.zxing" % "core" % "2.3.0"
-			)
+  "org.scaloid" % "scaloid_2.10" % "3.2-8",
+  "com.douban" % "scala-api_2.10" % "2.4.4.1",
+  "com.google.android" % "support-v4" % "r7",
+  "com.google.zxing" % "core" % "2.3.0"
+)
 
 useProguard in Android := true
 
-typedResources in Android :=false
+typedResources in Android := false
 
-proguardCache in Android ++=Seq(
+proguardCache in Android ++= Seq(
   ProguardCache("org.scaloid.common") % "org.scaloid",
   ProguardCache("com.douban.models") % "com.douban")
 
@@ -50,7 +49,7 @@ proguardCache in Android ++=Seq(
 
 //libraryProjects in Android += android.Dependencies.LibraryProject(file("libs/slidingMenu"))
 
-proguardOptions in Android <++= baseDirectory(_/"proguard-android-optimize.txt").flatMap(f=>task(scala.io.Source.fromFile(f).getLines().toSeq))
+proguardOptions in Android <++= baseDirectory(_ / "proguard-android-optimize.txt").flatMap(f => task(scala.io.Source.fromFile(f).getLines().toSeq))
 
-proguardOptions in Android <++= baseDirectory(_/"proguard.cfg").flatMap(f=>task(scala.io.Source.fromFile(f).getLines().toSeq))
+proguardOptions in Android <++= baseDirectory(_ / "proguard.cfg").flatMap(f => task(scala.io.Source.fromFile(f).getLines().toSeq))
 

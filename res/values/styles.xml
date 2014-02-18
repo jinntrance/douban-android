@@ -1,171 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="white">#ffffff</color>
-    <color name="black">#000000</color>
-    <color name="black_light">#6b6b6b</color>
-    <color name="transparent">#00000000</color>
-    <color name="dark_transparent">#434343</color>
-    <color name="gray">#797979</color>
-    <color name="gray_divider">#c9c9c9</color>
-    <color name="gray_light">#bbbbbb</color>
-    <color name="gray_light_pressed">#cb7b7b</color>
-    <color name="text_white">#ffffff</color>
-    <color name="edit_text_margin">#e6e6e6</color>
-    <color name="text_background">#669999</color>
-    <color name="text_background_pressed">#4b8282</color>
-    <color name="text_background_margin">#5c8a8a</color>
-    <color name="text_green">#339966</color>
-    <color name="text_orange">#da7317</color>
-    <color name="text_black">#434343</color>
-    <color name="background_white">#f2f2f2</color>
-    <color name="background_pink">#ff9999</color>
-    <color name="background_pink_pressed">#ff7b7b</color>
-    <color name="background_pink_margin">#e68a8a</color>
-    <color name="background_green">#99cc99</color>
-    <color name="background_green_pressed">#65be65</color>
-    <color name="background_green_margin">#8ab88a</color>
-    <color name="background_green_darker">#457878</color>
-    <color name="background_brown">#cc9999</color>
-    <color name="background_brown_pressed">#cb7b7b</color>
-    <color name="background_brown_margin">#b88a8a</color>
-    <color name="background_black">#434343</color>
-    <color name="background_black_light">#515151</color>
-    <color name="background_black_darker">#363636</color>
-    <style name="DoubanButton.WhiteText" parent="@android:style/Widget.Holo.Light.Button">
-        <item name="android:background">@color/text_background</item>
-        <item name="android:textColor">@color/text_white</item>
-        <!--<item name="android:padding">@dimen/one_dp</item>-->
-        <item name="android:layout_margin">@dimen/margin_medium</item>
-    </style>
-    <style name="DoubanButton.Small" parent="DoubanButton.WhiteText">
-        <item name="android:textSize">@dimen/text_small</item>
-        <item name="android:layout_margin">@dimen/margin_small</item>
-        <item name="android:layout_height">@dimen/text_triple_size</item>
-    </style>
-    <style name="DoubanButton.Note" parent="DoubanButton.Small">
-        <item name="android:background">@color/black</item>
-        <item name="android:layout_height">@dimen/text_double_size</item>
-    </style>
-    <style name="DoubanButton.FavBooks" parent="DoubanButton.Small">
-        <item name="android:background">@color/black_light</item>
-        <item name="android:layout_height">@dimen/text_double_size</item>
-    </style>
-    <style name="DoubanButton.Page" parent="DoubanButton.Small">
-        <item name="android:background">@drawable/button_green_page</item>
-        <item name="android:layout_height">@dimen/text_double_size</item>
-        <item name="android:padding">0dp</item>
-        <item name="android:textSize">@dimen/text_small</item>
-        <item name="android:clickable">false</item>
-    </style>
-    <style name="DoubanText" parent="@android:style/Widget.Holo.Light.TextView">
-        <item name="android:textColor">@color/gray</item>
-        <item name="android:layout_marginRight">@dimen/margin_micro</item>
-        <item name="android:layout_margin">@dimen/margin_small</item>
-    </style>
-<!--    <style name="DoubanAutoCompleteText" parent="@android:style/Widget.Holo.Light.AutoCompleteTextView">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:background">@color/background_black_light</item>
-        <item name="android:completionHintView">@id/my_tags</item>
-    </style>-->
-    <style name="DoubanTextTitle" parent="DoubanText">
-        <item name="android:textSize">@dimen/text_medium</item>
-    </style>
-    <style name="DoubanTextTitle.Black" parent="DoubanTextTitle">
-        <item name="android:textColor">@color/text_black</item>
-    </style>
-    <style name="DoubanTextTitle.Black.Setting" parent="DoubanTextTitle.Black">
-        <item name="android:textColor">@color/text_black</item>
-        <item name="android:padding">@dimen/padding_medium</item>
-    </style>
-    <style name="DoubanTextTitle.Green"  parent="DoubanTextTitle">
-        <item name="android:textColor">@color/text_green</item>
-    </style>
-    <style name="DoubanTextTitle.White"  parent="DoubanTextTitle">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:layout_margin">@dimen/margin_medium</item>
-        <item name="android:background">@drawable/menu_black</item>
-    </style>
-    <style name="DoubanText.Clickable" parent="DoubanText">
-        <item name="android:textColor">@color/text_black</item>
-    </style>
-    <style name="DoubanText.Root" parent="DoubanText">
-        <item name="android:layout_marginRight">0dp</item>
-        <item name="android:paddingRight">0dp</item>
-        <item name="android:layout_marginLeft">0dp</item>
-        <item name="android:paddingLeft">0dp</item>
-    </style>
-    <style name="DoubanText.Prefix" parent="DoubanText">
-        <item name="android:layout_marginRight">0dp</item>
-    </style>
-    <style name="DoubanText.Suffix" parent="DoubanText">
-        <item name="android:layout_marginLeft">0dp</item>
-    </style>
-    <style name="DoubanText.White" parent="DoubanText">
-        <item name="android:textColor">@color/text_white</item>
-        <item name="android:padding">@dimen/padding_medium</item>
-        <item name="android:layout_marginLeft">@dimen/margin_large</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_width">match_parent</item>
-    </style>
-    <style name="DoubanText.FavBooks" parent="DoubanTextTitle.White">
-        <item name="android:background">@color/black_light</item>
-        <!--<item name="android:padding">@dimen/padding_large</item>-->
-    </style>
-    <style name="DoubanEditText" parent="@android:style/Widget.Holo.Light.EditText">
-        <item name="android:background">@drawable/edit_text</item>
-        <item name="android:textColor">@color/text_black</item>
-        <item name="android:textColorHint">@color/gray_light</item>
-        <!--<item name="android:layout_margin">@dimen/margin_small</item>-->
-        <!--<item name="android:padding">@dimen/padding_small</item>-->
-    </style>
-    <style name="DoubanActionBar.Title" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/text_white</item>
-    </style>
-    <style name="DoubanRatingBar" parent="@android:style/Widget.Holo.Light.RatingBar">
-        <item name="android:minHeight">@dimen/ratingbar_height</item>
-        <item name="android:maxHeight">@dimen/ratingbar_height</item>
-        <item name="android:progressDrawable">@drawable/rating_bar</item>
-        <item name="android:indeterminateDrawable">@drawable/rating_bar</item>
-        <item name="android:isIndicator">false</item>
-    </style>
-    <style name="DoubanActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:titleTextStyle">@style/DoubanActionBar.Title</item>
-        <item name="android:background">@color/text_background</item>
-        <item name="android:icon">@drawable/header_menu</item>
-        <item name="android:moreIcon">@drawable/header_more</item>
-        <item name="android:actionOverflowButtonStyle">@style/DoubanActionBar.OverFlow</item>
-        <item name="android:actionBarItemBackground">@color/text_background</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:gravity">center</item>
-        <item name="android:windowTitleBackgroundStyle">@color/text_background</item>
-    </style>
+  <color name="white">#ffffff</color>
+  <color name="black">#000000</color>
+  <color name="black_light">#6b6b6b</color>
+  <color name="transparent">#00000000</color>
+  <color name="dark_transparent">#434343</color>
+  <color name="gray">#797979</color>
+  <color name="gray_divider">#c9c9c9</color>
+  <color name="gray_light">#bbbbbb</color>
+  <color name="gray_light_pressed">#cb7b7b</color>
+  <color name="text_white">#ffffff</color>
+  <color name="edit_text_margin">#e6e6e6</color>
+  <color name="text_background">#669999</color>
+  <color name="text_background_pressed">#4b8282</color>
+  <color name="text_background_margin">#5c8a8a</color>
+  <color name="text_green">#339966</color>
+  <color name="text_orange">#da7317</color>
+  <color name="text_black">#434343</color>
+  <color name="background_white">#f2f2f2</color>
+  <color name="background_pink">#ff9999</color>
+  <color name="background_pink_pressed">#ff7b7b</color>
+  <color name="background_pink_margin">#e68a8a</color>
+  <color name="background_green">#99cc99</color>
+  <color name="background_green_pressed">#65be65</color>
+  <color name="background_green_margin">#8ab88a</color>
+  <color name="background_green_darker">#457878</color>
+  <color name="background_brown">#cc9999</color>
+  <color name="background_brown_pressed">#cb7b7b</color>
+  <color name="background_brown_margin">#b88a8a</color>
+  <color name="background_black">#434343</color>
+  <color name="background_black_light">#515151</color>
+  <color name="background_black_darker">#363636</color>
+
+  <style name="DoubanButton.WhiteText" parent="@android:style/Widget.Holo.Light.Button">
+    <item name="android:background">@color/text_background</item>
+    <item name="android:textColor">@color/text_white</item>
+    <!--<item name="android:padding">@dimen/one_dp</item>-->
+    <item name="android:layout_margin">@dimen/margin_medium</item>
+  </style>
+
+  <style name="DoubanButton.Small" parent="DoubanButton.WhiteText">
+    <item name="android:textSize">@dimen/text_small</item>
+    <item name="android:layout_margin">@dimen/margin_small</item>
+    <item name="android:layout_height">@dimen/text_triple_size</item>
+  </style>
+
+  <style name="DoubanButton.Note" parent="DoubanButton.Small">
+    <item name="android:background">@color/black</item>
+    <item name="android:layout_height">@dimen/text_double_size</item>
+  </style>
+
+  <style name="DoubanButton.FavBooks" parent="DoubanButton.Small">
+    <item name="android:background">@color/black_light</item>
+    <item name="android:layout_height">@dimen/text_double_size</item>
+  </style>
+
+  <style name="DoubanButton.Page" parent="DoubanButton.Small">
+    <item name="android:background">@drawable/button_green_page</item>
+    <item name="android:layout_height">@dimen/text_double_size</item>
+    <item name="android:padding">0dp</item>
+    <item name="android:textSize">@dimen/text_small</item>
+    <item name="android:clickable">false</item>
+  </style>
+
+  <style name="DoubanText" parent="@android:style/Widget.Holo.Light.TextView">
+    <item name="android:textColor">@color/gray</item>
+    <item name="android:layout_marginRight">@dimen/margin_micro</item>
+    <item name="android:layout_margin">@dimen/margin_small</item>
+  </style>
+  <!--    <style name="DoubanAutoCompleteText" parent="@android:style/Widget.Holo.Light.AutoCompleteTextView">
+          <item name="android:textColor">@color/white</item>
+          <item name="android:background">@color/background_black_light</item>
+          <item name="android:completionHintView">@id/my_tags</item>
+      </style>-->
+  <style name="DoubanTextTitle" parent="DoubanText">
+    <item name="android:textSize">@dimen/text_medium</item>
+  </style>
+
+  <style name="DoubanTextTitle.Black" parent="DoubanTextTitle">
+    <item name="android:textColor">@color/text_black</item>
+  </style>
+
+  <style name="DoubanTextTitle.Black.Setting" parent="DoubanTextTitle.Black">
+    <item name="android:textColor">@color/text_black</item>
+    <item name="android:padding">@dimen/padding_medium</item>
+  </style>
+
+  <style name="DoubanTextTitle.Green" parent="DoubanTextTitle">
+    <item name="android:textColor">@color/text_green</item>
+  </style>
+
+  <style name="DoubanTextTitle.White" parent="DoubanTextTitle">
+    <item name="android:textColor">@color/white</item>
+    <item name="android:layout_margin">@dimen/margin_medium</item>
+    <item name="android:background">@drawable/menu_black</item>
+  </style>
+
+  <style name="DoubanText.Clickable" parent="DoubanText">
+    <item name="android:textColor">@color/text_black</item>
+  </style>
+
+  <style name="DoubanText.Root" parent="DoubanText">
+    <item name="android:layout_marginRight">0dp</item>
+    <item name="android:paddingRight">0dp</item>
+    <item name="android:layout_marginLeft">0dp</item>
+    <item name="android:paddingLeft">0dp</item>
+  </style>
+
+  <style name="DoubanText.Prefix" parent="DoubanText">
+    <item name="android:layout_marginRight">0dp</item>
+  </style>
+
+  <style name="DoubanText.Suffix" parent="DoubanText">
+    <item name="android:layout_marginLeft">0dp</item>
+  </style>
+
+  <style name="DoubanText.White" parent="DoubanText">
+    <item name="android:textColor">@color/text_white</item>
+    <item name="android:padding">@dimen/padding_medium</item>
+    <item name="android:layout_marginLeft">@dimen/margin_large</item>
+    <item name="android:layout_height">match_parent</item>
+    <item name="android:layout_width">match_parent</item>
+  </style>
+
+  <style name="DoubanText.FavBooks" parent="DoubanTextTitle.White">
+    <item name="android:background">@color/black_light</item>
+    <!--<item name="android:padding">@dimen/padding_large</item>-->
+  </style>
+
+  <style name="DoubanEditText" parent="@android:style/Widget.Holo.Light.EditText">
+    <item name="android:background">@drawable/edit_text</item>
+    <item name="android:textColor">@color/text_black</item>
+    <item name="android:textColorHint">@color/gray_light</item>
+    <!--<item name="android:layout_margin">@dimen/margin_small</item>-->
+    <!--<item name="android:padding">@dimen/padding_small</item>-->
+  </style>
+
+  <style name="DoubanActionBar.Title" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+    <item name="android:textColor">@color/text_white</item>
+  </style>
+
+  <style name="DoubanRatingBar" parent="@android:style/Widget.Holo.Light.RatingBar">
+    <item name="android:minHeight">@dimen/ratingbar_height</item>
+    <item name="android:maxHeight">@dimen/ratingbar_height</item>
+    <item name="android:progressDrawable">@drawable/rating_bar</item>
+    <item name="android:indeterminateDrawable">@drawable/rating_bar</item>
+    <item name="android:isIndicator">false</item>
+  </style>
+
+  <style name="DoubanActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+    <item name="android:titleTextStyle">@style/DoubanActionBar.Title</item>
+    <item name="android:background">@color/text_background</item>
+    <item name="android:icon">@drawable/header_menu</item>
+    <item name="android:moreIcon">@drawable/header_more</item>
+    <item name="android:actionOverflowButtonStyle">@style/DoubanActionBar.OverFlow</item>
+    <item name="android:actionBarItemBackground">@color/text_background</item>
+    <item name="android:layout_gravity">center</item>
+    <item name="android:gravity">center</item>
+    <item name="android:windowTitleBackgroundStyle">@color/text_background</item>
+  </style>
+
   <style name="DoubanActionBar.OverFlow" parent="@android:style/Widget.Holo.ActionButton.Overflow">
     <item name="android:src">@drawable/header_more</item>
   </style>
-    <style name="DoubanListView" parent="@android:style/Widget.Holo.Light.ListView">
-        <item name="android:layout_margin">@dimen/margin_medium</item>
-    </style>
-    <style name="DoubanTabWidget" parent="@android:style/Widget.Holo.TabWidget">
-        <item name="android:textColor">@drawable/tab_text</item>
-    </style>
-    <style name="DoubanTheme" parent="android:Theme.Holo.Light">
-        <!--<item name="android:windowFullscreen">true</item>-->
-        <!--<item name="android:windowContentOverlay">@null</item>-->
-        <!--<item name="android:background">@color/transparent</item>-->
-        <item name="android:itemBackground">@color/background_white</item>
-        <item name="android:panelBackground">@color/background_white</item>
-        <item name="android:actionBarStyle">@style/DoubanActionBar</item>
-        <item name="android:actionOverflowButtonStyle">@style/DoubanActionBar.OverFlow</item>
-        <item name="android:buttonStyle">@style/DoubanButton.WhiteText</item>
-        <item name="android:listViewStyle">@style/DoubanListView</item>
-        <item name="android:windowBackground">@color/background_white</item>
-        <item name="android:colorBackground">@color/transparent</item>
-        <item name="android:editTextStyle">@style/DoubanEditText</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textViewStyle">@style/DoubanText</item>
-        <!--<item name="android:tabWidgetStyle">@style/DoubanTabWidget</item>-->
-        <!--<item name="android:autoCompleteTextViewStyle">@style/DoubanAutoCompleteText</item>-->
-    </style>
+
+  <style name="DoubanListView" parent="@android:style/Widget.Holo.Light.ListView">
+    <item name="android:layout_margin">@dimen/margin_medium</item>
+  </style>
+
+  <style name="DoubanTabWidget" parent="@android:style/Widget.Holo.TabWidget">
+    <item name="android:textColor">@drawable/tab_text</item>
+  </style>
+
+  <style name="GenericProgressBackground" parent="android:Theme">
+    <item name="android:layout_width">fill_parent</item>
+    <item name="android:layout_height">fill_parent</item>
+    <item name="android:background">#DD111111</item>
+    <item name="android:gravity">center</item>
+  </style>
+
+  <style name="GenericProgressIndicator" parent="@android:style/Widget.ProgressBar.Small">
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:indeterminate">true</item>
+  </style>
+
+  <style name="DoubanTheme" parent="android:Theme.Holo.Light">
+    <!--<item name="android:windowFullscreen">true</item>-->
+    <!--<item name="android:windowContentOverlay">@null</item>-->
+    <!--<item name="android:background">@color/transparent</item>-->
+    <item name="android:itemBackground">@color/background_white</item>
+    <item name="android:panelBackground">@color/background_white</item>
+    <item name="android:actionBarStyle">@style/DoubanActionBar</item>
+    <item name="android:actionOverflowButtonStyle">@style/DoubanActionBar.OverFlow</item>
+    <item name="android:buttonStyle">@style/DoubanButton.WhiteText</item>
+    <item name="android:listViewStyle">@style/DoubanListView</item>
+    <item name="android:windowBackground">@color/background_white</item>
+    <item name="android:colorBackground">@color/transparent</item>
+    <item name="android:editTextStyle">@style/DoubanEditText</item>
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:textViewStyle">@style/DoubanText</item>
+    <!--<item name="android:tabWidgetStyle">@style/DoubanTabWidget</item>-->
+    <!--<item name="android:autoCompleteTextViewStyle">@style/DoubanAutoCompleteText</item>-->
+  </style>
 </resources>
