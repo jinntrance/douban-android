@@ -47,8 +47,8 @@ class NotesActivity extends DoubanActivity {
     if (0 == bookId) finish()
     setContentView(R.layout.notes)
     b match{
-      case savedInstance:Bundle=>fragmentManager.beginTransaction().replace(R.id.notes_container, listFragment).commit()
-      case _=>
+      case savedInstance:Bundle=>
+      case _=> fragmentManager.beginTransaction().replace(R.id.notes_container, listFragment).commit()
     }
 
   }
