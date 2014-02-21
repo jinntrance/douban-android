@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="由于豆瓣未开放接口，故无法提供查看书评、查看评论等功能；同时自己的笔记只能在“我的笔记”中按时间排序查看，不能通过其他途径查看；私密收藏后，也无法通过本app查看，只能用豆瓣官网查看私密状态。以上这些不便还请谅解。"
+        android:text="由于豆瓣未开放API部分接口，故无法提供app UI一致的查看书评、查看评论等功能；同时自己的笔记只能在“我的笔记”中按时间排序查看，不能通过其他途径查看；私密收藏后，也无法通过本app查看，只能用豆瓣官网查看私密状态。以上这些不便还请谅解。"
         android:layout_margin="@dimen/margin_medium" />
 
     <TextView
