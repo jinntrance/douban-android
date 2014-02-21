@@ -31,6 +31,7 @@ import org.scaloid.common.LoggerTag
 import scala.util.Success
 import android.view.ViewGroup.LayoutParams
 import uk.co.senab.photoview.PhotoViewAttacher
+import scala.util.control.Exception.catching
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -233,7 +234,12 @@ trait Douban {
     options.inJustDecodeBounds = false
     val bm = BitmapFactory.decodeFile(filePath, options)
     if (fillWidth) {
+      catching(classOf[OutOfMemoryError]).opt(
       Bitmap.createScaledBitmap(bm, width, Math.round(bm.getHeight.toFloat * width / bm.getWidth), true)
+      ) match{
+        case None=>bm
+        case Some(bitmap)=>bitmap
+      }
     }
     else bm
   }
