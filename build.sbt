@@ -2,6 +2,8 @@ import sbt._
 
 import android.Keys._
 
+import android.Dependencies.{apklib,aar}
+
 
 android.Plugin.androidBuild
 
@@ -34,7 +36,8 @@ libraryDependencies ++= Seq(
   "org.scaloid" % "scaloid_2.10" % "3.2-8",
   "com.douban" % "scala-api_2.10" % "2.4.4.1",
   "com.google.android" % "support-v4" % "r7",
-  "com.google.zxing" % "core" % "2.3.0"
+  "com.google.zxing" % "core" % "2.3.0",
+  "com.github.chrisbanes.photoview" % "library" % "1.2.2"
 )
 
 useProguard in Android := true
