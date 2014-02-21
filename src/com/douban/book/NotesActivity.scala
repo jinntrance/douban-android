@@ -46,7 +46,11 @@ class NotesActivity extends DoubanActivity {
     super.onCreate(b)
     if (0 == bookId) finish()
     setContentView(R.layout.notes)
-    fragmentManager.beginTransaction().replace(R.id.notes_container, listFragment).commit()
+    b match{
+      case savedInstance:Bundle=>fragmentManager.beginTransaction().replace(R.id.notes_container, listFragment).commit()
+      case _=>
+    }
+
   }
 
   override def onCreateOptionsMenu(menu: Menu) = {
