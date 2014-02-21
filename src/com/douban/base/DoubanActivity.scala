@@ -74,11 +74,11 @@ trait Douban {
     toast.show()
   }
 
-  def setViewValue[T <: V](id: Int, value: String, holder: T = rootView, notification: String = "", hideEmpty: Boolean = true): Unit = {
-    setViewValueByView(holder.findViewById(id), value, notification, hideEmpty)
+  def setViewValue[T <: V](id: Int, value: String, holder: T = rootView, notification: String = "", hideEmpty: Boolean = true,showNonEmpty:Boolean=false): Unit = {
+    setViewValueByView(holder.findViewById(id), value, notification, hideEmpty,showNonEmpty)
   }
 
-  def setViewValueByView(v: => View, value: String, notification: String = "", hideEmpty: Boolean = true): Unit = {
+  def setViewValueByView(v: => View, value: String, notification: String = "", hideEmpty: Boolean = true,showNonEmpty:Boolean=false): Unit = {
     value.trim match {
       case "" if hideEmpty => v match {
         case view: View => runOnUiThread(view.setVisibility(View.GONE))
@@ -86,7 +86,7 @@ trait Douban {
       }
       case value: String =>
         v match {
-          case view: View => runOnUiThread(view.setVisibility(View.VISIBLE))
+          case view: View if showNonEmpty => runOnUiThread(view.setVisibility(View.VISIBLE))
           case _ =>
         }
         v match {
@@ -98,18 +98,18 @@ trait Douban {
     }
   }
 
-  def batchSetValues[T <: V](m: Map[Int, Any], values: Map[String, String], holder: T = rootView, separator: String = "/") {
+  def batchSetValues[T <: V](m: Map[Int, Any], values: Map[String, String], holder: T = rootView, separator: String = "/",showNonEmpty:Boolean=false) {
     m.par.foreach {
-      case (id, key: String) => setViewValue(id, values.getOrElse(key, ""), holder)
+      case (id, key: String) => setViewValue(id, values.getOrElse(key, ""), holder,showNonEmpty=showNonEmpty)
       case (id, (key: String, format: String)) =>
         setViewValue(id, {
           val v = values.getOrElse(key, "")
           if (v.isEmpty) "" else format.format(v)
-        }, holder)
+        }, holder,showNonEmpty=showNonEmpty)
       case (id, l: List[String]) =>
-        setViewValue(id, l.map(values.getOrElse(_, "")).filter(_ != "").mkString(separator), holder)
+        setViewValue(id, l.map(values.getOrElse(_, "")).filter(_ != "").mkString(separator), holder,showNonEmpty=showNonEmpty)
       case (id, (urlKey: String, (notifyField: String, format: String))) =>
-        setViewValue(id, values.getOrElse(urlKey, "URL"), holder, format.format(values.getOrElse(notifyField, ""))) //TODO add support
+        setViewValue(id, values.getOrElse(urlKey, "URL"), holder, format.format(values.getOrElse(notifyField, "")),showNonEmpty=showNonEmpty) //TODO add support
     }
   }
 
@@ -270,7 +270,9 @@ trait Douban {
       BitmapFromLocalFile(cacheFile.getAbsolutePath, width, height, fillWidth)
     } onComplete {
       case Success(b) =>
-        runOnUiThread(img.setImageBitmap(b))
+        runOnUiThread{
+          img.setImageBitmap(b)
+        }
 
       case Failure(b) => toast(notification)
     }
@@ -546,7 +548,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   def screenWidth = getResources.getDisplayMetrics.widthPixels
   def screenHeight = getResources.getDisplayMetrics.heightPixels
 
-  def popup(v: View) = {
+  def popup(v: View,reLoad:Boolean=true) = {
     v match {
       case img: ImageView =>
         val imageDialog = new Dialog(this)
@@ -557,10 +559,12 @@ trait DoubanActivity extends SFragmentActivity with Douban {
           screenWidth,
           LayoutParams.WRAP_CONTENT)
         val url = img.getTag.toString
-        if (url.nonEmpty && url.startsWith("http"))
-          loadImage(url, layout.find[ImageView](R.id.image_popup), fillWidth = true)
+        val popupImg: ImageView = layout.find[ImageView](R.id.image_popup)
+        if (reLoad && url.nonEmpty && url.startsWith("http"))
+          loadImage(url, popupImg, fillWidth = true)
         else
-          layout.find[ImageView](R.id.image_popup).setImageDrawable(img.getDrawable)
+          popupImg.setImageDrawable(img.getDrawable)
+        toggleBetween(R.id.image_popup,R.id.popup_progress,layout)
         imageDialog.setContentView(layout)
         imageDialog.setCancelable(true)
         imageDialog.show()
@@ -682,7 +686,7 @@ class ItemAdapter[B <: AnyRef](layoutId: Int, mapping: Map[Int, Any], load: => U
   def getView(position: Int, view: View, parent: ViewGroup): View = if (count == 0 || position >= count) null
   else {
     val convertView = if (null != view) view else activity.getLayoutInflater.inflate(layoutId, null)
-    activity.batchSetValues(mapping, beanToMap(list(position)), convertView)
+    activity.batchSetValues(mapping, beanToMap(list(position)), convertView,showNonEmpty = true)
     if (count < total && position + 1 == count) {
       selfLoad()
     }

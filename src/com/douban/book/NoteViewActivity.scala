@@ -71,7 +71,7 @@ class NoteViewActivity(layoutId: Int) extends SwipeGestureDoubanActivity {
           parse(suffix, layout)
         case "" => layout
         case txt => layout += new SLinearLayout {
-          STextView(txt).textColor(black)
+          STextView(txt.replaceAll("""\s+$""","\n")).textColor(black)
         }
       }
     }
