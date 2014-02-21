@@ -241,18 +241,18 @@ trait Douban {
 
   def loadImage(url: String, img: ImageView, notification: String = "", updateCache: Boolean = false, fillWidth: Boolean = false): Unit = {
     val width =
-      if (fillWidth) getThisActivity.getResources.getDisplayMetrics.widthPixels
+      if (fillWidth) getThisActivity.screenWidth
       else if (img.getWidth > 0) img.getWidth
       else img.getDrawable match {
         case w: Drawable => w.getIntrinsicWidth
-        case _ => getThisActivity.getResources.getDisplayMetrics.widthPixels
+        case _ => getThisActivity.screenWidth
       }
     val height =
       if (fillWidth) 0
       else if (img.getHeight > 0) img.getHeight
       else img.getDrawable match {
         case w: Drawable => w.getIntrinsicHeight
-        case _ => getThisActivity.getResources.getDisplayMetrics.heightPixels
+        case _ => getThisActivity.screenHeight
       }
     val cacheFile = new File(ctx.getExternalCacheDir, url.dropWhile(_ != '/'))
     runOnUiThread(img.setTag(url))
@@ -543,6 +543,9 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     slidingMenu.toggle()
   }
 
+  def screenWidth = getResources.getDisplayMetrics.widthPixels
+  def screenHeight = getResources.getDisplayMetrics.heightPixels
+
   def popup(v: View) = {
     v match {
       case img: ImageView =>
@@ -551,7 +554,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
         val layout = getLayoutInflater.inflate(R.layout.image_popup, null)
         val window = imageDialog.getWindow
         window.setLayout(
-          LayoutParams.MATCH_PARENT,
+          screenWidth,
           LayoutParams.WRAP_CONTENT)
         val url = img.getTag.toString
         if (url.nonEmpty && url.startsWith("http"))
@@ -690,12 +693,11 @@ class ItemAdapter[B <: AnyRef](layoutId: Int, mapping: Map[Int, Any], load: => U
 case class ListResult[T](total: Int, list: java.util.List[T])
 
 trait SwipeGestureDoubanActivity extends DoubanActivity {
-  lazy val screenWidth = getResources.getDisplayMetrics.widthPixels
   lazy val detector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
 
     override def onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float) = {
       val offset: Float = e2.getRawX - e1.getRawX
-      val threshold: Int = (0.6 * screenWidth).toInt
+      val threshold: Int = (0.4 * screenWidth).toInt
       if (offset > threshold) {
         showPre()
         true

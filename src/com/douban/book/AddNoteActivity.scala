@@ -49,7 +49,12 @@ class AddNoteActivity extends DoubanActivity {
         noteConent=a.content
     }
     }
-    fragmentManager.beginTransaction().replace(R.id.add_note_container, new AddNoteFragment().addArguments(bundle), Constant.ACTIVITY_NOTE_ADDITION).commit()
+    b match{
+      case savedInstance:Bundle=>
+        fragmentManager.beginTransaction().replace(R.id.add_note_container, new AddNoteFragment().addArguments(bundle), Constant.ACTIVITY_NOTE_ADDITION).commit()
+      case _=>
+    }
+
   }
 
   def submit(v: View) {
