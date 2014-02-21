@@ -58,12 +58,10 @@ trait Douban {
     }
   }
 
-  def fetchAndClearData: java.io.Serializable = {
+  def fetchData: java.io.Serializable = {
     ctx.getApplication match {
       case d: DoubanContext =>
-        val data = d.serializableData
-        d.serializableData = null
-        data
+        d.serializableData
       case _ => null
     }
   }
@@ -86,7 +84,12 @@ trait Douban {
         case view: View => runOnUiThread(view.setVisibility(View.GONE))
         case _ =>
       }
-      case value: String => v match {
+      case value: String =>
+        v match {
+          case view: View => runOnUiThread(view.setVisibility(View.VISIBLE))
+          case _ =>
+        }
+        v match {
         case view: TextView => runOnUiThread(view.setText(value))
         case rating: RatingBar => runOnUiThread(rating.setNumStars(value.toInt))
         case img: ImageView if value != "URL" => loadImage(value, img, notification)
@@ -100,7 +103,7 @@ trait Douban {
       case (id, key: String) => setViewValue(id, values.getOrElse(key, ""), holder)
       case (id, (key: String, format: String)) =>
         setViewValue(id, {
-          val v = values.getOrElse(key, "");
+          val v = values.getOrElse(key, "")
           if (v.isEmpty) "" else format.format(v)
         }, holder)
       case (id, l: List[String]) =>
