@@ -30,6 +30,7 @@ import com.douban.common.AccessTokenResult
 import org.scaloid.common.LoggerTag
 import scala.util.Success
 import android.view.ViewGroup.LayoutParams
+import uk.co.senab.photoview.PhotoViewAttacher
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -209,17 +210,21 @@ trait Douban {
   private def calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int = {
     val height: Int = options.outHeight
     val width: Int = options.outWidth
-    var inSampleSize: Int = 1
+    var inSampleSize = 1.0f
     if (height > reqHeight || width > reqWidth) {
-      val heightRatio: Int = Math.round(height / reqHeight.toFloat)
-      val widthRatio: Int = Math.round(width / reqWidth.toFloat)
-      inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
+      val heightRatio = height / reqHeight.toFloat
+      val widthRatio = width / reqWidth.toFloat
+      inSampleSize = if (heightRatio <= widthRatio) heightRatio else widthRatio
     }
-    inSampleSize
+    if(inSampleSize<=1) 1
+    else Math.round(inSampleSize)
   }
 
   def BitmapFromLocalFile(filePath: String, width: Int, height: Int, fillWidth: Boolean = false) = {
     val options: BitmapFactory.Options = new BitmapFactory.Options
+    options.inInputShareable=true
+    options.inDither=false
+    options.inTempStorage=new Array[Byte](32 * 1024)
     options.inJustDecodeBounds = true
     BitmapFactory.decodeFile(filePath, options)
     // Calculate inSampleSize
@@ -248,7 +253,7 @@ trait Douban {
         case _ => getThisActivity.screenWidth
       }
     val height =
-      if (fillWidth) 0
+      if (fillWidth) getThisActivity.screenHeight
       else if (img.getHeight > 0) img.getHeight
       else img.getDrawable match {
         case w: Drawable => w.getIntrinsicHeight
@@ -266,6 +271,7 @@ trait Douban {
         val out = new FileOutputStream(cacheFile, false)
         b.compress(Bitmap.CompressFormat.JPEG, 100, out)
         out.close()
+        b.recycle()
       }
       BitmapFromLocalFile(cacheFile.getAbsolutePath, width, height, fillWidth)
     } onComplete {
@@ -548,7 +554,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   def screenWidth = getResources.getDisplayMetrics.widthPixels
   def screenHeight = getResources.getDisplayMetrics.heightPixels
 
-  def popup(v: View,reLoad:Boolean=true) = {
+  def popup(v: View,reLoad:Boolean):Unit = {
     v match {
       case img: ImageView =>
         val imageDialog = new Dialog(this)
@@ -571,6 +577,8 @@ trait DoubanActivity extends SFragmentActivity with Douban {
       case _ =>
     }
   }
+
+  def popup(v: View):Unit = popup(v,true)
 
   def restartApplication(delay: Int = 3000) {
     val intent = PendingIntent.getActivity(getBaseContext, 0, new Intent(getIntent), getIntent.getFlags)

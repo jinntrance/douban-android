@@ -8,6 +8,7 @@ import org.scaloid.common._
 import android.app.Activity
 import com.douban.models.{Annotation, Book}
 import java.util
+import uk.co.senab.photoview.PhotoViewAttacher
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -65,7 +66,8 @@ class NoteViewActivity(layoutId: Int) extends SwipeGestureDoubanActivity {
         case r"([\s\S]*?)${pre}<图片(\d+)${imgUrl}>([\s\S]*)${suffix}" =>
           parse(pre, layout)
           layout += new SLinearLayout {
-            val img = SImageView().onClick(popup(_))
+            val img = SImageView()//.onClick(popup(_))
+            new PhotoViewAttacher(img)
             loadImage(a.photos.get(imgUrl), img, fillWidth = true)
           }
           parse(suffix, layout)
