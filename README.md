@@ -7,6 +7,8 @@
 
 Play Store https://play.google.com/store/apps/details?id=com.douban.book
 
+意见、反馈等可建issues、email我(jinntrance@gmail.com)或给我留言 http://weibo.com/jinntrance
+
 Douban Books
 =============
 
