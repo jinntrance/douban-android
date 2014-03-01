@@ -376,6 +376,8 @@ trait DoubanActivity extends SFragmentActivity with Douban {
 
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
+    val extras=getIntent.getExtras
+    debug(extras.keySet().map(k=>(k,extras.get(k))).mkString("\n"))
     getActionBar.setDisplayHomeAsUpEnabled(true)
     Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
       def uncaughtException(thread: Thread, ex: Throwable) {
