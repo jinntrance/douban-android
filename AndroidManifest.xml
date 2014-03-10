@@ -36,9 +36,9 @@
                 android:resource="@xml/searchable"/>
         </activity>
         <activity android:label="@string/login" android:name=".LoginActivity" />
-      <activity android:label="@string/favorite" android:name=".FavoriteBooksActivity" />
+      <activity android:label="@string/favorite" android:name=".FavoriteBooksActivity" android:launchMode="singleTop"/>
       <activity android:label="@string/menu_settings" android:name=".SettingsActivity"/>
-      <activity android:label="@string/mynote" android:name=".MyNoteActivity" />
+      <activity android:label="@string/mynote" android:name=".MyNoteActivity" android:launchMode="singleTop"/>
       <activity android:label="关于" android:name=".AboutActivity" />
         <activity android:label="@string/scan_book" android:name=".ScannerActivity"/>
         <activity android:name=".BookActivity"/>
@@ -50,7 +50,7 @@
         <activity android:label="@string/mynote" android:name=".MyNoteViewActivity" />
         <activity android:label="@string/favorite_search" android:name=".FavoriteBooksListActivity" />
         <activity android:label="@string/favorite_search" android:name=".FavoriteBooksFilterActivity" />
-        <activity android:label="@string/search" android:name=".SearchResultActivity"/>
+        <activity android:label="@string/search" android:name=".SearchResultActivity" android:launchMode="singleTop"/>
         <activity android:name="com.google.zxing.client.android.CaptureActivity"
             android:screenOrientation="landscape"
             android:clearTaskOnLaunch="true"
