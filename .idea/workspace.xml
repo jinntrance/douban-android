@@ -6,11 +6,11 @@
   <component name="AndroidConfiguredLogFilters">
     <filters>
       <filter>
-        <option name="logLevel" value="info" />
+        <option name="logLevel" value="verbose" />
         <option name="logMessagePattern" value="" />
-        <option name="logTagPattern" value="" />
-        <option name="name" value="douban" />
-        <option name="packageNamePattern" value="com.douban.book" />
+        <option name="logTagPattern" value="DoubanBook" />
+        <option name="name" value="Douban" />
+        <option name="packageNamePattern" value="" />
         <option name="pid" value="" />
       </filter>
     </filters>
@@ -36,60 +36,41 @@
   <component name="AndroidLayouts">
     <shared>
       <config>
-        <target>android-10</target>
+        <target>android-14</target>
       </config>
     </shared>
     <layouts>
-      <layout url="file://$PROJECT_DIR$/res/layout/book_view.xml">
-        <config>
-          <device>Nexus 4</device>
-          <theme>@style/DoubanTheme</theme>
-        </config>
-      </layout>
       <layout url="file://$PROJECT_DIR$/res/layout/fav_books_filter.xml">
         <config>
           <device>Nexus 4</device>
           <theme>@style/DoubanTheme</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/res/layout/header_edit.xml">
-        <config>
-          <device>Nexus 4</device>
-          <theme>@android:style/Theme.Holo</theme>
-        </config>
-      </layout>
       <layout url="file://$PROJECT_DIR$/res/layout/header_note.xml">
         <config>
           <device>Nexus 4</device>
-          <theme>@android:style/Theme.Holo</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/res/layout/image_popup.xml">
-        <config>
-          <device>Nexus 4</device>
-          <theme>@style/DoubanTheme</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/res/layout/notes_item.xml">
-        <config>
-          <device>Nexus 4</device>
-          <theme>@android:style/Theme.Holo</theme>
+          <theme>@style/CaptureTheme</theme>
         </config>
       </layout>
     </layouts>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="INFO" />
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="douban" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="WARN" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3578ce4-e92d-4a18-b282-ad7e4c9648c2" name="Default" comment="updated icons and fixed  inconsistencebug&#10;">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/douban/book/AddNoteActivity.scala" afterPath="$PROJECT_DIR$/src/com/douban/book/AddNoteActivity.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/douban/book/NotesActivity.scala" afterPath="$PROJECT_DIR$/src/com/douban/book/NotesActivity.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    <list default="true" id="f3578ce4-e92d-4a18-b282-ad7e4c9648c2" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/IdeaProject.iml" afterPath="$PROJECT_DIR$/.idea/IdeaProject.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
     </list>
-    <list id="2c086e46-fd3c-4fac-b83f-f51ce7966a37" name="ignore" comment="" />
+    <list id="2c086e46-fd3c-4fac-b83f-f51ce7966a37" name="ignore" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/zxing-android/zxing-android.iml" afterPath="$PROJECT_DIR$/dependencies/zxing-android/zxing-android.iml" />
+    </list>
     <ignored path="douban-android.iws" />
     <ignored path=".idea/workspace.xml" />
+    <file path="$PROJECT_DIR$/.idea/workspace.xml" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,39 +85,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file:///opt/android-sdk-linux/sources/android-18/android/content/Intent.java" line="5641" class="android.content.Intent" package="android.content">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/douban/base/DoubanActivity.scala" line="700" class="com.douban.base.SwipeGestureDoubanActivity$$anon$1" package="com.douban.base">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -173,6 +121,54 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
+    <line_breakpoints>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/douban/book/LoginActivity.scala" line="59" class="com.douban.book.LoginActivity.DoubanWebViewClient" package="com.douban.book">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/douban/book/LoginActivity.scala" line="60" class="com.douban.book.LoginActivity.DoubanWebViewClient" package="com.douban.book">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/douban/book/LoginActivity.scala" line="58" class="com.douban.book.LoginActivity.DoubanWebViewClient" package="com.douban.book">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -182,37 +178,60 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="DoubanActivity.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/douban/base/DoubanActivity.scala">
+      <file leaf-file-name="NoteViewActivity.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/douban/book/NoteViewActivity.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="436" column="26" selection-start="15249" selection-end="15264" vertical-scroll-proportion="-6.8076925" vertical-offset="7149" max-vertical-offset="12510">
+            <state line="86" column="39" selection-start="2863" selection-end="2863" vertical-scroll-proportion="0.0" vertical-offset="1290" max-vertical-offset="1995">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NotesActivity.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/douban/book/NotesActivity.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="161" column="15" selection-start="5627" selection-end="5627" vertical-scroll-proportion="-7.0384617" vertical-offset="2499" max-vertical-offset="3654">
+      <file leaf-file-name="note_view.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/note_view.xml">
+          <provider selected="true" editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider editor-type-id="text-editor">
+            <state line="21" column="52" selection-start="906" selection-end="906" vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="1125">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AddNoteActivity.scala" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Constant.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/douban/base/Constant.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="12" column="39" selection-start="344" selection-end="344" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1005">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AddNoteActivity.scala" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/douban/book/AddNoteActivity.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="148" column="4" selection-start="5090" selection-end="5090" vertical-scroll-proportion="0.0" vertical-offset="2144" max-vertical-offset="3996">
+            <state line="65" column="24" selection-start="2248" selection-end="2248" vertical-scroll-proportion="0.3322884" vertical-offset="869" max-vertical-offset="3495">
+              <folding>
+                <element signature="e#25#90#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SearchBookContentsActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dependencies/zxing-android/src/com/google/zxing/client/android/book/SearchBookContentsActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="170" column="49" selection-start="5531" selection-end="5531" vertical-scroll-proportion="0.0" vertical-offset="1670" max-vertical-offset="3450">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CollectionActivity.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/douban/book/CollectionActivity.scala">
+      <file leaf-file-name="strings.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="76" column="4" selection-start="2233" selection-end="2233" vertical-scroll-proportion="0.0" vertical-offset="942" max-vertical-offset="4734">
+            <state line="65" column="39" selection-start="3093" selection-end="3093" vertical-scroll-proportion="0.0" vertical-offset="451" max-vertical-offset="1080">
               <folding />
             </state>
           </provider>
@@ -221,53 +240,39 @@
       <file leaf-file-name="ReviewActivity.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/douban/book/ReviewActivity.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="59" column="10" selection-start="2199" selection-end="2201" vertical-scroll-proportion="-11.384615" vertical-offset="622" max-vertical-offset="1638">
+            <state line="11" column="27" selection-start="440" selection-end="440" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1500">
+              <folding>
+                <element signature="e#25#74#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoginActivity.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/douban/book/LoginActivity.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="75" column="0" selection-start="2543" selection-end="2543" vertical-scroll-proportion="0.0" vertical-offset="344" max-vertical-offset="1170">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ScannerActivity.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/douban/book/ScannerActivity.scala">
+      <file leaf-file-name="AccessTokenResult.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.ivy2/local/com.douban/scala-api_2.11.0-RC3/2.4.5/jars/scala-api_2.11.0-RC3.jar!/com/douban/common/AccessTokenResult.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="58" selection-start="488" selection-end="488" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="414">
+            <state line="1" column="11" selection-start="37" selection-end="37" vertical-scroll-proportion="-0.6" vertical-offset="0" max-vertical-offset="135">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SearchActivity.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/douban/book/SearchActivity.scala">
+      <file leaf-file-name="build.sbt" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build.sbt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="14" selection-start="1164" selection-end="1165" vertical-scroll-proportion="-11.576923" vertical-offset="221" max-vertical-offset="1458">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SearchResultActivity.scala" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/douban/book/SearchResultActivity.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="87" column="41" selection-start="2846" selection-end="2846" vertical-scroll-proportion="0.429078" vertical-offset="1144" max-vertical-offset="2898">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SettingsActivity.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/douban/book/SettingsActivity.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="53" selection-start="907" selection-end="907" vertical-scroll-proportion="-17.461538" vertical-offset="50" max-vertical-offset="954">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UploadFragment.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/douban/book/UploadFragment.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="6" selection-start="359" selection-end="359" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="360">
-              <folding />
+            <state line="14" column="35" selection-start="210" selection-end="210" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="945">
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -296,57 +301,48 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/douban/book/package.scala" />
-        <option value="$PROJECT_DIR$/res/layout/fav_books_item.xml" />
-        <option value="$PROJECT_DIR$/res/layout/book_image.xml" />
+        <option value="$PROJECT_DIR$/dependencies/slidingMenu/gen/com/jeremyfeinstein/slidingmenu/lib/BuildConfig.java" />
+        <option value="$PROJECT_DIR$/dependencies/slidingMenu/gen/com/jeremyfeinstein/slidingmenu/lib/R.java" />
         <option value="$PROJECT_DIR$/res/layout/menu.xml" />
-        <option value="$PROJECT_DIR$/res/layout/fav_books.xml" />
-        <option value="$PROJECT_DIR$/res/layout/mynotes.xml" />
-        <option value="$PROJECT_DIR$/res/layout/settings.xml" />
-        <option value="$PROJECT_DIR$/res/layout/fav_books_filter.xml" />
-        <option value="$PROJECT_DIR$/src/com/douban/book/SearchActivity.scala" />
-        <option value="$PROJECT_DIR$/src/com/douban/book/MyNoteActivity.scala" />
-        <option value="$PROJECT_DIR$/src/com/douban/book/SettingsActivity.scala" />
-        <option value="$PROJECT_DIR$/src/com/douban/book/LoginActivity.scala" />
-        <option value="$PROJECT_DIR$/res/layout/note_add_chapter.xml" />
-        <option value="$PROJECT_DIR$/res/layout/fav_books_result.xml" />
-        <option value="$PROJECT_DIR$/res/layout/about.xml" />
-        <option value="$PROJECT_DIR$/src/com/douban/book/SearchResultActivity.scala" />
-        <option value="$PROJECT_DIR$/res/layout/note_to_add.xml" />
         <option value="$PROJECT_DIR$/res/layout/note_add.xml" />
-        <option value="$PROJECT_DIR$/dependencies/zxing-android/gen/com/google/zxing/client/android/R.java" />
-        <option value="$PROJECT_DIR$/res/layout/collection.xml" />
-        <option value="$PROJECT_DIR$/key.properties" />
-        <option value="$PROJECT_DIR$/res/layout/notes_list.xml" />
-        <option value="$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala" />
-        <option value="$PROJECT_DIR$/src/com/douban/book/CollectionActivity.scala" />
-        <option value="$PROJECT_DIR$/res/layout/ratingbar.xml" />
-        <option value="$PROJECT_DIR$/res/layout/reviews.xml" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/src/org/scaloid/support/v4/app.scala" />
-        <option value="$PROJECT_DIR$/project/plugins.sbt" />
-        <option value="$PROJECT_DIR$/build.sbt" />
-        <option value="$PROJECT_DIR$/src/com/douban/book/test.java" />
-        <option value="$PROJECT_DIR$/res/menu/edit_note.xml" />
-        <option value="$PROJECT_DIR$/src/com/douban/base/DoubanContext.scala" />
-        <option value="$PROJECT_DIR$/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/src/com/douban/book/ReviewActivity.scala" />
+        <option value="$PROJECT_DIR$/dependencies/zxing-android/src/com/google/zxing/client/android/camera/CameraManager.java" />
         <option value="$PROJECT_DIR$/src/com/douban/book/BookActivity.scala" />
-        <option value="$PROJECT_DIR$/res/layout/mynote_view.xml" />
-        <option value="$PROJECT_DIR$/res/layout/note_view.xml" />
-        <option value="$PROJECT_DIR$/src/com/douban/base/TouchImageView.java" />
-        <option value="$PROJECT_DIR$/src/com/douban/book/Test.java" />
-        <option value="$PROJECT_DIR$/proguard.cfg" />
-        <option value="$PROJECT_DIR$/src/com/douban/book/NoteViewActivity.scala" />
+        <option value="$PROJECT_DIR$/src/com/douban/book/DatePicker.java" />
+        <option value="$PROJECT_DIR$/res/layout/fav_books_filter.xml" />
         <option value="$PROJECT_DIR$/res/values/styles.xml" />
-        <option value="$PROJECT_DIR$/res/layout/image_popup.xml" />
-        <option value="$PROJECT_DIR$/res/drawable/divider_vertical.xml" />
-        <option value="$PROJECT_DIR$/res/layout/book_view.xml" />
-        <option value="$PROJECT_DIR$/src/com/douban/base/DoubanActivity.scala" />
-        <option value="$PROJECT_DIR$/res/layout/header_edit_note.xml" />
+        <option value="$PROJECT_DIR$/res/layout/fav_books_result.xml" />
+        <option value="$PROJECT_DIR$/src/com/douban/book/package.scala" />
+        <option value="$PROJECT_DIR$/src/com/douban/book/SearchActivity.scala" />
+        <option value="$PROJECT_DIR$/res/layout/book_image.xml" />
+        <option value="$PROJECT_DIR$/res/layout/fav_books_item.xml" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/res/menu/edit_note.xml" />
+        <option value="$PROJECT_DIR$/dependencies/zxing-android/src/com/google/zxing/client/android/CaptureActivity.java" />
+        <option value="$PROJECT_DIR$/dependencies/zxing-android/src/com/google/zxing/client/android/BeepManager.java" />
         <option value="$PROJECT_DIR$/res/layout/header_note.xml" />
+        <option value="$PROJECT_DIR$/res/layout/about.xml" />
+        <option value="$PROJECT_DIR$/src/com/douban/book/CollectionActivity.scala" />
+        <option value="$PROJECT_DIR$/proguard.cfg" />
+        <option value="$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala" />
+        <option value="$PROJECT_DIR$/src/com/douban/book/SearchResultActivity.scala" />
+        <option value="$PROJECT_DIR$/res/layout/notes_item.xml" />
+        <option value="$PROJECT_DIR$/res/values/dimens.xml" />
         <option value="$PROJECT_DIR$/src/com/douban/book/AddNoteActivity.scala" />
         <option value="$PROJECT_DIR$/src/com/douban/book/NotesActivity.scala" />
+        <option value="$PROJECT_DIR$/src/com/douban/book/MyNoteActivity.scala" />
+        <option value="$PROJECT_DIR$/res/layout/note_view.xml" />
+        <option value="$PROJECT_DIR$/src/TouchImageView.java" />
+        <option value="$PROJECT_DIR$/src/com/douban/base/TouchImageView.java" />
+        <option value="$PROJECT_DIR$/src/com/douban/book/ImagePopupActivity.scala" />
+        <option value="$PROJECT_DIR$/res/layout/image_popup.xml" />
+        <option value="$PROJECT_DIR$/src/com/douban/book/NoteViewActivity.scala" />
+        <option value="$PROJECT_DIR$/build.sbt" />
+        <option value="$PROJECT_DIR$/src/com/douban/book/ReviewActivity.scala" />
+        <option value="$PROJECT_DIR$/src/com/douban/base/Constant.scala" />
+        <option value="$PROJECT_DIR$/src/com/douban/base/DoubanContext.scala" />
+        <option value="$PROJECT_DIR$/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/src/com/douban/base/DoubanActivity.scala" />
       </list>
     </option>
   </component>
@@ -354,10 +350,9 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1" />
-    <option name="y" value="-4" />
-    <option name="width" value="1922" />
-    <option name="height" value="1085" />
+    <option name="y" value="24" />
+    <option name="width" value="1280" />
+    <option name="height" value="776" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -424,7 +419,7 @@
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
-    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="false" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
     <ConfirmationsSetting value="0" id="Add" />
@@ -436,7 +431,6 @@
   <component name="ProjectStructureProblems">
     <ignored-problems>
       <problem id="unused-library(library:project:SBT: org.scala-lang:scala-library:2.9.2)" />
-      <problem id="unused-library(library:project:SBT: scala:2.10.3)" />
       <problem id="unused-library(library:project:SBT: scala:2.9.2)" />
     </ignored-problems>
   </component>
@@ -475,11 +469,15 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="SBT: org.scala-lang:scala-library:2.10.3" />
+              <option name="myItemId" value="SBT: org.scaloid:scaloid_2.11.0-RC3:3.3-8-SNAPSHOT" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="scala-library.jar" />
+              <option name="myItemId" value="scaloid_2.11.0-RC3.jar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scaloid" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -493,15 +491,19 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="SBT: org.scala-lang:scala-library:2.10.3" />
+              <option name="myItemId" value="SBT: org.scaloid:scaloid_2.11.0-RC3:3.3-8-SNAPSHOT" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="scala-library.jar" />
+              <option name="myItemId" value="scaloid_2.11.0-RC3.jar" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="scala" />
+              <option name="myItemId" value="scaloid" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -515,20 +517,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="SBT: org.scala-lang:scala-library:2.10.3" />
+              <option name="myItemId" value="SBT: org.scaloid:scaloid_2.11.0-RC3:3.3-8-SNAPSHOT" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="scala-library.jar" />
+              <option name="myItemId" value="scaloid_2.11.0-RC3.jar" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="scala" />
+              <option name="myItemId" value="scaloid" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="concurrent" />
+              <option name="myItemId" value="common" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WidgetHelpers.class" />
+              <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -541,23 +547,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="SBT: org.scala-lang:scala-library:2.10.3" />
+              <option name="myItemId" value="SBT: org.scaloid:scaloid_2.11.0-RC3:3.3-8-SNAPSHOT" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="scala-library.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="scala" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="concurrent" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="forkjoin" />
+              <option name="myItemId" value="scaloid_2.11.0-RC3.jar" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -624,6 +618,72 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="internal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="douban-android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SBT: com.douban:scala-api_2.11.0-RC3:2.4.5" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scala-api_2.11.0-RC3.jar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="douban-android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SBT: com.douban:scala-api_2.11.0-RC3:2.4.5" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scala-api_2.11.0-RC3.jar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="douban" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="douban-android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SBT: com.douban:scala-api_2.11.0-RC3:2.4.5" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scala-api_2.11.0-RC3.jar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="douban" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -713,184 +773,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; Android 4.3 Platform &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dalvik" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="system" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; Android 4.3 Platform &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dalvik" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; Android 4.3 Platform &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; Android 4.3 Platform &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="view" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; Android 4.3 Platform &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="os" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; Android 4.3 Platform &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="graphics" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; Android 4.3 Platform &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="graphics" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="drawable" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="douban-android" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -906,54 +788,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="v4" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="v4" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="package.scala" />
-              <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="book" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -977,166 +811,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="book" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SettingsActivity.scala" />
-              <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="book" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SearchResultActivity.scala" />
-              <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="book" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="NoteViewActivity.scala" />
-              <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="book" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="NotesActivity.scala" />
-              <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="book" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MyNoteActivity.scala" />
-              <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="book" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CollectionActivity.scala" />
-              <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="douban" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="book" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BookActivity.scala" />
-              <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -1241,6 +915,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="douban-android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="douban-android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -1259,7 +951,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="drawable" />
+              <option name="myItemId" value="drawable-hdpi" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1317,6 +1009,94 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="douban-android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="douban-android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dependencies" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="zxing-android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="douban-android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="douban-android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dependencies" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="zxing-android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="douban-android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="douban-android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dependencies" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="zxing-android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="book" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="douban-android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="douban-android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dependencies" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
@@ -1325,7 +1105,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="SHOW_ALL_PROCESSES" value="false" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="210" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="241" />
     <property name="project.structure.proportion" value="0.15" />
@@ -1337,19 +1117,19 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="292" />
     <property name="ExportedModule" value="douban-book" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/proguard.cfg" />
+    <property name="last_opened_file_path" value="$USER_HOME$/.ivy2/local/org.scaloid/scaloid-support-v4_2.11.0-RC3/3.3-8-SNAPSHOT/jars/scaloid-support-v4_2.11.0-RC3.jar!/" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="244" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="936" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="1143" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="306" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="304" />
     <property name="GoToClass.includeJavaFiles" value="false" />
-    <property name="DEBUGGABLE_DEVICE" value="01469B950200200D" />
+    <property name="DEBUGGABLE_DEVICE" value="0123456789ABCDEF" />
     <property name="DEBUGGABLE_PROCESS" value="com.douban.book" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
-    <property name="AndroidTargetDevices" value="192.168.4.24:5555" />
+    <property name="AndroidTargetDevices" value="0123456789ABCDEF" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
@@ -1361,29 +1141,29 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
     <property name="AndroidProguardConfigPath" value="$PROJECT_DIR$/proguard.cfg" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="options.lastSelected" value="org.jetbrains.plugins.scala.settings.ScalaProjectSettingsConfigurable" />
+    <property name="options.lastSelected" value="reference.projectsettings.compiler.excludes" />
     <property name="AndroidLayoutSelectedEditor" value="text-editor" />
-    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="project.structure.side.proportion" value="0.3295562" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="AndroidRunProguardForReleaseBuild" value="true" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="UI_DESIGNER_EDITOR_MODE.PaletteToolWindowManager.WIDTH" value="280" />
+    <property name="UI_DESIGNER_EDITOR_MODE.PaletteToolWindowManager.WIDTH" value="462" />
     <property name="LayoutCode.rearrangeEntriesScala" value="false" />
     <property name="UI_DESIGNER_EDITOR_MODE.PaletteToolWindowManager.SHOW" value="true" />
-    <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager2.WIDTH" value="556" />
-    <property name="AndroidProguardConfigPaths" value="/opt/android-sdk-linux/tools/proguard/proguard-android-optimize.txt:/home/joseph/workspaces/douban-android/proguard.cfg" />
-    <property name="LayoutCode.rearrangeEntries" value="false" />
+    <property name="LayoutCode.rearrangeEntriesJava" value="false" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="01469B950200200D" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="10in" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/res" />
-      <recent name="$PROJECT_DIR$/res/drawable" />
-      <recent name="$PROJECT_DIR$/res/drawable-hdpi" />
       <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/dependencies/zxing-android/res/values" />
+      <recent name="$PROJECT_DIR$/dependencies/zxing-android/assets/html" />
       <recent name="$PROJECT_DIR$/res/layout" />
+      <recent name="$PROJECT_DIR$/res/drawable" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/dependencies/zxing-android/src/com/google/zxing/client/android" />
@@ -1432,6 +1212,33 @@
       <setting name="showProgressMessages" value="true" />
       <method />
     </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method />
+    </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -1443,24 +1250,6 @@
       <option name="VM_PARAMETERS" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
-    <configuration default="true" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java">
-      <option name="myFilePath" />
-      <option name="GLUE" />
-      <option name="myNameFilter" />
-      <option name="myGeneratedName" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="" />
-      <envs />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -1535,7 +1324,7 @@
       <option name="MODE" value="default_activity" />
       <option name="DEPLOY" value="true" />
       <option name="ARTIFACT_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="USB_DEVICE" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
       <option name="USE_LAST_SELECTED_DEVICE" value="false" />
       <option name="PREFERRED_AVD" value="" />
       <option name="USE_COMMAND_LINE" value="true" />
@@ -1544,7 +1333,7 @@
       <option name="DISABLE_BOOT_ANIMATION" value="false" />
       <option name="NETWORK_SPEED" value="full" />
       <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="true" />
+      <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <RunnerSettings RunnerId="AndroidDebugRunner" />
       <ConfigurationWrapper RunnerId="AndroidDebugRunner" />
@@ -1553,12 +1342,6 @@
     <list size="1">
       <item index="0" class="java.lang.String" itemvalue="Android Application.douban-book" />
     </list>
-    <configuration name="&lt;template&gt;" type="TestNG" default="true" selected="false">
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-    </configuration>
     <configuration name="&lt;template&gt;" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" default="true" selected="false">
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
     </configuration>
@@ -1600,51 +1383,7 @@
       <workItem from="1386580793123" duration="17958000" />
       <workItem from="1386603533298" duration="853000" />
       <workItem from="1386604924175" duration="13304000" />
-      <workItem from="1386739630096" duration="3183000" />
-      <workItem from="1387714552709" duration="7902000" />
-      <workItem from="1387943794902" duration="1858000" />
-      <workItem from="1387988254374" duration="605000" />
-      <workItem from="1387989475724" duration="1641000" />
-      <workItem from="1387991579731" duration="11046000" />
-      <workItem from="1388057169928" duration="11393000" />
-      <workItem from="1388070140323" duration="3605000" />
-      <workItem from="1388074093728" duration="101000" />
-      <workItem from="1388074892007" duration="4544000" />
-      <workItem from="1388080895465" duration="398000" />
-      <workItem from="1388110340222" duration="13595000" />
-      <workItem from="1388312859163" duration="8341000" />
-      <workItem from="1388369640968" duration="1054000" />
-      <workItem from="1388761284272" duration="1202000" />
-      <workItem from="1388831093703" duration="415000" />
-      <workItem from="1388912334621" duration="22000" />
-      <workItem from="1388934095599" duration="832000" />
-      <workItem from="1388935703520" duration="1418000" />
-      <workItem from="1388937894645" duration="299000" />
-      <workItem from="1388997753162" duration="877000" />
-      <workItem from="1389159419314" duration="57000" />
-      <workItem from="1390369848158" duration="790000" />
-      <workItem from="1392257261468" duration="1220000" />
-      <workItem from="1392263660972" duration="404000" />
-      <workItem from="1392264104655" duration="2060000" />
-      <workItem from="1392275164023" duration="167000" />
-      <workItem from="1392283182184" duration="1798000" />
-      <workItem from="1392363893573" duration="5285000" />
-      <workItem from="1392378309217" duration="32000" />
-      <workItem from="1392379239117" duration="41000" />
-      <workItem from="1392379289639" duration="3173000" />
-      <workItem from="1392439246699" duration="611000" />
-      <workItem from="1392451005917" duration="8018000" />
-      <workItem from="1392461034114" duration="5276000" />
-      <workItem from="1392466335445" duration="9285000" />
-      <workItem from="1392475630759" duration="250000" />
-      <workItem from="1392622949425" duration="26000" />
-      <workItem from="1392643710235" duration="7333000" />
-      <workItem from="1392652105505" duration="380000" />
-      <workItem from="1392710824941" duration="17462000" />
-      <workItem from="1392730778479" duration="116000" />
-      <workItem from="1392731106492" duration="1916000" />
-      <workItem from="1392963364047" duration="150000" />
-      <workItem from="1392963542098" duration="8685000" />
+      <workItem from="1386739630096" duration="3114000" />
     </task>
     <task id="LOCAL-00001" summary="relocate the sources">
       <created>1381587397181</created>
@@ -1842,125 +1581,57 @@
       <created>1386740262369</created>
       <updated>1386740262369</updated>
     </task>
-    <task id="LOCAL-00050" summary="fix few bugs&#10;">
-      <created>1386742754961</created>
-      <updated>1386742754961</updated>
+    <task id="LOCAL-00050" summary="fix few bugs in NoteActivity">
+      <created>1390736814339</created>
+      <updated>1390736814340</updated>
     </task>
-    <task id="LOCAL-00051" summary="fix few bugs">
-      <created>1387720417527</created>
-      <updated>1387720417527</updated>
+    <task id="LOCAL-00051" summary="fix few bugs in NoteActivity&#10;">
+      <created>1390739269730</created>
+      <updated>1390739269730</updated>
     </task>
-    <task id="LOCAL-00052" summary="fix few bugs&#10;">
-      <created>1387945313227</created>
-      <updated>1387945313227</updated>
+    <task id="LOCAL-00052" summary="fix few bugs in NoteActivity&#10;">
+      <created>1390976829319</created>
+      <updated>1390976829319</updated>
     </task>
-    <task id="LOCAL-00053" summary="fix few bugs on the filter&#10;">
-      <created>1387993032275</created>
-      <updated>1387993032275</updated>
+    <task id="LOCAL-00053" summary="updated new notifications">
+      <created>1391869555057</created>
+      <updated>1391869555057</updated>
     </task>
-    <task id="LOCAL-00054" summary="optimize the interaction">
-      <created>1388002760386</created>
-      <updated>1388002760386</updated>
+    <task id="LOCAL-00054" summary="fix few bugs in NoteActivity&#10;">
+      <created>1391870522191</created>
+      <updated>1391870522191</updated>
     </task>
-    <task id="LOCAL-00055" summary="optimize the interaction&#10;">
-      <created>1388002837149</created>
-      <updated>1388002837149</updated>
+    <task id="LOCAL-00055" summary="improve performance. fixed bugs">
+      <created>1392487202333</created>
+      <updated>1392487202333</updated>
     </task>
-    <task id="LOCAL-00056" summary="fix few layout bugs">
-      <created>1388061008106</created>
-      <updated>1388061008106</updated>
+    <task id="LOCAL-00056" summary="improve performance. fixed bugs&#10;">
+      <created>1392490191597</created>
+      <updated>1392490191598</updated>
     </task>
-    <task id="LOCAL-00057" summary="fix few layout bugs&#10;">
-      <created>1388068786343</created>
-      <updated>1388068786343</updated>
+    <task id="LOCAL-00057" summary="improved performance">
+      <created>1392492498624</created>
+      <updated>1392492498624</updated>
     </task>
-    <task id="LOCAL-00058" summary="fix few layout bugs&#10;">
-      <created>1388074484708</created>
-      <updated>1388074484712</updated>
+    <task id="LOCAL-00058" summary="updated layouts">
+      <created>1392494564206</created>
+      <updated>1392494564206</updated>
     </task>
-    <task id="LOCAL-00059" summary="fix few layout bugs&#10;">
-      <created>1388074657071</created>
-      <updated>1388074657071</updated>
+    <task id="LOCAL-00059" summary="updated layouts&#10;">
+      <created>1392497027084</created>
+      <updated>1392497027085</updated>
     </task>
-    <task id="LOCAL-00060" summary="fix few layout bugs&#10;">
-      <created>1388078972797</created>
-      <updated>1388078972797</updated>
+    <task id="LOCAL-00060" summary="updated to scala 2.11">
+      <created>1395370643729</created>
+      <updated>1395370643729</updated>
     </task>
-    <task id="LOCAL-00061" summary="upload keystore">
-      <created>1388081272890</created>
-      <updated>1388081272891</updated>
-    </task>
-    <task id="LOCAL-00062" summary="fix npe">
-      <created>1388110861472</created>
-      <updated>1388110861472</updated>
-    </task>
-    <task id="LOCAL-00063" summary="reformat all the codes">
-      <created>1388115226266</created>
-      <updated>1388115226266</updated>
-    </task>
-    <task id="LOCAL-00064" summary="fix new bugs">
-      <created>1388122441161</created>
-      <updated>1388122441161</updated>
-    </task>
-    <task id="LOCAL-00065" summary="fix new bugs&#10;">
-      <created>1388126162207</created>
-      <updated>1388126162208</updated>
-    </task>
-    <task id="LOCAL-00066" summary="fix new bugs&#10;">
-      <created>1388126250146</created>
-      <updated>1388126250147</updated>
-    </task>
-    <task id="LOCAL-00067" summary="new optimization">
-      <created>1388322362175</created>
-      <updated>1388322362175</updated>
-    </task>
-    <task id="LOCAL-00068" summary="new optimization">
-      <created>1388938180608</created>
-      <updated>1388938180608</updated>
-    </task>
-    <task id="LOCAL-00069" summary="new optimization">
-      <created>1390369920288</created>
-      <updated>1390369920288</updated>
-    </task>
-    <task id="LOCAL-00070" summary="added reviews and fixed bugs">
-      <created>1392467735323</created>
-      <updated>1392467735323</updated>
-    </task>
-    <task id="LOCAL-00071" summary="new optimization">
-      <created>1392475209348</created>
-      <updated>1392475209348</updated>
-    </task>
-    <task id="LOCAL-00072" summary="fixed new bugs">
-      <created>1392651289060</created>
-      <updated>1392651289060</updated>
-    </task>
-    <task id="LOCAL-00073" summary="popup issues">
-      <created>1392730757320</created>
-      <updated>1392730757320</updated>
-    </task>
-    <task id="LOCAL-00074" summary="new optimization">
-      <created>1392732846723</created>
-      <updated>1392732846723</updated>
-    </task>
-    <task id="LOCAL-00075" summary="new optimization">
-      <created>1392733032595</created>
-      <updated>1392733032595</updated>
-    </task>
-    <task id="LOCAL-00076" summary="updated icons and fixed  inconsistencebug">
-      <created>1392971042747</created>
-      <updated>1392971042747</updated>
-    </task>
-    <task id="LOCAL-00077" summary="fixed the rotation issue">
-      <created>1392978395989</created>
-      <updated>1392978395989</updated>
-    </task>
-    <option name="localTasksCounter" value="78" />
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="189006000" />
+    <option name="totallyTimeSpent" value="42614000" />
   </component>
-  <component name="TodoView" selected-index="3">
+  <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
       <are-packages-shown value="false" />
       <are-modules-shown value="false" />
@@ -1981,73 +1652,73 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="-4" width="1922" height="1085" extended-state="6" />
+    <frame x="0" y="24" width="1280" height="776" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" x="757" y="448" width="948" height="997" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27301928" sideWeight="0.66451615" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35974973" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6671533" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2853319" sideWeight="0.66451615" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24892934" sideWeight="0.6010753" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3295099" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3274244" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4754953" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5995829" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32846716" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34014598" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.44671533" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3459854" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2940563" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2860215" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34306568" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5995829" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34452555" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.68175185" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32846716" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24893162" sideWeight="0.66451615" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32976446" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24946466" sideWeight="0.66451615" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32956383" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16346154" sideWeight="0.66451615" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33279485" sideWeight="0.66451615" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19063005" sideWeight="0.68172044" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33472368" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" x="652" y="504" width="948" height="997" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19123931" sideWeight="0.68172044" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24892934" sideWeight="0.6010753" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="SBT Execute" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6688172" sideWeight="0.5" order="13" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41084462" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39937434" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" x="696" y="679" width="948" height="997" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" x="652" y="504" width="948" height="997" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27301928" sideWeight="0.66451615" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6684046" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6671533" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.66836214" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3459854" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2860215" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32846716" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959402" sideWeight="0.66451615" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32956383" sideWeight="0.66451615" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19123931" sideWeight="0.68172044" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33472368" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2853319" sideWeight="0.66451615" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3295099" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32846716" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24892934" sideWeight="0.6010753" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3274244" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32554746" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5370177" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33368093" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.60896766" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3459854" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49490538" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24946466" sideWeight="0.66451615" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32976446" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32956383" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="SBT Execute" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6688172" sideWeight="0.5" order="13" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39937434" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -2064,6 +1735,14 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
+    <MESSAGE value="added my note layout and activity" />
+    <MESSAGE value="notes" />
+    <MESSAGE value="add note edition" />
+    <MESSAGE value="fix the swipe problem" />
+    <MESSAGE value="fixed the concurrent problem" />
+    <MESSAGE value="now can take photos" />
+    <MESSAGE value="now it can take photos" />
+    <MESSAGE value="finished the notes addition" />
     <MESSAGE value="prepare to release" />
     <MESSAGE value="filter for the fav books" />
     <MESSAGE value="added filter for the fav books and fixed some bugs" />
@@ -2072,24 +1751,16 @@
     <MESSAGE value="filter&#10;" />
     <MESSAGE value="remove duplicate codes" />
     <MESSAGE value="fix few bugs" />
-    <MESSAGE value="fix few bugs&#10;" />
-    <MESSAGE value="fix few bugs on the filter&#10;" />
-    <MESSAGE value="optimize the interaction" />
-    <MESSAGE value="optimize the interaction&#10;" />
-    <MESSAGE value="fix few layout bugs" />
-    <MESSAGE value="fix few layout bugs&#10;" />
-    <MESSAGE value="upload keystore" />
-    <MESSAGE value="fix npe" />
-    <MESSAGE value="reformat all the codes" />
-    <MESSAGE value="fix new bugs" />
-    <MESSAGE value="fix new bugs&#10;" />
-    <MESSAGE value="added reviews and fixed bugs" />
-    <MESSAGE value="fixed new bugs" />
-    <MESSAGE value="popup issues" />
-    <MESSAGE value="new optimization" />
-    <MESSAGE value="updated icons and fixed  inconsistencebug" />
-    <MESSAGE value="fixed the rotation issue" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed the rotation issue" />
+    <MESSAGE value="fix few bugs in NoteActivity" />
+    <MESSAGE value="updated new notifications" />
+    <MESSAGE value="fix few bugs in NoteActivity&#10;" />
+    <MESSAGE value="improve performance. fixed bugs" />
+    <MESSAGE value="improve performance. fixed bugs&#10;" />
+    <MESSAGE value="improved performance" />
+    <MESSAGE value="updated layouts" />
+    <MESSAGE value="updated layouts&#10;" />
+    <MESSAGE value="updated to scala 2.11" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated to scala 2.11" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2099,36 +1770,228 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar:///opt/android-sdk-linux/platforms/android-18/android.jar!/dalvik/system/BaseDexClassLoader.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="31" selection-start="410" selection-end="410" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="450" />
+    <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/default_image.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
       </provider>
     </entry>
-    <entry file="file:///opt/android-sdk-linux/sources/android-18/com/android/internal/os/ZygoteInit.java">
+    <entry file="file://$PROJECT_DIR$/src/com/douban/base/DoubanActivity.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="555" column="0" selection-start="19389" selection-end="19389" vertical-scroll-proportion="0.0" vertical-offset="9143" max-vertical-offset="12888" />
+        <state line="201" column="14" selection-start="6819" selection-end="6819" vertical-scroll-proportion="0.0" vertical-offset="3015" max-vertical-offset="9990">
+          <folding>
+            <element signature="e#25#47#0" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/drawable/tab_text.xml">
+    <entry file="file:///opt/google/android/sources/android-18/android/widget/ImageView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="688">
+        <state line="343" column="73" selection-start="11872" selection-end="11872" vertical-scroll-proportion="0.0" vertical-offset="5145" max-vertical-offset="18600">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/book_image.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/douban/base/TouchImageView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="36" selection-start="479" selection-end="479" vertical-scroll-proportion="-8.068966" vertical-offset="0" max-vertical-offset="396">
+        <state line="22" column="47" selection-start="693" selection-end="693" vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="14130">
           <folding />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/menu/edit_note.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="146" selection-start="253" selection-end="253" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="165" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="61" selection-start="721" selection-end="728" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1410">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dependencies/zxing-android/src/com/google/zxing/client/android/CaptureActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="112" column="14" selection-start="4295" selection-end="4295" vertical-scroll-proportion="0.0" vertical-offset="1680" max-vertical-offset="10785" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dependencies/zxing-android/src/com/google/zxing/client/android/BeepManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="74" column="65" selection-start="2537" selection-end="2556" vertical-scroll-proportion="0.0" vertical-offset="1110" max-vertical-offset="1965" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/header_note.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="32" selection-start="1447" selection-end="1456" vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="585" />
+      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/drawable-xhdpi/default_image.png">
+    <entry file="file:///opt/google/android/sources/android-18/android/view/View.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="734" column="28" selection-start="31299" selection-end="31299" vertical-scroll-proportion="0.0" vertical-offset="9483" max-vertical-offset="278940" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/about.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="47" selection-start="564" selection-end="564" vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="765" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dependencies/slidingMenu/src/com/jeremyfeinstein/slidingmenu/lib/CanvasTransformerBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1290" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../douban-scala/douban-scala.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/douban/book/CollectionActivity.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="192" column="49" selection-start="6636" selection-end="6636" vertical-scroll-proportion="-0.312" vertical-offset="2880" max-vertical-offset="3945" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/douban/book/SearchActivity.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="40" selection-start="2020" selection-end="2026" vertical-scroll-proportion="0.0" vertical-offset="1035" max-vertical-offset="1350" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/scaloid/support/v4/app.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="276" column="45" selection-start="10692" selection-end="10692" vertical-scroll-proportion="0.0" vertical-offset="3547" max-vertical-offset="8805" />
+      </provider>
+    </entry>
+    <entry file="file:///opt/google/android/sources/android-18/android/app/Activity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="641" column="13" selection-start="32033" selection-end="32033" vertical-scroll-proportion="0.33333334" vertical-offset="8301" max-vertical-offset="78270" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/proguard.cfg">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="50" column="49" selection-start="1819" selection-end="1827" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1110" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/douban/book/FavoriteBooksActivity.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="105" column="36" selection-start="3704" selection-end="3704" vertical-scroll-proportion="0.0" vertical-offset="1176" max-vertical-offset="4230" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/douban/book/SearchResultActivity.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="120" column="22" selection-start="4001" selection-end="4001" vertical-scroll-proportion="0.0" vertical-offset="1544" max-vertical-offset="2415" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/drawable-mdpi/default_user_img.png">
       <provider selected="true" editor-type-id="images">
         <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/default_user_img.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="2227" max-vertical-offset="2640">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/notes_item.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="58" column="61" selection-start="2352" selection-end="2352" vertical-scroll-proportion="-3.6153846" vertical-offset="776" max-vertical-offset="1470">
+          <folding>
+            <element signature="e#295#317#0" expanded="false" />
+            <element signature="e#457#480#0" expanded="false" />
+            <element signature="e#573#594#0" expanded="false" />
+            <element signature="e#1963#1986#0" expanded="false" />
+            <element signature="e#2604#2627#0" expanded="false" />
+            <element signature="e#3245#3267#0" expanded="false" />
+            <element signature="e#3605#3627#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/dimens.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="39" selection-start="1070" selection-end="1092" vertical-scroll-proportion="0.0" vertical-offset="37" max-vertical-offset="465">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///opt/google/android/sources/android-18/java/lang/reflect/Array.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="19" selection-start="1546" selection-end="1546" vertical-scroll-proportion="0.46875" vertical-offset="0" max-vertical-offset="8775" />
+      </provider>
+    </entry>
+    <entry file="file:///opt/google/android/sources/android-18/java/util/ArrayList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="80" column="11" selection-start="3131" selection-end="3131" vertical-scroll-proportion="0.0" vertical-offset="691" max-vertical-offset="9735" />
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.ivy2/cache/com.google.code.gson/gson/jars/gson-2.2.4.jar!/com/google/gson/internal/LinkedTreeMap.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="19" selection-start="173" selection-end="173" vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="2040" />
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.sbt/boot/scala-2.10.3/lib/scala-library.jar!/scala/Serializable.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="6" selection-start="20" selection-end="20" vertical-scroll-proportion="0.026833631" vertical-offset="0" max-vertical-offset="559" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/douban/book/NotesActivity.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="57" selection-start="894" selection-end="910" vertical-scroll-proportion="0.0" vertical-offset="435" max-vertical-offset="3165" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/douban/book/MyNoteActivity.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="67" column="0" selection-start="2363" selection-end="2363" vertical-scroll-proportion="0.0" vertical-offset="739" max-vertical-offset="1260" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/note_view.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state line="21" column="52" selection-start="906" selection-end="906" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="1110">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///opt/google/android/sources/android-18/android/widget/ImageView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="343" column="73" selection-start="11872" selection-end="11872" vertical-scroll-proportion="0.0" vertical-offset="4154" max-vertical-offset="17670">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/douban/base/TouchImageView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="47" selection-start="693" selection-end="693" vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="14130">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/add_note_context.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gen/com/douban/book/R.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="223" column="48" selection-start="11926" selection-end="11942" vertical-scroll-proportion="0.0" vertical-offset="3162" max-vertical-offset="15300">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/default_image.png">
@@ -2136,335 +1999,110 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/book_list_item.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/douban/book/ImagePopupActivity.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="36" selection-start="704" selection-end="704" vertical-scroll-proportion="-9.310345" vertical-offset="0" max-vertical-offset="1188">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file:///opt/android-sdk-linux/sources/android-18/android/graphics/BitmapFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="198" column="26" selection-start="9006" selection-end="9006" vertical-scroll-proportion="0.0" vertical-offset="5391" max-vertical-offset="11628" />
-      </provider>
-    </entry>
-    <entry file="file:///opt/android-sdk-linux/sources/android-18/android/content/ContentResolver.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="312" column="0" selection-start="12214" selection-end="12214" vertical-scroll-proportion="0.0" vertical-offset="4589" max-vertical-offset="34902" />
-      </provider>
-    </entry>
-    <entry file="file:///opt/android-sdk-linux/sources/android-18/android/os/Binder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="382" column="0" selection-start="13272" selection-end="13272" vertical-scroll-proportion="0.0" vertical-offset="6353" max-vertical-offset="8352" />
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.ivy2/local/com.douban/scala-api_2.10/2.4.4/jars/scala-api_2.10.jar!/com/douban/models/Annotation.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="11" selection-start="37" selection-end="37" vertical-scroll-proportion="-0.72" vertical-offset="0" max-vertical-offset="162" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/proguard.cfg">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="43" selection-start="380" selection-end="380" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1350" />
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.ivy2/cache/com.google.code.gson/gson/jars/gson-2.2.4.jar!/com/google/gson/internal/Primitives.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="19" selection-start="173" selection-end="173" vertical-scroll-proportion="-3.6" vertical-offset="0" max-vertical-offset="468" />
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.ivy2/cache/com.google.code.gson/gson/jars/gson-2.2.4.jar!/com/google/gson/internal/Streams.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="43" selection-start="225" selection-end="225" vertical-scroll-proportion="-4.32" vertical-offset="0" max-vertical-offset="828" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dependencies/zxing-android/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="630">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="163" column="10" selection-start="8860" selection-end="8860" vertical-scroll-proportion="0.0" vertical-offset="2934" max-vertical-offset="3420">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///opt/android-sdk-linux/sources/android-18/android/os/Parcel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1273" column="0" selection-start="44154" selection-end="44154" vertical-scroll-proportion="0.0" vertical-offset="22211" max-vertical-offset="40932" />
-      </provider>
-    </entry>
-    <entry file="file:///opt/android-sdk-linux/sources/android-18/android/view/WindowManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1394" column="36" selection-start="65746" selection-end="65758" vertical-scroll-proportion="0.0" vertical-offset="25092" max-vertical-offset="33066" />
-      </provider>
-    </entry>
-    <entry file="file:///opt/android-sdk-linux/sources/android-18/android/view/ViewGroup.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5699" column="36" selection-start="212210" selection-end="212222" vertical-scroll-proportion="0.0" vertical-offset="101095" max-vertical-offset="118314" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/douban/base/TouchImageView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="54" selection-start="1118" selection-end="1118" vertical-scroll-proportion="0.0" vertical-offset="648" max-vertical-offset="16938">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.ivy2/cache/com.google.code.gson/gson/jars/gson-2.2.4.jar!/com/google/gson/internal/LinkedTreeMap.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="63" selection-start="217" selection-end="217" vertical-scroll-proportion="0.0" vertical-offset="108" max-vertical-offset="2448">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///opt/android-sdk-linux/sources/android-18/java/util/AbstractMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="52" selection-start="1357" selection-end="1357" vertical-scroll-proportion="0.0" vertical-offset="41" max-vertical-offset="8802">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///opt/android-sdk-linux/sources/android-18/java/util/Map.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="20" selection-start="1297" selection-end="1300" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4392">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///opt/android-sdk-linux/sources/android-18/java/util/HashMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="151" column="39" selection-start="5701" selection-end="5717" vertical-scroll-proportion="0.0" vertical-offset="935" max-vertical-offset="18144">
-          <folding />
-        </state>
+        <state line="13" column="39" selection-start="400" selection-end="409" vertical-scroll-proportion="0.25862068" vertical-offset="0" max-vertical-offset="638" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/image_popup.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="43" selection-start="459" selection-end="459" vertical-scroll-proportion="-6.206897" vertical-offset="0" max-vertical-offset="522">
-          <folding />
-        </state>
-      </provider>
       <provider editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/menu/edit_note.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="916">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/drawable-mdpi/header_add_note.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/header_back.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/fav_books_item.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="17.62069" vertical-offset="511" max-vertical-offset="1386">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/drawable/divider.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="904">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/book_view.xml">
-      <provider editor-type-id="text-editor">
-        <state line="330" column="55" selection-start="16552" selection-end="16552" vertical-scroll-proportion="0.0" vertical-offset="5623" max-vertical-offset="6570">
-          <folding>
-            <element signature="e#504#526#0" expanded="true" />
-            <element signature="e#657#679#0" expanded="true" />
-            <element signature="e#1223#1246#0" expanded="true" />
-            <element signature="e#4731#4753#0" expanded="true" />
-            <element signature="e#7242#7264#0" expanded="true" />
-            <element signature="e#7321#7342#0" expanded="true" />
-            <element signature="e#7740#7762#0" expanded="true" />
-            <element signature="e#9242#9260#0" expanded="true" />
-            <element signature="e#9302#9324#0" expanded="true" />
-            <element signature="e#10623#10644#0" expanded="true" />
-            <element signature="e#11201#11224#0" expanded="true" />
-            <element signature="e#13193#13215#0" expanded="true" />
-            <element signature="e#15013#15036#0" expanded="true" />
-            <element signature="e#16527#16552#0" expanded="true" />
-            <element signature="e#16872#16892#0" expanded="true" />
-            <element signature="e#17510#17526#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/douban/base/DoubanContext.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="22" selection-start="460" selection-end="476" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="540">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///opt/android-sdk-linux/sources/android-18/android/view/View.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="733" column="46" selection-start="31270" selection-end="31270" vertical-scroll-proportion="0.0" vertical-offset="11346" max-vertical-offset="334728">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gen/com/douban/book/R.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="509" column="32" selection-start="28303" selection-end="28303" vertical-scroll-proportion="0.3325893" vertical-offset="8923" max-vertical-offset="18396">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/header_edit_note.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="44" selection-start="491" selection-end="491" vertical-scroll-proportion="-6.827586" vertical-offset="0" max-vertical-offset="936">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/note_view.xml">
-      <provider editor-type-id="text-editor">
-        <state line="64" column="41" selection-start="2705" selection-end="2705" vertical-scroll-proportion="0.0" vertical-offset="450" max-vertical-offset="1350">
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/header_note.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="42" selection-start="553" selection-end="553" vertical-scroll-proportion="-6.827586" vertical-offset="0" max-vertical-offset="702">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/scaloid/support/v4/package.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="0" selection-start="1032" selection-end="1032" vertical-scroll-proportion="0.0" vertical-offset="13" max-vertical-offset="342">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/douban/book/ImagePopupActivity.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="15" selection-start="451" selection-end="451" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="414">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/douban/book/MyNoteActivity.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="27" selection-start="1120" selection-end="1121" vertical-scroll-proportion="-11.384615" vertical-offset="100" max-vertical-offset="1512">
+        <state line="6" column="35" selection-start="367" selection-end="367" vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="285">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/douban/book/NoteViewActivity.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="33" selection-start="1079" selection-end="1080" vertical-scroll-proportion="-11.576923" vertical-offset="167" max-vertical-offset="2250">
+        <state line="86" column="39" selection-start="2863" selection-end="2863" vertical-scroll-proportion="0.0" vertical-offset="1080" max-vertical-offset="1875">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.ivy2/local/org.scaloid/scaloid_2.11.0-RC3/3.3-8-SNAPSHOT/jars/scaloid_2.11.0-RC3.jar!/org/scaloid/common/WidgetHelpers.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="6" selection-start="92" selection-end="92" vertical-scroll-proportion="0.12430939" vertical-offset="0" max-vertical-offset="362">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.sbt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="35" selection-start="210" selection-end="210" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="945">
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.ivy2/local/com.douban/scala-api_2.11.0-RC3/2.4.5/jars/scala-api_2.11.0-RC3.jar!/com/douban/common/AccessTokenResult.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="11" selection-start="37" selection-end="37" vertical-scroll-proportion="-0.6" vertical-offset="0" max-vertical-offset="135">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/douban/base/DoubanContext.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="27" selection-start="941" selection-end="941" vertical-scroll-proportion="0.49916804" vertical-offset="0" max-vertical-offset="601">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/douban/base/Constant.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="39" selection-start="344" selection-end="344" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1005">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="65" column="39" selection-start="3093" selection-end="3093" vertical-scroll-proportion="0.0" vertical-offset="451" max-vertical-offset="1080">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/douban/book/ReviewActivity.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="10" selection-start="2199" selection-end="2201" vertical-scroll-proportion="-11.384615" vertical-offset="622" max-vertical-offset="1638">
-          <folding />
+        <state line="11" column="27" selection-start="440" selection-end="440" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1500">
+          <folding>
+            <element signature="e#25#74#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/douban/book/ScannerActivity.scala">
+    <entry file="file://$PROJECT_DIR$/src/com/douban/book/LoginActivity.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="58" selection-start="488" selection-end="488" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="414">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/douban/book/SearchActivity.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="14" selection-start="1164" selection-end="1165" vertical-scroll-proportion="-11.576923" vertical-offset="221" max-vertical-offset="1458">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/douban/book/UploadFragment.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="6" selection-start="359" selection-end="359" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="360">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/douban/book/SettingsActivity.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="53" selection-start="907" selection-end="907" vertical-scroll-proportion="-17.461538" vertical-offset="50" max-vertical-offset="954">
+        <state line="75" column="0" selection-start="2543" selection-end="2543" vertical-scroll-proportion="0.0" vertical-offset="344" max-vertical-offset="1170">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/douban/base/DoubanActivity.scala">
-      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="436" column="26" selection-start="15249" selection-end="15264" vertical-scroll-proportion="-6.8076925" vertical-offset="7149" max-vertical-offset="12510">
+        <state line="270" column="25" selection-start="9115" selection-end="9115" vertical-scroll-proportion="-8.740741" vertical-offset="3814" max-vertical-offset="10080">
+          <folding>
+            <element signature="e#25#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dependencies/zxing-android/src/com/google/zxing/client/android/book/SearchBookContentsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="170" column="49" selection-start="5531" selection-end="5531" vertical-scroll-proportion="0.0" vertical-offset="1670" max-vertical-offset="3450">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/douban/book/AddNoteActivity.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="148" column="4" selection-start="5090" selection-end="5090" vertical-scroll-proportion="0.0" vertical-offset="2144" max-vertical-offset="3996">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/douban/book/CollectionActivity.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="4" selection-start="2233" selection-end="2233" vertical-scroll-proportion="0.0" vertical-offset="942" max-vertical-offset="4734">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/douban/book/NotesActivity.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="161" column="15" selection-start="5627" selection-end="5627" vertical-scroll-proportion="-7.0384617" vertical-offset="2499" max-vertical-offset="3654">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/douban/book/SearchResultActivity.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="41" selection-start="2846" selection-end="2846" vertical-scroll-proportion="0.429078" vertical-offset="1144" max-vertical-offset="2898">
-          <folding />
+        <state line="65" column="24" selection-start="2248" selection-end="2248" vertical-scroll-proportion="0.3322884" vertical-offset="869" max-vertical-offset="3495">
+          <folding>
+            <element signature="e#25#90#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2521,11 +2159,11 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>Android|douban-book</last-edited>
+          <last-edited>douban-book</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.2" />
+                <option value="0.3295562" />
               </list>
             </option>
           </splitter-proportions>
@@ -2533,11 +2171,11 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>SBT: com.douban:scala-api_2.10:2.4.4</last-edited>
+          <last-edited>SBT: scaloid-support-v4_2.11.0-RC3</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.2" />
+                <option value="0.3295562" />
               </list>
             </option>
           </splitter-proportions>
