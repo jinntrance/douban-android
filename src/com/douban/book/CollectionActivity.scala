@@ -105,7 +105,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
         case _ =>
           val id = getActivity.getIntent.getExtras.getInt(Constant.STATE_ID)
           check(getView.find[Button](if (0 == id) R.id.wish else id))
-          future {
+          Future {
             activity.getAccessToken
             activity.book.foreach(b=>{
               updateCollection(b.updateExistCollection(Book.collectionOf(bk.id)))
@@ -179,7 +179,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
   def submit(v: View) {
     val p = CollectionPosted(status, activity.getTags, getView.find[EditText](R.id.comment).getText.toString.trim, getView.find[RatingBar](R.id.rating).getRating.toInt, privacy = if (public) "public" else "private")
     val proc=activity.waitToLoad(msg = R.string.saving)
-    future {
+    Future {
       if (updateable) Book.updateCollection(activity.book.get.id, p)
       else Book.postCollection(activity.book.get.id, p)
     } onComplete {
@@ -206,7 +206,7 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
     activity.replaceActionBar(R.layout.header_edit, getString(R.string.add_tags))
     tags_input.append(activity.getTags)
 
-    future {
+    Future {
       val r = Book.tagsOf(activity.currentUserId)
       val tags=r.tags.map(_.title).toList
       rootView.find[ListView](R.id.my_tags_list).setAdapter(new TagAdapter(tags))

@@ -9,8 +9,6 @@ import java.lang.Thread.UncaughtExceptionHandler
 import org.scaloid.common._
 import scala.concurrent._
 import ExecutionContext.Implicits.global
-import collection.JavaConverters._
-import scala.collection.mutable
 import android.widget._
 import android.graphics.drawable.Drawable
 import java.net.URL
@@ -50,6 +48,8 @@ trait Douban {
 
   implicit def ctx: DoubanActivity = getThisActivity
 
+  implicit val gravity = Gravity.CENTER
+
   protected val rootView: V
 
   def storeData(s:java.io.Serializable)={
@@ -70,12 +70,6 @@ trait Douban {
   }
 
   def getThisActivity: DoubanActivity
-
-  def toast(message: CharSequence, gravity: Int = Gravity.CENTER)(implicit context: Context): Unit = runOnUiThread {
-    val toast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
-    toast.setGravity(gravity, 0, 0)
-    toast.show()
-  }
 
   def setViewValue[T <: V](id: Int, value: String, holder: T = rootView, notification: String = "", hideEmpty: Boolean = true): Unit = {
     setViewValueByView(holder.findViewById(id), value, notification, hideEmpty)
@@ -214,7 +208,7 @@ trait Douban {
     if (!updateCache && cacheFile.exists()) {
       val b = Drawable.createFromPath(cacheFile.getAbsolutePath)
       runOnUiThread(img.setImageDrawable(b))
-    } else future {
+    } else Future {
       BitmapFromUrl(url)
     } onComplete {
       case Success(b) =>
@@ -230,7 +224,7 @@ trait Douban {
   }
 
   def handle[R](result: => R, handler: (R) => Unit) {
-    future {
+    Future {
       result
     } onComplete {
       case Success(t) => handler(t)
@@ -271,7 +265,7 @@ trait Douban {
   def listLoader[R](toLoad: Boolean = false, result: => R = {}, success: (R) => Unit = (r: R) => {}, failed: => Unit = {},
                     unfinishable: Boolean = true) = if (toLoad) {
     val sp: ProgressDialog = if (unfinishable) waitToLoad() else waitToLoad(getThisActivity.finish())
-    future {
+    Future {
       result
     } onComplete {
       case Success(t) =>
@@ -358,7 +352,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
       sm.findViewById(R.id.menu_login).setVisibility(View.GONE)
       val userId: Long = currentUserId
       lazy val user = User.byId(userId)
-      future {
+      Future {
         val u = getOrElse(Constant.USERNAME, user.name)
         val a = getOrElse(Constant.AVATAR, user.large_avatar)
         val c = getOrElse(Constant.COLLE_NUM, Book.collectionsOfUser(userId).total).toInt
@@ -429,6 +423,15 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     if (!isAuthenticated) {
       login()
     }
+    if(isOnline && isExpire){
+      waitToLoad(this.finish(),R.string.reauth)
+      Auth.getTokenByFresh(get(Constant.refreshTokenString),Constant.apiKey,
+        Constant.apiSecret).foreach{ t=>{
+            updateToken(t)
+            restartApplication()
+          }
+      }
+    }
     if (isAuthenticated) get(Constant.userIdString).toLong
     else {
       notifyNetworkState()
@@ -474,11 +477,14 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     onBackPressed()
   }
 
-  @inline def isAuthenticated = contains(Constant.accessTokenString)
+  @inline def isAuthenticated = contains(Constant.accessTokenString) && ! isExpire
 
+
+  @inline def isExpire = get(Constant.refreshTokenString).toLong <= System.currentTimeMillis()
   protected def updateToken(t: AccessTokenResult) {
     put(Constant.accessTokenString, t.access_token)
     put(Constant.refreshTokenString, t.refresh_token)
+    put(Constant.expireTime, t.expires_in + System.currentTimeMillis())
     put(Constant.userIdString, t.douban_user_id)
   }
 

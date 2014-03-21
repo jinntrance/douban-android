@@ -51,7 +51,7 @@ class FavoriteBooksActivity extends DoubanActivity {
     val readAdapter = new CollectionItemAdapter("read", load)
     find[ListView](R.id.read) onItemClick readAdapter.listener setAdapter readAdapter
     load("read", readAdapter)
-    future{
+    Future{
       Book.collectionsOfUser(currentUserId).total
     }onSuccess{
       case (total:Int)=>
@@ -66,7 +66,7 @@ class FavoriteBooksActivity extends DoubanActivity {
   }
 
   def load(status: String, adapter: CollectionItemAdapter) = {
-    future {
+    Future {
       val cs = CollectionSearch(status, start = adapter.count, count = countPerPage)
       Book.collectionsOfUser(currentUserId, cs)
     } onComplete {
@@ -226,7 +226,7 @@ class FavoriteBooksFilterActivity extends DoubanActivity {
     super.onCreate(b)
     setContentView(R.layout.fav_books_filter)
     replaceActionBar(R.layout.header_edit, getString(R.string.filter_books))
-    future {
+    Future {
       Book.tagsOf(currentUserId)
     } onSuccess {
       case t: TagsResult => runOnUiThread({

@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils
 import android.content.Context
 import android.graphics.Bitmap
 import android.webkit.WebSettings.RenderPriority
+import org.scaloid.common._
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -36,7 +37,7 @@ class ReviewActivity extends DoubanActivity{
          reviewsUrl=getReviewsUrl(bookId)
          setTitle(getIntent.getExtras.getString(Constant.BOOK_TITLE,getString(R.string.review)))
       case _ =>
-        toast("无该图书")
+        longToast("无该图书")
         this.finish()
     }
     setContentView(R.layout.reviews)
