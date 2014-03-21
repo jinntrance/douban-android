@@ -264,7 +264,7 @@ trait Douban {
     val cacheFile = new File(ctx.getExternalCacheDir, url.dropWhile(_ != '/'))
     runOnUiThread(img.setTag(url))
 
-    future {
+    Future {
       if (updateCache || !cacheFile.exists()) {
         val b = BitmapFromUrl(url)
         if (!cacheFile.exists() && cacheFile.getParentFile.mkdirs) {
