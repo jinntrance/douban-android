@@ -8,7 +8,7 @@ import org.scaloid.common._
 import android.app.Activity
 import com.douban.models.{Annotation, Book}
 import java.util
-import java.lang.reflect.Field
+import uk.co.senab.photoview.PhotoViewAttacher
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -25,7 +25,7 @@ class NoteViewActivity(layoutId: Int) extends SwipeGestureDoubanActivity {
   val mapping: Map[Int, Any] = NotesActivity.mapping ++ Map(R.id.user_avatar -> "author_user.avatar")
   var pos = 0
 
-  lazy val dataList: util.List[Annotation] = fetchAndClearData match {
+  lazy val dataList: util.List[Annotation] = fetchData match {
     case a: util.ArrayList[Annotation] => a
     case _ => this.finish(); null
   }
@@ -66,13 +66,14 @@ class NoteViewActivity(layoutId: Int) extends SwipeGestureDoubanActivity {
         case r"([\s\S]*?)${pre}<图片(\d+)${imgUrl}>([\s\S]*)${suffix}" =>
           parse(pre, layout)
           layout += new SLinearLayout {
-            val img = SImageView().onClick(popup(_))
-            loadImage(a.photos.get(imgUrl), img)
+            val img = SImageView()//.onClick(popup(_))
+            new PhotoViewAttacher(img)
+            loadImage(a.photos.get(imgUrl), img, fillWidth = true)
           }
           parse(suffix, layout)
         case "" => layout
         case txt => layout += new SLinearLayout {
-          STextView(txt).textColor(black)
+          STextView(txt.replaceAll("""\s+$""","\n")).textColor(black)
         }
       }
     }
@@ -94,12 +95,12 @@ class NoteViewActivity(layoutId: Int) extends SwipeGestureDoubanActivity {
     if (currentUserIdWithoutLogin.toString == dataList.get(positionFromIntent).author_id) {
 
       getMenuInflater.inflate(R.menu.edit_note, menu)
-//      findViewById(R.id.more_icon).setVisibility(View.VISIBLE)
+      //      findViewById(R.id.more_icon).setVisibility(View.VISIBLE)
       true
     } else super.onCreateOptionsMenu(menu)
   }
 
-  def showOptions(v:View)={
+  def showOptions(v: View) = {
     openOptionsMenu()
   }
 
