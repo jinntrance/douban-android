@@ -70,7 +70,7 @@ class AddNoteActivity extends DoubanActivity {
         val content = find[EditText](R.id.note_input).text.toString
         var proc:ProgressDialog=null
         if (content.length <= 15) toast("笔记内容需要15字以上哦..")
-        else future {
+        else Future {
           val page:Int = bookPage match {
             case p:String if p.nonEmpty && p.forall(_.isDigit)=>p.toInt
             case _ => 1
