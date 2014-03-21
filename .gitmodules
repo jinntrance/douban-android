@@ -1,0 +1,3 @@
+[submodule "dependencies/slidingMenu"]
+	path = dependencies/slidingMenu
+	url = https://github.com/jfeinstein10/SlidingMenu.git
