@@ -59,7 +59,7 @@ class LoginActivity extends DoubanActivity {
             else {
               updateToken(t.get)
               Req.init(t.get.access_token)
-              toast(R.string.login_successfully)
+              longToast(R.string.login_successfully)
               restartApplication()
             }
             stopWaiting(sp)
