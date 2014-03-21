@@ -1,3 +1,6 @@
 [submodule "dependencies/slidingMenu"]
 	path = dependencies/slidingMenu
 	url = https://github.com/jfeinstein10/SlidingMenu.git
+[submodule "dependencies/zxing-android"]
+	path = dependencies/zxing-android
+	url = https://github.com/zxing/zxing.git
