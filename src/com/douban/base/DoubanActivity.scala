@@ -51,8 +51,6 @@ trait Douban {
 
   implicit def ctx: DoubanActivity = getThisActivity
 
-  implicit val gravity = Gravity.CENTER
-
   protected val rootView: V
 
   def storeData(s: java.io.Serializable) = {
@@ -72,8 +70,14 @@ trait Douban {
 
   def getThisActivity: DoubanActivity
 
-  def setViewValue[T <: V](id: Int, value: String, holder: T = rootView, notification: String = "", hideEmpty: Boolean = true): Unit = {
-    setViewValueByView(holder.findViewById(id), value, notification, hideEmpty)
+  def toast(message: CharSequence, gravity: Int = Gravity.CENTER)(implicit context: Context): Unit = runOnUiThread {
+    val toast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
+    toast.setGravity(gravity, 0, 0)
+    toast.show()
+  }
+
+  def setViewValue[T <: V](id: Int, value: String, holder: T = rootView, notification: String = "", hideEmpty: Boolean = true,showNonEmpty:Boolean=false): Unit = {
+    setViewValueByView(holder.findViewById(id), value, notification, hideEmpty,showNonEmpty)
   }
 
   def setViewValueByView(v: => View, value: String, notification: String = "", hideEmpty: Boolean = true,showNonEmpty:Boolean=false): Unit = {
@@ -264,7 +268,7 @@ trait Douban {
     val cacheFile = new File(ctx.getExternalCacheDir, url.dropWhile(_ != '/'))
     runOnUiThread(img.setTag(url))
 
-    Future {
+    future {
       if (updateCache || !cacheFile.exists()) {
         val b = BitmapFromUrl(url)
         if (!cacheFile.exists() && cacheFile.getParentFile.mkdirs) {
@@ -287,7 +291,7 @@ trait Douban {
   }
 
   def handle[R](result: => R, handler: (R) => Unit) {
-    Future {
+    future {
       result
     } onComplete {
       case Success(t) => handler(t)
@@ -328,7 +332,7 @@ trait Douban {
   def listLoader[R](toLoad: Boolean = false, result: => R = {}, success: (R) => Unit = (r: R) => {}, failed: => Unit = {},
                     unfinishable: Boolean = true) = if (toLoad) {
     val sp: ProgressDialog = if (unfinishable) waitToLoad() else waitToLoad(getThisActivity.finish())
-    Future {
+    future {
       result
     } onComplete {
       case Success(t) =>
@@ -417,7 +421,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
       sm.findViewById(R.id.menu_login).setVisibility(View.GONE)
       val userId: Long = currentUserId
       lazy val user = User.byId(userId)
-      Future {
+      future {
         val u = getOrElse(Constant.USERNAME, user.name)
         val a = getOrElse(Constant.AVATAR, user.large_avatar)
         val c = getOrElse(Constant.COLLE_NUM, Book.collectionsOfUser(userId).total).toInt
@@ -487,15 +491,6 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   def currentUserId: Long = {
     if (!isAuthenticated) {
       login()
-    }
-    if(isOnline && isExpire){
-      waitToLoad(this.finish(),R.string.reauth)
-      Auth.getTokenByFresh(get(Constant.refreshTokenString),Constant.apiKey,
-        Constant.apiSecret).foreach{ t=>{
-            updateToken(t)
-            restartApplication()
-          }
-      }
     }
     if (isAuthenticated) get(Constant.userIdString).toLong
     else {
