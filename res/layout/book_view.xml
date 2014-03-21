@@ -325,34 +325,50 @@
 
         </LinearLayout>
     </ScrollView>
-    <RelativeLayout
+    <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/text_triple_size"
         android:id="@+id/book_annotation"  android:background="@color/white"
-        android:layout_alignParentBottom="true"
-        android:layout_alignBaseline="@+id/scrollView"
         android:layout_gravity="bottom|center">
 
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content" android:clickable="true" android:onClick="viewReviews"
-          android:text="@string/review"  android:drawableLeft="@drawable/book_content_left_arrow"
-          android:id="@+id/reviews_guider"    android:drawableRight="@drawable/book_content_notes"
-          android:layout_gravity="center_vertical"  style="@style/DoubanTextTitle.Black"
-          android:layout_alignParentLeft="true"
-          android:layout_centerInParent="true"
-          android:gravity="center_vertical" />
+      <LinearLayout
+          android:orientation="horizontal"  android:layout_gravity="center"
+          android:layout_width="0dp"  android:layout_weight="1"
+          android:layout_height="match_parent"
+          android:gravity="center">
 
-       <TextView
+        <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"  android:clickable="true" android:onClick="viewNotes"
+             android:text="@string/annotation"
+             android:id="@+id/annotation_num"    android:drawableLeft="@drawable/book_content_notes"
+            style="@style/DoubanTextTitle.Black"
+            android:layout_gravity="center"
+            android:gravity="center_vertical" />
+      </LinearLayout>
+
+      <View
+          android:layout_width="1dip"
+          android:layout_height="fill_parent"
+          android:background="@color/gray_divider"
+          />
+
+      <LinearLayout
+          android:orientation="horizontal"    android:layout_weight="1"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:gravity="center">
+
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"  android:clickable="true" android:onClick="viewNotes"
-            android:text="@string/annotation"   android:drawableRight="@drawable/book_content_right_arrow"
-            android:id="@+id/annotation_num"    android:drawableLeft="@drawable/book_content_notes"
-            android:layout_gravity="right"  style="@style/DoubanTextTitle.Black"
-            android:layout_centerInParent="true"
+            android:layout_height="wrap_content" android:clickable="true" android:onClick="viewReviews"
+            android:text="@string/review"  android:drawableLeft="@drawable/book_content_reviews"
+            android:id="@+id/reviews_guider"
+            style="@style/DoubanTextTitle.Black"
             android:gravity="center_vertical"
-            android:layout_alignParentRight="true" />
+            android:layout_gravity="center" />
+      </LinearLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/back_icon"  android:layout_marginRight="@dimen/padding_large"
-        android:src="@drawable/header_cancel" android:clickable="true" android:onClick="back"
+        android:src="@drawable/header_back" android:clickable="true" android:onClick="back"
         android:layout_gravity="center_vertical" />
 
   <LinearLayout

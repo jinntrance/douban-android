@@ -49,7 +49,14 @@ class AddNoteActivity extends DoubanActivity {
         noteConent=a.content
     }
     }
-    fragmentManager.beginTransaction().replace(R.id.add_note_container, new AddNoteFragment().addArguments(bundle), Constant.ACTIVITY_NOTE_ADDITION).commit()
+    b match{
+      case savedInstance:Bundle=>
+      case _=>
+        fragmentManager.beginTransaction().replace(R.id.add_note_container,
+          new AddNoteFragment().addArguments(bundle),
+          Constant.ACTIVITY_NOTE_ADDITION).commit()
+    }
+
   }
 
   def submit(v: View) {
@@ -63,8 +70,12 @@ class AddNoteActivity extends DoubanActivity {
         val content = find[EditText](R.id.note_input).text.toString
         var proc:ProgressDialog=null
         if (content.length <= 15) toast("笔记内容需要15字以上哦..")
-        else Future {
-          val a = new AnnotationPosted(content, bookPage.toInt, chapter, if (public) "public" else "private")
+        else future {
+          val page:Int = bookPage match {
+            case p:String if p.nonEmpty && p.forall(_.isDigit)=>p.toInt
+            case _ => 1
+          }
+          val a = new AnnotationPosted(content, page, chapter, if (public) "public" else "private")
           a.files = Range(1, notesImage.size+1).map(_.toString).zip(notesImage).toMap
           proc=waitToLoad(msg=R.string.saving)
           getIntent.getLongExtra(Constant.BOOK_ID, 0) match {
