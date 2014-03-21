@@ -10,6 +10,8 @@ import com.douban.common.Auth
  * @version 1.0
  */
 object Constant {
+  val expireTime: String = "expireTime"
+
   val ANNOTATION="annotation"
 
   val SEPERATOR: String="`"

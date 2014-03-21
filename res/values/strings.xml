@@ -63,4 +63,5 @@
   <string name="filter_result">筛选结果</string>
   <string name="favorite_search">收藏图书搜索</string>
   <string name="review">图书书评</string>
+  <string name="reauth">"授权过期，重新获取中..."</string>
 </resources>

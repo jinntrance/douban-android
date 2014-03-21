@@ -37,7 +37,7 @@ class BookActivity extends DoubanActivity {
         val bookId = extras.getString(Constant.BOOK_ID)
         val bk = extras.getSerializable(Constant.BOOK_KEY)
         //        var sp:ProgressDialog=null
-        if (null == bk) future {
+        if (null == bk) Future {
           //          sp=
           waitToLoad()
           if (null != isbn && !isbn.isEmpty) Some(Book.byISBN(isbn))
@@ -92,7 +92,7 @@ class BookActivity extends DoubanActivity {
   def deCollect(v: View) {
     new AlertDialogBuilder("删除收藏", "之前的短评将会消失，确定要删除收藏么？") {
       positiveButton(onClick = {
-        future {
+        Future {
           book match {
             case Some(b: Book) if Book.deleteCollection(b.id) =>
               toast(R.string.decollect_successfully)

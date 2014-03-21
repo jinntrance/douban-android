@@ -63,7 +63,7 @@ class AddNoteActivity extends DoubanActivity {
         val content = find[EditText](R.id.note_input).text.toString
         var proc:ProgressDialog=null
         if (content.length <= 15) toast("笔记内容需要15字以上哦..")
-        else future {
+        else Future {
           val a = new AnnotationPosted(content, bookPage.toInt, chapter, if (public) "public" else "private")
           a.files = Range(1, notesImage.size+1).map(_.toString).zip(notesImage).toMap
           proc=waitToLoad(msg=R.string.saving)

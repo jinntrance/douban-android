@@ -10,7 +10,7 @@ organization := "com.douban"
 
 name := "douban-book"
 
-scalaVersion := "2.10.3"
+scalaVersion := "2.11.0-RC3"
 
 minSdkVersion in Android := 14
 
@@ -32,10 +32,11 @@ run <<= run in Android
 install <<= install in Android
 
 libraryDependencies ++= Seq(
-			"org.scaloid" % "scaloid_2.10" % "3.2-8",
-			"com.douban" % "scala-api_2.10" % "2.4.4",
+			"org.scaloid" %% "scaloid" % "3.3-8-SNAPSHOT",
+      "org.scaloid" %% "scaloid-support-v4" % "3.3-8-SNAPSHOT",
+			"com.douban" %% "scala-api" % "2.4.5",
 			"com.google.android" % "support-v4" % "r7",
-      "com.google.zxing" % "core" % "2.3.0"
+			"com.google.zxing" % "core" % "3.0.0"
 			)
 
 useProguard in Android := true
@@ -43,7 +44,7 @@ useProguard in Android := true
 typedResources in Android :=false
 
 proguardCache in Android ++=Seq(
-  ProguardCache("org.scaloid.common") % "org.scaloid",
+  ProguardCache("org.scaloid*") % "org.scaloid",
   ProguardCache("com.douban.models") % "com.douban")
 
 //libraryProjects in Android += android.Dependencies.LibraryProject(file("libs/zxing-android"))
