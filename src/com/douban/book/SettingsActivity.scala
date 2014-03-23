@@ -6,7 +6,7 @@ import android.view.View
 import org.scaloid.common._
 
 /**
- * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
+ * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>/
  * Email: <a href="mailto:jinntrance@gmail.com">jinntrance@gmail.com</a>
  * @author joseph
  * @since 10/7/13 3:55 PM
@@ -22,7 +22,7 @@ class SettingsActivity extends DoubanActivity {
   def toggleLogin(v: View) {
     if (isAuthenticated) {
       defaultSharedPreferences.edit().clear().commit()
-      toast("成功注销")
+      longToast("成功注销,重启应用中")
       setViewValue(R.id.toggleLoginText, "登录豆瓣")
     } else {
       currentUserId

@@ -5,7 +5,7 @@
     <string name="refresh">刷新</string>
     <string name="login_failed">登录失败</string>
     <string name="collect_failed">收藏失败</string>
-    <string name="login_successfully">登录成功,稍后重启应用生效。</string>
+    <string name="login_successfully">登录成功,稍后重启应用生效</string>
     <string name="collect_successfully">收藏成功</string>
     <string name="decollect_successfully">成功删除收藏</string>
     <string name="removed_successfully">删除成功</string>
@@ -63,5 +63,8 @@
   <string name="filter_result">筛选结果</string>
   <string name="favorite_search">收藏图书搜索</string>
   <string name="review">图书书评</string>
-  <string name="reauth">"授权过期，重新获取中..."</string>
+  <string name="reauth">授权过期，重新获取中…</string>
+  <string name="reauth_successfully">授权成功,稍后重启应用生效</string>
+  <string name="chapter_needed">请填写页码或章节名</string>
+  <string name="note_length">笔记内容需要15字以上哦..</string>
 </resources>

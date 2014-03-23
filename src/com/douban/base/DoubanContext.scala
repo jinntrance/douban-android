@@ -18,6 +18,7 @@ class DoubanContext extends android.app.Application {
     val token = PreferenceManager.getDefaultSharedPreferences(this).getString(Constant.accessTokenString, "")
     if (!token.isEmpty) Req.init(token)
     val config: ViewConfiguration = ViewConfiguration.get(this)
+    //always show the more action in actionBar
     val menuKeyField: Field = classOf[ViewConfiguration].getDeclaredField("sHasPermanentMenuKey")
     if (menuKeyField != null) {
       menuKeyField.setAccessible(true)
