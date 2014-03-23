@@ -410,7 +410,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     sm.setBehindWidthRes(R.dimen.sliding_menu_width)
     sm.setFadeDegree(0.35f)
     //    sm.setAboveOffsetRes(R.dimen.sliding_menu_above_offset)
-    sm.attachToActivity(this, SlidingMenu.SLIDING_CONTENT)
+    runOnUiThread(sm.attachToActivity(this, SlidingMenu.SLIDING_CONTENT))
     sm.setMenu(R.layout.menu)
 
     if (isAuthenticated) {
@@ -466,7 +466,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
 
   def setWindowTitle(title: Int) = setViewValue(R.id.title, title.toString)
 
-  protected override def onOptionsItemSelected(item: MenuItem) = {
+  override def onOptionsItemSelected(item: MenuItem) = {
     item.getItemId match {
       case android.R.id.home =>
         //        NavUtils.navigateUpFromSameTask(this)
@@ -487,18 +487,19 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   def currentUserId: Long = {
     if (!isAuthenticated) {
       login()
-    }
-    if(isOnline && isExpire){
+    } else if(isOnline && isExpire){
       put(Constant.accessTokenString, "")
-      waitToLoad(restartApplication(),R.string.reauth)
-      Auth.getTokenByFresh(get(Constant.refreshTokenString),
-        Constant.apiKey,Constant.apiSecret) match {
-        case Some(t)=>
-          updateToken(t)
+      longToast(R.string.reauth)
+      handle(Auth.getTokenByFresh(get(Constant.refreshTokenString),
+        Constant.apiKey,Constant.apiSecret), (t:Option[AccessTokenResult])=> {t match {
+        case Some(tk)=>
+          updateToken(tk)
+          longToast(R.string.reauth_successfully)
         case _=>
           longToast(R.string.relogin_needed)
       }
-      restartApplication()
+    })
+
     }
     if (isAuthenticated) get(Constant.userIdString).toLong
     else {
@@ -508,7 +509,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     }
   }
 
-  override protected def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+  override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
     super.onActivityResult(requestCode, resultCode, data)
     if (requestCode == LOGIN_REQUEST && resultCode == Activity.RESULT_OK && isAuthenticated) {
       super.onRestart()
@@ -547,13 +548,14 @@ trait DoubanActivity extends SFragmentActivity with Douban {
 
   @inline def isAuthenticated = contains(Constant.accessTokenString)
 
-  @inline def isExpire = get(Constant.refreshTokenString).toLong <= System.currentTimeMillis()
+  @inline def isExpire = getOrElse(Constant.expireTime, 0).toLong <= System.currentTimeMillis()
 
   protected def updateToken(t: AccessTokenResult) {
     put(Constant.accessTokenString, t.access_token)
     put(Constant.refreshTokenString, t.refresh_token)
-    put(Constant.expireTime, t.expires_in + System.currentTimeMillis())
+    put(Constant.expireTime, t.expires_in*1000 + System.currentTimeMillis())
     put(Constant.userIdString, t.douban_user_id)
+    Req.init(t.access_token)
   }
 
   def sideMenu(v: View) = {
@@ -597,15 +599,18 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     }
   }
 
-  def popup(v: View):Unit = popup(v,true)
+  def popup(v: View):Unit = popup(v,reLoad = true)
 
-  def restartApplication(delay: Int = 3000) {
+  def restartApplication(delay: Int = 6000) {
     val intent = PendingIntent.getActivity(getBaseContext, 0, new Intent(getIntent), getIntent.getFlags)
     getSystemService(Context.ALARM_SERVICE) match {
       case manager: AlarmManager => manager.set(AlarmManager.RTC, System.currentTimeMillis() + delay, intent)
       case _ =>
     }
-    System.exit(2)
+    Future {
+      blocking(Thread.sleep(delay))
+      System.exit(2)
+    }
   }
 
   override def startActivity(intent: Intent) {

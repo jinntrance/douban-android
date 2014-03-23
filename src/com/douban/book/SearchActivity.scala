@@ -55,7 +55,6 @@ class SearchActivity extends DoubanActivity {
   }
 
   def scan(v: View) {
-    new Intent(Intents.Scan.ACTION).putExtra(Scan.MODE, Scan.ONE_D_MODE)
     startActivityForResult(new Intent(Intents.Scan.ACTION).putExtra(Scan.MODE, Scan.ONE_D_MODE)
       , scanRequestCode)
   }

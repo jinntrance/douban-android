@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:padding="@dimen/padding_large">
+    android:padding="@dimen/margin_huge">
+
+
+  <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content">
 
     <TextView
         android:layout_width="wrap_content"
@@ -12,35 +18,44 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="由于豆瓣未开放API部分接口，故无法提供app UI一致的查看书评、查看评论等功能；同时自己的笔记只能在“我的笔记”中按时间排序查看，不能通过其他途径查看；私密收藏后，也无法通过本app查看，只能用豆瓣官网查看私密状态。以上这些不便还请谅解。"
-        android:layout_margin="@dimen/margin_medium" />
+        android:text="\t由于豆瓣未开放API部分接口，故无法提供app UI一致的查看书评、查看评论等功能；同时自己的笔记只能在“我的笔记”中按时间排序查看，不能通过其他途径查看；私密收藏后，也无法通过本app查看，只能用豆瓣官网查看私密状态。\n\t而且每次登录授权后豆瓣给的有效期仅为7天，若部分功能不可用，请退出重新登录使用。\n\t以上不便还请谅解。"
+        android:layout_margin="@dimen/margin_large" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"  android:layout_marginTop="@dimen/margin_large"
+        android:text="意见或bugs反馈：" />
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_large">
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" android:autoLink="email"
+          android:text="jinntrance@gmail.com"
+          android:layout_marginBottom="@dimen/margin_medium" />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" android:autoLink="web"
+          android:text="douban.com/people/jinntrance/"
+          android:layout_marginBottom="@dimen/margin_medium" />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"  android:autoLink="web"
+          android:text="github.com/jinntrance/douban-android" />
+    </TableLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_marginTop="@dimen/margin_large"
+        android:text="版本更新： " />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="反馈：" />
-
-    <TableLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_margin="@dimen/margin_medium">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:autoLink="web"
-            android:text="豆邮: douban.com/people/jinntrance/"
-            android:layout_marginBottom="@dimen/margin_medium" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:autoLink="email"
-            android:text="Mail: jinntrance@gmail.com"
-            android:layout_marginBottom="@dimen/margin_medium" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"  android:autoLink="web"
-            android:text="github:  github.com/jinntrance/douban-android" />
-    </TableLayout>
-
-</LinearLayout>
+        android:text="\t2014.3.21 更新 0.9.4\n\t修正授权过期导致的收藏失败、无法搜索等问题;\n\t"
+        android:layout_margin="@dimen/margin_large" />
+      </LinearLayout>
+</ScrollView>

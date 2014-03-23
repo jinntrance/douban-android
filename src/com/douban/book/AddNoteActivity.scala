@@ -65,11 +65,11 @@ class AddNoteActivity extends DoubanActivity {
         bookPage = bp.getText.toString.trim
         chapter = find[EditText](R.id.chapter_name).getText.toString.trim
         if (bookPage.nonEmpty || chapter.nonEmpty) fragmentManager.popBackStack()
-        else toast("请填写页码或章节名")
+        else toast(R.string.chapter_needed)
       case _ =>
         val content = find[EditText](R.id.note_input).text.toString
         var proc:ProgressDialog=null
-        if (content.length <= 15) toast("笔记内容需要15字以上哦..")
+        if (content.length <= 15) toast(R.string.note_length)
         else Future {
           val page:Int = bookPage match {
             case p:String if p.nonEmpty && p.forall(_.isDigit)=>p.toInt

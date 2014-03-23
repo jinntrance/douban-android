@@ -51,14 +51,13 @@ class LoginActivity extends DoubanActivity {
       if (redirectedUrl.startsWith(redirect_url)) {
         if (redirectedUrl.contains("error=")) toast(R.string.login_failed)
         else {
-          val sp = waitToLoad(msg = R.string.logining)
+          val sp = waitToLoad(LoginActivity.this.finish(),msg = R.string.logining)
           handle({
             Auth.getTokenByCode(extractCode(redirectedUrl), Constant.apiKey, Constant.apiSecret)
           }, (t: Option[AccessTokenResult]) => {
             if (None == t) toast(R.string.login_failed)
             else {
               updateToken(t.get)
-              Req.init(t.get.access_token)
               longToast(R.string.login_successfully)
               restartApplication()
             }
