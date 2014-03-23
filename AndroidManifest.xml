@@ -24,7 +24,7 @@
     <application android:label="@string/app_name" android:icon="@drawable/logo" android:theme="@style/DoubanTheme" android:hardwareAccelerated="false"
         android:name="com.douban.base.DoubanContext" android:configChanges="orientation|screenSize" >
 
-        <activity android:label="@string/app_name" android:clearTaskOnLaunch="true" android:name=".SearchActivity" android:windowSoftInputMode="adjustUnspecified|stateHidden" android:launchMode="singleInstance">
+        <activity android:label="@string/app_name" android:clearTaskOnLaunch="true" android:name=".SearchActivity" android:windowSoftInputMode="adjustUnspecified|stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -61,6 +61,10 @@
                 <action android:name="com.google.zxing.client.android.SCAN"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
+          <intent-filter>
+            <action android:name="android.intent.action.MAIN"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+          </intent-filter>
         </activity>
       <activity android:name="com.google.zxing.client.android.encode.EncodeActivity"
           android:stateNotNeeded="true">
