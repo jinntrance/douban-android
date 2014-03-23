@@ -560,7 +560,8 @@ trait DoubanActivity extends SFragmentActivity with Douban {
 
   def sideMenu(v: View) = {
     v.getId match {
-      case R.id.menu_search if !getThisActivity.isInstanceOf[SearchActivity] => startActivity(SIntent[SearchActivity])
+      case R.id.menu_search if !getThisActivity.isInstanceOf[SearchActivity] =>
+        startActivity(SIntent[SearchActivity].setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
       case R.id.menu_mynote if !getThisActivity.isInstanceOf[MyNoteActivity] =>
         startActivity(SIntent[MyNoteActivity])
       case R.id.menu_favbooks if !getThisActivity.isInstanceOf[FavoriteBooksActivity] =>

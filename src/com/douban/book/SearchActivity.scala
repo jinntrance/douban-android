@@ -42,7 +42,7 @@ class SearchActivity extends DoubanActivity {
   }
 
   override def onBackPressed() {
-    if (doubleBackToExitPressedOnce) super.onBackPressed()
+    if (doubleBackToExitPressedOnce) finish()
     else {
       doubleBackToExitPressedOnce = true
       longToast(R.string.double_back_to_exit)
