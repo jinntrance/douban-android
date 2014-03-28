@@ -17,7 +17,7 @@
   <string name="author_intro">Author Info</string>
   <string name="book_cover">Cover</string>
   <string name="book_name_is">,book name: %1$s</string>
-  <string name="book_search_hint">book, author, ISBN</string>
+  <string name="book_search_hint">Book, Author, ISBN</string>
   <string name="books_loaded_completely">%1$s books loaded</string>
   <string name="button_ok">OK</string>
   <string name="cancel">Back</string>
@@ -56,7 +56,7 @@
   <string name="more_books_loaded">%1$d books loaded</string>
   <string name="more_loaded_finished">Fully loaded</string>
   <string name="more_notes_loaded">%1$d notes loaded</string>
-  <string name="my_note">My notes</string>
+  <string name="my_note">Notes</string>
   <string name="my_rating">My rating：</string>
   <string name="my_tags">My tags：</string>
   <string name="books_not_found">NOT found</string>
@@ -74,7 +74,7 @@
   <string name="removed_unsuccessfully">Fail to remove</string>
   <string name="review">Reviews</string>
   <string name="saving">Saving…</string>
-  <string name="scan_book">Scan</string>
+  <string name="scan_book">Scan it</string>
   <string name="scan_failed">Failed</string>
   <string name="searching">Searching…</string>
   <string name="search_no_result">NOT found</string>
@@ -90,5 +90,5 @@
   <string name="tags_mine">My tags</string>
   <string name="to">To</string>
   <string name="wish">To read</string>
-
+  <string name="clean_cache">Clean Cache</string>
 </resources>

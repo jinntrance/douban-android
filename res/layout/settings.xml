@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="删除缓存"    style="@style/DoubanTextTitle.Black.Setting"
+        android:text="@string/clean_cache"    style="@style/DoubanTextTitle.Black.Setting"
         android:id="@+id/textView" />
   </LinearLayout>
 
@@ -27,7 +27,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="关于"   style="@style/DoubanTextTitle.Black.Setting"
+        android:text="@string/about"   style="@style/DoubanTextTitle.Black.Setting"
         android:id="@+id/textView1" />
   </LinearLayout>
   <LinearLayout         android:background="@color/white"
@@ -39,7 +39,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="注销"   style="@style/DoubanTextTitle.Black.Setting"
+        android:text="@string/logout"   style="@style/DoubanTextTitle.Black.Setting"
         android:id="@+id/toggleLoginText" />
   </LinearLayout>
     </LinearLayout>
