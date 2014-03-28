@@ -59,7 +59,7 @@ class BookActivity extends DoubanActivity {
           case Failure(m) =>
             m.printStackTrace()
             error(m.getMessage)
-            val notification = if (null != isbn) s",扫描ISBN码为:$isbn" else if (null != bookId) s",图书名为:${extras.getString(Constant.BOOK_TITLE, "无")}" else ""
+            val notification = if (null != isbn) getString(R.string.isbn_is,isbn) else if (null != bookId) getString(R.string.book_name_is,extras.getString(Constant.BOOK_TITLE, getString(R.string.no))) else ""
             longToast(getString(R.string.search_no_result) + notification)
             this.finish()
           case _ =>
@@ -98,7 +98,7 @@ class BookActivity extends DoubanActivity {
   }
 
   def deCollect(v: View) {
-    new AlertDialogBuilder("删除收藏", "之前的短评将会消失，确定要删除收藏么？") {
+    new AlertDialogBuilder(getString(R.string.decollect), getString(R.string.decollect_confirm)) {
       positiveButton(onClick = {
         Future {
           book match {

@@ -41,7 +41,7 @@ class NoteViewActivity(layoutId: Int) extends SwipeGestureDoubanActivity {
     count = dataList.size()
     replaceActionBar(R.layout.header_note, getString(R.string.annotation))
     display(pos)
-    toast("左右滑动翻看笔记")
+    toast(R.string.swipe_to_view_notes)
   }
 
   def display(position: Int) {

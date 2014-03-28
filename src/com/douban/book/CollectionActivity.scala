@@ -224,8 +224,8 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
 
     val th = rootView.find[TabHost](R.id.tabHost)
     th.setup()
-    th.addTab(th.newTabSpec("tab1").setIndicator("热门标签").setContent(R.id.pop_tags))
-    th.addTab(th.newTabSpec("tab2").setIndicator("我的标签").setContent(R.id.my_tags))
+    th.addTab(th.newTabSpec("tab1").setIndicator(getString(R.string.tags_hot)).setContent(R.id.pop_tags))
+    th.addTab(th.newTabSpec("tab2").setIndicator(getString(R.string.tags_mine)).setContent(R.id.my_tags))
 
   }
 

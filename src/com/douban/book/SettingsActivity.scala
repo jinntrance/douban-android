@@ -16,17 +16,17 @@ class SettingsActivity extends DoubanActivity {
   override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.settings)
-    if (!isAuthenticated) setViewValue(R.id.toggleLoginText, "登录豆瓣")
+    if (!isAuthenticated) setViewValue(R.id.toggleLoginText, R.string.login_douban)
   }
 
   def toggleLogin(v: View) {
     if (isAuthenticated) {
       defaultSharedPreferences.edit().clear().commit()
-      longToast("成功注销,重启应用中")
-      setViewValue(R.id.toggleLoginText, "登录豆瓣")
+      longToast(R.string.signed_out)
+      setViewValue(R.id.toggleLoginText, R.string.login_douban)
     } else {
       currentUserId
-      if (isAuthenticated) setViewValue(R.id.toggleLoginText, "注销")
+      if (isAuthenticated) setViewValue(R.id.toggleLoginText, R.string.logout)
     }
     restartApplication()
   }
@@ -34,7 +34,7 @@ class SettingsActivity extends DoubanActivity {
   def delCache(v: View) {
     getExternalCacheDir.delete()
     getExternalCacheDir.createNewFile()
-    toast("删除缓存成功")
+    toast(R.string.del_cache_successfully)
   }
 
   def about(v: View) {

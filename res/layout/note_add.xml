@@ -6,7 +6,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"  android:focusableInTouchMode="true"
-        android:id="@+id/note_input" android:hint="开始写笔记吧(15字以上哦)…"
+        android:id="@+id/note_input" android:hint="@string/add_note_hint"
         android:autoText="true"
         android:minLines="5" android:minEms="15"
         android:layout_weight="1"

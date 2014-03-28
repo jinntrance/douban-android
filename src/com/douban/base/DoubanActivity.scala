@@ -76,6 +76,10 @@ trait Douban {
     setViewValueByView(holder.findViewById(id), value, notification, hideEmpty,showNonEmpty)
   }
 
+  def setViewValue[T <: V](id: Int, resId: Int, holder: T = rootView, notification: String = "", hideEmpty: Boolean = true,showNonEmpty:Boolean=false): Unit = {
+    setViewValueByView(holder.findViewById(id), ctx.getString(resId), notification, hideEmpty,showNonEmpty)
+  }
+
   def setViewValueByView(v: => View, value: String, notification: String = "", hideEmpty: Boolean = true,showNonEmpty:Boolean=false): Unit = {
     value.trim match {
       case "" if hideEmpty => v match {

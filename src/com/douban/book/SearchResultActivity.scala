@@ -11,6 +11,7 @@ import Constant._
 import com.douban.models.BookSearchResult
 import scala.Some
 import com.douban.models.Collection
+import android.content.Context
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
