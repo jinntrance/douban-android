@@ -14,6 +14,7 @@
   <string name="annotation_fails_to_add">Failed</string>
   <string name="annotation">Notes</string>
   <string name="app_name">Douban Books</string>
+  <string name="app_full_name">Douban Books</string>
   <string name="author_intro">Author Info</string>
   <string name="book_cover">Cover</string>
   <string name="book_name_is">,book name: %1$s</string>
@@ -38,10 +39,10 @@
   <string name="double_back_to_exit">Press again to exit</string>
   <string name="edit">Edit</string>
   <string name="exit">Exit</string>
-  <string name="favorite_search">收藏图书搜索</string>
+  <string name="favorite_search">Search in favorites</string>
   <string name="favorite">Favorites</string>
-  <string name="filter_books">筛选图书</string>
-  <string name="filter_result">筛选结果</string>
+  <string name="filter_books">Search</string>
+  <string name="filter_result">Results</string>
   <string name="from">From</string>
   <string name="isbn_is">,ISBN: %1$s</string>
   <string name="load_img_fail">Fail to load %1$s</string>
