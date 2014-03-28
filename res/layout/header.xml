@@ -18,7 +18,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
+        android:text="@string/app_full_name"
         android:id="@+id/title"   android:ellipsize="end"
         android:layout_gravity="center"  style="@style/DoubanActionBar.Title"
         android:layout_alignParentBottom="false"

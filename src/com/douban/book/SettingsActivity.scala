@@ -16,17 +16,17 @@ class SettingsActivity extends DoubanActivity {
   override def onCreate(b: Bundle) {
     super.onCreate(b)
     setContentView(R.layout.settings)
-    if (!isAuthenticated) setViewValue(R.id.toggleLoginText, R.string.login_douban)
+    if (!isAuthenticated) setViewByRes(R.id.toggleLoginText, R.string.login_douban)
   }
 
   def toggleLogin(v: View) {
     if (isAuthenticated) {
       defaultSharedPreferences.edit().clear().commit()
       longToast(R.string.signed_out)
-      setViewValue(R.id.toggleLoginText, R.string.login_douban)
+      setViewByRes(R.id.toggleLoginText, R.string.login_douban)
     } else {
       currentUserId
-      if (isAuthenticated) setViewValue(R.id.toggleLoginText, R.string.logout)
+      if (isAuthenticated) setViewByRes(R.id.toggleLoginText, R.string.logout)
     }
     restartApplication()
   }

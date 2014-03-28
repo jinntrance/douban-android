@@ -76,7 +76,7 @@ trait Douban {
     setViewValueByView(holder.findViewById(id), value, notification, hideEmpty,showNonEmpty)
   }
 
-  def setViewValue[T <: V](id: Int, resId: Int, holder: T = rootView, notification: String = "", hideEmpty: Boolean = true,showNonEmpty:Boolean=false): Unit = {
+  def setViewByRes[T <: V](id: Int, resId: Int, holder: T = rootView, notification: String = "", hideEmpty: Boolean = true,showNonEmpty:Boolean=false): Unit = {
     setViewValueByView(holder.findViewById(id), ctx.getString(resId), notification, hideEmpty,showNonEmpty)
   }
 
@@ -456,7 +456,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
 
   override lazy val rootView: V = this
 
-  def replaceActionBar(layoutId: Int = R.layout.header, title: String = getString(R.string.app_name)) {
+  def replaceActionBar(layoutId: Int = R.layout.header, title: String = getString(R.string.app_full_name)) {
     getActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM)
     getActionBar.setCustomView(layoutId)
     setWindowTitle(title)
