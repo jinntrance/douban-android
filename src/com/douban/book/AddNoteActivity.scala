@@ -180,7 +180,7 @@ class AddChapterFragment extends DoubanFragment[AddNoteActivity] {
 
   override def onActivityCreated(b: Bundle) {
     super.onActivityCreated(b)
-    activity.replaceActionBar(R.layout.header_edit, "添加页码/章节名")
+    activity.replaceActionBar(R.layout.header_edit, getString(R.string.add_chapter))
     setViewValue(R.id.bookPage, activity.bookPage, hideEmpty = false)
     setViewValue(R.id.chapter_name, activity.chapter, hideEmpty = false)
   }

@@ -38,9 +38,9 @@ class FavoriteBooksActivity extends DoubanActivity {
     super.onCreate(b)
     setContentView(R.layout.fav_books)
     th.setup()
-    th.addTab(th.newTabSpec("wish").setIndicator("想读").setContent(R.id.wish_container))
-    th.addTab(th.newTabSpec("reading").setIndicator("在读").setContent(R.id.reading_container))
-    th.addTab(th.newTabSpec("read").setIndicator("读过").setContent(R.id.read_container))
+    th.addTab(th.newTabSpec("wish").setIndicator(getString(R.string.wish)).setContent(R.id.wish_container))
+    th.addTab(th.newTabSpec("reading").setIndicator(getString(R.string.reading)).setContent(R.id.reading_container))
+    th.addTab(th.newTabSpec("read").setIndicator(getString(R.string.read)).setContent(R.id.read_container))
     th.setCurrentTab(currentTab)
     val readingAdapter = new CollectionItemAdapter("reading", load)
     find[ListView](R.id.reading) onItemClick readingAdapter.listener setAdapter readingAdapter
@@ -144,9 +144,9 @@ class FavoriteBooksListActivity extends DoubanActivity {
     if (s.status.nonEmpty)
       setViewValue(R.id.currentState, SearchResult.stateMapping.getOrElse(s.status, ""))
     if (s.rating > 0)
-      setViewValue(R.id.ratedStars, s.rating + "星")
+      setViewValue(R.id.ratedStars, s.rating + getString(R.string.stars))
     if (s.from.nonEmpty || s.to.nonEmpty)
-      setViewValue(R.id.date_duration, s.from.substring(0, Math.min(s.from.length, 10)) + "到" + s.to.substring(0, Math.min(s.to.length, 10)))
+      setViewValue(R.id.date_duration, s.from.substring(0, Math.min(s.from.length, 10)) + getString(R.string.to) + s.to.substring(0, Math.min(s.to.length, 10)))
     if (s.tag.nonEmpty)
       setViewValue(R.id.tags_txt, s.tag)
   }
@@ -201,7 +201,7 @@ class FavoriteBooksListActivity extends DoubanActivity {
       success =
         (r: CollectionSearchResult) =>
           if (r.total == 0)
-            toast("没有找到对应书籍")
+            toast(R.string.no_books_loaded)
           else runOnUiThread {
             if (1 == currentPage) {
               adapter.replaceResult(r.total, r.collections.size(), r.collections)

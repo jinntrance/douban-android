@@ -6,9 +6,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="页码和章节名至少填一项～"
+        android:text="@string/add_chapter_hint"
         android:layout_margin="@dimen/margin_medium"
-        android:hint="章节名" />
+        android:hint="@string/chapter" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/bookPage"
-            android:hint="页码" android:maxLength="6"
+            android:hint="@string/pages" android:maxLength="6"
             android:layout_margin="@dimen/margin_medium"
             android:inputType="numberSigned"
             android:layout_weight="1" />
@@ -26,7 +26,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="页"
+            android:text="@string/page"
             android:layout_margin="@dimen/margin_medium"
             android:gravity="center_vertical" />
     </LinearLayout>
@@ -36,6 +36,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/chapter_name"  android:maxLength="100"
         android:layout_margin="@dimen/margin_medium"
-        android:hint="章节名" />
+        android:hint="@string/chapter" />
 
 </LinearLayout>

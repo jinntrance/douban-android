@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="收藏状态："
+            android:text="@string/collection_status"
             android:layout_gravity="center_vertical" />
 
         <RadioGroup
@@ -33,19 +33,19 @@
               android:layout_height="wrap_content"
               android:id="@+id/wish"
               android:checked="false" android:onClick="checkSate"
-              android:text="想读" />
+              android:text="@string/wish" />
 
           <RadioButton
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="在读"  android:onClick="checkSate"
+              android:text="@string/reading"  android:onClick="checkSate"
               android:id="@+id/reading"
               android:checked="false" />
 
           <RadioButton
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="读过"  android:onClick="checkSate"
+              android:text="@string/read"  android:onClick="checkSate"
               android:id="@+id/read"
               android:checked="false" />
         </RadioGroup>
@@ -57,7 +57,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我的评分："
+            android:text="@string/my_rating"
             android:layout_gravity="center_vertical" />
 
         <RatingBar
@@ -76,7 +76,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="收藏时间："
+            android:text="@string/collection_date"
             android:layout_gravity="center_vertical" />
 
         <LinearLayout
@@ -88,12 +88,12 @@
           <EditText   android:editable="false"   android:maxLength="10"  android:singleLine="true"
               android:layout_width="0dp" android:layout_weight="1"
               android:layout_height="wrap_content" android:onClick="showDatePickerDialog"
-              android:id="@+id/from_date"  android:hint="始" />
+              android:id="@+id/from_date"  android:hint="@string/from" />
 
           <TextView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="到"
+              android:text="@string/to"
               android:paddingLeft="@dimen/padding_large"
               android:paddingRight="@dimen/padding_large"
               android:layout_gravity="center_horizontal" />
@@ -111,7 +111,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我的标签：" />
+            android:text="@string/my_tags" />
 
         <LinearLayout  android:orientation="horizontal"
             android:layout_width="wrap_content"

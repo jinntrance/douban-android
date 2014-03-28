@@ -21,7 +21,7 @@
                 <TextView  style="@style/DoubanText.White"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="收藏状态：" />
+                    android:text="@string/collection_status" />
 
                 <TableRow
                     android:layout_width="fill_parent"
@@ -30,7 +30,7 @@
                     <TextView  style="@style/DoubanText.FavBooks"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="全部"
+                        android:text="@string/all"
                         android:id="@+id/currentState" />
 
                 </TableRow>
@@ -45,7 +45,7 @@
                 <TextView  style="@style/DoubanText.White"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="我的评分：" />
+                    android:text="@string/my_rating" />
 
                 <TableRow
                     android:layout_width="fill_parent"
@@ -54,7 +54,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="不区分"    style="@style/DoubanText.FavBooks"
+                        android:text="@string/dont_care"    style="@style/DoubanText.FavBooks"
                         android:id="@+id/ratedStars" />
                 </TableRow>
             </TableRow>
@@ -66,7 +66,7 @@
             <TextView  style="@style/DoubanText.White"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="时间区间：" />
+                android:text="@string/date_range" />
 
             <TableRow
                 android:layout_width="fill_parent"
@@ -75,7 +75,7 @@
               <TextView
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="全部"    style="@style/DoubanText.FavBooks"
+                  android:text="@string/all"    style="@style/DoubanText.FavBooks"
                   android:id="@+id/date_duration" />
             </TableRow>
           </TableRow>
@@ -88,12 +88,12 @@
                 <TextView   style="@style/DoubanText.White"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="我的标签：" />
+                    android:text="@string/my_tags" />
 
                 <TableRow   android:id="@+id/tags_container"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content">
-                      <TextView android:id="@+id/tags_txt" android:text="无"  style="@style/DoubanText.White"/>
+                      <TextView android:id="@+id/tags_txt" android:text="@string/no"  style="@style/DoubanText.White"/>
                 </TableRow>
 
             </TableRow>
