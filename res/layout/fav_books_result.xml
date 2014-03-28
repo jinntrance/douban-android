@@ -21,7 +21,7 @@
                 <TextView  style="@style/DoubanText.White"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/collection_status" />
+                    android:text="@string/collect_status" />
 
                 <TableRow
                     android:layout_width="fill_parent"
@@ -54,7 +54,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/dont_care"    style="@style/DoubanText.FavBooks"
+                        android:text="@string/all"    style="@style/DoubanText.FavBooks"
                         android:id="@+id/ratedStars" />
                 </TableRow>
             </TableRow>
@@ -66,7 +66,7 @@
             <TextView  style="@style/DoubanText.White"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/date_range" />
+                android:text="@string/collect_date" />
 
             <TableRow
                 android:layout_width="fill_parent"

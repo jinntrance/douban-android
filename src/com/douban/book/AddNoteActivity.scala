@@ -65,7 +65,7 @@ class AddNoteActivity extends DoubanActivity {
         bookPage = bp.getText.toString.trim
         chapter = find[EditText](R.id.chapter_name).getText.toString.trim
         if (bookPage.nonEmpty || chapter.nonEmpty) fragmentManager.popBackStack()
-        else toast(R.string.chapter_needed)
+        else toast(R.string.add_chapter_hint)
       case _ =>
         val content = find[EditText](R.id.note_input).text.toString
         var proc:ProgressDialog=null

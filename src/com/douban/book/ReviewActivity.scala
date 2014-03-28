@@ -37,7 +37,7 @@ class ReviewActivity extends DoubanActivity{
          reviewsUrl=getReviewsUrl(bookId)
          setTitle(getIntent.getExtras.getString(Constant.BOOK_TITLE,getString(R.string.review)))
       case _ =>
-        longToast(R.string.no_books_loaded)
+        longToast(R.string.books_not_found)
         this.finish()
     }
     setContentView(R.layout.reviews)
