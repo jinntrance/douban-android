@@ -62,7 +62,7 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
     activity.find[TextView](R.id.to_load) match {
       case footer: TextView =>
         if(0==total)
-          footer.setText(R.string.no_books_loaded)
+          footer.setText(R.string.books_not_found)
         else if(total<=countPerPage|| adapter.count==total)
           footer.setText(getString(R.string.books_loaded_completely).format(total))
         else {

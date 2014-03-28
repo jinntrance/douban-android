@@ -77,7 +77,7 @@
             <TextView
                 android:layout_width="match_parent"   android:drawableLeft="@drawable/menu_note" android:padding="@dimen/padding_large"
                 android:layout_height="wrap_content"  style="@style/DoubanTextTitle.White"    android:drawablePadding="@dimen/padding_large"
-                android:text="@string/mynote"           android:clickable="true"
+                android:text="@string/my_note"           android:clickable="true"
                 android:id="@+id/menu_mynote"   android:onClick="sideMenu"
                 android:gravity="center|left"
                 android:visibility="visible" />

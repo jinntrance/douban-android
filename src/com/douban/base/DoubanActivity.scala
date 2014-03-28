@@ -431,7 +431,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
         case Success((username, a, c, n)) =>
           setViewValue(R.id.username, username)
           setViewValue(R.id.menu_favbooks, s"${getString(R.string.favorite)}($c)", sm)
-          setViewValue(R.id.menu_mynote, s"${getString(R.string.mynote)}($n)", sm)
+          setViewValue(R.id.menu_mynote, s"${getString(R.string.my_note)}($n)", sm)
           loadImageWithTitle(a, R.id.user_avatar, username, sm)
           put(Constant.AVATAR, a)
           put(Constant.USERNAME, username)
@@ -606,7 +606,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
 
   def popup(v: View):Unit = popup(v,reLoad = true)
 
-  def restartApplication(delay: Int = 6000) {
+  def restartApplication(delay: Int = 3000) {
     val intent = PendingIntent.getActivity(getBaseContext, 0, new Intent(getIntent), getIntent.getFlags)
     getSystemService(Context.ALARM_SERVICE) match {
       case manager: AlarmManager => manager.set(AlarmManager.RTC, System.currentTimeMillis() + delay, intent)

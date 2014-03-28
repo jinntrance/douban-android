@@ -201,7 +201,7 @@ class FavoriteBooksListActivity extends DoubanActivity {
       success =
         (r: CollectionSearchResult) =>
           if (r.total == 0)
-            toast(R.string.no_books_loaded)
+            toast(R.string.books_not_found)
           else runOnUiThread {
             if (1 == currentPage) {
               adapter.replaceResult(r.total, r.collections.size(), r.collections)
