@@ -32,6 +32,7 @@ import scala.util.Success
 import android.view.ViewGroup.LayoutParams
 import uk.co.senab.photoview.PhotoViewAttacher
 import scala.util.control.Exception.catching
+import android.content.pm.PackageManager
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -347,6 +348,12 @@ trait Douban {
         if (null != sp) sp.dismiss()
     }
   }
+  protected def isIntentUnavailable(action: String): Boolean = {
+    val packageManager = getThisActivity.getPackageManager
+    val intent = new Intent(action)
+    packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).isEmpty
+  }
+
 }
 
 trait DoubanActivity extends SFragmentActivity with Douban {
