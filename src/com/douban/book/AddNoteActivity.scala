@@ -227,12 +227,5 @@ class AddNoteFragment extends DoubanFragment[AddNoteActivity] {
       else activity.finish()
     resuming = true
   }
-
-  private def isIntentUnavailable(action: String): Boolean = {
-    val packageManager = activity.getPackageManager
-    val intent = new Intent(action)
-    packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).isEmpty
-  }
-
 }
 

@@ -157,21 +157,21 @@
                 android:layout_marginTop="@dimen/margin_medium">
             <Button
                 android:layout_width="0dp"  android:onClick="collect" style="@style/DoubanButton.WhiteText"
-                android:text="想读"  android:layout_weight="0.25"  android:background="@drawable/button_pink"
+                android:text="@string/wish"  android:layout_weight="0.25"  android:background="@drawable/button_pink"
                 android:id="@+id/wish"  />
 
             <Button
                 android:layout_width="0dp" android:onClick="collect"  style="@style/DoubanButton.WhiteText"
-                android:text="在读"  android:layout_weight="0.25"  android:background="@drawable/button_green"
+                android:text="@string/reading"  android:layout_weight="0.25"  android:background="@drawable/button_green"
                 android:id="@+id/reading" />
 
             <Button
                 android:layout_width="0dp" android:onClick="collect" style="@style/DoubanButton.WhiteText"
-                android:text="读过"  android:layout_weight="0.25"  android:background="@drawable/button_brown"
+                android:text="@string/read"  android:layout_weight="0.25"  android:background="@drawable/button_brown"
                 android:id="@+id/read" />
             <Button
                 android:layout_width="0dp" android:onClick="deCollect" style="@style/DoubanButton.WhiteText"
-                android:text="删除收藏" android:layout_weight="0.15" android:background="@drawable/button_black"
+                android:text="@string/decollect" android:layout_weight="0.15" android:background="@drawable/button_black"
                 android:id="@+id/delete" />
 
         </LinearLayout>

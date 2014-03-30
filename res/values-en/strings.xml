@@ -1,7 +1,7 @@
 <resources>
   <string name="about_info">Home: https://github.com/jinntrance/douban-android <br/> Feedback：<a href="mailto:jinntrance@gmail.com">軒轅鍾書</a></string>
   <string name="about">About</string>
-  <string name="add_chapter_hint">Page or chapter needed～</string>
+  <string name="add_chapter_hint">Page number or chapter name needed～</string>
   <string name="add_chapter">Page/Chapter</string>
   <string name="add_collection">Favorite</string>
   <string name="add_first_note">Add notes～</string>
@@ -14,10 +14,10 @@
   <string name="annotation_fails_to_add">Failed</string>
   <string name="annotation">Notes</string>
   <string name="app_full_name">Douban Books</string>
-  <string name="author_intro">Author Info</string>
+  <string name="author_intro">Authors</string>
   <string name="book_cover">Cover</string>
   <string name="book_name_is">,book name: %1$s</string>
-  <string name="book_search_hint">Book, Author, ISBN</string>
+  <string name="book_search_hint">Title, Author, ISBN</string>
   <string name="books_loaded_completely">%1$s books loaded</string>
   <string name="button_ok">OK</string>
   <string name="cancel">Back</string>
@@ -52,7 +52,7 @@
   <string name="login_successfully">Signed In, Restarting</string>
   <string name="login">Sign in</string>
   <string name="logout">Sign out</string>
-  <string name="menu_settings">Setting</string>
+  <string name="menu_settings">Settings</string>
   <string name="more_books_loaded">%1$d books loaded</string>
   <string name="more_loaded_finished">Fully loaded</string>
   <string name="more_notes_loaded">%1$d notes loaded</string>
@@ -63,7 +63,8 @@
   <string name="note_length">Write more than 15 chars.</string>
   <string name="notify_offline">Disconnected. Plz try again later.</string>
   <string name="no">No</string>
-  <string name="pages">Page</string>
+  <string name="pages">the Xth</string>
+  <string name="page">page</string>
   <string name="reading">Reading now</string>
   <string name="read">Have read</string>
   <string name="reauth_successfully">Authenticated. Restarting</string>
@@ -78,7 +79,7 @@
   <string name="scan_failed">Failed</string>
   <string name="searching">Searching…</string>
   <string name="search_no_result">NOT found</string>
-  <string name="search_result">Results for "%1$s\"</string>
+  <string name="search_result">Results for \"%1$s\"</string>
   <string name="search">Search</string>
   <string name="short_comments">less than 350 chars</string>
   <string name="signed_out">Signed out. Restarting</string>
