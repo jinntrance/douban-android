@@ -66,6 +66,7 @@
   <string name="pages">the Xth</string>
   <string name="page">page</string>
   <string name="reading">Reading now</string>
+  <string name="reading_brief">Reading</string>
   <string name="read">Have read</string>
   <string name="reauth_successfully">Authenticated. Restarting</string>
   <string name="reauth">Access token expires. Re-authenticating…</string>

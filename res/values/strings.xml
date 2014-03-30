@@ -66,6 +66,7 @@
   <string name="pages">页码</string>
   <string name="page">页</string>
   <string name="reading">在读</string>
+  <string name="reading_brief">在读</string>
   <string name="read">读过</string>
   <string name="reauth_successfully">授权成功,稍后重启应用生效</string>
   <string name="reauth">授权过期，重新获取中…</string>
