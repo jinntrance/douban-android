@@ -31,20 +31,20 @@
           <RadioButton
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:id="@+id/wish"
+              android:id="@+id/wish"  android:maxLength="7"
               android:checked="false" android:onClick="checkSate"
               android:text="@string/wish" />
 
           <RadioButton
               android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
+              android:layout_height="wrap_content" android:maxLength="7"
               android:text="@string/reading"  android:onClick="checkSate"
               android:id="@+id/reading"
               android:checked="false" />
 
           <RadioButton
               android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
+              android:layout_height="wrap_content"  android:maxLength="7"
               android:text="@string/read"  android:onClick="checkSate"
               android:id="@+id/read"
               android:checked="false" />
@@ -96,11 +96,11 @@
               android:text="@string/to"
               android:paddingLeft="@dimen/padding_large"
               android:paddingRight="@dimen/padding_large"
-              android:layout_gravity="center_horizontal" />
+              android:layout_gravity="center" />
 
           <EditText android:editable="false"   android:maxLength="10" android:singleLine="true"
               android:layout_width="0dp"   android:onClick="showDatePickerDialog"
-              android:layout_height="wrap_content"  android:layout_weight="1"   android:hint="止"
+              android:layout_height="wrap_content"  android:layout_weight="1"   android:hint="@string/end"
               android:id="@+id/to_date" />
         </LinearLayout>
       </LinearLayout>
