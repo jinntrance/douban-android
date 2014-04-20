@@ -42,7 +42,8 @@
   <string name="favorite">Favorites</string>
   <string name="filter_books">Search</string>
   <string name="filter_result">Results</string>
-  <string name="from">From</string>
+  <string name="from">Start</string>
+  <string name="end">End</string>
   <string name="isbn_is">,ISBN: %1$s</string>
   <string name="load_img_fail">Fail to load %1$s</string>
   <string name="loading">Loading…</string>
@@ -62,10 +63,10 @@
   <string name="books_not_found">NOT found</string>
   <string name="note_length">Write more than 15 chars.</string>
   <string name="notify_offline">Disconnected. Plz try again later.</string>
-  <string name="no">No</string>
+  <string name="no">None</string>
   <string name="pages">the Xth</string>
   <string name="page">page</string>
-  <string name="reading">Reading now</string>
+  <string name="reading">Reading</string>
   <string name="reading_brief">Reading</string>
   <string name="read">Have read</string>
   <string name="reauth_successfully">Authenticated. Restarting</string>
@@ -84,7 +85,7 @@
   <string name="search">Search</string>
   <string name="short_comments">less than 350 chars</string>
   <string name="signed_out">Signed out. Restarting</string>
-  <string name="stars">stars</string>
+  <string name="stars"> rated</string>
   <string name="swipe_to_view_notes">Swipe left/right to view notes</string>
   <string name="swipe_up_to_load">Swipe up to load(%1$s/%2$s)</string>
   <string name="tags_hint">Tags</string>

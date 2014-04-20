@@ -43,6 +43,7 @@
   <string name="filter_books">筛选图书</string>
   <string name="filter_result">筛选结果</string>
   <string name="from">始</string>
+  <string name="end">止</string>
   <string name="isbn_is">,扫描ISBN码为: %1$s</string>
   <string name="load_img_fail">加载%1$s图片失败</string>
   <string name="loading">数据加载中…</string>
