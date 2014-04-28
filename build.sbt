@@ -32,8 +32,8 @@ run <<= run in Android
 install <<= install in Android
 
 libraryDependencies ++= Seq(
-			"org.scaloid" %% "scaloid" % "3.3-8-SNAPSHOT",
-			"org.scaloid" %% "scaloid-support-v4" % "3.3-8-SNAPSHOT",
+			"org.scaloid" %% "scaloid" % "3.4-8-SNAPSHOT",
+			"org.scaloid" %% "scaloid-support-v4" % "3.4-8-SNAPSHOT",
 			"com.douban" %% "scala-api" % "2.4.5",
 			"com.google.zxing" % "core" % "3.0.0",
 			"com.github.chrisbanes.photoview" % "library" % "1.2.2"
