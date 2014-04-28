@@ -5,6 +5,7 @@ import android.preference.PreferenceManager
 import android.view.ViewConfiguration
 import java.lang.reflect.Field
 import scala.util.control.Exception.catching
+import com.google.zxing.client.android.PreferencesActivity
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -16,7 +17,10 @@ import scala.util.control.Exception.catching
 class DoubanContext extends android.app.Application {
   var serializableData:java.io.Serializable=null
   override def onCreate() {
-    val token = PreferenceManager.getDefaultSharedPreferences(this).getString(Constant.accessTokenString, "")
+    val pref=PreferenceManager.getDefaultSharedPreferences(this)
+    //silent the beep when scanning a book
+    pref.edit().putBoolean(PreferencesActivity.KEY_PLAY_BEEP,false).putBoolean(PreferencesActivity.KEY_VIBRATE,true).commit()
+    val token = pref.getString(Constant.accessTokenString, "")
     if (!token.isEmpty) Req.init(token)
     val config: ViewConfiguration = ViewConfiguration.get(this)
     //always show the more action in actionBar
