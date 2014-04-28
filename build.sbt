@@ -10,7 +10,7 @@ organization := "com.douban"
 
 name := "douban-book"
 
-scalaVersion := "2.11.0-RC3"
+scalaVersion := "2.11.0"
 
 minSdkVersion in Android := 14
 
