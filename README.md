@@ -12,7 +12,7 @@ Play Store https://play.google.com/store/apps/details?id=com.douban.book
 Douban Books
 =============
 
-This is an android client for book.douban.com.
+This is an android client developed in Scala for book.douban.com.
 
 Thanks to https://github.com/pocorall/scaloid and https://github.com/jinntrance/douban-scala
 
