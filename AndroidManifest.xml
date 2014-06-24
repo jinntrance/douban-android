@@ -29,7 +29,7 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <intent-filter>
+            <intent-filter>                   fix few bugs and update
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
             <meta-data android:name="android.app.searchable"
@@ -39,7 +39,7 @@
       <activity android:label="@string/favorite" android:name=".FavoriteBooksActivity" android:launchMode="singleTop"/>
       <activity android:label="@string/menu_settings" android:name=".SettingsActivity" android:launchMode="singleTop"/>
       <activity android:label="@string/my_note" android:name=".MyNoteActivity" android:launchMode="singleTop"/>
-      <activity android:label="关于" android:name=".AboutActivity" />
+      <activity android:label="@string/about" android:name=".AboutActivity" />
         <activity android:label="@string/scan_book" android:name=".ScannerActivity"/>
         <activity android:name=".BookActivity"/>
         <activity android:label="@string/add_collection" android:name=".CollectionActivity" android:windowSoftInputMode="adjustPan"/>
