@@ -22,6 +22,8 @@ javacOptions ++= Seq("-source", "1.7")
 
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xcheckinit")
 
+incOptions := incOptions.value.withNameHashing(true) 
+
 autoScalaLibrary := false
 
 //unmanagedBase <<= baseDirectory { base => base / "libs" }
@@ -32,11 +34,11 @@ run <<= run in Android
 install <<= install in Android
 
 libraryDependencies ++= Seq(
-			"org.scaloid" %% "scaloid" % "3.4-8-SNAPSHOT",
-			"org.scaloid" %% "scaloid-support-v4" % "3.4-8-SNAPSHOT",
+			"org.scaloid" %% "scaloid" % "3.4-10",
+			"org.scaloid" %% "scaloid-support-v4" % "3.4-10",
 			"com.douban" %% "scala-api" % "2.4.5",
-			"com.google.zxing" % "core" % "3.0.0",
-			"com.github.chrisbanes.photoview" % "library" % "1.2.2"
+			"com.google.zxing" % "core" % "3.1.0",
+			"com.github.chrisbanes.photoview" % "library" % "1.2.3"
 			)
 
 useProguard in Android := true

@@ -95,5 +95,6 @@
   <string name="waiting_for_auth">等待授权ing，亲操作操作其他先</string>
   <string name="wish">想读</string>
   <string name="clean_cache">删除缓存</string>
+  <string name="click_to_add_tags">点此添加标签</string>
 
 </resources>
