@@ -14,7 +14,7 @@ scalaVersion := "2.11.0"
 
 minSdkVersion in Android := 14
 
-platformTarget in Android := "android-18"
+platformTarget in Android := "android-19"
 
 //resolvers += "oss repo" at "https://oss.sonatype.org/content/repositories/releases/"
 
@@ -34,8 +34,8 @@ run <<= run in Android
 install <<= install in Android
 
 libraryDependencies ++= Seq(
-			"org.scaloid" %% "scaloid" % "3.4-10",
-			"org.scaloid" %% "scaloid-support-v4" % "3.4-10",
+			"org.scaloid" %% "scaloid" % "3.5-10",
+			"org.scaloid" %% "scaloid-support-v4" % "3.5-10",
 			"com.douban" %% "scala-api" % "2.4.5",
 			"com.google.zxing" % "core" % "3.1.0",
 			"com.github.chrisbanes.photoview" % "library" % "1.2.3"
