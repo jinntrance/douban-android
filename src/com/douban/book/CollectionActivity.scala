@@ -265,6 +265,6 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
 
   def tagsAdded() = {
     activity.setTags(tags_input.getText.toString)
-    activity.onBackPressed()
+    activity.onBackPressed() //TODO Observer android.widget.AbsListView$AdapterDataSetObserver@430da560 was not registered.
   }
 }
