@@ -1,6 +1,8 @@
 package com.douban.book
 
-import com.douban.base.{DBundle, DoubanFragment, Constant, DoubanActivity}
+import java.util
+
+import com.douban.base.{ DoubanFragment, Constant, DoubanActivity}
 import android.os.Bundle
 import com.douban.models.{ReviewRating, Book, CollectionPosted, Collection}
 import android.widget._
@@ -8,7 +10,6 @@ import android.view.{ViewGroup, LayoutInflater, View}
 import scala.concurrent._
 import ExecutionContext.Implicits.global
 import org.scaloid.common._
-import scala.Some
 import scala.util.Success
 import android.content.Context
 import android.widget.MultiAutoCompleteTextView.CommaTokenizer
@@ -205,17 +206,18 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
     super.onActivityCreated(bundle)
     activity.replaceActionBar(R.layout.header_edit, getString(R.string.add_tags))
     tags_input.append(activity.getTags)
-
-    Future {
-      val r = Book.tagsOf(activity.currentUserId)
-      val tags=r.tags.map(_.title).toList
-      rootView.find[ListView](R.id.my_tags_list).setAdapter(new TagAdapter(tags))
-      activity.put(Constant.TAGS,tags)
-    }
+    val tagAdapter=new TagAdapter(new util.ArrayList[String]())
     activity.get(Constant.TAGS) match {
       case s:String if s.nonEmpty=>
-        rootView.find[ListView](R.id.my_tags_list).setAdapter(new TagAdapter(s.split(Constant.SEPERATOR).toList))
+        tagAdapter.tags=s.split(Constant.SEPERATOR).toList
       case _ =>
+    }
+    rootView.find[ListView](R.id.my_tags_list).setAdapter(tagAdapter)
+    Future {
+      val r = Book.tagsOf(activity.currentUserId)
+      tagAdapter.tags=r.tags.map(_.title).toList
+      tagAdapter.notifyDataSetChanged()
+      activity.put(Constant.TAGS,tagAdapter.tags.mkString(Constant.SEPERATOR))
     }
 
     val popTagsAdapter = new TagAdapter(activity.book.get.tags.map(_.title))
@@ -229,7 +231,7 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
 
   }
 
-  class TagAdapter(tags: java.util.List[String]) extends BaseAdapter {
+  class TagAdapter(var tags: java.util.List[String]) extends BaseAdapter {
     lazy val inflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE).asInstanceOf[LayoutInflater]
 
     override def getView(position: Int, view: View, parent: ViewGroup): View = {
@@ -265,6 +267,6 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
 
   def tagsAdded() = {
     activity.setTags(tags_input.getText.toString)
-    activity.onBackPressed() //TODO Observer android.widget.AbsListView$AdapterDataSetObserver@430da560 was not registered.
+    activity.onBackPressed()
   }
 }
