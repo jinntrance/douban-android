@@ -29,10 +29,10 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content" />
     </LinearLayout>
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <LinearLayout android:clickable="true" android:onClick="addTag"
+    <LinearLayout android:clickable="true" android:onClick="addTag" android:layout_weight="0.9"
         android:layout_width="wrap_content"  android:layout_margin="@dimen/margin_medium"
         android:layout_height="wrap_content" >
         <include layout="@layout/tags"/>
@@ -44,7 +44,8 @@
           android:layout_marginRight="@dimen/margin_large"
           android:gravity="center_horizontal"
           android:layout_alignParentRight="true"
-          android:layout_centerVertical="true" /></RelativeLayout>
+          android:layout_centerVertical="true" />
+    </LinearLayout>
 
     <EditText
         android:layout_width="fill_parent"
