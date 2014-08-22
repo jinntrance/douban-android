@@ -14,7 +14,7 @@ scalaVersion := "2.11.2"
 
 minSdkVersion in Android := "14"
 
-platformTarget in Android := "android-20"
+platformTarget in Android := "android-19"
 
 //resolvers += "oss repo" at "https://oss.sonatype.org/content/repositories/releases/"
 
