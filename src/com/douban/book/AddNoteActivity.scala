@@ -33,7 +33,7 @@ class AddNoteActivity extends DoubanActivity {
   var chapter = ""
   var noteConent = ""
   var public = true
-  lazy val annt:Option[Annotation]= new Gson().fromJson(getIntent.getStringExtra(Constant.ANNOTATION),Annotation.getClass) match {
+  lazy val annt:Option[Annotation]= new Gson().fromJson(getIntent.getStringExtra(Constant.ANNOTATION),classOf[Annotation]) match {
     case a:Annotation=>Some(a)
     case _=> None
   }
