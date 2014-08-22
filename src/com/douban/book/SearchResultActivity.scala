@@ -131,9 +131,9 @@ ItemAdapter[Book](R.layout.book_list_item, mapping, load = load) {
             state.setTextColor(activity.getResources.getColor(SearchResult.colorMap(SearchResult.idsMap(c.status))))
           case _ =>
         }
-      } else convertView.findViewById(R.id.fav_layout) onClick (v => {
+      } else convertView.findViewById(R.id.fav_layout) onClick {_:(View) => {
         activity.startActivity(SIntent[CollectionActivity].putExtra(Constant.BOOK_KEY, Some(b)))
-      })
+      }}
       activity.loadImageWithTitle(b.image, R.id.book_img, b.title, convertView)
 
     }

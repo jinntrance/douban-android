@@ -239,7 +239,7 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
           view
         case _ => inflater.inflate(R.layout.add_tags_item, parent, false)
       }
-      convertView.findViewById(R.id.tag_container).onClick(v => {
+      convertView.findViewById(R.id.tag_container).onClick{v:(View) => {
         val txt = tags_input.getText.toString.split(' ').toSet
         val tag = getItem(position).toString
         val view = v.findViewById(R.id.checker)
@@ -250,7 +250,7 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
           view.setVisibility(View.VISIBLE)
           tags_input.append(s" $tag")
         }
-      })
+      }}
       convertView.find[TextView](R.id.tag).setText(tags.get(position))
 
       convertView
