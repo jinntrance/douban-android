@@ -4,6 +4,7 @@ import com.douban.base.{SwipeGestureDoubanActivity, Constant}
 import android.view._
 import android.os.Bundle
 import android.widget.{ScrollView, LinearLayout}
+import com.google.gson.Gson
 import org.scaloid.common._
 import android.app.Activity
 import com.douban.models.{Annotation, Book}
@@ -106,7 +107,7 @@ class NoteViewActivity(layoutId: Int) extends SwipeGestureDoubanActivity {
 
   def editNote(m: MenuItem) = {
     val annt = dataList.get(pos)
-    startActivity(SIntent[AddNoteActivity].putExtra(Constant.ANNOTATION, annt))
+    startActivity(SIntent[AddNoteActivity].putExtra(Constant.ANNOTATION, new Gson().toJson(annt)))
   }
 
   def deleteNote(m: MenuItem) = {

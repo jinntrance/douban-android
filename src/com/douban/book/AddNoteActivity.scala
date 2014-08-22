@@ -4,6 +4,7 @@ import com.douban.base.{Constant, DoubanFragment, DoubanActivity}
 import android.view.{View, ViewGroup, LayoutInflater}
 import android.os.Bundle
 import android.widget.{TextView, EditText}
+import com.google.gson.Gson
 
 import org.scaloid.common._
 import scala.concurrent._
@@ -32,7 +33,7 @@ class AddNoteActivity extends DoubanActivity {
   var chapter = ""
   var noteConent = ""
   var public = true
-  lazy val annt:Option[Annotation]= getIntent.getSerializableExtra(Constant.ANNOTATION) match {
+  lazy val annt:Option[Annotation]= new Gson().fromJson(getIntent.getStringExtra(Constant.ANNOTATION),Annotation.getClass) match {
     case a:Annotation=>Some(a)
     case _=> None
   }
