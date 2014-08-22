@@ -232,14 +232,12 @@ class FavoriteBooksFilterActivity extends DoubanActivity {
       case t: TagsResult => runOnUiThread({
         val container = find[LinearLayout](R.id.tags_container)
         container.addView(new SVerticalLayout {
-          t.tags.foreach(tag => SCheckBox(tag.title.toString).onClick(_ match {
-            case db: CheckBox =>
+          t.tags.foreach(tag => SCheckBox(tag.title.toString).onClick{db:(CheckBox)=>{
               tags = if (db.isChecked) {
                 tags + db.getText.toString
               }
               else tags - db.getText.toString
-            case _ =>
-          }))
+          }})
         })
       })
       case _ =>
