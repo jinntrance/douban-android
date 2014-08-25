@@ -1,5 +1,7 @@
 package com.douban.book
 
+import java.io.File
+
 import com.douban.base.DoubanActivity
 import android.os.Bundle
 import android.view.View
@@ -32,10 +34,14 @@ class SettingsActivity extends DoubanActivity {
   }
 
   def delCache(v: View) {
-    getExternalCacheDir.delete()
-    getExternalCacheDir.createNewFile()
-    getCacheDir.delete()
-    getCacheDir.createNewFile()
+    def delHelper(dir:File) = dir match {
+      case f:File if f.exists()=>
+        f.delete()
+        f.createNewFile()
+      case _=>
+    }
+    delHelper(getExternalCacheDir)
+    delHelper(getCacheDir)
     toast(R.string.del_cache_successfully)
   }
 

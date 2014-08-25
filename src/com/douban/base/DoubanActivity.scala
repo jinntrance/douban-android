@@ -331,6 +331,7 @@ trait Douban {
 
   @inline def notifyNetworkState() {
     if (!isOnline) toast(R.string.notify_offline)
+    //TODO add background image blocking other fragments
   }
 
 
@@ -649,7 +650,7 @@ trait DoubanListFragment[T <: DoubanActivity] extends SListFragment with Douban 
 
   override def getThisActivity: T = super.activity.asInstanceOf[T]
 
-  override lazy val activity: T = getThisActivity
+  override def activity: T = getThisActivity
 
   override implicit lazy val ctx: DoubanActivity = activity
 
@@ -672,7 +673,7 @@ trait DoubanFragment[T <: DoubanActivity] extends SFragment with Douban {
 
   override def getThisActivity: T = getActivity.asInstanceOf[T]
 
-  override lazy val activity: T = getThisActivity
+  override def activity: T = getThisActivity
 
   override implicit lazy val ctx: DoubanActivity = activity
 
