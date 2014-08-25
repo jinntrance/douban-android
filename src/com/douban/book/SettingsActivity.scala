@@ -34,6 +34,8 @@ class SettingsActivity extends DoubanActivity {
   def delCache(v: View) {
     getExternalCacheDir.delete()
     getExternalCacheDir.createNewFile()
+    getCacheDir.delete()
+    getCacheDir.createNewFile()
     toast(R.string.del_cache_successfully)
   }
 

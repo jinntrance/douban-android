@@ -266,7 +266,10 @@ trait Douban {
         case w: Drawable => w.getIntrinsicHeight
         case _ => getThisActivity.screenHeight
       }
-    val cacheDir=if(ctx.getExternalCacheDir.exists()) ctx.getExternalCacheDir else ctx.getCacheDir
+    val cacheDir=ctx.getExternalCacheDir match{
+      case f:File if f.exists()=>f
+      case _=>ctx.getCacheDir
+    }
     val cacheFile = new File(cacheDir, url.dropWhile(_ != '/'))
     runOnUiThread(img.setTag(url))
 
