@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:background="@color/background_white"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+  <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/disconnected" android:contentDescription=""
+      android:layout_gravity="center_horizontal" android:src="@drawable/no_network" />
+
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/check_network" android:layout_gravity="center"
+      android:id="@+id/check_network" />
+</LinearLayout>
