@@ -97,5 +97,6 @@
   <string name="wish">想读</string>
   <string name="clean_cache">删除缓存</string>
   <string name="click_to_add_tags">点此添加标签</string>
+  <string name="check_network">请检查网络连接后重试</string>
 
 </resources>
