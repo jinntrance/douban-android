@@ -12,6 +12,6 @@
   <TextView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="@string/check_network" android:layout_gravity="center"
+      android:text="@string/check_network" android:layout_gravity="center_horizontal"
       android:id="@+id/check_network" />
 </LinearLayout>

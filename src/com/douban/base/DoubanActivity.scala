@@ -330,10 +330,11 @@ trait Douban {
   }
 
   @inline def notifyNetworkState() {
-    if (!isOnline) toast(R.string.notify_offline)
-    //TODO add background image blocking other fragments
+    if (!isOnline) {
+      toast(R.string.notify_offline)
+      ctx.startActivity(SIntent[DisconnectedActivity])
+    }
   }
-
 
   def listLoader[R](toLoad: Boolean = false, result: => R = {}, success: (R) => Unit = (r: R) => {}, failed: => Unit = {},
                     unfinishable: Boolean = true) = if (toLoad) {
@@ -769,4 +770,11 @@ trait SwipeGestureDoubanActivity extends DoubanActivity {
   def showNext()
 
   def showPre()
+}
+
+class DisconnectedActivity extends DoubanActivity {
+  protected override def onCreate(b: Bundle): Unit = {
+    super.onCreate(b)
+    super.setContentView(R.layout.disconnected)
+  }
 }

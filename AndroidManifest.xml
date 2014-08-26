@@ -51,6 +51,7 @@
         <activity android:label="@string/favorite_search" android:name=".FavoriteBooksListActivity" android:launchMode="singleTop"/>
         <activity android:label="@string/favorite_search" android:name=".FavoriteBooksFilterActivity" android:launchMode="singleTop"/>
         <activity android:label="@string/search" android:name=".SearchResultActivity" />
+        <activity android:label="@string/app_full_name" android:name="com.douban.base.DisconnectedActivity" android:launchMode="singleTop" />
         <activity android:name="com.google.zxing.client.android.CaptureActivity"
             android:screenOrientation="sensorLandscape"
             android:clearTaskOnLaunch="true"
