@@ -371,7 +371,11 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   }
 
   protected def doubleBackToExit():Unit={
-    if (doubleBackToExitPressedOnce) finish()
+    if (doubleBackToExitPressedOnce) {
+      moveTaskToBack(true)
+      android.os.Process.killProcess(android.os.Process.myPid());
+      System.exit(-1)
+    }
     else {
       doubleBackToExitPressedOnce = true
       longToast(R.string.double_back_to_exit)
