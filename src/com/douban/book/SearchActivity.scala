@@ -19,7 +19,7 @@ import com.google.zxing.client.android.Intents.Scan
  * @version 1.0
  */
 class SearchActivity extends DoubanActivity {
-  private var doubleBackToExitPressedOnce = false
+
   private val scanRequestCode = 1
 
   protected override def onCreate(b: Bundle) {
@@ -36,22 +36,8 @@ class SearchActivity extends DoubanActivity {
     slidingMenu
   }
 
-  override def onResume() {
-    super.onResume()
-    doubleBackToExitPressedOnce = false
-  }
-
   override def onBackPressed() {
-    if (doubleBackToExitPressedOnce) finish()
-    else {
-      doubleBackToExitPressedOnce = true
-      longToast(R.string.double_back_to_exit)
-      new Handler().postDelayed(new Runnable() {
-        def run() = {
-          doubleBackToExitPressedOnce = false
-        }
-      }, 1000)
-    }
+    doubleBackToExit()
   }
 
   def scan(v: View) {
