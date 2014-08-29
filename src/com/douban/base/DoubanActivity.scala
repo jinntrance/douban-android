@@ -18,7 +18,7 @@ import android.content.{Intent, DialogInterface, Context}
 import android.telephony.TelephonyManager
 import scala.language.implicitConversions
 import scala.language.reflectiveCalls
-import android.os.Bundle
+import android.os.{Handler, Bundle}
 import org.scaloid.support.v4.{SFragment, SListFragment, SFragmentActivity}
 import android.support.v4.app.Fragment
 import android.app._
@@ -363,6 +363,25 @@ trait Douban {
 }
 
 trait DoubanActivity extends SFragmentActivity with Douban {
+  protected var doubleBackToExitPressedOnce = false
+
+  override def onResume() {
+    super.onResume()
+    doubleBackToExitPressedOnce = false
+  }
+
+  protected def doubleBackToExit():Unit={
+    if (doubleBackToExitPressedOnce) finish()
+    else {
+      doubleBackToExitPressedOnce = true
+      longToast(R.string.double_back_to_exit)
+      new Handler().postDelayed(new Runnable() {
+        def run() = {
+          doubleBackToExitPressedOnce = false
+        }
+      }, 1000)
+    }
+  }
 
   def findFragment[T <: Fragment](fragmentId: Int): T = fragmentManager.findFragmentById(fragmentId) match {
     case f: Fragment => f.asInstanceOf[T]
@@ -776,5 +795,8 @@ class DisconnectedActivity extends DoubanActivity {
   protected override def onCreate(b: Bundle): Unit = {
     super.onCreate(b)
     super.setContentView(R.layout.disconnected)
+  }
+  override def onBackPressed() {
+    doubleBackToExit()
   }
 }
