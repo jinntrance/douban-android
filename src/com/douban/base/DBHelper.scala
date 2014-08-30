@@ -1,8 +1,9 @@
 package com.douban.base
 
+import java.io.{ByteArrayInputStream, ObjectInputStream, ByteArrayOutputStream, ObjectOutputStream}
+
 import android.content.ContentValues
 import android.database.sqlite.{SQLiteDatabase, SQLiteOpenHelper}
-import com.douban.common.Req
 import scala.collection.mutable
 import scala.reflect.ClassTag
 import scala.reflect.classTag
@@ -19,7 +20,7 @@ class DBHelper[T: ClassTag](c: android.content.Context, tableName: String, field
   @inline private val dataColumn = "_data"
   @inline private val idColumn = "_id"
 
-  def fieldsDeclarations = Map(idColumn -> "int primary key", dataColumn -> "text") ++ fields
+  def fieldsDeclarations = Map(idColumn -> "int primary key", dataColumn -> "BLOB") ++ fields
 
   def onCreate(db: SQLiteDatabase) {
     if (0 < fieldsDeclarations.size) {
@@ -35,22 +36,28 @@ class DBHelper[T: ClassTag](c: android.content.Context, tableName: String, field
 
   def insert(t: T) = {
     val c = new ContentValues()
-    c.put(dataColumn, Req.g.toJson(t))
+    c.put(dataColumn, Serializer.serialize(t))
     getWritableDatabase.insert(tableName, null, c)
   }
 
-  def find(id: Int) = {
+  def insertAll(l:List[T]) = l.foreach(insert)
+
+  def find(id: Int):T = {
     val c = getReadableDatabase.rawQuery(s"select $dataColumn from $tableName where $idColumn=$id", null)
-    Req.g.fromJson[T](c.getString(1), classTag[T].runtimeClass)
+    Serializer.deserialize(c.getBlob(1))
   }
 
   def findData(size: Int = 10, page: Int = 1) = {
     val c = getReadableDatabase.query(tableName, Array(dataColumn), null, null, null, null, s" $idColumn desc", s" ${size * (page - 1)},$size")
     val list = mutable.Buffer.newBuilder[T]
     do {
-      list += Req.g.fromJson[T](c.getString(1), classTag[T].runtimeClass)
+      list += Serializer.deserialize(c.getBlob(1))
     } while (c.moveToNext())
     list.result().toList
+  }
+
+  def deleteAll()={
+    getWritableDatabase.delete(tableName,null,null)
   }
 
   def remain(left: Int = 20) {
@@ -59,5 +66,19 @@ class DBHelper[T: ClassTag](c: android.content.Context, tableName: String, field
 
   def delete(id: Int) = {
     0 < getWritableDatabase.delete(tableName, s"_id=$id ", null)
+  }
+}
+
+ object Serializer {
+  def serialize[T<:Any]( obj:T) = {
+    val b = new ByteArrayOutputStream()
+    val o = new ObjectOutputStream(b)
+    o.writeObject(obj)
+    b.toByteArray
+  }
+  def deserialize[T](bytes:Array[Byte]) ={
+    val b = new ByteArrayInputStream(bytes)
+    val o = new ObjectInputStream(b)
+    o.readObject().asInstanceOf[T]
   }
 }
