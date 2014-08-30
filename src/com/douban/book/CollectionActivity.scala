@@ -209,7 +209,7 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
     val tagAdapter=new TagAdapter(new util.ArrayList[String]())
     activity.get(Constant.TAGS) match {
       case s:String if s.nonEmpty=>
-        tagAdapter.tags=s.split(Constant.SEPERATOR).toList
+        tagAdapter.tags=s.split(Constant.SEPARATOR).toList
       case _ =>
     }
     rootView.find[ListView](R.id.my_tags_list).setAdapter(tagAdapter)
@@ -217,7 +217,7 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
       val r = Book.tagsOf(activity.currentUserId)
       tagAdapter.tags=r.tags.map(_.title).toList
       tagAdapter.notifyDataSetChanged()
-      activity.put(Constant.TAGS,tagAdapter.tags.mkString(Constant.SEPERATOR))
+      activity.put(Constant.TAGS,tagAdapter.tags.mkString(Constant.SEPARATOR))
     }
 
     val popTagsAdapter = new TagAdapter(activity.book.get.tags.map(_.title))

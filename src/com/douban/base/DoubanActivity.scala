@@ -1,38 +1,36 @@
 package com.douban.base
 
-import android.content
-import android.net.{NetworkInfo, ConnectivityManager}
-import android.view._
-import com.douban.book._
-import com.douban.common._
+import java.io.{File, FileOutputStream, IOException, InputStream}
 import java.lang.Thread.UncaughtExceptionHandler
-import org.scaloid.common._
-import scala.concurrent._
-import ExecutionContext.Implicits.global
-import android.widget._
-import android.graphics.drawable.Drawable
 import java.net.URL
-import java.io.{IOException, FileOutputStream, File, InputStream}
-import android.graphics.{Bitmap, BitmapFactory}
-import android.content.{Intent, DialogInterface, Context}
-import android.telephony.TelephonyManager
-import scala.language.implicitConversions
-import scala.language.reflectiveCalls
-import android.os.{Handler, Bundle}
-import org.scaloid.support.v4.{SFragment, SListFragment, SFragmentActivity}
-import android.support.v4.app.Fragment
+
 import android.app._
-import com.douban.models.{Book, User}
-import android.view.inputmethod.InputMethodManager
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu
-import scala.util.Failure
-import com.douban.common.AccessTokenResult
-import org.scaloid.common.LoggerTag
-import scala.util.Success
-import android.view.ViewGroup.LayoutParams
-import uk.co.senab.photoview.PhotoViewAttacher
-import scala.util.control.Exception.catching
+import android.content
 import android.content.pm.PackageManager
+import android.content.{Context, DialogInterface, Intent}
+import android.graphics.drawable.Drawable
+import android.graphics.{Bitmap, BitmapFactory}
+import android.net.{ConnectivityManager, NetworkInfo}
+import android.os.{Bundle, Handler}
+import android.support.v4.app.Fragment
+import android.telephony.TelephonyManager
+import android.view.ViewGroup.LayoutParams
+import android.view._
+import android.view.inputmethod.InputMethodManager
+import android.widget._
+import com.douban.book._
+import com.douban.common.{AccessTokenResult, _}
+import com.douban.models.{Book, User}
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu
+import org.scaloid.common.{LoggerTag, _}
+import org.scaloid.support.v4.{SFragment, SFragmentActivity, SListFragment}
+
+import scala.annotation.tailrec
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent._
+import scala.language.{implicitConversions, reflectiveCalls}
+import scala.util.{Failure, Success}
+import scala.util.control.Exception._
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -101,19 +99,43 @@ trait Douban {
     }
   }
 
-  def batchSetValues[T <: V](m: Map[Int, Any], values: Map[String, String], holder: T = rootView, separator: String = "/",showNonEmpty:Boolean=false) {
+  def batchSetValues[T <: V](m: Map[Int, Any], values: AnyRef, holder: T = rootView, separator: String = "/",showNonEmpty:Boolean=false) {
     m.par.foreach {
-      case (id, key: String) => setViewValue(id, values.getOrElse(key, ""), holder,showNonEmpty=showNonEmpty)
+      case (id, key: String) => setViewValue(id, valOf(values,key), holder,showNonEmpty=showNonEmpty)
       case (id, (key: String, format: String)) =>
         setViewValue(id, {
-          val v = values.getOrElse(key, "")
+          val v = valOf(values,key)
           if (v.isEmpty) "" else format.format(v)
         }, holder,showNonEmpty=showNonEmpty)
       case (id, l: List[String]) =>
-        setViewValue(id, l.map(values.getOrElse(_, "")).filter(_ != "").mkString(separator), holder,showNonEmpty=showNonEmpty)
+        setViewValue(id, l.map(valOf(values,_)).filter(_.nonEmpty).mkString(separator), holder,showNonEmpty=showNonEmpty)
       case (id, (urlKey: String, (notifyField: String, format: String))) =>
-        setViewValue(id, values.getOrElse(urlKey, "URL"), holder, format.format(values.getOrElse(notifyField, "")),showNonEmpty=showNonEmpty) //TODO add support
+        setViewValue(id, valOf(values,urlKey,"URL") , holder, format.format(valOf(values,notifyField)),showNonEmpty=showNonEmpty) //TODO add support
     }
+  }
+
+  private def valOf[C <: AnyRef](c: C, fields: String, default: String = ""): String = {
+    @tailrec
+    def valOfHelper(s: AnyRef, seq: Seq[String]): String = s match {
+      case sub: AnyRef =>
+        @inline
+        def valOfField(f: String) = catching(classOf[NoSuchMethodException]).opt{
+          sub.getClass.getMethod(f).invoke(sub) match {
+            case l:java.util.List=>l.mkString(",")
+            case a: Any => a
+            case _ => default
+          }
+        }.getOrElse(default)
+        seq match {
+          case Seq(f) => valOfField(f).toString
+          case Seq(head, tail@_*) =>
+            valOfHelper(valOfField(head), tail)
+          case _ => default
+
+        }
+      case _ => default
+    }
+    valOfHelper(c, fields.trim.split( """\."""))
   }
 
   @inline def hideWhenEmpty(m: (Int, String)) {
@@ -373,7 +395,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   protected def doubleBackToExit():Unit={
     if (doubleBackToExitPressedOnce) {
       moveTaskToBack(true)
-      android.os.Process.killProcess(android.os.Process.myPid());
+      android.os.Process.killProcess(android.os.Process.myPid())
       System.exit(-1)
     }
     else {
@@ -519,7 +541,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   def put(key: String, value: Any) {
     val edit = defaultSharedPreferences.edit()
     value match {
-      case l: List[String] => edit.putString(key, l.mkString(Constant.SEPERATOR)).commit()
+      case l: List[String] => edit.putString(key, l.mkString(Constant.SEPARATOR)).commit()
       case i: Any => edit.putString(key, value.toString).commit()
     }
   }
@@ -544,7 +566,6 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     if (isAuthenticated) get(Constant.userIdString).toLong
     else {
       notifyNetworkState()
-      //finish() //TODO
       0L
     }
   }
@@ -759,7 +780,7 @@ class ItemAdapter[B <: AnyRef](layoutId: Int, mapping: Map[Int, Any], load: => U
   def getView(position: Int, view: View, parent: ViewGroup): View = if (count == 0 || position >= count) null
   else {
     val convertView = if (null != view) view else activity.getLayoutInflater.inflate(layoutId, null)
-    activity.batchSetValues(mapping, beanToMap(list(position)), convertView,showNonEmpty = true)
+    activity.batchSetValues(mapping, list(position), convertView,showNonEmpty = true)
     if (count < total && position + 1 == count) {
       selfLoad()
     }

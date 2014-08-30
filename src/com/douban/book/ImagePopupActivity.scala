@@ -3,7 +3,7 @@ package com.douban.book
 import com.douban.base.DoubanActivity
 import android.os.Bundle
 import android.widget.ImageView
-import uk.co.senab.photoview.{PhotoViewAttacher, PhotoView}
+import uk.co.senab.photoview.PhotoViewAttacher
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
