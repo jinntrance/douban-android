@@ -14,7 +14,7 @@ object Constant {
 
   val ANNOTATION="annotation"
 
-  val SEPERATOR: String="`"
+  val SEPARATOR: String="`"
 
   val COLLECTION_SEARCH = "collectionSearch"
 

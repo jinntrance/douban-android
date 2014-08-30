@@ -50,7 +50,7 @@ class NoteViewActivity(layoutId: Int) extends SwipeGestureDoubanActivity {
     pos = position
     val a = dataList.get(pos)
     setWindowTitle(a.book.title)
-    batchSetValues(mapping, beanToMap(a))
+    batchSetValues(mapping, a)
     val container: LinearLayout = find[LinearLayout](R.id.note_content)
     val black = getResources.getColor(R.color.text_black)
     container.removeAllViews()

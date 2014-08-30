@@ -181,7 +181,7 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
           R.id.book_author_abstract -> "author_intro", R.id.book_author_abstract_longtext -> "author_intro",
           R.id.book_content_abstract -> "summary", R.id.book_content_abstract_longtext -> "summary",
           R.id.book_catalog_abstract -> "catalog", R.id.book_catalog_abstract_longtext -> "catalog",
-          R.id.comment ->("current_user_collection.comment", "%s」")), beanToMap(book))
+          R.id.comment ->("current_user_collection.comment", "%s」")), book)
         activity.loadImageWithTitle(if (activity.usingWIfi || !activity.using2G) book.images.large else book.images.small, R.id.book_img, book.title)
       case _ =>
     }
