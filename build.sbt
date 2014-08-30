@@ -35,12 +35,14 @@ run <<= run in Android
 
 install <<= install in Android
 
+val scaloidVersion = "3.6-10-SNAPSHOT"
+
 libraryDependencies ++= Seq(
-			"org.scaloid" %% "scaloid" % "3.6-10-SNAPSHOT",
-			"org.scaloid" %% "scaloid-support-v4" % "3.6-10-SNAPSHOT",
+			"org.scaloid" %% "scaloid" % scaloidVersion,
+			"org.scaloid" %% "scaloid-support-v4" % scaloidVersion,
 			"com.douban" %% "scala-api" % "2.4.5",
 			"com.google.zxing" % "core" % "3.1.0",
-			"com.github.chrisbanes.photoview" % "library" % "1.2.3"
+			"com.github.chrisbanes.photoview" % "library" % "1.2.3",
 			)
 
 useProguard in Android := true
