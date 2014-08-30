@@ -1,7 +1,7 @@
 package com.douban.book.db
 
 import com.douban.base.DBHelper
-import com.douban.models.{Tag, AnnotationPosted}
+import com.douban.models.{Bean, Tag, AnnotationPosted}
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -13,14 +13,18 @@ import com.douban.models.{Tag, AnnotationPosted}
  */
 class ScannerHistoryHelper(c: android.content.Context) extends DBHelper[ScannerHistory](c, "scanner_history")
 
-case class ScannerHistory(isbn: String)
+case class ScannerHistory(isbn: String) extends Serializable
 
 class SearchHistoryHelper(c: android.content.Context) extends DBHelper[SearchHistory](c, "search_history")
 
-case class SearchHistory(search: String)
+case class SearchHistory(search: String) extends Serializable
 
 class AnnotationUploaderHelper(c: android.content.Context) extends DBHelper[AnnotationUploader](c, "annotations_to_post")
 
-case class AnnotationUploader(bookId: String, annotation: AnnotationPosted)
+object AnnotationUploaderHelper{
+  def apply(c: android.content.Context)=new AnnotationUploaderHelper(c)
+}
+
+case class AnnotationUploader(bookId: Long, bookTitle:String, annotation: AnnotationPosted) extends Serializable
 
 case class MyTagsHelper(implicit c: android.content.Context) extends DBHelper[Tag](c, "my_tags")
