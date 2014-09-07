@@ -28,8 +28,8 @@ class NotesDraftActivity extends DoubanActivity{
     listView.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS)
     listView.onItemClick((l: AdapterView[_], v: View, position: Int, id: Long) => {
       val annt2Post=listAdapter.getItem(position)
-      // TODO CHANGE TO THE Annotation object
-      startActivity(SIntent[AddNoteActivity].putExtra(Constant.ANNOTATION, new Gson().toJson()))
+      startActivity(SIntent[AddNoteActivity].putExtra(Constant.ANNOTATION_POSTED, annt2Post).
+        putExtra(Constant.BOOK_ID,annt2Post.bookId))
     })
     listAdapter.getItems.addAll(dbHelper.findData(size = Int.MaxValue))
     listView.setAdapter(listAdapter)

@@ -2,7 +2,8 @@ package com.douban.book
 
 import java.io.File
 
-import com.douban.base.DoubanActivity
+import android.widget.ToggleButton
+import com.douban.base.{Constant, DoubanActivity}
 import android.os.Bundle
 import android.view.View
 import org.scaloid.common._
@@ -47,6 +48,14 @@ class SettingsActivity extends DoubanActivity {
 
   def about(v: View) {
     startActivity(SIntent[AboutActivity])
+  }
+
+  def toggleSyncIn2G(v:View) {
+    v match {
+      case b:ToggleButton=>
+        defaultSharedPreferences.edit().putBoolean(
+          Constant.SYNC_IN_2G,b.getText==getResources.getString(R.string.toggle_turn_on)).commit()
+    }
   }
 }
 
