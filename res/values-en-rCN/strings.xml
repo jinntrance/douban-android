@@ -95,4 +95,5 @@
   <string name="wish">To read</string>
   <string name="clean_cache">Clean Cache</string>
   <string name="click_to_add_tags">Add tags</string>
+  <string name="sync_in_2g">Send notes even under 2G</string>
 </resources>

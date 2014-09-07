@@ -16,7 +16,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/clean_cache"    style="@style/DoubanTextTitle.Black.Setting"
-        android:id="@+id/textView" />
+        android:id="@+id/clean_cache" />
+  </LinearLayout>
+  <LinearLayout
+      android:layout_width="match_parent"   android:onClick="delCache"
+      android:layout_height="wrap_content" android:clickable="true"
+      android:layout_margin="@dimen/margin_medium"
+      android:background="@color/white">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_weight="1"
+        android:text="@string/sync_in_2g"    style="@style/DoubanTextTitle.Black.Setting"
+        android:id="@+id/sync_in_2g" />
+
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/DoubanTextTitle.Black.Setting"
+        android:textOn="@string/toggle_turn_on"
+        android:textOff="@string/toggle_turn_off"
+        android:id="@+id/toggle_sync_in_2g" android:checked="false"/>
   </LinearLayout>
 
   <LinearLayout
