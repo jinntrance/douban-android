@@ -10,6 +10,10 @@ import com.douban.common.Auth
  * @version 1.0
  */
 object Constant {
+  val SYNC_IN_2G: String = "sync_in_2g"
+
+  val ANNOTATION_POSTED = "annotationPosted"
+
   val expireTime: String = "expireTime"
 
   val ANNOTATION="annotation"

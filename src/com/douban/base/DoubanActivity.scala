@@ -219,6 +219,10 @@ trait Douban {
     }
   }
 
+  def syncStateConsistent ={
+    using2G
+  }
+
   def using2G: Boolean = {
     import TelephonyManager._
     ctx.getSystemService(Context.TELEPHONY_SERVICE).asInstanceOf[TelephonyManager].getNetworkType match {
