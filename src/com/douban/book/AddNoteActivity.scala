@@ -4,6 +4,7 @@ import com.douban.base.{Constant, DoubanFragment, DoubanActivity}
 import android.view.{View, ViewGroup, LayoutInflater}
 import android.os.Bundle
 import android.widget.{TextView, EditText}
+import com.douban.book.db.{AnnotationUploaderHelper, AnnotationUploader}
 import com.google.gson.Gson
 
 import org.scaloid.common._
@@ -37,6 +38,10 @@ class AddNoteActivity extends DoubanActivity {
     case a:Annotation=>Some(a)
     case _=> None
   }
+  lazy val anntPosted:Option[AnnotationPosted]= getIntent.getSerializableExtra(Constant.ANNOTATION_POSTED) match {
+    case a:AnnotationPosted=>Some(a)
+    case _=> None
+  }
 
   override def onCreate(b: Bundle) {
     super.onCreate(b)
@@ -50,6 +55,14 @@ class AddNoteActivity extends DoubanActivity {
         noteConent=a.content
     }
     }
+    anntPosted foreach  {a=>{
+      bookPage=a.page.toString
+      chapter=a.chapter
+      noteConent=a.content
+      public= 2 == a.privacy
+    }
+    }
+
     b match{
       case savedInstance:Bundle=>
       case _=>
@@ -78,10 +91,19 @@ class AddNoteActivity extends DoubanActivity {
           }
           val a = new AnnotationPosted(content, page, chapter, if (public) "public" else "private")
           a.files = Range(1, notesImage.size+1).map(_.toString).zip(notesImage).toMap
+          anntPosted.foreach(a=>{
+            a.files ++= a.files //add image attachment from the previous draft
+          })
           proc=waitToLoad(msg=R.string.saving)
+          val syncWhenIn2G = defaultSharedPreferences.getBoolean(Constant.SYNC_IN_2G,false)
           getIntent.getLongExtra(Constant.BOOK_ID, 0) match {
             case bookId: Long if bookId > 0 =>
-              Book.postAnnotation(bookId, a).isDefined
+              if(0 == a.files.size || !using2G || syncWhenIn2G) {
+                Book.postAnnotation(bookId, a).isDefined
+              } else {
+                AnnotationUploaderHelper(this.ctx) insert AnnotationUploader(bookId,bookId.toString,a)
+                toast(R.string.saved_to_draft)
+              }
             case _ =>
               annt.foreach(at=>Book.updateAnnotation(at.id, a))
           }
