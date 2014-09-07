@@ -1,7 +1,7 @@
 赌书泼茶（豆瓣读书非官方客户端）
 =============
 
-囊括图书搜索、收藏、笔记功能。一者方便使用豆瓣读书，一者在Android上践行Scala编程。
+囊括图书搜索、收藏、笔记功能，并可将含图片的笔记存草稿。一者方便使用豆瓣读书，一者在Android上践行Scala编程。
 
 豌豆荚 http://www.wandoujia.com/apps/com.douban.book
 
