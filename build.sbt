@@ -8,7 +8,7 @@ android.Plugin.androidBuild
 
 organization := "com.douban"
 
-name := "douban-book"
+name := "douban-android"
 
 scalaVersion := "2.11.2"
 
