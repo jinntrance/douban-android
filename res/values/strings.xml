@@ -98,5 +98,9 @@
   <string name="clean_cache">删除缓存</string>
   <string name="click_to_add_tags">点此添加标签</string>
   <string name="check_network">请检查网络连接后重试</string>
+  <string name="sync_in_2g">2G网络下仍直接发送笔记</string>
+  <string name="saved_to_draft">已存草稿，Wifi连接后自动同步</string>
+  <string name="toggle_turn_on">是</string>
+  <string name="toggle_turn_off">否</string>
 
 </resources>
