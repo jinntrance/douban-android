@@ -38,7 +38,7 @@ class SettingsActivity extends DoubanActivity {
     def delHelper(dir:File) = dir match {
       case f:File if f.exists()=>
         f.delete()
-        f.createNewFile()
+        f.mkdirs()
       case _=>
     }
     delHelper(getExternalCacheDir)
@@ -55,7 +55,11 @@ class SettingsActivity extends DoubanActivity {
       case b:ToggleButton=>
         defaultSharedPreferences.edit().putBoolean(
           Constant.SYNC_IN_2G,b.getText==getResources.getString(R.string.toggle_turn_on)).commit()
+      case _=>
     }
+  }
+  def viewDraft(v:View) {
+    startActivity(SIntent[NotesDraftActivity])
   }
 }
 
