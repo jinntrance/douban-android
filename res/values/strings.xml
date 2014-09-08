@@ -103,5 +103,6 @@
   <string name="toggle_turn_on">是</string>
   <string name="toggle_turn_off">否</string>
   <string name="note_draft">笔记草稿</string>
+  <string name="draft_posted">%1$s条笔记已同步</string>
 
 </resources>

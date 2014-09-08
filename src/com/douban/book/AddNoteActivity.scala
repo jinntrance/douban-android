@@ -102,7 +102,6 @@ class AddNoteActivity extends DoubanActivity {
                 Book.postAnnotation(bookId, a).isDefined
               } else {
                 AnnotationUploaderHelper(this.ctx) insert AnnotationUploader(bookId,bookId.toString,a)
-                toast(R.string.saved_to_draft)
               }
             case _ =>
               annt.foreach(at=>Book.updateAnnotation(at.id, a))
@@ -111,6 +110,9 @@ class AddNoteActivity extends DoubanActivity {
           case Success(true) =>
             runOnUiThread(onBackPressed())
             toast(R.string.annotation_added)
+          case Success(l:Long)=>
+            runOnUiThread(onBackPressed())
+            toast(R.string.saved_to_draft)
           case _ =>
             stopWaiting(proc)
             toast(R.string.annotation_fails_to_add)

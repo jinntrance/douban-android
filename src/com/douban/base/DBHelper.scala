@@ -53,8 +53,9 @@ class DBHelper[T: ClassTag](c: android.content.Context, tableName: String, field
        Nil
     } else {
       val list = mutable.Buffer.newBuilder[T]
+      c.moveToFirst()
       do {
-        list += Serializer.deserialize(c.getBlob(1))
+        list += Serializer.deserialize(c.getBlob(0))//get the first column's data
       } while (c.moveToNext())
       list.result().toList
     }
