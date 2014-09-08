@@ -50,12 +50,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:layout_marginTop="@dimen/margin_large"
-        android:text="版本更新： " />
+        android:text="请关注西部农村教育：" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="\t2014.3.21 更新 0.9.4\n\t修正授权过期导致的收藏失败、无法搜索等问题;\n\t"
+        android:text="\t http://www.yinghuo.org/\n\t"
         android:layout_margin="@dimen/margin_large" />
       </LinearLayout>
 </ScrollView>
