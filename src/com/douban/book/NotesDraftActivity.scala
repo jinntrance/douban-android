@@ -40,13 +40,17 @@ class NotesDraftActivity extends DoubanActivity{
   }
   def send(pos: Int) {
     val annt=listAdapter.getItem(pos)
+    val sp=waitToLoad()
     handle({
        Book.postAnnotation(annt.bookId,annt.annotation)
     },(a:Option[Annotation])=> a match {
       case Some(an)=>
         toast(R.string.annotation_added)
         runOnUiThread(remove(pos))
-      case _=> toast(R.string.annotation_fails_to_add)
+        stopWaiting(sp)
+      case _=>
+        stopWaiting(sp)
+        toast(R.string.annotation_fails_to_add)
     })
   }
   def remove(pos:Int) ={
@@ -69,13 +73,13 @@ class NotesDraftActivity extends DoubanActivity{
       listAdapter.notifyDataSetChanged()
     }
   }
-  class NotesDraftItemAdapter(mapping: Map[Int, Any])(implicit activity: DoubanActivity) extends ItemAdapter[AnnotationUploader](R.layout.notes_draft_item, mapping, load = {}) with Serializable{
+  class NotesDraftItemAdapter(mapping: Map[Int, Any]) extends ItemAdapter[AnnotationUploader](R.layout.notes_draft_item, mapping, load = {}) with Serializable{
     override def getView(position: Int, view: View, parent: ViewGroup): View = {
       val convertView = super.getView(position, view, parent)
       convertView.findViewById(R.id.note_send) onClick {_:(View) => {
         send(position)
       }}
-      convertView.findViewById(R.id.remove_note) onClick {_:(View) => {
+      convertView.findViewById(R.id.note_delete) onClick {_:(View) => {
         new AlertDialogBuilder(getString(R.string.remove_note), getString(R.string.remove_note_confirm)) {
           positiveButton(onClick = {
             remove(position)

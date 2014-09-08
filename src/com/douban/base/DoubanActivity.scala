@@ -754,10 +754,9 @@ case class DBundle(b: Bundle = new Bundle()) {
 
 class ItemAdapter[B <: AnyRef](layoutId: Int, mapping: Map[Int, Any], load: => Unit = {})(implicit activity: DoubanActivity) extends BaseAdapter {
   private var total = Long.MaxValue
-  private var count = 0
   private val list = new java.util.ArrayList[B]()
 
-  def getCount: Int = count
+  def getCount: Int = list.size()
 
   def getTotal = total
 
@@ -769,7 +768,6 @@ class ItemAdapter[B <: AnyRef](layoutId: Int, mapping: Map[Int, Any], load: => U
 
   def addResult(total: Long, loadedSize: Int, items: java.util.List[B]) {
     this.total = total
-    this.count += loadedSize
     list.addAll(items)
   }
 
@@ -777,15 +775,14 @@ class ItemAdapter[B <: AnyRef](layoutId: Int, mapping: Map[Int, Any], load: => U
 
   def replaceResult(total: Long, loadedSize: Int, items: java.util.List[B]) {
     list.clear()
-    count = 0
     addResult(total, loadedSize, items)
   }
 
-  def getView(position: Int, view: View, parent: ViewGroup): View = if (count == 0 || position >= count) null
+  def getView(position: Int, view: View, parent: ViewGroup): View = if (getCount == 0 || position >= getCount) null
   else {
     val convertView = if (null != view) view else activity.getLayoutInflater.inflate(layoutId, null)
     activity.batchSetValues(mapping, list(position), convertView,showNonEmpty = true)
-    if (count < total && position + 1 == count) {
+    if (getCount < total && position + 1 == getCount) {
       selfLoad()
     }
     convertView
