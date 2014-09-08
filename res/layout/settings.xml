@@ -40,7 +40,7 @@
         android:text="@string/sync_in_2g"    style="@style/DoubanTextTitle.Black.Setting"
         android:id="@+id/sync_in_2g" />
 
-    <ToggleButton
+    <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:onClick="toggleSyncIn2G"
         style="@style/DoubanTextTitle.Black.Setting"

@@ -2,7 +2,7 @@ package com.douban.book
 
 import java.io.File
 
-import android.widget.ToggleButton
+import android.widget.Switch
 import com.douban.base.{Constant, DoubanActivity}
 import android.os.Bundle
 import android.view.View
@@ -20,6 +20,7 @@ class SettingsActivity extends DoubanActivity {
     super.onCreate(b)
     setContentView(R.layout.settings)
     if (!isAuthenticated) setViewByRes(R.id.toggleLoginText, R.string.login_douban)
+    find[Switch](R.id.toggle_sync_in_2g).setChecked(defaultSharedPreferences.getBoolean(Constant.SYNC_IN_2G,false))
   }
 
   def toggleLogin(v: View) {
@@ -52,9 +53,8 @@ class SettingsActivity extends DoubanActivity {
 
   def toggleSyncIn2G(v:View) {
     v match {
-      case b:ToggleButton=>
-        defaultSharedPreferences.edit().putBoolean(
-          Constant.SYNC_IN_2G,b.getText==getResources.getString(R.string.toggle_turn_on)).commit()
+      case b:Switch=>
+        defaultSharedPreferences.edit().putBoolean(Constant.SYNC_IN_2G,b.isChecked).commit()
       case _=>
     }
   }
