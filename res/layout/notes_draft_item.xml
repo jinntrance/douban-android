@@ -4,7 +4,7 @@
     android:layout_width="fill_parent" android:layout_height="wrap_content"  android:layout_margin="@dimen/margin_medium">
 
   <ImageView
-      android:layout_width="wrap_content"
+      android:layout_width="wrap_content" android:clickable="true" android:onClick="send"
       android:layout_height="wrap_content" android:padding="@dimen/padding_large" android:layout_margin="@dimen/margin_medium"
       android:id="@+id/note_send" android:src="@drawable/notes_draft_send"
       android:layout_gravity="center_vertical" />
@@ -76,7 +76,7 @@
     </LinearLayout>
 
   <ImageView
-      android:layout_width="wrap_content"
+      android:layout_width="wrap_content" android:clickable="true" android:onClick="remove"
       android:layout_height="wrap_content" android:padding="@dimen/padding_medium" android:layout_margin="@dimen/margin_micro"
       android:id="@+id/note_delete" android:src="@drawable/notes_draft_delete"
       android:layout_gravity="center_vertical"/>

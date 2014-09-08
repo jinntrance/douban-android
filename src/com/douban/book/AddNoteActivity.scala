@@ -1,26 +1,26 @@
 package com.douban.book
 
-import com.douban.base.{Constant, DoubanFragment, DoubanActivity}
-import android.view.{View, ViewGroup, LayoutInflater}
-import android.os.Bundle
-import android.widget.{TextView, EditText}
-import com.douban.book.db.{AnnotationUploaderHelper, AnnotationUploader}
-import com.google.gson.Gson
-
-import org.scaloid.common._
-import scala.concurrent._
-import com.douban.models.{Annotation, Book, AnnotationPosted}
-import scala.util.Success
-import ExecutionContext.Implicits.global
-import android.content.pm.PackageManager
-import android.content.Intent
-import android.provider.MediaStore
-import android.app.{ProgressDialog, Activity}
-import java.text.SimpleDateFormat
 import java.io.File
+import java.text.SimpleDateFormat
 import java.util.Date
+
+import android.app.{Activity, ProgressDialog}
+import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
+import android.provider.MediaStore
 import android.text.{Editable, TextWatcher}
+import android.view.{LayoutInflater, View, ViewGroup}
+import android.widget.{EditText, TextView}
+import com.douban.base.{Constant, DoubanActivity, DoubanFragment}
+import com.douban.book.db.{AnnotationUploader, AnnotationUploaderHelper}
+import com.douban.models.{Annotation, AnnotationPosted, Book}
+import com.google.gson.Gson
+import org.scaloid.common._
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent._
+import scala.util.Success
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -60,6 +60,7 @@ class AddNoteActivity extends DoubanActivity {
       chapter=a.chapter
       noteConent=a.content
       public= "private" != a.privacy
+      notesImage ++= a.files.values
     }
     }
 
@@ -91,14 +92,12 @@ class AddNoteActivity extends DoubanActivity {
           }
           val a = new AnnotationPosted(content, page, chapter, if (public) "public" else "private")
           a.files = Range(1, notesImage.size+1).map(_.toString).zip(notesImage).toMap
-          anntPosted.foreach(a=>{
-            a.files ++= a.files //add image attachment from the previous draft
-          })
           proc=waitToLoad(msg=R.string.saving)
           val syncWhenIn2G = defaultSharedPreferences.getBoolean(Constant.SYNC_IN_2G,false)
+          getIntent.putExtra(Constant.ANNOTATION_POSTED,a)
           getIntent.getLongExtra(Constant.BOOK_ID, 0) match {
             case bookId: Long if bookId > 0 =>
-              if(0 == a.files.size || !using2G || syncWhenIn2G) {
+              if(0 == a.files.size || !using2G || syncWhenIn2G || usingWIfi) {
                 Book.postAnnotation(bookId, a).isDefined
               } else {
                 AnnotationUploaderHelper(this.ctx) insert AnnotationUploader(bookId,bookId.toString,a)
@@ -181,6 +180,10 @@ class AddNoteActivity extends DoubanActivity {
     }
   }
 
+  override def finish() {
+    setResult(Activity.RESULT_OK, getIntent)
+    super.finish()
+  }
 
   def contentUriToFilePath(uri: Uri): String = {
     val cursor = getContentResolver.query(uri, Array(MediaStore.MediaColumns.DATA), null, null, null)
