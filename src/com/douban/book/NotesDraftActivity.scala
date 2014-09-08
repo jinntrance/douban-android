@@ -33,6 +33,7 @@ class NotesDraftActivity extends DoubanActivity{
     })
     listAdapter.getItems.addAll(dbHelper.findData(size = Int.MaxValue))
     listView.setAdapter(listAdapter)
+    listAdapter.notifyDataSetChanged()
   }
   def send(pos: Int) {
     val annt=listAdapter.getItem(pos)

@@ -3,6 +3,8 @@ package com.douban.book
 import android.os.{Handler, Bundle}
 import android.view.View
 import android.widget.SearchView
+import com.douban.book.db.AnnotationUploaderHelper
+import com.douban.models.Book
 import org.scaloid.common._
 import android.content.Intent
 import com.douban.base.{Constant, DoubanActivity}
@@ -33,6 +35,17 @@ class SearchActivity extends DoubanActivity {
       }
       case _ =>
     }
+    handle({
+      val dbHelper = AnnotationUploaderHelper(this.ctx)
+      dbHelper.findData(Int.MaxValue).foldLeft(0)((acc,a)=>{
+        if(Book.postAnnotation(a.bookId,a.annotation).isDefined){
+          acc+1
+        } else acc
+      })
+    },(postedNum:Int)=>{
+        if(postedNum>0)
+          toast(getResources.getString(R.string.draft_posted,postedNum))
+    })
     slidingMenu
   }
 
