@@ -49,11 +49,15 @@ class DBHelper[T: ClassTag](c: android.content.Context, tableName: String, field
 
   def findData(size: Int = 10, page: Int = 1) = {
     val c = getReadableDatabase.query(tableName, Array(dataColumn), null, null, null, null, s" $idColumn desc", s" ${size * (page - 1)},$size")
-    val list = mutable.Buffer.newBuilder[T]
-    do {
-      list += Serializer.deserialize(c.getBlob(1))
-    } while (c.moveToNext())
-    list.result().toList
+    if(0==c.getCount){
+       Nil
+    } else {
+      val list = mutable.Buffer.newBuilder[T]
+      do {
+        list += Serializer.deserialize(c.getBlob(1))
+      } while (c.moveToNext())
+      list.result().toList
+    }
   }
 
   def deleteAll()={

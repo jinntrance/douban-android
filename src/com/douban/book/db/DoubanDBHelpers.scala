@@ -28,7 +28,7 @@ object AnnotationUploaderHelper{
 case class AnnotationUploader(bookId: Long, bookTitle:String, annotation: AnnotationPosted) extends Serializable {
   def toAnnotation={
     new Annotation(0,bookId.toString,null,null,null,annotation.chapter,annotation.page,
-      if("public" == annotation.privacy) 2 else 1,null,null,null,null,null,0,false,null)
+      if("public" == annotation.privacy) 2 else 1,null,null,null,null,0,0,false,null)
   }
 }
 
