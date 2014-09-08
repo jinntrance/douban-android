@@ -37,14 +37,16 @@ class SearchActivity extends DoubanActivity {
     }
     handle({
       val dbHelper = AnnotationUploaderHelper(this.ctx)
-      dbHelper.findData(Int.MaxValue).foldLeft(0)((acc,a)=>{
-        if(Book.postAnnotation(a.bookId,a.annotation).isDefined){
-          acc+1
-        } else acc
+      val all=dbHelper.findData(Int.MaxValue)
+      val rest = all.filter(a=>{
+        Book.postAnnotation(a.bookId,a.annotation).isEmpty
       })
+      dbHelper.deleteAll()
+      dbHelper.insertAll(rest)
+      all.size - rest.size
     },(postedNum:Int)=>{
         if(postedNum>0)
-          toast(getResources.getString(R.string.draft_posted,postedNum))
+          toast(getResources.getString(R.string.draft_posted,postedNum.toString))
     })
     slidingMenu
   }
