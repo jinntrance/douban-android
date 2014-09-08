@@ -48,7 +48,6 @@ class ReviewActivity extends DoubanActivity{
     settings.setSupportZoom(true)
     settings.setDisplayZoomControls(true)
     settings.setBuiltInZoomControls(true)
-    settings.setRenderPriority(RenderPriority.HIGH)
     settings.setUserAgentString("Mozilla/5.0 (Linux; U; Android 4.1.2; en-us; XT928 Build/6.7.2_GC-404) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30")
     webView.setWebViewClient(new DoubanWebViewClient)
     webView.setWebChromeClient(new WebChromeClient{

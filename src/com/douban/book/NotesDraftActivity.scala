@@ -19,7 +19,7 @@ class NotesDraftActivity extends DoubanActivity{
   private val mapping = Map(R.id.bookTitle -> "bookTitle",page_num ->("page_no", "P%s"),
      note_time -> "time", note_content -> "content")
   lazy val listAdapter = new NotesDraftItemAdapter(mapping)
-  lazy val listView = find[ListView](R.id.my_notes)
+  lazy val listView = find[ListView](R.id.notes_draft)
   lazy val dbHelper = AnnotationUploaderHelper(this.ctx)
 
   protected override def onCreate(b: Bundle): Unit = {

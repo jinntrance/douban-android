@@ -59,7 +59,7 @@ class AddNoteActivity extends DoubanActivity {
       bookPage=a.page.toString
       chapter=a.chapter
       noteConent=a.content
-      public= 2 == a.privacy
+      public= "private" != a.privacy
     }
     }
 

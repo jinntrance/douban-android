@@ -102,5 +102,6 @@
   <string name="saved_to_draft">已存草稿，Wifi连接后自动同步</string>
   <string name="toggle_turn_on">是</string>
   <string name="toggle_turn_off">否</string>
+  <string name="note_draft">笔记草稿</string>
 
 </resources>

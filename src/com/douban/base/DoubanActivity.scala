@@ -121,7 +121,7 @@ trait Douban {
         @inline
         def valOfField(f: String) = catching(classOf[NoSuchMethodException]).opt{
           sub.getClass.getMethod(f).invoke(sub) match {
-            case l:java.util.List=>l.mkString(",")
+            case l:java.util.List[Object]=>l mkString ","
             case a: Any => a
             case _ => default
           }
