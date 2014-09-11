@@ -10,6 +10,10 @@ import com.douban.common.Auth
  * @version 1.0
  */
 object Constant {
+  val COUNT_PER_PAGE = "pageCount"
+
+  val USER_ID = "userId"
+
   val SYNC_IN_2G: String = "sync_in_2g"
 
   val ANNOTATION_POSTED = "annotationPosted"
@@ -29,7 +33,7 @@ object Constant {
 
   val DATA_LIST: String = "dataList"
 
-  def PUBLIC = "public"
+  val PUBLIC = "public"
 
   val TAGS: String = "tags"
 
