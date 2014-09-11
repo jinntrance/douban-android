@@ -48,7 +48,7 @@
         <activity android:label="@string/annotation" android:name=".PublicNoteViewActivity" />
         <activity android:label="@string/review" android:name=".ReviewActivity" />
         <activity android:label="@string/my_note" android:name=".MyNoteViewActivity" android:launchMode="singleTop"/>
-        <activity android:label="@string/favorite_search" android:name=".FavoriteBooksListActivity" android:launchMode="singleTop"/>
+        <activity android:label="@string/favorite_search" android:name=".FavoriteBooksFilterResultActivity" android:launchMode="singleTop"/>
         <activity android:label="@string/favorite_search" android:name=".FavoriteBooksFilterActivity" android:launchMode="singleTop"/>
         <activity android:label="@string/search" android:name=".SearchResultActivity" />
         <activity android:label="@string/app_full_name" android:name="com.douban.base.DisconnectedActivity" android:launchMode="singleTop" android:noHistory="true" android:clearTaskOnLaunch="true"/>

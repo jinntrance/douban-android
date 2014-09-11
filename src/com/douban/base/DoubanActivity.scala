@@ -29,8 +29,8 @@ import scala.annotation.tailrec
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
 import scala.language.{implicitConversions, reflectiveCalls}
-import scala.util.{Failure, Success}
 import scala.util.control.Exception._
+import scala.util.{Failure, Success}
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -46,7 +46,7 @@ trait Douban {
 
   implicit val loggerTag = LoggerTag("DoubanBook")
 
-  protected val countPerPage = 12
+  val countPerPage = 12
 
   implicit def ctx: DoubanActivity = getThisActivity
 
@@ -224,7 +224,7 @@ trait Douban {
   }
 
   def using2G: Boolean = {
-    import TelephonyManager._
+    import android.telephony.TelephonyManager._
     ctx.getSystemService(Context.TELEPHONY_SERVICE).asInstanceOf[TelephonyManager].getNetworkType match {
       case NETWORK_TYPE_GPRS | NETWORK_TYPE_EDGE | NETWORK_TYPE_CDMA | NETWORK_TYPE_1xRTT | NETWORK_TYPE_IDEN => true
       case _ => false
@@ -705,9 +705,9 @@ trait DoubanListFragment[T <: DoubanActivity] extends SListFragment with Douban 
 
   override lazy val rootView: View = getView
 
-  def addArguments(args: Bundle): Fragment = {
+  def addArguments[F<:DoubanListFragment[T]](args: Bundle): F = {
     this.setArguments(args)
-    this
+    this.asInstanceOf[F]
   }
 
   def popup(img: View) {
@@ -754,7 +754,7 @@ case class DBundle(b: Bundle = new Bundle()) {
 
 class ItemAdapter[B <: AnyRef](layoutId: Int, mapping: Map[Int, Any], load: => Unit = {})(implicit activity: DoubanActivity) extends BaseAdapter {
   private var total = Long.MaxValue
-  private val list = new java.util.ArrayList[B]()
+  private var list = new java.util.ArrayList[B]()
 
   def getCount: Int = list.size()
 
@@ -769,6 +769,10 @@ class ItemAdapter[B <: AnyRef](layoutId: Int, mapping: Map[Int, Any], load: => U
   def addResult(total: Long, loadedSize: Int, items: java.util.List[B]) {
     this.total = total
     list.addAll(items)
+  }
+
+  def resetData() ={
+    list = new java.util.ArrayList[B]()
   }
 
   protected def selfLoad() = load
