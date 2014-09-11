@@ -1,66 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.view.ViewPager
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/pager"
+    android:id="@+id/fav_pager"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
-    android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/fav_books_container">
-
-    <TabHost
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/tabHost">
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical">
-
-            <TabWidget
-                android:id="@android:id/tabs" style="@style/DoubanTabWidget"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"></TabWidget>
-
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-
-                <LinearLayout
-                    android:id="@+id/wish_container"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
-
-                    <ListView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/wish" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/reading_container"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
-
-                    <ListView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/reading" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/read_container"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
-
-                    <ListView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/read" />
-                </LinearLayout>
-            </FrameLayout>
-        </LinearLayout>
-    </TabHost>
-</FrameLayout>
 </android.support.v4.view.ViewPager>
