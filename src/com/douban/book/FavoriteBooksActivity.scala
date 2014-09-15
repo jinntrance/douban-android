@@ -48,7 +48,7 @@ class FavoriteBooksActivity extends DoubanActivity {
 
       override def onTabSelected(tab: Tab, ft: app.FragmentTransaction): Unit = {
         viewPager.setCurrentItem(tab.getPosition)
-        fragOf(tab.getPosition).firstLoad
+//        fragOf(tab.getPosition).firstLoad //TODO
       }
 
       def fragOf(index: Int): FavoriteBooksListFragment = {
@@ -67,7 +67,7 @@ class FavoriteBooksActivity extends DoubanActivity {
         val index = tab.getPosition
         val frag = fragOf(index)
         collectionMap += (index ->(frag.adapter.getTotal, frag.adapter.getItems))
-        frag.adapter.resetData
+        frag.adapter.resetData()
       }
     }
     statusMap.values.map(actionBar.newTab().setText(_).setTabListener(tabListener)).foreach(actionBar.addTab)
@@ -83,6 +83,7 @@ class FavoriteBooksActivity extends DoubanActivity {
     } onSuccess {
       case (total: Int) =>
         put(Constant.COLLE_NUM, total)
+       //TODO
       //setViewValue(R.id.menu_favbooks, s"${getString(R.string.favorite)}($total)", slidingMenu)
     }
 
