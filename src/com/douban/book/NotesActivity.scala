@@ -202,7 +202,6 @@ class NoteItemAdapter(mapping: Map[Int, Any], load: => Unit, layout: Int = R.lay
     val convertView = super.getView(position, view, parent)
     getItem(position).page_no match {
       case i:Int => ctx.hideWhen(R.id.chapter_name, condition = true, convertView)
-      case _ =>
     }
     convertView
   }
