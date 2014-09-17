@@ -69,7 +69,6 @@ class FavoriteBooksActivity extends DoubanActivity {
       override def onTabReselected(p1: Tab, p2: app.FragmentTransaction): Unit = {}
     }
     statusMap.values.map(actionBar.newTab().setText(_).setTabListener(tabListener)).foreach(actionBar.addTab)
-    statusMap.values.map(s=>actionBar.newTab().setTabListener(tabListener)).foreach(actionBar.addTab)
 
     viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
       override def onPageSelected(position: Int): Unit = {
