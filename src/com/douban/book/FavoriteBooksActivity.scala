@@ -5,6 +5,8 @@ import java.util
 import android.app
 import android.app.ActionBar
 import android.app.ActionBar.Tab
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app._
 import android.support.v4.view.ViewPager
@@ -22,6 +24,7 @@ import scala.util.{Failure, Success}
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
  * Email: <a href="mailto:jinntrance@gmail.com">jinntrance@gmail.com</a>
+ * 我的收藏页面
  * @author joseph
  * @since 10/7/13 1:25 AM
  * @version 1.0
@@ -29,9 +32,8 @@ import scala.util.{Failure, Success}
 
 class FavoriteBooksActivity extends DoubanActivity {
   lazy val waiting = waitToLoad()
-  val status = Array("wish", "reading", "read")
-  val statusMap = Map(1 -> R.string.wish, 2 -> R.string.reading, 3 -> R.string.read)
-  var collectionMap = collection.mutable.HashMap.empty[Int, (Long, util.ArrayList[Collection])]
+  val status = Array("reading", "wish", "read")
+  val statusMap = Map(1 -> R.string.reading, 2 -> R.string.wish, 3 -> R.string.read)
   var currentTab = 1
 
   override def onCreate(b: Bundle) {
@@ -41,34 +43,25 @@ class FavoriteBooksActivity extends DoubanActivity {
     val pageAdapter = new FavoritePagerAdapter(fragmentManager, this)
     viewPager.setAdapter(pageAdapter)
     val actionBar = getActionBar
+    actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME)
     actionBar.setHomeButtonEnabled(false)
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS)
+    //this fixes https://github.com/JakeWharton/ActionBarSherlock/issues/327
+//    actionBar.setLogo(null)
+//    val homeIcon = findViewById(android.R.id.home)
+//    homeIcon.getParent.asInstanceOf[View].setVisibility(View.GONE)
+//    homeIcon.setVisibility(View.GONE)
+//    actionBar.setDisplayShowTitleEnabled(false)
 
     val tabListener = new ActionBar.TabListener() {
-
       override def onTabSelected(tab: Tab, ft: app.FragmentTransaction): Unit = {
         viewPager.setCurrentItem(tab.getPosition)
-//        fragOf(tab.getPosition).firstLoad //TODO
+        pageAdapter.getItem(tab.getPosition).asInstanceOf[FavoriteBooksListFragment].firstLoad
       }
 
-      def fragOf(index: Int): FavoriteBooksListFragment = {
-        pageAdapter.getItem(index).asInstanceOf[FavoriteBooksListFragment]
-      }
+      override def onTabUnselected(p1: Tab, p2: app.FragmentTransaction): Unit = {}
 
-      override def onTabReselected(tab: Tab, ft: app.FragmentTransaction): Unit = {
-        val index = tab.getPosition
-        collectionMap.get(index).map {
-          case (total, list) =>
-            fragOf(index).addData(total, list).notifyDataSetChanged()
-        }
-      }
-
-      override def onTabUnselected(tab: Tab, ft: app.FragmentTransaction): Unit = {
-        val index = tab.getPosition
-        val frag = fragOf(index)
-        collectionMap += (index ->(frag.adapter.getTotal, frag.adapter.getItems))
-        frag.adapter.resetData()
-      }
+      override def onTabReselected(p1: Tab, p2: app.FragmentTransaction): Unit = {}
     }
     statusMap.values.map(actionBar.newTab().setText(_).setTabListener(tabListener)).foreach(actionBar.addTab)
 
@@ -77,16 +70,14 @@ class FavoriteBooksActivity extends DoubanActivity {
         actionBar.setSelectedNavigationItem(position)
       }
     })
-
     Future {
       Book.collectionsOfUser(currentUserId).total
     } onSuccess {
       case (total: Int) =>
         put(Constant.COLLE_NUM, total)
-       //TODO
+      //TODO
       //setViewValue(R.id.menu_favbooks, s"${getString(R.string.favorite)}($total)", slidingMenu)
     }
-
   }
 
   def submitFilter(m: MenuItem) {
@@ -97,11 +88,83 @@ class FavoriteBooksActivity extends DoubanActivity {
     getMenuInflater.inflate(R.menu.filter, menu)
     super.onCreateOptionsMenu(menu)
   }
+
+  class FavoriteBooksListFragment extends SListFragment {
+
+    implicit def thisActivity = FavoriteBooksActivity.this
+
+    lazy val adapter = new CollectionItemAdapter(getArguments.getString(Constant.READING_STATUS, "reading"), load)(thisActivity)
+    lazy val thisStatus = getArguments.getString(Constant.READING_STATUS, "reading")
+
+    private var firstLoaded = false
+
+    override def onActivityCreated(b: Bundle): Unit = {
+      super.onActivityCreated(b)
+      getListView.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS)
+      setListAdapter(adapter)
+    }
+
+    def firstLoad = {
+      if (!firstLoaded) {
+        firstLoaded = true
+        load(thisStatus, adapter)
+      }
+      this
+    }
+
+    def addData(total: Long, list: util.ArrayList[Collection]) = {
+      adapter.addResult(total, list.size(), list)
+      adapter
+    }
+
+    def load(status: String, adapter: CollectionItemAdapter) = {
+      longToast(R.string.loading)
+      Future {
+        val cs = CollectionSearch(status, start = adapter.count, count = getArguments.getInt(Constant.COUNT_PER_PAGE, 12).toInt)
+        Book.collectionsOfUser(getArguments.getLong(Constant.USER_ID, 0), cs)
+      } onComplete {
+        case Success(r: CollectionSearchResult) => runOnUiThread {
+          adapter.addResult(r.total, r.collections.size, r.collections)
+          adapter.notifyDataSetChanged()
+        }
+        case Failure(m) =>
+          println(m.getMessage)
+      }
+    }
+
+    override def onCreateView(inflater: LayoutInflater, container: ViewGroup, b: Bundle): View = {
+      super.onCreateView(inflater, container, b)
+    }
+  }
+  class FavoritePagerAdapter(fm: FragmentManager, implicit val ctx: FavoriteBooksActivity) extends FragmentPagerAdapter(fm) {
+
+    val frags = collection.mutable.HashMap.empty[Int, FavoriteBooksListFragment]
+
+    override def getItem(index: Int): Fragment = {
+      frags.getOrElse(index, {
+        val frag = new FavoriteBooksListFragment
+        val b = DBundle().put(Constant.READING_STATUS, ctx.status(index))
+        b.putLong(Constant.USER_ID, ctx.currentUserId)
+        b.putInt(Constant.COUNT_PER_PAGE, ctx.countPerPage)
+        frag.setArguments(b)
+        frags += (index -> frag)
+        frag
+      })
+    }
+
+    override def getCount: Int = 3
+
+    override def getPageTitle(position: Int): CharSequence = {
+      ctx.getResources.getString(ctx.statusMap.getOrElse(position, R.string.reading))
+    }
+  }
+
 }
 
 class CollectionItemAdapter(status: String, loader: (String, CollectionItemAdapter) => Unit,
                             mapping: Map[Int, Any] = CollectionItemAdapter.map)(implicit activity: DoubanActivity)
   extends ItemAdapter[Collection](R.layout.fav_books_item, mapping) {
+
   lazy val listener = (parent: AdapterView[_], view: View, position: Int, id: Long) => {
     parent.getAdapter.asInstanceOf[CollectionItemAdapter].getItem(position) match {
       case c: Collection =>
@@ -132,66 +195,6 @@ class CollectionItemAdapter(status: String, loader: (String, CollectionItemAdapt
 object CollectionItemAdapter {
   val map = Map(R.id.time -> "updated", R.id.bookTitle -> "book.title", R.id.bookAuthor -> List("book.author",
     "book.translator"), R.id.bookPublisher -> "book.publisher")
-}
-
-class FavoritePagerAdapter(fm: FragmentManager, ctx: FavoriteBooksActivity) extends FragmentPagerAdapter(fm) {
-
-  override def getItem(index: Int): Fragment = {
-    val frag = new FavoriteBooksListFragment
-    val b=DBundle().put(Constant.READING_STATUS, ctx.status(index))
-    b.putLong(Constant.USER_ID,ctx.currentUserId)
-    b.putInt(Constant.COUNT_PER_PAGE,ctx.countPerPage)
-    frag.setArguments(b)
-    frag
-  }
-
-  override def getCount: Int = 3
-
-  override def getPageTitle(position: Int): CharSequence = {
-    ctx.getResources.getString(ctx.statusMap.getOrElse(position, R.string.reading))
-  }
-}
-
-class FavoriteBooksListFragment extends SListFragment {
-
-  implicit def thisActivity = getActivity.asInstanceOf[FavoriteBooksActivity]
-
-  lazy val adapter = new CollectionItemAdapter(getArguments.getString(Constant.READING_STATUS, "reading"), load)(thisActivity)
-  lazy val thisStatus = getArguments.getString(Constant.READING_STATUS, "reading")
-
-  override def onActivityCreated(b: Bundle): Unit = {
-    super.onActivityCreated(b)
-    getListView.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS)
-    setListAdapter(adapter)
-  }
-
-  def firstLoad = {
-    load(thisStatus, adapter)
-    this
-  }
-
-  def addData(total: Long, list: util.ArrayList[Collection]) = {
-    adapter.addResult(total, list.size(), list)
-    adapter
-  }
-
-  def load(status: String, adapter: CollectionItemAdapter) = {
-    Future {
-      val cs = CollectionSearch(status, start = adapter.count, count = getArguments.getInt(Constant.COUNT_PER_PAGE,12).toInt)
-      Book.collectionsOfUser(getArguments.getLong(Constant.USER_ID,0), cs)
-    } onComplete {
-      case Success(r: CollectionSearchResult) => runOnUiThread {
-        adapter.addResult(r.total, r.collections.size, r.collections)
-        adapter.notifyDataSetChanged()
-      }
-      case Failure(m) =>
-      println(m.getMessage)
-    }
-  }
-
-  override def onCreateView(inflater: LayoutInflater, container: ViewGroup, b: Bundle): View = {
-    super.onCreateView(inflater, container, b)
-  }
 }
 
 
