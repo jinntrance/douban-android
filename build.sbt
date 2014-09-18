@@ -6,6 +6,8 @@ import android.Dependencies.{apklib,aar}
 
 android.Plugin.androidBuild
 
+android.Plugin.androidBuildAar
+
 organization := "com.douban"
 
 name := "douban-android"
@@ -42,7 +44,8 @@ libraryDependencies ++= Seq(
 			"org.scaloid" %% "scaloid-support-v4" % scaloidVersion,
 			"com.douban" %% "scala-api" % "2.4.5",
 			"com.google.zxing" % "core" % "3.1.0",
-			"com.github.chrisbanes.photoview" % "library" % "1.2.3"
+			"com.github.chrisbanes.photoview" % "library" % "1.2.3",
+      aar("com.actionbarsherlock" % "actionbarsherlock" % "4.4.0")
 			)
 
 useProguard in Android := true
