@@ -188,7 +188,7 @@
 
   <style name="DoubanTheme" parent="android:Theme.Holo.Light">
     <!--<item name="android:windowFullscreen">true</item>-->
-    <!--<item name="android:windowContentOverlay">@null</item>-->
+    <item name="android:windowContentOverlay">@null</item>
     <!--<item name="android:background">@color/transparent</item>-->
     <item name="android:itemBackground">@color/background_white</item>
     <item name="android:panelBackground">@color/background_white</item>
@@ -202,6 +202,8 @@
     <item name="android:layout_width">wrap_content</item>
     <item name="android:layout_height">wrap_content</item>
     <item name="android:textViewStyle">@style/DoubanText</item>
+    <item name="android:windowActionBarOverlay">false</item>
+    <item name="android:windowActionModeOverlay">false</item>
     <!--<item name="android:tabWidgetStyle">@style/DoubanTabWidget</item>-->
     <!--<item name="android:autoCompleteTextViewStyle">@style/DoubanAutoCompleteText</item>-->
   </style>

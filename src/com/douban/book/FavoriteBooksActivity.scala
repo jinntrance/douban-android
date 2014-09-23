@@ -5,6 +5,7 @@ import java.util
 import android.app
 import android.app.ActionBar
 import android.app.ActionBar.Tab
+import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v4.app._
 import android.support.v4.view.ViewPager
@@ -32,7 +33,6 @@ object FavoriteBooksActivity{
 }
 
 class FavoriteBooksActivity extends DoubanActivity {
-  lazy val waiting = waitToLoad()
   val status = Array("reading", "wish", "read")
   val statusMap = Map(1 -> R.string.reading, 2 -> R.string.wish, 3 -> R.string.read)
   var currentTab = 1
@@ -43,20 +43,12 @@ class FavoriteBooksActivity extends DoubanActivity {
     val viewPager = find[ViewPager](R.id.fav_pager)
     val pageAdapter = new FavoritePagerAdapter(fragmentManager, this)
     viewPager.setAdapter(pageAdapter)
-//    val titleIndicator = find[SlidingTabLayout](R.id.sliding_tabs)
-//    titleIndicator.setViewPager(viewPager)
     val actionBar = getActionBar
     restoreDefaultActionBar()
     actionBar.setHomeButtonEnabled(false)
     actionBar.setDisplayHomeAsUpEnabled(false)
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS)
     FavoriteBooksActivity.currentActivity=this
-    //this fixes https://github.com/JakeWharton/ActionBarSherlock/issues/327
-//    actionBar.setLogo(null)
-//    val homeIcon = findViewById(android.R.id.home)
-//    homeIcon.getParent.asInstanceOf[View].setVisibility(View.GONE)
-//    homeIcon.setVisibility(View.GONE)
-//    actionBar.setDisplayShowTitleEnabled(false)
 
     val tabListener = new ActionBar.TabListener() {
       override def onTabSelected(tab: Tab, ft: app.FragmentTransaction): Unit = {
@@ -64,7 +56,7 @@ class FavoriteBooksActivity extends DoubanActivity {
         pageAdapter.getItem(tab.getPosition).asInstanceOf[FavoriteBooksListFragment].firstLoad
       }
 
-      override def onTabUnselected(p1: Tab, p2: app.FragmentTransaction): Unit = {}
+      override def onTabUnselected(tab: Tab, ft: app.FragmentTransaction): Unit ={}
 
       override def onTabReselected(p1: Tab, p2: app.FragmentTransaction): Unit = {}
     }
@@ -81,6 +73,21 @@ class FavoriteBooksActivity extends DoubanActivity {
       case (total: Int) =>
         put(Constant.COLLE_NUM, total)
     }
+
+    embedTabs
+  }
+
+
+  override def onConfigurationChanged(newConfig: Configuration): Unit = {
+    super.onConfigurationChanged(newConfig)
+    embedTabs
+  }
+
+  def embedTabs = {
+    val actionBar=getActionBar
+    val setHasEmbeddedTabsMethod = actionBar.getClass.getDeclaredMethod("setHasEmbeddedTabs", classOf[Boolean])
+    setHasEmbeddedTabsMethod.setAccessible(true)
+    setHasEmbeddedTabsMethod.invoke(actionBar, Boolean.box(true))
   }
 
   def submitFilter(m: MenuItem) {
@@ -143,6 +150,7 @@ class FavoriteBooksListFragment extends SListFragment {
     super.onActivityCreated(b)
     getListView.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS)
     setListAdapter(adapter)
+    getListView.onItemClick(adapter.listener)
   }
 
   def firstLoad = {

@@ -54,7 +54,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="wrap_content" android:autoLink="web"
         android:text="\t http://www.yinghuo.org/\n\t"
         android:layout_margin="@dimen/margin_large" />
       </LinearLayout>
