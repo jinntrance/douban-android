@@ -36,7 +36,7 @@
                 android:resource="@xml/searchable"/>
         </activity>
         <activity android:label="@string/login" android:name=".LoginActivity" />
-      <activity android:label="@string/favorite" android:name=".FavoriteBooksActivity" android:launchMode="singleTop"  android:windowActionBarOverlay="true" android:configChanges="keyboardHidden|orientation|screenSize"/>
+      <activity android:label="@string/favorite" android:name=".FavoriteBooksActivity" android:launchMode="singleTop"  android:windowActionBarOverlay="true" android:configChanges="keyboardHidden|orientation|screenSize" />
       <activity android:label="@string/menu_settings" android:name=".SettingsActivity" android:launchMode="singleTop"/>
       <activity android:label="@string/my_note" android:name=".MyNoteActivity" android:launchMode="singleTop"/>
       <activity android:label="@string/about" android:name=".AboutActivity" />
