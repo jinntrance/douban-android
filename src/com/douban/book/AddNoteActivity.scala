@@ -103,7 +103,7 @@ class AddNoteActivity extends DoubanActivity {
                 AnnotationUploaderHelper(this.ctx) insert AnnotationUploader(bookId,bookId.toString,a)
               }
             case _ =>
-              annt.foreach(at=>Book.updateAnnotation(at.id, a))
+              annt.forall(at=>Book.updateAnnotation(at.id, a).isDefined)
           }
         } onComplete {
           case Success(true) =>
