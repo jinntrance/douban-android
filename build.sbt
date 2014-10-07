@@ -37,6 +37,7 @@ run <<= run in Android
 
 install <<= install in Android
 
+// use local published scaloid in order to build 'scaloid-support-v4' lib
 val scaloidVersion = "3.6-10-SNAPSHOT"
 
 libraryDependencies ++= Seq(
@@ -55,6 +56,7 @@ proguardCache in Android ++=Seq(
   ProguardCache("org.scaloid*") % "org.scaloid",
   ProguardCache("com.douban.models") % "com.douban")
 
+//integrate all the proguard options from the config file into android-sdk-plugin
 proguardOptions in Android <++= baseDirectory(_ / "proguard-android-optimize.txt").flatMap(f => task(scala.io.Source.fromFile(f).getLines().toSeq))
 
 proguardOptions in Android <++= baseDirectory(_ / "proguard.cfg").flatMap(f => task(scala.io.Source.fromFile(f).getLines().toSeq))
