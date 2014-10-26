@@ -1,7 +1,7 @@
 package com.douban.book.db
 
 import com.douban.base.DBHelper
-import com.douban.models.{Annotation, Bean, Tag, AnnotationPosted}
+import com.douban.models.{Annotation, AnnotationPosted, Tag}
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -21,14 +21,14 @@ case class SearchHistory(search: String) extends Serializable
 
 class AnnotationUploaderHelper(c: android.content.Context) extends DBHelper[AnnotationUploader](c, "annotations_to_post")
 
-object AnnotationUploaderHelper{
-  def apply(c: android.content.Context)=new AnnotationUploaderHelper(c)
+object AnnotationUploaderHelper {
+  def apply(c: android.content.Context) = new AnnotationUploaderHelper(c)
 }
 
-case class AnnotationUploader(bookId: Long, bookTitle:String, annotation: AnnotationPosted) extends Serializable {
-  def toAnnotation={
-    new Annotation(0,bookId.toString,null,null,null,annotation.chapter,annotation.page,
-      if("public" == annotation.privacy) 2 else 1,null,null,null,null,0,0,false,null)
+case class AnnotationUploader(bookId: Long, bookTitle: String, annotation: AnnotationPosted) extends Serializable {
+  def toAnnotation = {
+    new Annotation(0, bookId.toString, null, null, null, annotation.chapter, annotation.page,
+      if ("public" == annotation.privacy) 2 else 1, null, null, null, null, 0, 0, false, null)
   }
 }
 

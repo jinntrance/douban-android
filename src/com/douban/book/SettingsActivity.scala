@@ -2,10 +2,10 @@ package com.douban.book
 
 import java.io.File
 
-import android.widget.Switch
-import com.douban.base.{Constant, DoubanActivity}
 import android.os.Bundle
 import android.view.View
+import android.widget.Switch
+import com.douban.base.{Constant, DoubanActivity}
 import org.scaloid.common._
 
 /**
@@ -20,7 +20,7 @@ class SettingsActivity extends DoubanActivity {
     super.onCreate(b)
     setContentView(R.layout.settings)
     if (!isAuthenticated) setViewByRes(R.id.toggleLoginText, R.string.login_douban)
-    find[Switch](R.id.toggle_sync_in_2g).setChecked(defaultSharedPreferences.getBoolean(Constant.SYNC_IN_2G,false))
+    find[Switch](R.id.toggle_sync_in_2g).setChecked(defaultSharedPreferences.getBoolean(Constant.SYNC_IN_2G, false))
   }
 
   def toggleLogin(v: View) {
@@ -36,11 +36,11 @@ class SettingsActivity extends DoubanActivity {
   }
 
   def delCache(v: View) {
-    def delHelper(dir:File) = dir match {
-      case f:File if f.exists()=>
+    def delHelper(dir: File) = dir match {
+      case f: File if f.exists() =>
         f.delete()
         f.mkdirs()
-      case _=>
+      case _ =>
     }
     delHelper(getExternalCacheDir)
     delHelper(getCacheDir)
@@ -51,14 +51,15 @@ class SettingsActivity extends DoubanActivity {
     startActivity(SIntent[AboutActivity])
   }
 
-  def toggleSyncIn2G(v:View) {
+  def toggleSyncIn2G(v: View) {
     v match {
-      case b:Switch=>
-        defaultSharedPreferences.edit().putBoolean(Constant.SYNC_IN_2G,b.isChecked).commit()
-      case _=>
+      case b: Switch =>
+        defaultSharedPreferences.edit().putBoolean(Constant.SYNC_IN_2G, b.isChecked).commit()
+      case _ =>
     }
   }
-  def viewDraft(v:View) {
+
+  def viewDraft(v: View) {
     startActivity(SIntent[NotesDraftActivity])
   }
 }

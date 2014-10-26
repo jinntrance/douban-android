@@ -1,18 +1,19 @@
 package com.douban.book
 
-import org.scaloid.common._
-import android.os.Bundle
-import android.widget.{TextView, LinearLayout}
-import com.douban.base.{DoubanFragment, DoubanActivity, Constant}
-import com.douban.models.{Collection, Book}
-import android.app.{ProgressDialog, Activity}
-import android.view._
-import Constant._
-import scala.concurrent._
-import ExecutionContext.Implicits.global
+import android.app.{Activity, ProgressDialog}
 import android.content.Intent
-import scala.util.{Failure, Success}
+import android.os.Bundle
+import android.view._
+import android.widget.{LinearLayout, TextView}
+import com.douban.base.Constant._
+import com.douban.base.{Constant, DoubanActivity, DoubanFragment}
 import com.douban.common.DoubanException
+import com.douban.models.{Book, Collection}
+import org.scaloid.common._
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent._
+import scala.util.{Failure, Success}
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -37,14 +38,14 @@ class BookActivity extends DoubanActivity {
         val isbn = extras.getString(Constant.ISBN)
         val bookId = extras.getString(Constant.BOOK_ID)
         val bk = extras.getSerializable(Constant.BOOK_KEY)
-        var sp:ProgressDialog=null
+        var sp: ProgressDialog = null
         if (null == bk) Future {
-                    sp=
-          waitToLoad()
+          sp =
+            waitToLoad()
           if (null != isbn && !isbn.isEmpty) {
-            val tempBk=Book.byISBN(isbn)
+            val tempBk = Book.byISBN(isbn)
             import scala.util.control.Exception._
-            catching(classOf[DoubanException]).opt{
+            catching(classOf[DoubanException]).opt {
               tempBk.updateExistCollection(Book.collectionOf(tempBk.id))
             }
             Some(tempBk)
@@ -59,7 +60,7 @@ class BookActivity extends DoubanActivity {
           case Failure(m) =>
             m.printStackTrace()
             error(m.getMessage)
-            val notification = if (null != isbn) getString(R.string.isbn_is,isbn) else if (null != bookId) getString(R.string.book_name_is,extras.getString(Constant.BOOK_TITLE, getString(R.string.no))) else ""
+            val notification = if (null != isbn) getString(R.string.isbn_is, isbn) else if (null != bookId) getString(R.string.book_name_is, extras.getString(Constant.BOOK_TITLE, getString(R.string.no))) else ""
             longToast(getString(R.string.search_no_result) + notification)
             this.finish()
           case _ =>
@@ -135,8 +136,9 @@ class BookActivity extends DoubanActivity {
   def viewNotes(v: View) = {
     startActivity(SIntent[NotesActivity].putExtra(Constant.BOOK_ID, book.get.id))
   }
+
   def viewReviews(v: View) = {
-    startActivity(SIntent[ReviewActivity].putExtra(Constant.BOOK_ID, book.get.id.toString).putExtra(Constant.BOOK_TITLE,book.get.title))
+    startActivity(SIntent[ReviewActivity].putExtra(Constant.BOOK_ID, book.get.id.toString).putExtra(Constant.BOOK_TITLE, book.get.title))
   }
 }
 
@@ -173,8 +175,8 @@ class SearchResultDetail extends DoubanFragment[BookActivity] {
             List(R.id.delete)
         }
         val l = rootView.find[LinearLayout](R.id.status_layout)
-        runOnUiThread(List(R.id.reading,R.id.wish,R.id.read,R.id.delete).foreach(id=>{
-          toggleDisplayWhen(id,! toDel.contains(id),l)
+        runOnUiThread(List(R.id.reading, R.id.wish, R.id.read, R.id.delete).foreach(id => {
+          toggleDisplayWhen(id, !toDel.contains(id), l)
         }))
 
         batchSetValues(SearchResult.mapping ++ Map(R.id.bookSubtitle -> "subtitle", R.id.bookPages -> "pages", R.id.bookPrice -> "price",

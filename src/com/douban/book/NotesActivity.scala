@@ -1,18 +1,14 @@
 package com.douban.book
 
-import com.douban.base._
-import android.os.Bundle
-import com.douban.models._
-import android.view._
-import android.widget._
-import org.scaloid.common._
-import com.douban.models.AnnotationSearch
-import com.douban.models.AnnotationSearchResult
-import com.douban.models.Annotation
-import android.content.{Context, Intent}
 import android.app.Activity
-import java.util
+import android.content.{Context, Intent}
+import android.os.Bundle
+import android.view._
 import android.view.inputmethod.InputMethodManager
+import android.widget._
+import com.douban.base._
+import com.douban.models.{Annotation, AnnotationSearch, AnnotationSearchResult, _}
+import org.scaloid.common._
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -46,9 +42,9 @@ class NotesActivity extends DoubanActivity {
     super.onCreate(b)
     if (0 == bookId) finish()
     setContentView(R.layout.notes)
-    b match{
-      case savedInstance:Bundle=>
-      case _=> fragmentManager.beginTransaction().replace(R.id.notes_container, listFragment).commit()
+    b match {
+      case savedInstance: Bundle =>
+      case _ => fragmentManager.beginTransaction().replace(R.id.notes_container, listFragment).commit()
     }
 
   }
@@ -99,7 +95,7 @@ class NotesActivity extends DoubanActivity {
 
 class NotesListFragment extends DoubanListFragment[NotesActivity] {
 
-  import R.id._
+  import com.douban.book.R.id._
 
   lazy val mapping = NotesActivity.mapping ++ Map(user_avatar ->("author_user.avatar", ("author_user.name", getString(R.string.load_img_fail))))
   var currentPage = 1
@@ -121,15 +117,15 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
     getListView.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS)
     activity.restoreDefaultActionBar()
     activity.getIntent.getExtras.getString(Constant.BOOK_PAGE) match {
-      case s:String=>
-        bookPage=s
+      case s: String =>
+        bookPage = s
         getView.findViewById(R.id.notes_list_header).setVisibility(View.GONE)
-      case _=>
-        getView.find[ImageView](R.id.forward).onClick {_:(View) =>
-            val bookPage = getView.find[EditText](R.id.bookPage).getText.toString
-            startActivity(SIntent[NotesActivity].putExtra(Constant.BOOK_ID, activity.bookId).
-              putExtra(Constant.BOOK_PAGE, bookPage))
-            activity.hidePopup(null)
+      case _ =>
+        getView.find[ImageView](R.id.forward).onClick { _: (View) =>
+          val bookPage = getView.find[EditText](R.id.bookPage).getText.toString
+          startActivity(SIntent[NotesActivity].putExtra(Constant.BOOK_ID, activity.bookId).
+            putExtra(Constant.BOOK_PAGE, bookPage))
+          activity.hidePopup(null)
         }
     }
     search()
@@ -169,7 +165,7 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
 
   def addNote() {
     activity.startActivity(SIntent[AddNoteActivity].putExtra(Constant.BOOK_ID, activity.bookId).
-      putExtra(Constant.BOOK_PAGE, if(bookPage.trim.nonEmpty) bookPage.trim else null))
+      putExtra(Constant.BOOK_PAGE, if (bookPage.trim.nonEmpty) bookPage.trim else null))
   }
 
   def searchByViewId(viewId: Int) {
@@ -192,7 +188,7 @@ class NotesListFragment extends DoubanListFragment[NotesActivity] {
 
 object NotesActivity {
 
-  import R.id._
+  import com.douban.book.R.id._
 
   val mapping = Map(page_num ->("page_no", "P%s"), chapter_name -> "chapter", note_time -> "time", username -> "author_user.name", note_content -> "content")
 }
@@ -201,7 +197,7 @@ class NoteItemAdapter(mapping: Map[Int, Any], load: => Unit, layout: Int = R.lay
   override def getView(position: Int, view: View, parent: ViewGroup): View = {
     val convertView = super.getView(position, view, parent)
     getItem(position).page_no match {
-      case i:Int => ctx.hideWhen(R.id.chapter_name, condition = true, convertView)
+      case i: Int => ctx.hideWhen(R.id.chapter_name, condition = true, convertView)
     }
     convertView
   }

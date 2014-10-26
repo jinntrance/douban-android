@@ -1,8 +1,8 @@
 package com.douban.book
 
-import com.douban.base.{DoubanActivity, DoubanFragment}
-import android.view.{View, ViewGroup, LayoutInflater}
 import android.os.Bundle
+import android.view.{LayoutInflater, View, ViewGroup}
+import com.douban.base.{DoubanActivity, DoubanFragment}
 
 
 /**

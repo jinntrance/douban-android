@@ -34,13 +34,13 @@ class AddNoteActivity extends DoubanActivity {
   var chapter = ""
   var noteConent = ""
   var public = true
-  lazy val annt:Option[Annotation]= new Gson().fromJson(getIntent.getStringExtra(Constant.ANNOTATION),classOf[Annotation]) match {
-    case a:Annotation=>Some(a)
-    case _=> None
+  lazy val annt: Option[Annotation] = new Gson().fromJson(getIntent.getStringExtra(Constant.ANNOTATION), classOf[Annotation]) match {
+    case a: Annotation => Some(a)
+    case _ => None
   }
-  lazy val anntPosted:Option[AnnotationPosted]= getIntent.getSerializableExtra(Constant.ANNOTATION_POSTED) match {
-    case a:AnnotationPosted=>Some(a)
-    case _=> None
+  lazy val anntPosted: Option[AnnotationPosted] = getIntent.getSerializableExtra(Constant.ANNOTATION_POSTED) match {
+    case a: AnnotationPosted => Some(a)
+    case _ => None
   }
 
   override def onCreate(b: Bundle) {
@@ -49,24 +49,24 @@ class AddNoteActivity extends DoubanActivity {
     setContentView(R.layout.add_note_container)
     val bundle: Bundle = getIntent.getExtras
     bookPage = bundle.getString(Constant.BOOK_PAGE, bookPage)
-    annt foreach  {a=>{
-        bookPage=a.page_no.toString
-        chapter=a.chapter
-        noteConent=a.content
+    annt foreach { a => {
+      bookPage = a.page_no.toString
+      chapter = a.chapter
+      noteConent = a.content
     }
     }
-    anntPosted foreach  {a=>{
-      bookPage=a.page.toString
-      chapter=a.chapter
-      noteConent=a.content
-      public= "private" != a.privacy
+    anntPosted foreach { a => {
+      bookPage = a.page.toString
+      chapter = a.chapter
+      noteConent = a.content
+      public = "private" != a.privacy
       notesImage ++= a.files.values
     }
     }
 
-    b match{
-      case savedInstance:Bundle=>
-      case _=>
+    b match {
+      case savedInstance: Bundle =>
+      case _ =>
         fragmentManager.beginTransaction().replace(R.id.add_note_container,
           new AddNoteFragment().addArguments(bundle),
           Constant.ACTIVITY_NOTE_ADDITION).commit()
@@ -83,33 +83,33 @@ class AddNoteActivity extends DoubanActivity {
         else toast(R.string.add_chapter_hint)
       case _ =>
         val content = find[EditText](R.id.note_input).text.toString
-        var proc:ProgressDialog=null
+        var proc: ProgressDialog = null
         if (content.length <= 15) toast(R.string.note_length)
         else Future {
-          val page:Int = bookPage match {
-            case p:String if p.nonEmpty && p.forall(_.isDigit)=>p.toInt
+          val page: Int = bookPage match {
+            case p: String if p.nonEmpty && p.forall(_.isDigit) => p.toInt
             case _ => 1
           }
           val a = new AnnotationPosted(content, page, chapter, if (public) "public" else "private")
-          a.files = Range(1, notesImage.size+1).map(_.toString).zip(notesImage).toMap
-          proc=waitToLoad(msg=R.string.saving)
-          val syncWhenIn2G = defaultSharedPreferences.getBoolean(Constant.SYNC_IN_2G,false)
-          getIntent.putExtra(Constant.ANNOTATION_POSTED,a)
+          a.files = Range(1, notesImage.size + 1).map(_.toString).zip(notesImage).toMap
+          proc = waitToLoad(msg = R.string.saving)
+          val syncWhenIn2G = defaultSharedPreferences.getBoolean(Constant.SYNC_IN_2G, false)
+          getIntent.putExtra(Constant.ANNOTATION_POSTED, a)
           getIntent.getLongExtra(Constant.BOOK_ID, 0) match {
             case bookId: Long if bookId > 0 =>
-              if(0 == a.files.size || !using2G || syncWhenIn2G || usingWIfi) {
+              if (0 == a.files.size || !using2G || syncWhenIn2G || usingWIfi) {
                 Book.postAnnotation(bookId, a).isDefined
               } else {
-                AnnotationUploaderHelper(this.ctx) insert AnnotationUploader(bookId,bookId.toString,a)
+                AnnotationUploaderHelper(this.ctx) insert AnnotationUploader(bookId, bookId.toString, a)
               }
             case _ =>
-              annt.forall(at=>Book.updateAnnotation(at.id, a).isDefined)
+              annt.forall(at => Book.updateAnnotation(at.id, a).isDefined)
           }
         } onComplete {
           case Success(true) =>
             runOnUiThread(onBackPressed())
             toast(R.string.annotation_added)
-          case Success(l:Long)=>
+          case Success(l: Long) =>
             runOnUiThread(onBackPressed())
             toast(R.string.saved_to_draft)
           case _ =>
@@ -229,7 +229,7 @@ class AddNoteFragment extends DoubanFragment[AddNoteActivity] {
     lazy val counter = getView.find[TextView](R.id.chars_count)
     getArguments match {
       case b: Bundle =>
-        activity.annt.foreach(a=> numOfPics=a.last_photo)
+        activity.annt.foreach(a => numOfPics = a.last_photo)
         activity.replaceActionBar(R.layout.header_edit_note, if (activity.bookPage.isEmpty) activity.chapter else "P" + activity.bookPage)
         setViewValue(R.id.note_input, activity.noteConent, hideEmpty = false)
         activity.noteConent match {

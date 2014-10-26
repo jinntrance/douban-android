@@ -20,9 +20,9 @@ object Constant {
 
   val expireTime: String = "expireTime"
 
-  val ANNOTATION="annotation"
+  val ANNOTATION = "annotation"
 
-  val SEPARATOR: String="`"
+  val SEPARATOR: String = "`"
 
   val COLLECTION_SEARCH = "collectionSearch"
 

@@ -28,8 +28,8 @@ import scala.util.{Failure, Success}
  * @since 10/7/13 1:25 AM
  * @version 1.0
  */
-object FavoriteBooksActivity{
-  var currentActivity:FavoriteBooksActivity = null
+object FavoriteBooksActivity {
+  var currentActivity: FavoriteBooksActivity = null
 }
 
 class FavoriteBooksActivity extends DoubanActivity {
@@ -48,7 +48,7 @@ class FavoriteBooksActivity extends DoubanActivity {
     actionBar.setHomeButtonEnabled(false)
     actionBar.setDisplayHomeAsUpEnabled(false)
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS)
-    FavoriteBooksActivity.currentActivity=this
+    FavoriteBooksActivity.currentActivity = this
 
     val tabListener = new ActionBar.TabListener() {
       override def onTabSelected(tab: Tab, ft: app.FragmentTransaction): Unit = {
@@ -56,7 +56,7 @@ class FavoriteBooksActivity extends DoubanActivity {
         pageAdapter.getItem(tab.getPosition).asInstanceOf[FavoriteBooksListFragment].firstLoad
       }
 
-      override def onTabUnselected(tab: Tab, ft: app.FragmentTransaction): Unit ={}
+      override def onTabUnselected(tab: Tab, ft: app.FragmentTransaction): Unit = {}
 
       override def onTabReselected(p1: Tab, p2: app.FragmentTransaction): Unit = {}
     }
@@ -84,7 +84,7 @@ class FavoriteBooksActivity extends DoubanActivity {
   }
 
   def embedTabs = {
-    val actionBar=getActionBar
+    val actionBar = getActionBar
     val setHasEmbeddedTabsMethod = actionBar.getClass.getDeclaredMethod("setHasEmbeddedTabs", classOf[Boolean])
     setHasEmbeddedTabsMethod.setAccessible(true)
     setHasEmbeddedTabsMethod.invoke(actionBar, Boolean.box(true))
@@ -185,12 +185,13 @@ class FavoriteBooksListFragment extends SListFragment {
     super.onCreateView(inflater, container, b)
   }
 }
+
 class FavoritePagerAdapter(fm: FragmentManager, implicit val ctx: FavoriteBooksActivity) extends FragmentPagerAdapter(fm) {
 
   val frags = collection.mutable.HashMap.empty[Int, FavoriteBooksListFragment]
 
   override def getItem(index: Int): Fragment = {
-    val key = index + 10* ctx.getResources.getConfiguration.orientation
+    val key = index + 10 * ctx.getResources.getConfiguration.orientation
 
     frags.getOrElse(key, {
       val frag = new FavoriteBooksListFragment

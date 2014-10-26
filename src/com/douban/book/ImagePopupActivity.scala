@@ -1,8 +1,8 @@
 package com.douban.book
 
-import com.douban.base.DoubanActivity
 import android.os.Bundle
 import android.widget.ImageView
+import com.douban.base.DoubanActivity
 import uk.co.senab.photoview.PhotoViewAttacher
 
 /**
@@ -15,7 +15,7 @@ import uk.co.senab.photoview.PhotoViewAttacher
 class ImagePopupActivity(img: ImageView) extends DoubanActivity {
   override def onCreate(b: Bundle) {
     setContentView(R.layout.image_popup)
-    val img=find[ImageView](R.id.image_popup)
+    val img = find[ImageView](R.id.image_popup)
     img.setImageDrawable(img.getDrawable)
     new PhotoViewAttacher(img)
   }

@@ -1,16 +1,16 @@
 package com.douban.book
 
-import android.os.Bundle
-import android.webkit.{WebView, WebViewClient}
-import android.graphics.Bitmap
-import org.scaloid.common._
-import com.douban.base.{DoubanActivity, Constant}
-import com.douban.common._
-import Auth._
-import android.view.{LayoutInflater, MenuItem, Menu}
 import android.content.Context
-import android.widget.ImageView
+import android.graphics.Bitmap
+import android.os.Bundle
 import android.view.animation.AnimationUtils
+import android.view.{LayoutInflater, Menu, MenuItem}
+import android.webkit.{WebView, WebViewClient}
+import android.widget.ImageView
+import com.douban.base.{Constant, DoubanActivity}
+import com.douban.common.Auth._
+import com.douban.common._
+import org.scaloid.common._
 
 class LoginActivity extends DoubanActivity {
   private[this] var refreshItem: MenuItem = null
@@ -51,7 +51,7 @@ class LoginActivity extends DoubanActivity {
       if (redirectedUrl.startsWith(redirect_url)) {
         if (redirectedUrl.contains("error=")) toast(R.string.login_failed)
         else {
-          val sp = waitToLoad(LoginActivity.this.finish(),msg = R.string.logining)
+          val sp = waitToLoad(LoginActivity.this.finish(), msg = R.string.logining)
           handle({
             Auth.getTokenByCode(extractCode(redirectedUrl), Constant.apiKey, Constant.apiSecret)
           }, (t: Option[AccessTokenResult]) => {

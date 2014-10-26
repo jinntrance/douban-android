@@ -1,15 +1,12 @@
 package com.douban
 
-import scala.collection.mutable
-
-import scala.language.implicitConversions
-import scala.language.reflectiveCalls
-import collection.JavaConverters._
-import com.douban.common.Req
 import android.content.Context
 import android.view.View
 import android.widget.TextView
-import scala.util
+
+import scala.collection.JavaConverters._
+import scala.collection.mutable
+import scala.language.{implicitConversions, reflectiveCalls}
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>

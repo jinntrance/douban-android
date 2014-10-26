@@ -1,17 +1,12 @@
 package com.douban.book
 
-import com.douban.base._
 import android.os.Bundle
-import android.widget._
 import android.view._
-import com.douban.models._
+import android.widget._
+import com.douban.base.Constant._
+import com.douban.base._
+import com.douban.models.{BookSearchResult, Collection, _}
 import org.scaloid.common._
-import java.lang.String
-import Constant._
-import com.douban.models.BookSearchResult
-import scala.Some
-import com.douban.models.Collection
-import android.content.Context
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -61,9 +56,9 @@ class SearchResultList extends DoubanListFragment[SearchResultActivity] {
   def updateFooter() = {
     activity.find[TextView](R.id.to_load) match {
       case footer: TextView =>
-        if(0==total)
+        if (0 == total)
           footer.setText(R.string.books_not_found)
-        else if(total<=countPerPage|| adapter.count==total)
+        else if (total <= countPerPage || adapter.count == total)
           footer.setText(getString(R.string.books_loaded_completely).format(total))
         else {
           footer.setText(getString(R.string.swipe_up_to_load).format(adapter.count, total))
@@ -131,9 +126,10 @@ ItemAdapter[Book](R.layout.book_list_item, mapping, load = load) {
             state.setTextColor(activity.getResources.getColor(SearchResult.colorMap(SearchResult.idsMap(c.status))))
           case _ =>
         }
-      } else convertView.findViewById(R.id.fav_layout) onClick {_:(View) => {
+      } else convertView.findViewById(R.id.fav_layout) onClick { _: (View) => {
         activity.startActivity(SIntent[CollectionActivity].putExtra(Constant.BOOK_KEY, Some(b)))
-      }}
+      }
+      }
       activity.loadImageWithTitle(b.image, R.id.book_img, b.title, convertView)
 
     }

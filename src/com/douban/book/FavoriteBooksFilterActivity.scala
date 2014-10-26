@@ -14,8 +14,6 @@ import com.douban.base.{Constant, DoubanActivity}
 import com.douban.models.{Book, CollectionSearch, CollectionSearchResult, TagsResult}
 import org.scaloid.common._
 
-
-import scala.concurrent._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 

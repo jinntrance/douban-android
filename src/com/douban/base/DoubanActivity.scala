@@ -71,15 +71,15 @@ trait Douban {
 
   def getThisActivity: DoubanActivity
 
-  def setViewValue[T <: V](id: Int, value: String, holder: T = rootView, notification: String = "", hideEmpty: Boolean = true,showNonEmpty:Boolean=false): Unit = {
-    setViewValueByView(holder.findViewById(id), value, notification, hideEmpty,showNonEmpty)
+  def setViewValue[T <: V](id: Int, value: String, holder: T = rootView, notification: String = "", hideEmpty: Boolean = true, showNonEmpty: Boolean = false): Unit = {
+    setViewValueByView(holder.findViewById(id), value, notification, hideEmpty, showNonEmpty)
   }
 
-  def setViewByRes[T <: V](id: Int, resId: Int, holder: T = rootView, notification: String = "", hideEmpty: Boolean = true,showNonEmpty:Boolean=false): Unit = {
-    setViewValueByView(holder.findViewById(id), ctx.getString(resId), notification, hideEmpty,showNonEmpty)
+  def setViewByRes[T <: V](id: Int, resId: Int, holder: T = rootView, notification: String = "", hideEmpty: Boolean = true, showNonEmpty: Boolean = false): Unit = {
+    setViewValueByView(holder.findViewById(id), ctx.getString(resId), notification, hideEmpty, showNonEmpty)
   }
 
-  def setViewValueByView(v: => View, value: String, notification: String = "", hideEmpty: Boolean = true,showNonEmpty:Boolean=false): Unit = {
+  def setViewValueByView(v: => View, value: String, notification: String = "", hideEmpty: Boolean = true, showNonEmpty: Boolean = false): Unit = {
     value.trim match {
       case "" if hideEmpty => v match {
         case view: View => runOnUiThread(view.setVisibility(View.GONE))
@@ -91,26 +91,26 @@ trait Douban {
           case _ =>
         }
         v match {
-        case view: TextView => runOnUiThread(view.setText(value))
-        case rating: RatingBar => runOnUiThread(rating.setNumStars(value.toInt))
-        case img: ImageView if value != "URL" => loadImage(value, img, notification)
-        case _ =>
-      }
+          case view: TextView => runOnUiThread(view.setText(value))
+          case rating: RatingBar => runOnUiThread(rating.setNumStars(value.toInt))
+          case img: ImageView if value != "URL" => loadImage(value, img, notification)
+          case _ =>
+        }
     }
   }
 
-  def batchSetValues[T <: V](m: Map[Int, Any], values: AnyRef, holder: T = rootView, separator: String = "/",showNonEmpty:Boolean=false) {
+  def batchSetValues[T <: V](m: Map[Int, Any], values: AnyRef, holder: T = rootView, separator: String = "/", showNonEmpty: Boolean = false) {
     m.par.foreach {
-      case (id, key: String) => setViewValue(id, valOf(values,key), holder,showNonEmpty=showNonEmpty)
+      case (id, key: String) => setViewValue(id, valOf(values, key), holder, showNonEmpty = showNonEmpty)
       case (id, (key: String, format: String)) =>
         setViewValue(id, {
-          val v = valOf(values,key)
+          val v = valOf(values, key)
           if (v.isEmpty) "" else format.format(v)
-        }, holder,showNonEmpty=showNonEmpty)
+        }, holder, showNonEmpty = showNonEmpty)
       case (id, l: List[String]) =>
-        setViewValue(id, l.map(valOf(values,_)).filter(_.nonEmpty).mkString(separator), holder,showNonEmpty=showNonEmpty)
+        setViewValue(id, l.map(valOf(values, _)).filter(_.nonEmpty).mkString(separator), holder, showNonEmpty = showNonEmpty)
       case (id, (urlKey: String, (notifyField: String, format: String))) =>
-        setViewValue(id, valOf(values,urlKey,"URL") , holder, format.format(valOf(values,notifyField)),showNonEmpty=showNonEmpty) //TODO add support
+        setViewValue(id, valOf(values, urlKey, "URL"), holder, format.format(valOf(values, notifyField)), showNonEmpty = showNonEmpty) //TODO add support
     }
   }
 
@@ -119,9 +119,9 @@ trait Douban {
     def valOfHelper(s: AnyRef, seq: Seq[String]): String = s match {
       case sub: AnyRef =>
         @inline
-        def valOfField(f: String) = catching(classOf[NoSuchMethodException]).opt{
+        def valOfField(f: String) = catching(classOf[NoSuchMethodException]).opt {
           sub.getClass.getMethod(f).invoke(sub) match {
-            case l:java.util.List[Object]=>l mkString ","
+            case l: java.util.List[Object] => l mkString ","
             case a: Any => a
             case _ => default
           }
@@ -244,15 +244,15 @@ trait Douban {
       val widthRatio = width / reqWidth.toFloat
       inSampleSize = if (heightRatio <= widthRatio) heightRatio else widthRatio
     }
-    if(inSampleSize<=1) 1
+    if (inSampleSize <= 1) 1
     else Math.round(inSampleSize)
   }
 
   def BitmapFromLocalFile(filePath: String, width: Int, height: Int, fillWidth: Boolean = false) = {
     val options: BitmapFactory.Options = new BitmapFactory.Options
-    options.inInputShareable=true
-    options.inDither=false
-    options.inTempStorage=new Array[Byte](32 * 1024)
+    options.inInputShareable = true
+    options.inDither = false
+    options.inTempStorage = new Array[Byte](32 * 1024)
     options.inJustDecodeBounds = true
     BitmapFactory.decodeFile(filePath, options)
     // Calculate inSampleSize
@@ -262,10 +262,10 @@ trait Douban {
     val bm = BitmapFactory.decodeFile(filePath, options)
     if (fillWidth) {
       catching(classOf[OutOfMemoryError]).opt(
-      Bitmap.createScaledBitmap(bm, width, Math.round(bm.getHeight.toFloat * width / bm.getWidth), true)
-      ) match{
-        case None=>bm
-        case Some(bitmap)=>bitmap
+        Bitmap.createScaledBitmap(bm, width, Math.round(bm.getHeight.toFloat * width / bm.getWidth), true)
+      ) match {
+        case None => bm
+        case Some(bitmap) => bitmap
       }
     }
     else bm
@@ -292,9 +292,9 @@ trait Douban {
         case w: Drawable => w.getIntrinsicHeight
         case _ => getThisActivity.screenHeight
       }
-    val cacheDir=ctx.getExternalCacheDir match{
-      case f:File if f.exists()=>f
-      case _=>ctx.getCacheDir
+    val cacheDir = ctx.getExternalCacheDir match {
+      case f: File if f.exists() => f
+      case _ => ctx.getCacheDir
     }
     val cacheFile = new File(cacheDir, url.dropWhile(_ != '/'))
     runOnUiThread(img.setTag(url))
@@ -313,7 +313,7 @@ trait Douban {
       BitmapFromLocalFile(cacheFile.getAbsolutePath, width, height, fillWidth)
     } onComplete {
       case Success(b) =>
-        runOnUiThread{
+        runOnUiThread {
           img.setImageBitmap(b)
         }
 
@@ -380,6 +380,7 @@ trait Douban {
         if (null != sp) sp.dismiss()
     }
   }
+
   protected def isIntentUnavailable(action: String): Boolean = {
     val packageManager = getThisActivity.getPackageManager
     val intent = new Intent(action)
@@ -396,7 +397,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     doubleBackToExitPressedOnce = false
   }
 
-  protected def doubleBackToExit():Unit={
+  protected def doubleBackToExit(): Unit = {
     if (doubleBackToExitPressedOnce) {
       moveTaskToBack(true)
       android.os.Process.killProcess(android.os.Process.myPid())
@@ -438,8 +439,8 @@ trait DoubanActivity extends SFragmentActivity with Douban {
 
   protected override def onCreate(b: Bundle) {
     super.onCreate(b)
-    val extras=getIntent.getExtras
-    debug(extras.keySet().map(k=>(k,extras.get(k))).mkString("\n"))
+    val extras = getIntent.getExtras
+    debug(extras.keySet().map(k => (k, extras.get(k))).mkString("\n"))
     getActionBar.setDisplayHomeAsUpEnabled(true)
     Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
       def uncaughtException(thread: Thread, ex: Throwable) {
@@ -553,18 +554,19 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   def currentUserId: Long = {
     if (!isAuthenticated) {
       login()
-    } else if(isOnline && isExpire){
+    } else if (isOnline && isExpire) {
       put(Constant.accessTokenString, "")
       longToast(R.string.reauth)
       handle(Auth.getTokenByFresh(get(Constant.refreshTokenString),
-        Constant.apiKey,Constant.apiSecret), (t:Option[AccessTokenResult])=> {t match {
-        case Some(tk)=>
-          updateToken(tk)
-          longToast(R.string.reauth_successfully)
-        case _=>
-          longToast(R.string.relogin_needed)
-      }
-    })
+        Constant.apiKey, Constant.apiSecret), (t: Option[AccessTokenResult]) => {
+        t match {
+          case Some(tk) =>
+            updateToken(tk)
+            longToast(R.string.reauth_successfully)
+          case _ =>
+            longToast(R.string.relogin_needed)
+        }
+      })
 
     }
     if (isAuthenticated) get(Constant.userIdString).toLong
@@ -618,7 +620,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   protected def updateToken(t: AccessTokenResult) {
     put(Constant.accessTokenString, t.access_token)
     put(Constant.refreshTokenString, t.refresh_token)
-    put(Constant.expireTime, t.expires_in*1000 + System.currentTimeMillis())
+    put(Constant.expireTime, t.expires_in * 1000 + System.currentTimeMillis())
     put(Constant.userIdString, t.douban_user_id)
     Req.init(t.access_token)
   }
@@ -639,9 +641,10 @@ trait DoubanActivity extends SFragmentActivity with Douban {
   }
 
   def screenWidth = getResources.getDisplayMetrics.widthPixels
+
   def screenHeight = getResources.getDisplayMetrics.heightPixels
 
-  def popup(v: View,reLoad:Boolean):Unit = {
+  def popup(v: View, reLoad: Boolean): Unit = {
     v match {
       case img: ImageView =>
         val imageDialog = new Dialog(this)
@@ -657,7 +660,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
           loadImage(url, popupImg, fillWidth = true)
         else
           popupImg.setImageDrawable(img.getDrawable)
-        toggleBetween(R.id.image_popup,R.id.popup_progress,layout)
+        toggleBetween(R.id.image_popup, R.id.popup_progress, layout)
         imageDialog.setContentView(layout)
         imageDialog.setCancelable(true)
         imageDialog.show()
@@ -665,7 +668,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
     }
   }
 
-  def popup(v: View):Unit = popup(v,reLoad = true)
+  def popup(v: View): Unit = popup(v, reLoad = true)
 
   def restartApplication(delay: Int = 3000) {
     val intent = PendingIntent.getActivity(getBaseContext, 0, new Intent(getIntent), getIntent.getFlags)
@@ -705,7 +708,7 @@ trait DoubanListFragment[T <: DoubanActivity] extends SListFragment with Douban 
 
   override lazy val rootView: View = getView
 
-  def addArguments[F<:DoubanListFragment[T]](args: Bundle): F = {
+  def addArguments[F <: DoubanListFragment[T]](args: Bundle): F = {
     this.setArguments(args)
     this.asInstanceOf[F]
   }
@@ -771,7 +774,7 @@ class ItemAdapter[B <: AnyRef](layoutId: Int, mapping: Map[Int, Any], load: => U
     list.addAll(items)
   }
 
-  def resetData() ={
+  def resetData() = {
     list = new java.util.ArrayList[B]()
   }
 
@@ -785,7 +788,7 @@ class ItemAdapter[B <: AnyRef](layoutId: Int, mapping: Map[Int, Any], load: => U
   def getView(position: Int, view: View, parent: ViewGroup): View = if (getCount == 0 || position >= getCount) null
   else {
     val convertView = if (null != view) view else activity.getLayoutInflater.inflate(layoutId, null)
-    activity.batchSetValues(mapping, list(position), convertView,showNonEmpty = true)
+    activity.batchSetValues(mapping, list(position), convertView, showNonEmpty = true)
     if (getCount < total && position + 1 == getCount) {
       selfLoad()
     }
@@ -826,6 +829,7 @@ class DisconnectedActivity extends DoubanActivity {
     super.onCreate(b)
     super.setContentView(R.layout.disconnected)
   }
+
   override def onBackPressed() {
     doubleBackToExit()
   }

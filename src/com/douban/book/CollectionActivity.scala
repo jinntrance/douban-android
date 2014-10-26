@@ -2,19 +2,20 @@ package com.douban.book
 
 import java.util
 
-import com.douban.base.{ DoubanFragment, Constant, DoubanActivity}
-import android.os.Bundle
-import com.douban.models.{ReviewRating, Book, CollectionPosted, Collection}
-import android.widget._
-import android.view.{ViewGroup, LayoutInflater, View}
-import scala.concurrent._
-import ExecutionContext.Implicits.global
-import org.scaloid.common._
-import scala.util.Success
-import android.content.Context
-import android.widget.MultiAutoCompleteTextView.CommaTokenizer
-import android.text.{Editable, TextWatcher}
 import android.app.Activity
+import android.content.Context
+import android.os.Bundle
+import android.text.{Editable, TextWatcher}
+import android.view.{LayoutInflater, View, ViewGroup}
+import android.widget.MultiAutoCompleteTextView.CommaTokenizer
+import android.widget._
+import com.douban.base.{Constant, DoubanActivity, DoubanFragment}
+import com.douban.models.{Book, Collection, CollectionPosted, ReviewRating}
+import org.scaloid.common._
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent._
+import scala.util.Success
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -108,7 +109,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
           check(getView.find[Button](if (0 == id) R.id.wish else id))
           Future {
             activity.getAccessToken
-            activity.book.foreach(b=>{
+            activity.book.foreach(b => {
               updateCollection(b.updateExistCollection(Book.collectionOf(bk.id)))
             })
           }
@@ -119,7 +120,7 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
       def beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int): Unit = {}
 
       def afterTextChanged(s: Editable): Unit = {
-        counter.setText(s.toString.length+"/350")
+        counter.setText(s.toString.length + "/350")
       }
 
       def onTextChanged(s: CharSequence, start: Int, before: Int, count: Int): Unit = {}
@@ -179,15 +180,15 @@ class CollectionFragment extends DoubanFragment[CollectionActivity] {
 
   def submit(v: View) {
     val p = CollectionPosted(status, activity.getTags, getView.find[EditText](R.id.comment).getText.toString.trim, getView.find[RatingBar](R.id.rating).getRating.toInt, privacy = if (public) "public" else "private")
-    val proc=activity.waitToLoad(msg = R.string.saving)
+    val proc = activity.waitToLoad(msg = R.string.saving)
     Future {
       if (updateable) Book.updateCollection(activity.book.get.id, p)
       else Book.postCollection(activity.book.get.id, p)
     } onComplete {
       case Success(Some(c: Collection)) =>
-        val intent=activity.getIntent.putExtra(Constant.COLLECTION, c)
+        val intent = activity.getIntent.putExtra(Constant.COLLECTION, c)
         toast(getString(R.string.collect_successfully))
-        activity.setResult(Activity.RESULT_OK,intent)
+        activity.setResult(Activity.RESULT_OK, intent)
         activity.finish()
       case _ =>
         activity.stopWaiting(proc)
@@ -206,18 +207,18 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
     super.onActivityCreated(bundle)
     activity.replaceActionBar(R.layout.header_edit, getString(R.string.add_tags))
     tags_input.append(activity.getTags)
-    val tagAdapter=new TagAdapter(new util.ArrayList[String]())
+    val tagAdapter = new TagAdapter(new util.ArrayList[String]())
     activity.get(Constant.TAGS) match {
-      case s:String if s.nonEmpty=>
-        tagAdapter.tags=s.split(Constant.SEPARATOR).toList
+      case s: String if s.nonEmpty =>
+        tagAdapter.tags = s.split(Constant.SEPARATOR).toList
       case _ =>
     }
     rootView.find[ListView](R.id.my_tags_list).setAdapter(tagAdapter)
     Future {
       val r = Book.tagsOf(activity.currentUserId)
-      tagAdapter.tags=r.tags.map(_.title).toList
+      tagAdapter.tags = r.tags.map(_.title).toList
       tagAdapter.notifyDataSetChanged()
-      activity.put(Constant.TAGS,tagAdapter.tags.mkString(Constant.SEPARATOR))
+      activity.put(Constant.TAGS, tagAdapter.tags.mkString(Constant.SEPARATOR))
     }
 
     val popTagsAdapter = new TagAdapter(activity.book.get.tags.map(_.title))
@@ -241,18 +242,19 @@ class TagFragment extends DoubanFragment[CollectionActivity] {
           view
         case _ => inflater.inflate(R.layout.add_tags_item, parent, false)
       }
-      convertView.findViewById(R.id.tag_container).onClick{v:(View) => {
+      convertView.findViewById(R.id.tag_container).onClick { v: (View) => {
         val txt = tags_input.getText.toString.split(' ').toSet
         val tag = getItem(position).toString
         val view = v.findViewById(R.id.checker)
         if (txt.contains(tag)) {
           view.setVisibility(View.GONE)
-          tags_input.setText(txt-tag mkString " ")
+          tags_input.setText(txt - tag mkString " ")
         } else {
           view.setVisibility(View.VISIBLE)
           tags_input.append(s" $tag")
         }
-      }}
+      }
+      }
       convertView.find[TextView](R.id.tag).setText(tags.get(position))
 
       convertView

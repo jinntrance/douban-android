@@ -1,16 +1,13 @@
 package com.douban.book
 
-import com.douban.base.{Constant, DoubanActivity}
-import android.view.{ViewGroup, View}
-import android.os.Bundle
-import com.douban.models._
-import android.widget.{AdapterView, ListView}
-import org.scaloid.common._
-import android.content.Intent
 import android.app.Activity
-import java.util
-import com.douban.models.ListSearchPara
-import com.douban.models.AnnotationSearchResult
+import android.content.Intent
+import android.os.Bundle
+import android.view.{View, ViewGroup}
+import android.widget.{AdapterView, ListView}
+import com.douban.base.{Constant, DoubanActivity}
+import com.douban.models.{AnnotationSearchResult, ListSearchPara, _}
+import org.scaloid.common._
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>

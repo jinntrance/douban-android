@@ -1,14 +1,15 @@
 package com.douban.book
 
-import com.douban.base.{SwipeGestureDoubanActivity, Constant}
-import android.view._
+import java.util
+
+import android.app.Activity
 import android.os.Bundle
-import android.widget.{ScrollView, LinearLayout}
+import android.view._
+import android.widget.{LinearLayout, ScrollView}
+import com.douban.base.{Constant, SwipeGestureDoubanActivity}
+import com.douban.models.{Annotation, Book}
 import com.google.gson.Gson
 import org.scaloid.common._
-import android.app.Activity
-import com.douban.models.{Annotation, Book}
-import java.util
 import uk.co.senab.photoview.PhotoViewAttacher
 
 /**
@@ -67,14 +68,14 @@ class NoteViewActivity(layoutId: Int) extends SwipeGestureDoubanActivity {
         case r"([\s\S]*?)${pre}<图片(\d+)${imgUrl}>([\s\S]*)${suffix}" =>
           parse(pre, layout)
           layout += new SLinearLayout {
-            val img = SImageView()//.onClick(popup(_))
+            val img = SImageView() //.onClick(popup(_))
             new PhotoViewAttacher(img)
             loadImage(a.photos.get(imgUrl), img, fillWidth = true)
           }
           parse(suffix, layout)
         case "" => layout
         case txt => layout += new SLinearLayout {
-          STextView(txt.replaceAll("""\s+$""","\n")).textColor(black)
+          STextView(txt.replaceAll( """\s+$""", "\n")).textColor(black)
         }
       }
     }

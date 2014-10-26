@@ -1,17 +1,17 @@
 package com.douban.book
 
-import android.os.{Handler, Bundle}
+import android.app.Activity
+import android.content.Intent
+import android.os.Bundle
 import android.view.View
 import android.widget.SearchView
+import com.douban.base.Constant._
+import com.douban.base.{Constant, DoubanActivity}
 import com.douban.book.db.AnnotationUploaderHelper
 import com.douban.models.Book
-import org.scaloid.common._
-import android.content.Intent
-import com.douban.base.{Constant, DoubanActivity}
-import Constant._
-import android.app.Activity
 import com.google.zxing.client.android.Intents
 import com.google.zxing.client.android.Intents.Scan
+import org.scaloid.common._
 
 /**
  * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
@@ -37,16 +37,16 @@ class SearchActivity extends DoubanActivity {
     }
     handle({
       val dbHelper = AnnotationUploaderHelper(this.ctx)
-      val all=dbHelper.findData(Int.MaxValue)
-      val rest = all.filter(a=>{
-        Book.postAnnotation(a.bookId,a.annotation).isEmpty
+      val all = dbHelper.findData(Int.MaxValue)
+      val rest = all.filter(a => {
+        Book.postAnnotation(a.bookId, a.annotation).isEmpty
       })
       dbHelper.deleteAll()
       dbHelper.insertAll(rest)
       all.size - rest.size
-    },(postedNum:Int)=>{
-        if(postedNum>0)
-          toast(getResources.getString(R.string.draft_posted,postedNum.toString))
+    }, (postedNum: Int) => {
+      if (postedNum > 0)
+        toast(getResources.getString(R.string.draft_posted, postedNum.toString))
     })
     slidingMenu
   }
