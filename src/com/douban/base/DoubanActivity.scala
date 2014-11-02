@@ -71,14 +71,37 @@ trait Douban {
 
   def getThisActivity: DoubanActivity
 
+  /**
+   * set the 'value' of the view with the 'id' under its root 'rootView'
+   * and decide whether hide the view if it's 'value' is empty
+   *
+   * @param id of the view
+   * @param value the value will be set
+   * @param holder one of the parent of this view
+   * @tparam T type of the rootView
+   */
   def setViewValue[T <: V](id: Int, value: String, holder: T = rootView, notification: String = "", hideEmpty: Boolean = true, showNonEmpty: Boolean = false): Unit = {
     setViewValueByView(holder.findViewById(id), value, notification, hideEmpty, showNonEmpty)
   }
 
+  /**
+   * set the view by its resource id
+   * @see setViewValue
+   * @see setViewValueByView
+   */
   def setViewByRes[T <: V](id: Int, resId: Int, holder: T = rootView, notification: String = "", hideEmpty: Boolean = true, showNonEmpty: Boolean = false): Unit = {
     setViewValueByView(holder.findViewById(id), ctx.getString(resId), notification, hideEmpty, showNonEmpty)
   }
 
+  /**
+   * set the view 'v' with the 'value'
+   * @see setViewValue
+   * @param v the view where to set the value
+   * @param value the value will be set
+   * @param notification message
+   * @param hideEmpty decide whether hide the view if it's 'value' is empty
+   * @param showNonEmpty decide whether show the view if it's 'value' is not empty
+   */
   def setViewValueByView(v: => View, value: String, notification: String = "", hideEmpty: Boolean = true, showNonEmpty: Boolean = false): Unit = {
     value.trim match {
       case "" if hideEmpty => v match {
@@ -99,6 +122,15 @@ trait Douban {
     }
   }
 
+  /**
+   * set
+   * @param m key-value pairs of 'resource id'-'path in `values`'
+   * @param values container of all the values
+   * @param holder the root view containing all the views in m
+   * @param separator when displaying a list
+   * @param showNonEmpty whether to display the view with nonEmpty value
+   * @tparam T type of the 'holder'
+   */
   def batchSetValues[T <: V](m: Map[Int, Any], values: AnyRef, holder: T = rootView, separator: String = "/", showNonEmpty: Boolean = false) {
     m.par.foreach {
       case (id, key: String) => setViewValue(id, valOf(values, key), holder, showNonEmpty = showNonEmpty)
@@ -114,6 +146,14 @@ trait Douban {
     }
   }
 
+  /**
+   *
+   * @param c container object
+   * @param fields path concatenated by `.`, to navigate through the fields and sub-fields of object 'c'
+   * @param default value when the field does not exist
+   * @tparam C type of the object 'c'
+   * @return the value of the field with a given path in 'c'
+   */
   private def valOf[C <: AnyRef](c: C, fields: String, default: String = ""): String = {
     @tailrec
     def valOfHelper(s: AnyRef, seq: Seq[String]): String = s match {
