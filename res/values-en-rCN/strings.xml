@@ -96,4 +96,13 @@
   <string name="clean_cache">Clean Cache</string>
   <string name="click_to_add_tags">Add tags</string>
   <string name="sync_in_2g">Send notes even under 2G</string>
+  <string name="app_name">Douban Books</string>
+  <string name="check_network">Check nework avalability and retry.</string>
+  <string name="note_draft">Draft</string>
+  <string name="remove_note">Remove notes</string>
+  <string name="remove_note_confirm">Are you SURE to remove it?</string>
+  <string name="saved_to_draft">Draft saved</string>
+  <string name="toggle_turn_off">off</string>
+  <string name="toggle_turn_on">on</string>
+  <string name="waiting_for_auth">Authenticating</string>
 </resources>
