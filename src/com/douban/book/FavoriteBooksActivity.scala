@@ -87,7 +87,7 @@ class FavoriteBooksActivity extends DoubanActivity {
     val actionBar = getActionBar
     val setHasEmbeddedTabsMethod = actionBar.getClass.getDeclaredMethod("setHasEmbeddedTabs", classOf[Boolean])
     setHasEmbeddedTabsMethod.setAccessible(true)
-    setHasEmbeddedTabsMethod.invoke(actionBar, Boolean.box(true))
+    setHasEmbeddedTabsMethod.invoke(actionBar, Boolean.box(x = true))
   }
 
   def submitFilter(m: MenuItem) {
@@ -139,7 +139,7 @@ object CollectionItemAdapter {
 
 class FavoriteBooksListFragment extends SListFragment {
 
-  implicit def thisActivity = FavoriteBooksActivity.currentActivity
+  implicit def thisActivity: FavoriteBooksActivity = FavoriteBooksActivity.currentActivity
 
   lazy val adapter = new CollectionItemAdapter(getArguments.getString(Constant.READING_STATUS, "reading"), load)(thisActivity)
   lazy val thisStatus = getArguments.getString(Constant.READING_STATUS, "reading")
@@ -169,7 +169,7 @@ class FavoriteBooksListFragment extends SListFragment {
   def load(status: String, adapter: CollectionItemAdapter) = {
     longToast(R.string.loading)
     Future {
-      val cs = CollectionSearch(status, start = adapter.count, count = getArguments.getInt(Constant.COUNT_PER_PAGE, 12).toInt)
+      val cs = CollectionSearch(status, start = adapter.count, count = getArguments.getInt(Constant.COUNT_PER_PAGE, 12))
       Book.collectionsOfUser(getArguments.getLong(Constant.USER_ID, 0), cs)
     } onComplete {
       case Success(r: CollectionSearchResult) => runOnUiThread {
