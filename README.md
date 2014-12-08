@@ -17,5 +17,6 @@ This is an android client developed in Scala for book.douban.com.
 Thanks to https://github.com/pocorall/scaloid and https://github.com/jinntrance/douban-scala
 
 Designed by
-============= 
+=============
+
 Jane http://weibo.com/janepi
