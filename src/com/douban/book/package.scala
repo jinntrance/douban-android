@@ -9,7 +9,7 @@ import scala.collection.mutable
 import scala.language.{implicitConversions, reflectiveCalls}
 
 /**
- * Copyright by <a href="http://crazyadam.net"><em><i>Joseph J.C. Tang</i></em></a> <br/>
+ * Copyright by <a href="http://www.josephjctang.com"><em><i>Joseph J.C. Tang</i></em></a> <br/>
  * Email: <a href="mailto:jinntrance@gmail.com">jinntrance@gmail.com</a>
  * @author joseph
  * @since 10/8/13 2:05 AM
