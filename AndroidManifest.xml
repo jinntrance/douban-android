@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.douban.book" android:versionName="0.9.4.5" android:versionCode="10" >
 
-    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="20"/>
+    <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="20"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
@@ -21,7 +21,7 @@
         android:smallScreens="true"
         android:anyDensity="true"/>
 
-    <application android:label="@string/app_full_name" android:icon="@drawable/logo" android:theme="@style/DoubanTheme" android:hardwareAccelerated="false"
+    <application android:label="@string/app_full_name" android:icon="@drawable/logo" android:theme="@style/DoubanTheme" android:hardwareAccelerated="true" 
         android:name="com.douban.base.DoubanContext" android:configChanges="orientation|screenSize" >
 
         <activity android:label="@string/app_full_name" android:clearTaskOnLaunch="true" android:name=".SearchActivity" android:windowSoftInputMode="adjustUnspecified|stateHidden" >
