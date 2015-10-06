@@ -90,6 +90,10 @@ class FavoriteBooksActivity extends DoubanActivity {
     setHasEmbeddedTabsMethod.invoke(actionBar, Boolean.box(x = true))
   }
 
+  /**
+   *
+   * @param m 触发图书过滤的按钮
+   */
   def submitFilter(m: MenuItem) {
     startActivity(SIntent[FavoriteBooksFilterResultActivity])
   }

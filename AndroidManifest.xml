@@ -42,7 +42,7 @@
       <activity android:label="@string/my_note" android:name=".MyNoteActivity" android:launchMode="singleTop"/>
       <activity android:label="@string/about" android:name=".AboutActivity" />
         <activity android:label="@string/scan_book" android:name=".ScannerActivity"/>
-        <activity android:name=".BookActivity"/>
+        <activity android:label="@string/book_detail" android:name=".BookActivity"/>
         <activity android:label="@string/add_collection" android:name=".CollectionActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:label="@string/annotation" android:name=".NotesActivity" />
         <activity android:label="@string/add_note" android:name=".AddNoteActivity" android:windowSoftInputMode="adjustResize"/>

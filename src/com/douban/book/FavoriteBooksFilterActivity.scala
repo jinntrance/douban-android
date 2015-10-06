@@ -18,10 +18,17 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 
+/**
+ * 图书筛选条件页面
+ */
 class FavoriteBooksFilterActivity extends DoubanActivity {
   private var state = ""
-  private var tags = collection.mutable.Set[String]()
+  private var tagString = ""
 
+  /**
+   *
+   * @param v 完成条件选择，进行图书筛选
+   */
   def submit(v: View) {
     val sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ")
     val textFormat = new SimpleDateFormat("yy-MM-dd")
@@ -34,7 +41,7 @@ class FavoriteBooksFilterActivity extends DoubanActivity {
       case f: String if f.nonEmpty => sdf.format(textFormat.parse(f))
       case _ => ""
     }
-    val s = CollectionSearch(state, tags.mkString(" "), find[RatingBar](R.id.rating).getRating.toInt, from, to)
+    val s = CollectionSearch(state, tagString, find[RatingBar](R.id.rating).getRating.toInt, from, to)
     setResult(Activity.RESULT_OK, getIntent.putExtra(Constant.COLLECTION_SEARCH, s))
     finish()
   }
@@ -58,11 +65,10 @@ class FavoriteBooksFilterActivity extends DoubanActivity {
       case t: TagsResult => runOnUiThread({
         val container = find[LinearLayout](R.id.tags_container)
         container.addView(new SVerticalLayout {
-          t.tags.foreach(tag => SCheckBox(tag.title.toString).onClick { db: (CheckBox) => {
-            tags = if (db.isChecked) {
-              tags + db.getText.toString
+          t.tags.foreach(tag => SRadioButton(tag.title.toString).onClick { db: (RadioButton) => {
+            if (db.isChecked) {
+              tagString = db.getText.toString
             }
-            else tags - db.getText.toString
           }
           })
         })
@@ -71,6 +77,10 @@ class FavoriteBooksFilterActivity extends DoubanActivity {
     }
   }
 
+  /**
+   *
+   * @param anchor 筛选图书页面的日期选择
+   */
   class DatePickerFragment(anchor: View) extends DialogFragment with DatePickerDialog.OnDateSetListener {
     override def onCreateDialog(savedInstanceState: Bundle): Dialog = {
       val c: Calendar = Calendar.getInstance

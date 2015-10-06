@@ -17,6 +17,7 @@
   <string name="app_full_name">赌书泼茶</string>
   <string name="author_intro">作者简介</string>
   <string name="book_cover">图书封面</string>
+  <string name="book_detail">图书详情</string>
   <string name="book_name_is">,图书名为: %1$s</string>
   <string name="book_search_hint">书名、作者、ISBN</string>
   <string name="books_loaded_completely">加载完成%1$s本书</string>
