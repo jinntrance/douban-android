@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.douban.book" android:versionName="0.9.4.5" android:versionCode="10" >
+    package="com.douban.book" android:versionName="0.9.5" android:versionCode="11" >
 
     <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="20"/>
     <uses-permission android:name="android.permission.INTERNET"/>

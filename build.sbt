@@ -4,7 +4,8 @@ import android.Keys._
 
 import android.Dependencies.{apklib,aar}
 
-android.Plugin.buildAar
+//android.Plugin.buildAar
+android.Plugin.androidBuild
 
 organization := "com.douban"
 
@@ -14,7 +15,7 @@ scalaVersion := "2.11.6"
 
 minSdkVersion in Android := "16"
 
-platformTarget in Android := "android-19"
+platformTarget in Android := "android-20"
 
 javacOptions ++= Seq("-source", "1.7")
 
@@ -27,8 +28,6 @@ autoScalaLibrary := false
 //android.enforceUniquePackageName :=false
 
 transitiveAndroidLibs in Android := false
-
-antLayoutDetector in Android := ()
 
 libraryProject in Android := false
 
@@ -44,9 +43,9 @@ libraryDependencies ++= Seq(
 			"org.scaloid" %% "scaloid" % scaloidVersion,
 			"org.scaloid" %% "scaloid-support-v4" % scaloidVersion , /* local published */
 			"com.douban" %% "scala-api" % "2.4.7",
-			/* "com.google.zxing" % "core" % "3.1.0", */
-      /* "org.scala-lang" % "scala-library" % "2.11.6" % "provided", */
-			"com.github.chrisbanes.photoview" % "library" % "1.2.3" exclude("com.android.support", "support-v4")
+			"com.google.zxing" % "core" % "3.1.0",
+      "org.scala-lang" % "scala-library" % "2.11.6" % "provided",
+			"com.github.chrisbanes.photoview" % "library" % "1.2.3"
 			)
 
 unmanagedJars in Compile ~= { _ filterNot (_.data.getName startsWith "android-support-v4") } 
@@ -55,7 +54,7 @@ useProguard in Android := true
 
 proguardScala in Android := true
 
-typedResources in Android := false
+typedResources in Android := true
 
 shrinkResources in Android := true
 
@@ -69,7 +68,7 @@ proguardCache in Android ++=Seq(
 
 
 //integrate all the proguard options from the config file into android-sdk-plugin
-//proguardOptions in Android ++= scala.io.Source.fromFile(baseDirectory.value.getAbsolutePath+"/proguard-android-optimize.txt").getLines().toSeq.filter(a=>{! a.trim.isEmpty && ! a.contains("//")})
+proguardOptions in Android ++= scala.io.Source.fromFile(baseDirectory.value.getAbsolutePath+"/proguard-android-optimize.txt").getLines().toSeq.filter(a=>{! a.trim.isEmpty && ! a.contains("//")})
 
 proguardOptions in Android ++= scala.io.Source.fromFile(baseDirectory.value.getAbsolutePath+"/proguard.cfg").getLines().toSeq.filter(a=>{! a.trim.isEmpty && ! a.contains("//")})
 
