@@ -486,7 +486,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
       def uncaughtException(thread: Thread, ex: Throwable) {
         ex match {
           case exception: DoubanException if exception.tokenExpired =>
-            handle(Auth.getTokenByFresh(get(Constant.refreshTokenString), Constant.apiKey, Constant.apiSecret)
+            handle(Auth.getTokenByFresh(get(Constant.refreshTokenString), Constant.apiKey, Constant.apiSecret, Constant.apiRedirectUrl)
               , (t: Option[AccessTokenResult]) => {
                 if (None != t) updateToken(t.get)
                 else {
@@ -598,7 +598,7 @@ trait DoubanActivity extends SFragmentActivity with Douban {
       put(Constant.accessTokenString, "")
       longToast(R.string.reauth)
       handle(Auth.getTokenByFresh(get(Constant.refreshTokenString),
-        Constant.apiKey, Constant.apiSecret), (t: Option[AccessTokenResult]) => {
+        Constant.apiKey, Constant.apiSecret, Constant.apiRedirectUrl), (t: Option[AccessTokenResult]) => {
         t match {
           case Some(tk) =>
             updateToken(tk)

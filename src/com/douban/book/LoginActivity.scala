@@ -53,7 +53,7 @@ class LoginActivity extends DoubanActivity {
         else {
           val sp = waitToLoad(LoginActivity.this.finish(), msg = R.string.logining)
           handle({
-            Auth.getTokenByCode(extractCode(redirectedUrl), Constant.apiKey, Constant.apiSecret)
+            Auth.getTokenByCode(extractCode(redirectedUrl), Constant.apiKey, Constant.apiSecret, Constant.apiRedirectUrl)
           }, (t: Option[AccessTokenResult]) => {
             if (None == t) toast(R.string.login_failed)
             else {
