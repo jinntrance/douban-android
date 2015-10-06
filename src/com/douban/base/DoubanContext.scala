@@ -22,7 +22,7 @@ class DoubanContext extends android.app.Application {
     //silent the beep when scanning a book
     pref.edit().putBoolean(PreferencesActivity.KEY_PLAY_BEEP, false).putBoolean(PreferencesActivity.KEY_VIBRATE, true).commit()
     val token = pref.getString(Constant.accessTokenString, "")
-    if (!token.isEmpty) Req.init(token)
+    if (!token.isEmpty) Req.init(token, apiKey = Constant.apiKey)
     val config: ViewConfiguration = ViewConfiguration.get(this)
     //always show the more action in actionBar
     catching(classOf[NoSuchFieldException]).opt(

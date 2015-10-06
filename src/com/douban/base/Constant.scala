@@ -51,8 +51,8 @@ object Constant {
   val BOOK_PAGE = "bookPage"
   val IMAGE: String = "image"
   val UPDATED = "updated"
-  val apiKey = Auth.api_key
-  val apiSecret = "95125490b60b01ee"
+  val apiKey = "0ab7b52f074237a520271f8d15c6a6ef" //TODO change apiKey and secret every time
+  val apiSecret = "7753d00f12d4982f"
   val scope = Seq("douban_basic_common", "book_basic_r", "book_basic_w").mkString(",")
   val accessTokenString = "accessToken"
   val refreshTokenString = "refreshToken"
