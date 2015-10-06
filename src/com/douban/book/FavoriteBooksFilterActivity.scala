@@ -65,12 +65,14 @@ class FavoriteBooksFilterActivity extends DoubanActivity {
       case t: TagsResult => runOnUiThread({
         val container = find[LinearLayout](R.id.tags_container)
         container.addView(new SVerticalLayout {
-          t.tags.foreach(tag => SRadioButton(tag.title.toString).onClick { db: (RadioButton) => {
-            if (db.isChecked) {
-              tagString = db.getText.toString
-            }
-          }
-          })
+          t.tags.foreach(tag =>
+            SRadioButton(tag.title.toString).onCheckedChanged {
+              (btn: CompoundButton, checked: Boolean) => {
+                if (checked) {
+                  tagString = btn.getText.toString
+                }
+              }
+            })
         })
       })
       case _ =>
