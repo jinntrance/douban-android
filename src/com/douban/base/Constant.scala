@@ -53,7 +53,8 @@ object Constant {
   val UPDATED = "updated"
   val apiKey = "0f86acdf44c03ade2e94069dce40b09a" //TODO change apiKey and secret every time
   val apiSecret = "95125490b60b01ee"
-  val apiRedirectUrl = "http://josephjctang.com/douban-android/"
+//  val apiRedirectUrl = "http://josephjctang.com/douban-android/"
+  val apiRedirectUrl = Auth.redirect_url
   val scope = Seq("douban_basic_common", "book_basic_r", "book_basic_w").mkString(",")
   val accessTokenString = "accessToken"
   val refreshTokenString = "refreshToken"

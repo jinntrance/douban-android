@@ -30,7 +30,7 @@ class LoginActivity extends DoubanActivity {
 
   def refresh(i: MenuItem) {
     refreshMenuItem()
-    find[WebView](R.id.authView).loadUrl(getAuthUrl(Constant.apiKey, scope = Constant.scope))
+    find[WebView](R.id.authView).loadUrl(getAuthUrl(Constant.apiKey, redirectUrl = Constant.apiRedirectUrl ,scope = Constant.scope))
   }
 
   private def refreshMenuItem() {
